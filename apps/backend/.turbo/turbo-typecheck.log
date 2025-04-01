@@ -1,4 +1,0 @@
-
-> @root-app/backend@1.0.0 typecheck /Users/talkohavy/Desktop/dailyUse/1_GitHub_Projects/frontend-backend-template/apps/backend
-> tsc -p ../../jsconfig.json
-

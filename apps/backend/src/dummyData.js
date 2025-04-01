@@ -1,3 +1,0 @@
-const dummyData = [];
-
-export { dummyData };
