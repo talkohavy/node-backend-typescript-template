@@ -29,14 +29,23 @@
       "name": "backend",
       "type": "node",
       "request": "launch",
-      "cwd": "${workspaceFolder}/apps/backend/",
-      // "runtimeArgs": ["--watch"],
+      "cwd": "${workspaceFolder}/",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "runtimeArgs": ["watch", "--clear-screen=false", "--env-file=.env"],
       "runtimeExecutable": "tsx",
       "program": "src/index.ts",
       "restart": true, // Try to reconnect to a program if we lose connection. If set to `true`, we'll try once every second, forever.
       "outputCapture": "std", // This is to be able to also capture logger outputs
       "sourceMaps": true,
-      "env": { "ENV_FILE": "development" }
+      "env": { "ENV_FILE": "development" },
+      // Files to exclude from debugger (e.g. call stack)
+      "skipFiles": [
+        // Node.js internal core modules
+        "<node_internals>/**",
+        // Ignore all dependencies (optional)
+        "${workspaceFolder}/node_modules/**"
+      ]
     }
   ]
 }
