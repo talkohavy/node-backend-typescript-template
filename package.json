@@ -9,8 +9,7 @@
     "dev": "tsx src/index.ts",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
-    "format": "biome format --verbose ./src",
-    "format-prettier": "prettier . --check --config ../../.prettierrc.mjs --ignore-path ../../.prettierignore",
+    "format": "prettier . --check --config .prettierrc.mjs --ignore-path .prettierignore",
     "test": "node --test",
     "typecheck": "tsc -p ../../jsconfig.json"
   },
@@ -36,6 +35,7 @@
     "@types/express": "^5.0.1",
     "@types/node": "^22.10.2",
     "express": "^5.1.0",
+    "prettier": "^3.5.3",
     "tsx": "^4.19.3",
     "typescript": "^5.8.2"
   }
