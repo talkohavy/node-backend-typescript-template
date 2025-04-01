@@ -7,3 +7,8 @@ export const STATUS_CODES = {
   NOT_FOUND: 404,
   INTERNAL_ERROR: 500,
 };
+
+export enum EnvOptions {
+  Prod = 'prod',
+  Dev = 'dev',
+}

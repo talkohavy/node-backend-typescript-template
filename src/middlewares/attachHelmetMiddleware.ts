@@ -1,3 +1,4 @@
+import type { Express } from 'express';
 import {
   contentSecurityPolicy,
   crossOriginEmbedderPolicy,
@@ -14,7 +15,13 @@ import {
   xXssProtection,
 } from 'helmet';
 
-function attachHelmetMiddleware({ app }) {
+type AttachHelmetMiddlewareProps = {
+  app: Express;
+};
+
+export function attachHelmetMiddleware(props: AttachHelmetMiddlewareProps) {
+  const { app } = props;
+
   app.use(contentSecurityPolicy());
   app.use(crossOriginEmbedderPolicy({ policy: 'require-corp' }));
   app.use(crossOriginOpenerPolicy({ policy: 'same-origin' }));
@@ -29,5 +36,3 @@ function attachHelmetMiddleware({ app }) {
   app.use(xPermittedCrossDomainPolicies({ permittedPolicies: 'none' }));
   app.use(xXssProtection());
 }
-
-export { attachHelmetMiddleware };

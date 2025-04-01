@@ -29,7 +29,7 @@
     // ------------------
     // Section 3: Modules
     // ------------------
-    "module": "ESNext", // <--- defaults to `commonjs`. Specify what module code is generated.
+    "module": "Preserve", // <--- defaults to `commonjs`. Specify what module code is generated.
     "moduleResolution": "Bundler", // <--- defaults to classic if `module` is (ES2015|ES06|AMD|UMD). Defaults to node16|nodenext when module value is same. Otherwise, defaults to 'node'. This field specify how TypeScript looks up a file from a given module specifier.
     "resolveJsonModule": true,
     // "allowImportingTsExtensions": true,
@@ -56,7 +56,7 @@
     // -----------------------------
     "checkJs": true, // without it? this config file would not apply to js/jsx files. Enable error reporting in type-checked JavaScript files.
     "maxNodeModuleJsDepth": 0, // Specify the maximum folder depth used for checking JavaScript files from 'node_modules'. Only applicable with 'allowJs'.
-    // "allowJs": true,                                  /* Allow JavaScript files to be a part of your program. Use the 'checkJS' option to get errors from these files. */
+    "allowJs": true /* Allow JavaScript files to be a part of your program. Use the 'checkJS' option to get errors from these files. */,
 
     // ---------------
     // Section 5: Emit

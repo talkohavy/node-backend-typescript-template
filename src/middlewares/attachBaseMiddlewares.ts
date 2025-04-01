@@ -1,9 +1,18 @@
 import compression from 'compression';
 import cors from 'cors';
-import express from 'express';
+import express, { type Express } from 'express';
+import { EnvOptions } from '../common/constants.js';
+import { handleCors } from '../common/utils/handleCors.js';
 import { attachHelmetMiddleware } from './attachHelmetMiddleware.js';
 
-export function attachBaseMiddlewares({ app, bodySizeLimit = '10mb' }) {
+type AttachBaseMiddlewaresProps = {
+  app: Express;
+  bodySizeLimit?: string;
+};
+
+export function attachBaseMiddlewares(props: AttachBaseMiddlewaresProps) {
+  const { app, bodySizeLimit = '10mb' } = props;
+
   app.disable('x-powered-by');
   app.set('etag', false);
 
@@ -15,8 +24,9 @@ export function attachBaseMiddlewares({ app, bodySizeLimit = '10mb' }) {
 
   app.use(
     cors({
-      origin: process.env.FRONTENDS,
+      origin: handleCors(EnvOptions.Dev),
       methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'],
+      credentials: true, // <--- Important! You'll get CORS Error without it.
     }),
   );
 }
