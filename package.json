@@ -7,26 +7,13 @@
   "type": "module",
   "scripts": {
     "dev-front": "cd apps/frontend && pnpm run dev",
-    "dev-back": "cd apps/backend && pnpm run dev",
-    "turbo-typecheck": "turbo run typecheck",
-    "turbo-lint": "turbo run lint",
-    "turbo-format": "turbo run format",
-    "turbo-build": "turbo run build",
-    "turbo-test": "turbo run test",
-    "prepare": "husky"
+    "dev-back": "cd apps/backend && pnpm run dev"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "@biomejs/biome": "1.5.2",
-    "@types/node": "^20.11.0",
-    "eslint": "^8.56.0",
-    "eslint-plugin-ezlint": "^1.1.6",
-    "husky": "^9.0.11",
     "prettier": "^3.1.1",
-    "turbo": "^2.3.3",
     "typescript": "^5.3.3"
-  },
-  "packageManager": "pnpm@9.15.1"
+  }
 }
