@@ -8,7 +8,7 @@
     "clean": "rm -rf node_modules",
     "dev": "tsx src/index.ts",
     "lint": "eslint",
-    "lint-fix": "eslint --fix -c ../../.eslintrc.json --ignore-path ../../.eslintignore '**/*/*.{js,jsx,tsx,ts,d.ts,cjs,mjs}'",
+    "lint:fix": "eslint --fix",
     "format": "biome format --verbose ./src",
     "format-prettier": "prettier . --check --config ../../.prettierrc.mjs --ignore-path ../../.prettierignore",
     "test": "node --test",
