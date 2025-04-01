@@ -7,10 +7,59 @@ settings:
 importers:
 
   .:
+    dependencies:
+      '@eslint/js':
+        specifier: ^9.20.0
+        version: 9.23.0
+      compression:
+        specifier: ^1.7.4
+        version: 1.7.4
+      cors:
+        specifier: ^2.8.5
+        version: 2.8.5
+      dotenv:
+        specifier: ^16.3.1
+        version: 16.4.5
+      eslint:
+        specifier: ^9.20.1
+        version: 9.23.0(jiti@1.21.6)
+      eslint-plugin-perfectionist:
+        specifier: ^4.9.0
+        version: 4.10.1(eslint@9.23.0(jiti@1.21.6))(typescript@5.8.2)
+      eslint-plugin-react-compiler:
+        specifier: 19.0.0-beta-b2e8e9c-20241220
+        version: 19.0.0-beta-b2e8e9c-20241220(eslint@9.23.0(jiti@1.21.6))
+      globals:
+        specifier: ^15.15.0
+        version: 15.15.0
+      helmet:
+        specifier: ^7.1.0
+        version: 7.1.0
+      nodemon:
+        specifier: ^3.0.2
+        version: 3.1.4
+      typescript-eslint:
+        specifier: ^8.24.0
+        version: 8.29.0(eslint@9.23.0(jiti@1.21.6))(typescript@5.8.2)
     devDependencies:
-      prettier:
-        specifier: ^3.1.1
-        version: 3.3.2
+      '@types/compression':
+        specifier: ^1.7.5
+        version: 1.7.5
+      '@types/cors':
+        specifier: ^2.8.17
+        version: 2.8.17
+      '@types/express':
+        specifier: ^5.0.1
+        version: 5.0.1
+      '@types/node':
+        specifier: ^22.10.2
+        version: 22.10.2
+      express:
+        specifier: ^5.1.0
+        version: 5.1.0
+      tsx:
+        specifier: ^4.19.3
+        version: 4.19.3
       typescript:
         specifier: ^5.8.2
         version: 5.8.2
@@ -2354,10 +2403,6 @@ packages:
     resolution: {integrity: sha512-iclAHeNqNm68zFtnZ0e+1L2yUIdvzNoauKU4WBA3VvH/vPFieF7qfRlwUZU+DA9P9bPXIS90ulxoUoCH23sV2w==}
     engines: {node: '>= 0.6'}
 
-  micromatch@4.0.7:
-    resolution: {integrity: sha512-LPP/3KorzCwBxfeUuZmaR6bG2kdeHSbe0P2tY3FLRU4vYrjYz5hI4QZwV0njUx3jeuKe67YukQ1LSPZBKDqO/Q==}
-    engines: {node: '>=8.6'}
-
   micromatch@4.0.8:
     resolution: {integrity: sha512-PXwfBhYu0hBCPw8Dn0E+WDYb7af3dSLVWKi3HGv84IdF4TyFoC0ysxFd0Goxw7nSv4T/PzEJQxsYsEiFCKo2BA==}
     engines: {node: '>=8.6'}
@@ -2631,11 +2676,6 @@ packages:
   prelude-ls@1.2.1:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
     engines: {node: '>= 0.8.0'}
-
-  prettier@3.3.2:
-    resolution: {integrity: sha512-rAVeHYMcv8ATV5d508CFdn+8/pHPpXeIid1DdrPwXnaAdH7cqjVbpJaT5eq4yRAFU/lsbwYwSF/n5iNrdJHPQA==}
-    engines: {node: '>=14'}
-    hasBin: true
 
   prettier@3.4.2:
     resolution: {integrity: sha512-e9MewbtFo+Fevyuxn/4rrcDAaq0IYxPGLvObpQjiZBMAzB9IGmzlnG9RZy3FFas+eBMu2vA0CszMeduow5dIuQ==}
@@ -3424,7 +3464,7 @@ snapshots:
     dependencies:
       '@babel/helper-validator-identifier': 7.25.9
       js-tokens: 4.0.0
-      picocolors: 1.0.1
+      picocolors: 1.1.1
 
   '@babel/compat-data@7.26.3': {}
 
@@ -3441,7 +3481,7 @@ snapshots:
       '@babel/traverse': 7.26.4
       '@babel/types': 7.26.3
       convert-source-map: 2.0.0
-      debug: 4.3.5(supports-color@5.5.0)
+      debug: 4.4.0(supports-color@5.5.0)
       gensync: 1.0.0-beta.2
       json5: 2.2.3
       semver: 6.3.1
@@ -3574,7 +3614,7 @@ snapshots:
       '@babel/parser': 7.26.3
       '@babel/template': 7.25.9
       '@babel/types': 7.26.3
-      debug: 4.3.5(supports-color@5.5.0)
+      debug: 4.4.0(supports-color@5.5.0)
       globals: 11.12.0
     transitivePeerDependencies:
       - supports-color
@@ -3793,7 +3833,7 @@ snapshots:
   '@eslint/config-array@0.19.2':
     dependencies:
       '@eslint/object-schema': 2.1.6
-      debug: 4.3.5(supports-color@5.5.0)
+      debug: 4.4.0(supports-color@5.5.0)
       minimatch: 3.1.2
     transitivePeerDependencies:
       - supports-color
@@ -3825,7 +3865,7 @@ snapshots:
   '@eslint/eslintrc@3.3.1':
     dependencies:
       ajv: 6.12.6
-      debug: 4.3.5(supports-color@5.5.0)
+      debug: 4.4.0(supports-color@5.5.0)
       espree: 10.3.0
       globals: 14.0.0
       ignore: 5.3.1
@@ -4244,7 +4284,7 @@ snapshots:
       '@typescript-eslint/types': 8.29.0
       '@typescript-eslint/typescript-estree': 8.29.0(typescript@5.8.2)
       '@typescript-eslint/visitor-keys': 8.29.0
-      debug: 4.3.5(supports-color@5.5.0)
+      debug: 4.4.0(supports-color@5.5.0)
       eslint: 9.23.0(jiti@1.21.6)
       typescript: 5.8.2
     transitivePeerDependencies:
@@ -4275,7 +4315,7 @@ snapshots:
     dependencies:
       '@typescript-eslint/typescript-estree': 8.29.0(typescript@5.8.2)
       '@typescript-eslint/utils': 8.29.0(eslint@9.23.0(jiti@1.21.6))(typescript@5.8.2)
-      debug: 4.3.5(supports-color@5.5.0)
+      debug: 4.4.0(supports-color@5.5.0)
       eslint: 9.23.0(jiti@1.21.6)
       ts-api-utils: 2.1.0(typescript@5.8.2)
       typescript: 5.8.2
@@ -4304,7 +4344,7 @@ snapshots:
     dependencies:
       '@typescript-eslint/types': 8.29.0
       '@typescript-eslint/visitor-keys': 8.29.0
-      debug: 4.3.5(supports-color@5.5.0)
+      debug: 4.4.0(supports-color@5.5.0)
       fast-glob: 3.3.2
       is-glob: 4.0.3
       minimatch: 9.0.5
@@ -4500,7 +4540,7 @@ snapshots:
   body-parser@1.18.3:
     dependencies:
       bytes: 3.0.0
-      content-type: 1.0.5
+      content-type: 1.0.4
       debug: 2.6.9
       depd: 1.1.2
       http-errors: 1.6.3
@@ -4516,7 +4556,7 @@ snapshots:
     dependencies:
       bytes: 3.1.2
       content-type: 1.0.5
-      debug: 4.4.0
+      debug: 4.4.0(supports-color@5.5.0)
       http-errors: 2.0.0
       iconv-lite: 0.6.3
       on-finished: 2.4.1
@@ -4639,7 +4679,7 @@ snapshots:
 
   compressible@2.0.18:
     dependencies:
-      mime-db: 1.52.0
+      mime-db: 1.54.0
 
   compression@1.7.3:
     dependencies:
@@ -4763,9 +4803,11 @@ snapshots:
     optionalDependencies:
       supports-color: 5.5.0
 
-  debug@4.4.0:
+  debug@4.4.0(supports-color@5.5.0):
     dependencies:
       ms: 2.1.3
+    optionalDependencies:
+      supports-color: 5.5.0
 
   deep-is@0.1.4: {}
 
@@ -5083,7 +5125,7 @@ snapshots:
       ajv: 6.12.6
       chalk: 4.1.2
       cross-spawn: 7.0.6
-      debug: 4.3.5(supports-color@5.5.0)
+      debug: 4.4.0(supports-color@5.5.0)
       escape-string-regexp: 4.0.0
       eslint-scope: 8.3.0
       eslint-visitor-keys: 4.2.0
@@ -5137,7 +5179,7 @@ snapshots:
       array-flatten: 1.1.1
       body-parser: 1.18.3
       content-disposition: 0.5.2
-      content-type: 1.0.5
+      content-type: 1.0.4
       cookie: 0.3.1
       cookie-signature: 1.0.6
       debug: 2.6.9
@@ -5174,7 +5216,7 @@ snapshots:
       content-type: 1.0.5
       cookie: 0.7.2
       cookie-signature: 1.2.2
-      debug: 4.4.0
+      debug: 4.4.0(supports-color@5.5.0)
       encodeurl: 2.0.0
       escape-html: 1.0.3
       etag: 1.8.1
@@ -5208,7 +5250,7 @@ snapshots:
       '@nodelib/fs.walk': 1.2.8
       glob-parent: 5.1.2
       merge2: 1.4.1
-      micromatch: 4.0.7
+      micromatch: 4.0.8
 
   fast-json-stable-stringify@2.1.0: {}
 
@@ -5240,7 +5282,7 @@ snapshots:
 
   finalhandler@2.1.0:
     dependencies:
-      debug: 4.4.0
+      debug: 4.4.0(supports-color@5.5.0)
       encodeurl: 2.0.0
       escape-html: 1.0.3
       on-finished: 2.4.1
@@ -5707,11 +5749,6 @@ snapshots:
 
   methods@1.1.2: {}
 
-  micromatch@4.0.7:
-    dependencies:
-      braces: 3.0.3
-      picomatch: 2.3.1
-
   micromatch@4.0.8:
     dependencies:
       braces: 3.0.3
@@ -5793,7 +5830,7 @@ snapshots:
   nodemon@3.1.4:
     dependencies:
       chokidar: 3.6.0
-      debug: 4.3.5(supports-color@5.5.0)
+      debug: 4.4.0(supports-color@5.5.0)
       ignore-by-default: 1.0.1
       minimatch: 3.1.2
       pstree.remy: 1.1.8
@@ -5952,8 +5989,6 @@ snapshots:
 
   prelude-ls@1.2.1: {}
 
-  prettier@3.3.2: {}
-
   prettier@3.4.2: {}
 
   processenv@1.1.0:
@@ -6109,7 +6144,7 @@ snapshots:
 
   router@2.2.0:
     dependencies:
-      debug: 4.4.0
+      debug: 4.4.0(supports-color@5.5.0)
       depd: 2.0.0
       is-promise: 4.0.0
       parseurl: 1.3.3
@@ -6264,7 +6299,7 @@ snapshots:
 
   send@1.2.0:
     dependencies:
-      debug: 4.4.0
+      debug: 4.4.0(supports-color@5.5.0)
       encodeurl: 2.0.0
       escape-html: 1.0.3
       etag: 1.8.1
