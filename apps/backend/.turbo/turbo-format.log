@@ -1,0 +1,14 @@
+
+Debugger listening on ws://127.0.0.1:53028/1cda9f5b-ef51-45e1-b311-3a9357b70016
+For help, see: https://nodejs.org/en/docs/inspector
+Debugger attached.
+
+> @root-app/backend@1.0.0 format /Users/talkohavy/Desktop/dailyUse/1_GitHub_Projects/frontend-backend-template/apps/backend
+> biome format --verbose ./src
+
+Debugger listening on ws://127.0.0.1:53036/fd97f1f9-d1d0-4650-8160-8814aa8f7041
+For help, see: https://nodejs.org/en/docs/inspector
+Debugger attached.
+[0m[32mCompared [0m[0m[32m10[0m[0m[32m file(s) in [0m[0m[32m5[0m[0m[2m[32mms[0m
+Waiting for the debugger to disconnect...
+Waiting for the debugger to disconnect...

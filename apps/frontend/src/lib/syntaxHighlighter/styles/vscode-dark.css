@@ -1,0 +1,148 @@
+/*
+
+VSCode Dark by Tal Kohavy
+
+*/
+
+/* Background & default font color */
+html[data-theme='dark'] .hljs {
+  color: #c0e4f6;
+}
+
+/* Non-Highlighted Line-Numbers */
+html[data-theme='dark'] .hljs-ln-line.hljs-ln-numbers {
+  opacity: 0.6;
+  color: rgb(223, 217, 217);
+}
+
+/* Highlighted Line-Numbers */
+html[data-theme='dark'] .highlight-line .hljs-ln-line.hljs-ln-numbers {
+  opacity: 1;
+  color: #1bd41b;
+}
+
+/* keyword group 1: purple */
+html[data-theme='dark'] .hljs-keyword,
+html[data-theme='dark'] .hljs-formula {
+  color: #c586c0;
+}
+
+/* keyword group 2: blue */
+/* hljs-variable.language_    = this                              */
+/* hljs-keywords2             = const, let, var, function, async  */
+html[data-theme="dark"] /* hljs-doctag                = jsdoc stuff. like, @typedef       */
+html[data-theme="dark"] .hljs-variable.language_,
+html[data-theme="dark"] .hljs-array-bracket,
+html[data-theme="dark"] .hljs-arrow,
+html[data-theme="dark"] .hljs-doctag,
+html[data-theme="dark"] .hljs-keyword2 {
+  color: #569cd6;
+}
+
+html[data-theme='dark'] .hljs-title.variable_ {
+  /* variable names instantiated with const or let */
+  color: #4ab9ee;
+}
+
+/* variable names instantiated with var */
+html[data-theme='dark'] .hljs-var-variable-name {
+  color: #9cdcfe;
+}
+
+/* Comments & Strings: green */
+html[data-theme='dark'] .hljs-comment,
+html[data-theme='dark'] .hljs-quote {
+  color: #6a9956;
+}
+
+/* A function's name */
+html[data-theme='dark'] .hljs-title.function_,
+html[data-theme='dark'] .hljs-title.function_.call__ {
+  color: #dcdcaa;
+}
+
+/* All the values: true, false, null, undefined, Infinity */
+html[data-theme='dark'] .hljs-literal {
+  color: #569cd6;
+}
+
+/* 
+.hljs-react-component        = A Jsx Component
+.hljs-type                   = I.E. @param {{name: string}} props
+*/
+html[data-theme='dark'] .hljs-react-component,
+html[data-theme='dark'] .hljs-type,
+html[data-theme='dark'] .hljs-name {
+  color: #40b9a1;
+}
+
+/* An html element: */
+html[data-theme='dark'] .hljs-html {
+  color: #569cd6;
+}
+
+html[data-theme='dark'] .hljs-section,
+html[data-theme='dark'] .hljs-selector-tag,
+html[data-theme='dark'] .hljs-deletion,
+html[data-theme='dark'] .hljs-subst {
+  color: #e06c75;
+}
+
+html[data-theme='dark'] .hljs-parenthesis,
+html[data-theme='dark'] .hljs-curly-brace {
+  color: yellow;
+}
+
+html[data-theme='dark'] .hljs-meta,
+html[data-theme='dark'] .hljs-string {
+  color: #ce9178;
+}
+
+html[data-theme='dark'] .hljs-regexp,
+html[data-theme='dark'] .hljs-addition,
+html[data-theme='dark'] .hljs-attribute,
+html[data-theme='dark'] .hljs-meta .hljs-string {
+  color: #98c379;
+}
+html[data-theme='dark'] .hljs-number {
+  color: #c4f1ae;
+}
+
+html[data-theme='dark'] .hljs-attr,
+html[data-theme='dark'] .hljs-variable,
+html[data-theme='dark'] .hljs-template-variable,
+html[data-theme='dark'] .hljs-selector-class,
+html[data-theme='dark'] .hljs-selector-attr,
+html[data-theme='dark'] .hljs-selector-pseudo {
+  color: #9cdcfe;
+}
+
+html[data-theme='dark'] .hljs-symbol,
+html[data-theme='dark'] .hljs-bullet,
+html[data-theme='dark'] .hljs-link,
+html[data-theme='dark'] .hljs-selector-id,
+html[data-theme='dark'] .hljs-title {
+  color: #61aeee;
+}
+
+/* .hljs-class        = new Person(); */
+/* .hljs-title.class_ = Typescript - a type's name */
+/* .hljs-built_in     = Typescript's type (i.e. const aaa: SomeType) */
+html[data-theme='dark'] .hljs-built_in,
+html[data-theme='dark'] .hljs-class,
+html[data-theme='dark'] .hljs-title.class_,
+html[data-theme='dark'] .hljs-class .hljs-title {
+  color: #4dc9b0;
+}
+
+html[data-theme='dark'] .hljs-emphasis {
+  font-style: italic;
+}
+
+html[data-theme='dark'] .hljs-strong {
+  font-weight: bold;
+}
+
+html[data-theme='dark'] .hljs-link {
+  text-decoration: underline;
+}

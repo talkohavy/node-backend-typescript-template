@@ -1,0 +1,176 @@
+{
+  // --------------------------
+  // Part 1: Basic Editor Rules
+  // --------------------------
+  "window.zoomLevel": 0,
+  "window.zoomPerWindow": true, // <--- defaults to true. It used to be false before version 1.86.
+  "workbench.tree.stickyScrollMaxItemCount": 7, // <--- defaults to 7. It used to be 1 before version 1.86.
+  "search.exclude": {
+    // The default ones:
+    "**/node_modules": true,
+    "**/bower_components": true,
+    "**/*.code-search": true
+  },
+  "explorer.autoReveal": true,
+  "explorer.autoRevealExclude": {
+    "**/node_modules": false, // <--- Finally!!! I've been looking for this! opens/reveals files in node_modules in explorer tree view.
+    "**/bower_components": false
+  },
+  "files.associations": { "*.json": "jsonc", "*.svg": "html" },
+  "editor.colorDecorators": true, // <--- Controls whether the editor should render the inline color decorators and color picker.
+  "editor.dragAndDrop": false, // <--- defaults to "true". Decides if drag and drop of code lines is allowed/possible. I always hated this feature.
+  "editor.gotoLocation.multipleDefinitions": "goto", // <--- I FOUND IT!!!! No more peeking !!! default value was peek
+  "editor.gotoLocation.multipleReferences": "peek", // <--- I FOUND IT!!!! When a reference was mis-spelled, it couldn't perform the goto operation, so it gets stuck in the same place.
+  // "files.autoSave": "off", // Defaults to false. Possible options: off | onFocusChange | afterDelay | onWindowChange
+  // "files.autoSaveDelay": 1000,
+  // "files.refactoring.autoSave": true,
+  // "editor.autoSurround": "languageDefined", // defaults to "languageDefined". Defines what to do when text is selected, and you hit ' or [.
+  // "editor.minimap.enabled": true, // <--- defaults to "true". The 'minimap' is the mini-code on the right, which you can use to navigate a really long file.
+  // "editor.mouseWheelZoom": false, // <--- default to "false".
+  // "editor.multiCursorModifier": "alt", // <--- defaults to "alt".
+  // "editor.showUnused": true, // <--- defaults to "true". true value marks unreachable code as faded out.
+  // "editor.wordWrap": "off", // <--- defaults to "off".
+  // "diffEditor.codeLens": false, // <--- defaults to "false"
+  // "diffEditor.renderSideBySide": true, // <--- defaults to "true"
+  // "editor.gotoLocation.alternativeDeclarationCommand": "editor.action.goToImplementation",
+  // "editor.gotoLocation.alternativeDefinitionCommand": "editor.action.goToImplementation",
+  // "editor.gotoLocation.alternativeImplementationCommand": "editor.action.goToImplementation",
+  // "editor.gotoLocation.alternativeReferenceCommand": "editor.action.goToImplementation",
+  // "editor.gotoLocation.alternativeTypeDefinitionCommand": "editor.action.goToImplementation",
+  // "editor.gotoLocation.multipleDeclarations": "goto",
+  // "editor.gotoLocation.multipleImplementations": "goto",
+  // "editor.gotoLocation.multipleTypeDefinitions": ,
+
+  // ------------------------
+  // Part 2: Javascript Rules
+  // ------------------------
+  "javascript.preferences.importModuleSpecifier": "shortest", // <--- defaults to "shortest"
+  "javascript.preferences.importModuleSpecifierEnding": "js", // <--- defaults to "auto"
+  "javascript.updateImportsOnFileMove.enabled": "always", // <--- defaults to "prompt"
+  "js/ts.implicitProjectConfig.checkJs": true, // <--- defaults to "false". Either this property, or `checkJs` property within your jsconfig must be set to true for type-checkingto work inside js files.
+
+  // -------------------------------------
+  // Part 3: IDE Color Customization Rules
+  // -------------------------------------
+  "workbench.colorCustomizations": {
+    "editorLineNumber.activeForeground": "#00ff00"
+    // - Background related:
+    // "editor.background": "#000088",
+    // "editor.selectionBackground": "#008800",
+    // - Text related:
+    // "editor.foreground": "#880000",
+    // - Numbered lines related:
+    // "editorLineNumber.foreground": "#005500",
+  },
+
+  // ---------------------------
+  // Part 4: code actions onSave
+  // ---------------------------
+  // - Mostly for formatting using a formatter (eslint & prettier)
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "always",
+    "quickfix.biome": "always",
+    "source.addMissingImports": "never"
+    // "source.fixAll": true, // <--- This is stronger than source.fixAll.eslint! because it also aggresively removes unreachable code!
+    // "source.organizeImports": true, // <--- This also removes unused imports. I disabled it, since I'm already using eslint for that.
+    // "source.organizeImports.biome": "always",
+  },
+
+  // -----------------
+  // Part 5: git Rules
+  // -----------------
+  "git.closeDiffOnOperation": false, // <--- defaults to "true". Basically? This is relevant for when you hit the plus sign to stage changes. Do you want VsCode to close the DiffEditor afterwards? or not? I do not.
+  "git.showCommitInput": false, // <--- defaults to "true". I'm not using it to commit, so I hide it.
+  "git.showActionButton": { "commit": false, "publish": true, "sync": false },
+  "git.alwaysShowStagedChangesResourceGroup": true, // <--- defaults to "false". Always show the "Staged Changes" tab, even if there are 0 changes staged.
+  // "git.showInlineOpenFileAction": false, // <--- defaults to "true". When examining changes, there's an "open file" icon near the revert changes icon. I use it, so I keep it visible.
+  // "git.untrackedChanges": "separate", // <--- defaults to "mixed".
+  // "git.openDiffOnClick": false, // <--- defaults to "true".
+  "files.exclude": { "**/.git": false },
+
+  // ---------------------
+  // Part 6: gitlens Rules
+  // ---------------------
+  "gitlens.codeLens.enabled": false, // <--- finallyyy!!! I wanted to disable this for soooo longggg!
+  // "gitlens.advanced.blame.delayAfterEdit": 5000,
+  // "gitlens.outputLevel": "warn",
+  // "gitlens.currentLine.enabled": false,
+  // "gitlens.currentLine.format": "${author, }${agoOrDate}${' via 'pullRequest}${ • message|50?}",
+
+  // ----------------------
+  // Part 7: terminal Rules
+  // ----------------------
+  "terminal.integrated.smoothScrolling": true, // <--- defaults to "false".
+  "terminal.integrated.copyOnSelection": true, // <--- defaults to "false".
+  "terminal.integrated.rightClickBehavior": "copyPaste", // <--- defaults to "selectWord".
+  "terminal.integrated.cursorStyle": "line", // <--- defaults to "block".
+  "terminal.integrated.cursorWidth": 2, // <--- defaults to "1".
+  "terminal.integrated.enablePersistentSessions": false, // defaults to "true".
+  "terminal.integrated.persistentSessionReviveProcess": "never", // defaults to "onExit".
+  "terminal.integrated.mouseWheelZoom": false, // <--- default to false.
+  "terminal.integrated.fontSize": 18, // <--- defaults to 12.
+  // "terminal.integrated.cursorBlinking": false, // <--- defaults to "false".
+  // "terminal.integrated.wordSeparators": " ()[]{}',\"`─‘’|", // defaults to  ()[]{}',\"`─‘’|
+  // "terminal.integrated.scrollback": 1000, // <--- defaults to 1000 lines backwards
+  // "terminal.integrated.defaultLocation": "view", // <--- defaults to "view".
+  // "terminal.integrated.altClickMovesCursor": true, // <--- defaults to "true". Write a long word (i.e. multiCursorModifiermultiCursorModifier), and now alt+click a position within that word. watch what happens to the cursor.
+
+  // -------------------
+  // Part 8: debug Rules
+  // -------------------
+  "debug.console.acceptSuggestionOnEnter": "on", // finally!!! This drove me mad!!! defaults to off.
+  "debug.closeReadonlyTabsOnEnd": true, // <--- defaults to false. When attached to a debugger, there can be internal or virtual source files that don't exist on-disk, which are opened as readonly. This new setting causes VS Code to automatically close any opened readonly files from the debug session when the session ends.
+
+  // ----------------------------
+  // Part 9: Rules for json files
+  // ----------------------------
+  "[jsonc]": {
+    "editor.quickSuggestions": { "strings": "on" },
+    "editor.suggest.insertMode": "replace", // defaults to insert
+    "editor.defaultFormatter": "esbenp.prettier-vscode" // biomejs.biome or esbenp.prettier-vscode
+  },
+
+  // --------------------------------
+  // Part 10: Rules for markdown files
+  // --------------------------------
+  "[markdown]": {
+    "editor.wordWrap": "on",
+    "editor.renderWhitespace": "all",
+    "editor.acceptSuggestionOnEnter": "off",
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+
+  // --------------------------------------------
+  // Part 11: html should be parsed with prettier
+  // --------------------------------------------
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+
+  // -------------------------
+  // Part 12: Rules for eslint
+  // -------------------------
+  // "prettier.configPath": ".prettierrc.js",
+  // Enable eslint for all supported languages
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "vue",
+    "json"
+    // "html", // <--- commented out because svg files are treated as html and eslint can't handle that.
+    // "jsonc" // <--- commented out because it errored the eslintrc config file
+    // "yaml" // <--- works badly on yamls
+    // "markdown" // <--- works badly on markdowns
+  ],
+
+  // ----------------------------
+  // Part 13: Rules for css files
+  // ----------------------------
+  "css.lint.unknownProperties": "ignore",
+  "css.lint.unknownAtRules": "ignore"
+  // "[css]": {
+  //   "editor.defaultFormatter": "aeschli.vscode-css-formatter" // <--- i'm using prettier formatter instead of this, but also does an ok job.
+  // },
+}

@@ -1,0 +1,51 @@
+{
+  "For Loop2": {
+    "prefix": ["for", "for-const"],
+    "body": ["for (const ${2:element} of ${1:array}) {", "\t$0", "}"],
+    "description": "A for loop."
+  },
+  "My React Function": {
+    "prefix": ["rfc"],
+    "body": [
+      "export default function ${1:$TM_FILENAME_BASE}(${3:props}){",
+      "\treturn <div>${1:$TM_FILENAME_BASE}</div>",
+      "}"
+    ],
+    "description": "My React functional component."
+  },
+  "My useState": {
+    "prefix": ["ss", "uses", "use"],
+    "body": ["const [${1:value},set${1:value}] = useState(${0:initialValue});"],
+    "description": "My Simple useState."
+  },
+  "My useEfect": {
+    "prefix": ["ue", "usee", "use"],
+    "body": ["useEffect(() => {", "\t$0", "}, [${1:dependencies}])"],
+    "description": "My Simple useState."
+  },
+  "My clean useEfect": {
+    "prefix": ["uecl"],
+    "body": ["useEffect(()=>{", "\treturn () => ${2:cleanup}", "},[${3:dependencies}])"],
+    "description": "My Simple useState."
+  },
+  "My console.log": {
+    "prefix": ["c", "clg"],
+    "body": ["console.log(${0:props})"],
+    "description": "My Console Log"
+  },
+  "My console.log is": {
+    "prefix": ["c", "clgis"],
+    "body": ["console.log('${1:props} is:', ${0:props})"],
+    "description": "My Console Log Is"
+  },
+  "My console.error": {
+    "prefix": ["cle"],
+    "body": ["console.error(${0:props});"],
+    "description": "My Console Error"
+  },
+  "My console.warn": {
+    "prefix": ["clw"],
+    "body": ["console.warn(${0:props});"],
+    "description": "My Console Warn"
+  }
+}

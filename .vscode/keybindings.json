@@ -1,0 +1,29 @@
+// This file is practically useless. It doesn't really affect VSCode what-so-ever.
+// BUT! I kept it because it contains my most wanted/preferred keybindings,
+// which you can then copy and paste inside a file called keybindings.json, which
+// DOES affect VSCode. To get to it, hit cmd+shift+p, and type:
+// "Open Keyboard Shortcuts (JSON)"
+// Copy-Paste the contents of this file there, and replace whatever is in there.
+[
+  {
+    "key": "escape",
+    "command": "closeReferenceSearch",
+    "when": "inReferenceSearchEditor || referenceSearchVisible"
+  },
+  {
+    "key": "shift+cmd+=",
+    "command": "-workbench.action.zoomIn"
+  },
+  {
+    "key": "cmd+=",
+    "command": "editor.action.fontZoomIn"
+  },
+  {
+    "key": "cmd+-",
+    "command": "editor.action.fontZoomOut"
+  },
+  {
+    "key": "cmd+0",
+    "command": "editor.action.fontZoomReset"
+  }
+]

@@ -1,0 +1,1 @@
+export { javascriptLanguageToRegister } from './javascript';

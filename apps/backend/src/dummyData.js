@@ -1,0 +1,3 @@
+const dummyData = [];
+
+export { dummyData };

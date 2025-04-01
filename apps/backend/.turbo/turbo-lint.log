@@ -1,0 +1,13 @@
+
+Debugger listening on ws://127.0.0.1:53007/4297a1ec-d3ff-4341-af8c-80d5c214ee74
+For help, see: https://nodejs.org/en/docs/inspector
+Debugger attached.
+
+> @root-app/backend@1.0.0 lint /Users/talkohavy/Desktop/dailyUse/1_GitHub_Projects/frontend-backend-template/apps/backend
+> eslint -c ../../.eslintrc.json --ignore-path ../../.eslintignore '**/*/*.{js,jsx,tsx,ts,d.ts,cjs,mjs}'
+
+Debugger listening on ws://127.0.0.1:53016/a7432add-40e9-40dc-9ada-99151b6469ae
+For help, see: https://nodejs.org/en/docs/inspector
+Debugger attached.
+Waiting for the debugger to disconnect...
+Waiting for the debugger to disconnect...
