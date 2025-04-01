@@ -49,6 +49,9 @@
   "javascript.updateImportsOnFileMove.enabled": "always", // <--- defaults to "prompt"
   "js/ts.implicitProjectConfig.checkJs": true, // <--- defaults to "false". Either this property, or `checkJs` property within your jsconfig must be set to true for type-checkingto work inside js files.
 
+  "typescript.preferences.importModuleSpecifier": "relative", // <--- defaults to "shortest"
+  "typescript.preferences.importModuleSpecifierEnding": "js", // <--- defaults to "auto"
+  "typescript.updateImportsOnFileMove.enabled": "always", // <--- defaults to "prompt"
   // -------------------------------------
   // Part 3: IDE Color Customization Rules
   // -------------------------------------
