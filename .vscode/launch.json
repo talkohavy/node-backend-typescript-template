@@ -31,9 +31,8 @@
       "request": "launch",
       "cwd": "${workspaceFolder}/apps/backend/",
       // "runtimeArgs": ["--watch"],
-      "runtimeExecutable": "nodemon",
-      "runtimeArgs": ["--config", "${cwd}/nodemon.json"], // <-- flags to add to the runtimeExecutable
-      "program": "src/index.js",
+      "runtimeExecutable": "tsx",
+      "program": "src/index.ts",
       "restart": true, // Try to reconnect to a program if we lose connection. If set to `true`, we'll try once every second, forever.
       "outputCapture": "std", // This is to be able to also capture logger outputs
       "sourceMaps": true,
