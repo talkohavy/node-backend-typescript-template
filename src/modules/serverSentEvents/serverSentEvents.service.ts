@@ -24,10 +24,12 @@ export class ServerSentEventsService {
   }
 
   addClient(client: any) {
+    console.log('socket joined!');
     this.clients.push(client);
   }
 
   removeClient(res: any) {
+    console.log('socket left.');
     this.clients.splice(this.clients.indexOf(res), 1);
   }
 
