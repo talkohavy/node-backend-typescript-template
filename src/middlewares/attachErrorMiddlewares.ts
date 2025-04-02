@@ -1,4 +1,12 @@
-export function attachErrorMiddlewares({ app }) {
+import { Application, Request, Response } from 'express';
+
+type AttachErrorMiddlewaresProps = {
+  app: Application;
+};
+
+export function attachErrorMiddlewares(props: AttachErrorMiddlewaresProps) {
+  const { app } = props;
+
   process.on('unhandledRejection', (err) => {
     console.error('unhandledRejection', { err });
     console.error('Should not get here!  You are missing a try/catch somewhere.');
@@ -13,7 +21,7 @@ export function attachErrorMiddlewares({ app }) {
   app.use(errorHandlerMiddleware);
 }
 
-function pathNotFoundMiddleware(req, res, next) {
+function pathNotFoundMiddleware(req: Request, _res: Response, next: any) {
   console.error('req.originalUrl is:', req.originalUrl);
   console.error('req.path is:', req.path);
   console.error('req.url is:', req.url);
@@ -22,7 +30,7 @@ function pathNotFoundMiddleware(req, res, next) {
   next();
 }
 
-function errorHandlerMiddleware(error, req, res, next) {
+function errorHandlerMiddleware(error: any, _req: Request, res: Response, _next: any) {
   const statusCode = 500;
   const data = error.message;
   console.error('▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼');
@@ -31,5 +39,5 @@ function errorHandlerMiddleware(error, req, res, next) {
 
   console.log('store the error if <condition>...');
 
-  return res.status(statusCode).json(data);
+  res.status(statusCode).json(data);
 }
