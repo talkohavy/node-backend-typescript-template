@@ -20,7 +20,15 @@ export function attachBaseMiddlewares(props: AttachBaseMiddlewaresProps) {
 
   app.use(express.json({ limit: bodySizeLimit }));
   app.use(express.urlencoded({ extended: true, limit: '1mb' }));
-  app.use(compression());
+  app.use(
+    compression({
+      filter: (req, _res) => {
+        if (req.path === '/sse') return false;
+
+        return true;
+      },
+    }),
+  );
 
   app.use(
     cors({
