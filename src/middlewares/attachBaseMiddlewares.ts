@@ -1,4 +1,5 @@
 import compression from 'compression';
+import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import express, { type Express } from 'express';
 import { EnvOptions } from '../common/constants.js';
@@ -20,6 +21,7 @@ export function attachBaseMiddlewares(props: AttachBaseMiddlewaresProps) {
 
   app.use(express.json({ limit: bodySizeLimit }));
   app.use(express.urlencoded({ extended: true, limit: '1mb' }));
+  app.use(cookieParser()); // <--- MUST come before authentication middleware!
   app.use(
     compression({
       filter: (req, _res) => {

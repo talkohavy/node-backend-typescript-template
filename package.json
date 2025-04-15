@@ -32,6 +32,7 @@
   "dependencies": {
     "@eslint/js": "^9.20.0",
     "compression": "^1.7.4",
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "eslint": "^9.20.1",
     "eslint-plugin-perfectionist": "^4.9.0",
@@ -44,6 +45,7 @@
   },
   "devDependencies": {
     "@types/compression": "^1.7.5",
+    "@types/cookie-parser": "^1.4.8",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.1",
     "@types/node": "^22.10.2",
