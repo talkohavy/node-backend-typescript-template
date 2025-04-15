@@ -12,3 +12,7 @@ export enum EnvOptions {
   Prod = 'prod',
   Dev = 'dev',
 }
+
+export const HEADERS = {
+  RequestId: 'x-request-id',
+};
