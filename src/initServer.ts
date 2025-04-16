@@ -19,6 +19,8 @@ export async function startServer() {
 
   const app = express();
 
+  const PORT = configService.get('port');
+
   attachBaseMiddlewares({ app });
   callContextMiddleware.use(app, ['/health-check']);
 
@@ -29,7 +31,7 @@ export async function startServer() {
 
   attachErrorMiddlewares({ app });
 
-  app.listen(process.env.BACKEND_PORT, () => logger.log(`server started on port ${process.env.BACKEND_PORT}`));
+  app.listen(PORT, () => logger.log(`server started on port ${PORT}`));
 }
 
 startServer();
