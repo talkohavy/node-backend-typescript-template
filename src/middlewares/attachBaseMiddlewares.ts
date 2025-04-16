@@ -6,6 +6,9 @@ import { EnvOptions } from '../common/constants.js';
 import { handleCors } from '../common/utils/handleCors.js';
 import { attachHelmetMiddleware } from './attachHelmetMiddleware.js';
 
+const EXCLUDED_PATHS = ['/health-check'];
+const EXCLUDED_PATHS_FOR_COMPRESSION = ['/sse', '/health-check'];
+
 type AttachBaseMiddlewaresProps = {
   app: Express;
   bodySizeLimit?: string;
@@ -19,13 +22,24 @@ export function attachBaseMiddlewares(props: AttachBaseMiddlewaresProps) {
 
   attachHelmetMiddleware({ app });
 
-  app.use(express.json({ limit: bodySizeLimit }));
-  app.use(express.urlencoded({ extended: true, limit: '1mb' }));
+  app.use((req, res, next) => {
+    if (EXCLUDED_PATHS.includes(req.path)) return next();
+
+    express.json({ limit: bodySizeLimit })(req, res, next);
+  });
+
+  app.use((req, res, next) => {
+    if (EXCLUDED_PATHS.includes(req.path)) return next();
+
+    express.urlencoded({ extended: true, limit: '1mb' })(req, res, next);
+  });
+
   app.use(cookieParser()); // <--- MUST come before authentication middleware!
+
   app.use(
     compression({
       filter: (req, _res) => {
-        if (req.path === '/sse') return false;
+        if (EXCLUDED_PATHS_FOR_COMPRESSION.includes(req.path)) return false;
 
         return true;
       },
