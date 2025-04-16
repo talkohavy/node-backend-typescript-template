@@ -1,36 +1,28 @@
-export class ConfigService {
-  private readonly config: Record<string, any>;
+import { Config } from '../../configurations/types.js';
 
-  constructor(initialConfig: Record<string, any> = {}) {
+export class ConfigService<T = Record<string, any>> {
+  private readonly config: T;
+
+  constructor(initialConfig: T = {} as T) {
     this.config = initialConfig;
   }
 
-  get<T = any>(key: string): T {
-    return this.config[key];
+  get<K = any>(key: string): K {
+    return this.config[key as keyof T] as K;
   }
 
   set(key: string, value: any): void {
-    this.config[key] = value;
+    this.config[key as keyof T] = value;
   }
 
-  getAll(): Record<string, any> {
+  getAll(): T {
     return this.config;
   }
 }
 
 export let configService: ConfigService;
 
-export function initConfigService() {
-  const initialConfig = {
-    cookieNames: {
-      accessTokenCookieName: 'access_token',
-    },
-    logSettings: {
-      logLevel: 'info',
-      logEnvironment: 'development',
-    },
-  };
-
+export function initConfigService(initialConfig: Config) {
   configService = new ConfigService(initialConfig);
 
   return configService;

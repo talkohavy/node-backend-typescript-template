@@ -1,4 +1,5 @@
 import express from 'express';
+import { configuration } from '../configurations/index.js';
 import { CallContextMiddleware } from '../lib/call-context/call-context.middleware.js';
 import { initCallContextService } from '../lib/call-context/call-context.service.js';
 import { initConfigService } from '../lib/config/config.service.js';
@@ -9,7 +10,7 @@ import { attachServerSentEventModule } from '../modules/serverSentEvents/serverS
 import { attachUsersModule } from '../modules/users/users.module.js';
 
 export async function startServer() {
-  const configService = initConfigService();
+  const configService = initConfigService(configuration());
   const callContextService = initCallContextService();
   const logger = initLoggerService(configService, callContextService);
   const callContextMiddleware = new CallContextMiddleware(callContextService, configService);
