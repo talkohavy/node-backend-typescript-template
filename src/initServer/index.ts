@@ -7,7 +7,6 @@ import { attachBaseMiddlewares } from '../middlewares/attachBaseMiddlewares.js';
 import { attachErrorMiddlewares } from '../middlewares/attachErrorMiddlewares.js';
 import { attachServerSentEventModule } from '../modules/serverSentEvents/serverSentEvents.module.js';
 import { attachUsersModule } from '../modules/users/users.module.js';
-import { attachHttpRoutes } from '../routes/index.js';
 
 export async function startServer() {
   const configService = initConfigService();
@@ -20,8 +19,6 @@ export async function startServer() {
   attachBaseMiddlewares({ app });
 
   app.use(callContextMiddleware.use.bind(callContextMiddleware));
-
-  attachHttpRoutes(app);
 
   attachServerSentEventModule(app);
   attachUsersModule(app);
