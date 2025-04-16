@@ -18,16 +18,14 @@ export class UsersService {
   }
 
   async createUser(user: UserCreateDto) {
-    const users = await this.getUsers();
-
     const newUser = {
-      id: users.length + 1,
+      id: database.length + 1,
       name: user.name,
       age: Math.floor(Math.random() * 100),
       email: `${user.name.toLowerCase()}@example.com`,
     };
 
-    users.push(newUser);
+    database.push(newUser);
 
     return newUser;
   }
