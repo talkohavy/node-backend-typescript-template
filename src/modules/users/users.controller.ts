@@ -1,4 +1,5 @@
 import { Application } from 'express';
+import { STATUS_CODES } from '../../common/constants.js';
 import { attachJoiMiddleware } from '../../middlewares/attachJoiMiddleware.js';
 import { createUserSchema } from './users.dto.js';
 import { UsersService } from './users.service.js';
@@ -38,7 +39,7 @@ export class UsersController {
 
       const newUser = await this.usersService.createUser(body);
 
-      res.status(201).json(newUser);
+      res.status(STATUS_CODES.CREATED).json(newUser);
     });
   }
 
@@ -48,7 +49,7 @@ export class UsersController {
       const user = req.body;
       const updatedUser = await this.usersService.updateUser(userId, user);
 
-      if (!updatedUser) return res.status(404).json({ message: 'User not found' });
+      if (!updatedUser) return res.status(STATUS_CODES.NOT_FOUND).json({ message: 'User not found' });
 
       res.json(updatedUser);
     });
@@ -59,9 +60,9 @@ export class UsersController {
       const userId = req.params.id;
       const deletedUser = await this.usersService.deleteUser(userId);
 
-      if (!deletedUser) return res.status(404).json({ message: 'User not found' });
+      if (!deletedUser) return res.status(STATUS_CODES.NOT_FOUND).json({ message: 'User not found' });
 
-      res.status(204).send();
+      res.json({ message: 'User deleted successfully' });
     });
   }
 
