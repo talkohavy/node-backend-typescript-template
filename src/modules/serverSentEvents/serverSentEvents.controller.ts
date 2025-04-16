@@ -11,7 +11,7 @@ export class ServerSentEventsController {
     this.serverSentEventsService = serverSentEventsService;
   }
 
-  get() {
+  connectToChannel() {
     this.app.get('/sse', (req, res) => {
       res.setHeader('Cache-Control', 'no-cache');
       res.setHeader('Connection', 'keep-alive');
@@ -31,5 +31,9 @@ export class ServerSentEventsController {
 
       res.write(message);
     });
+  }
+
+  attachRoutes() {
+    this.connectToChannel();
   }
 }

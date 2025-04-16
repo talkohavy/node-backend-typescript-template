@@ -6,7 +6,7 @@ export function attachServerSentEventModule(app: Application) {
   const service = new ServerSentEventsService();
   const controller = new ServerSentEventsController(app, service);
 
-  controller.get();
-
   service.runSimulation();
+
+  controller.attachRoutes();
 }
