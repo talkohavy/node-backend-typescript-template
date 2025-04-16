@@ -18,7 +18,7 @@
   "type": "module",
   "scripts": {
     "clean": "rm -rf node_modules",
-    "dev": "tsx watch --clear-screen=false --env-file=.env src/index.ts",
+    "dev": "tsx watch --clear-screen=false --env-file=.env src/initServer.ts",
     "build": "pkgroll",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
