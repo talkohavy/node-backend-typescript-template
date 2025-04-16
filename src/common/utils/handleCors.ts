@@ -1,8 +1,17 @@
 import { EnvOptions } from '../constants.js';
 
-const ALLOWED_DOMAINS = ['http://localhost:3000', 'https://luckylove.co.il'];
+const ALLOWED_DOMAINS: Array<string> = ['http://localhost:3000', 'https://luckylove.co.il'];
 const DOMAIN_REGEX = '.luckylove.co.il';
 
+/**
+ * @description
+ * Usage:
+ * When an origin IS ALLOWED, the callback should be called like so:
+ * callback(new Error('Not allowed by CORS'))
+ *
+ * When an origin is NOT allowed, the callback should be called like so:
+ * callback(null, true)
+ */
 export function handleCors(nodeEnv: EnvOptions): any {
   return (origin: string, callback: (err: Error | null, origin?: any) => void) => {
     const isAllowed =
