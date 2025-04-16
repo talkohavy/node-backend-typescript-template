@@ -1,5 +1,6 @@
 import { Application } from 'express';
 import { STATUS_CODES } from '../../common/constants.js';
+import { logger } from '../../lib/logger/logger.service.js';
 import { attachJoiMiddleware } from '../../middlewares/attachJoiMiddleware.js';
 import { createUserSchema } from './users.dto.js';
 import { UsersService } from './users.service.js';
@@ -15,6 +16,8 @@ export class UsersController {
 
   getUsers() {
     this.app.get('/users', async (_req, res) => {
+      logger.info('GET /users - fetching users');
+
       const users = await this.usersService.getUsers();
 
       res.json(users);
@@ -23,11 +26,17 @@ export class UsersController {
 
   getUserById() {
     this.app.get('/users/:id', async (req, res): Promise<any> => {
+      logger.info('GET /users/:id - fetching user by ID');
+
       const userId = req.params.id;
 
       const user = await this.usersService.getUserById(userId);
 
-      if (!user) return res.json({ message: 'User not found' });
+      if (!user) {
+        logger.error('User not found', userId);
+
+        return res.status(STATUS_CODES.NOT_FOUND).json({ message: 'User not found' });
+      }
 
       res.json(user);
     });
@@ -35,6 +44,8 @@ export class UsersController {
 
   createUser() {
     this.app.post('/users', attachJoiMiddleware(createUserSchema), async (req, res) => {
+      logger.info('POST /users - creating new user');
+
       const { body } = req;
 
       const newUser = await this.usersService.createUser(body);
@@ -45,11 +56,17 @@ export class UsersController {
 
   updateUser() {
     this.app.put('/users/:id', async (req, res): Promise<any> => {
+      logger.info('PUT /users/:id - updating user by ID');
+
       const userId = req.params.id;
       const user = req.body;
       const updatedUser = await this.usersService.updateUser(userId, user);
 
-      if (!updatedUser) return res.status(STATUS_CODES.NOT_FOUND).json({ message: 'User not found' });
+      if (!updatedUser) {
+        logger.error('User not found', userId);
+
+        return res.status(STATUS_CODES.NOT_FOUND).json({ message: 'User not found' });
+      }
 
       res.json(updatedUser);
     });
@@ -57,10 +74,16 @@ export class UsersController {
 
   deleteUser() {
     this.app.delete('/users/:id', async (req, res): Promise<any> => {
+      logger.info('DELETE /users/:id - deleting user by ID');
+
       const userId = req.params.id;
       const deletedUser = await this.usersService.deleteUser(userId);
 
-      if (!deletedUser) return res.status(STATUS_CODES.NOT_FOUND).json({ message: 'User not found' });
+      if (!deletedUser) {
+        logger.error('User not found', userId);
+
+        return res.status(STATUS_CODES.NOT_FOUND).json({ message: 'User not found' });
+      }
 
       res.json({ message: 'User deleted successfully' });
     });
