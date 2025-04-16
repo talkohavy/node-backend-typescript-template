@@ -7,6 +7,7 @@ import { initLoggerService } from './lib/logger/logger.service.js';
 import { attachBaseMiddlewares } from './middlewares/attachBaseMiddlewares.js';
 import { attachErrorMiddlewares } from './middlewares/attachErrorMiddlewares.js';
 import { attachBooksModule } from './modules/books/books.module.js';
+import { attachHealthCheckModule } from './modules/health-check/health-check.module.js';
 import { attachServerSentEventModule } from './modules/serverSentEvents/serverSentEvents.module.js';
 import { attachUsersModule } from './modules/users/users.module.js';
 
@@ -23,6 +24,7 @@ export async function startServer() {
   app.use(callContextMiddleware.use.bind(callContextMiddleware));
 
   attachServerSentEventModule(app);
+  attachHealthCheckModule(app);
   attachUsersModule(app);
   attachBooksModule(app);
 
