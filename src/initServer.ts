@@ -20,8 +20,7 @@ export async function startServer() {
   const app = express();
 
   attachBaseMiddlewares({ app });
-
-  app.use(callContextMiddleware.use.bind(callContextMiddleware));
+  callContextMiddleware.use(app, ['/health-check']);
 
   attachServerSentEventModule(app);
   attachHealthCheckModule(app);
