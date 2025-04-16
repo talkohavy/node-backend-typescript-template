@@ -1,4 +1,4 @@
-import { User, UserCreateDto, UserUpdateDto } from './types.js';
+import { User, CreateUserDto, UpdateUserDto } from './types.js';
 
 const database: Array<User> = [];
 
@@ -17,7 +17,7 @@ export class UsersService {
     return user;
   }
 
-  async createUser(user: UserCreateDto) {
+  async createUser(user: CreateUserDto) {
     const newUser = {
       id: database.length + 1,
       name: user.name,
@@ -30,7 +30,7 @@ export class UsersService {
     return newUser;
   }
 
-  async updateUser(userId: string, user: UserUpdateDto): Promise<User | null> {
+  async updateUser(userId: string, user: UpdateUserDto): Promise<User | null> {
     const parsedId = parseInt(userId);
     const userIndex = database.findIndex((user) => user.id === parsedId);
 

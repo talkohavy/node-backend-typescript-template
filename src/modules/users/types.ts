@@ -5,11 +5,11 @@ export type User = {
   email: string;
 };
 
-export type UserCreateDto = {
+export type CreateUserDto = {
   name: string;
 };
 
-export type UserUpdateDto = {
+export type UpdateUserDto = {
   name?: string;
   age?: number;
   email?: string;

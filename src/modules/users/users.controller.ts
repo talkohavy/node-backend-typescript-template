@@ -1,4 +1,6 @@
 import { Application } from 'express';
+import { attachJoiMiddleware } from '../../middlewares/attachJoiMiddleware.js';
+import { createUserSchema } from './users.dto.js';
 import { UsersService } from './users.service.js';
 
 export class UsersController {
@@ -31,7 +33,7 @@ export class UsersController {
   }
 
   createUser() {
-    this.app.post('/users', async (req, res) => {
+    this.app.post('/users', attachJoiMiddleware(createUserSchema), async (req, res) => {
       const { body } = req;
 
       const newUser = await this.usersService.createUser(body);
