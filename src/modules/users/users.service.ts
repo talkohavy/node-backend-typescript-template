@@ -21,8 +21,8 @@ export class UsersService {
     const newUser = {
       id: database.length + 1,
       name: user.name,
-      age: Math.floor(Math.random() * 100),
-      email: `${user.name.toLowerCase()}@example.com`,
+      age: user.age ?? 33,
+      email: user.email ?? `${user.name.toLowerCase()}@example.com`,
     };
 
     database.push(newUser);
