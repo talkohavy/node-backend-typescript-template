@@ -1,1 +1,1 @@
-export { LoggerService, logger, initLoggerService } from './logger.service.js';
+export { LoggerService, logger, initLoggerService } from './logger.service';

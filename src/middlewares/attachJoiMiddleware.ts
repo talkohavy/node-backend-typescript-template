@@ -1,7 +1,7 @@
 import type { NextFunction, Request, Response } from 'express';
 import Joi from 'joi';
-import { STATUS_CODES } from '../common/constants.js';
-import { logger } from '../lib/logger/logger.service.js';
+import { STATUS_CODES } from '../common/constants';
+import { logger } from '../lib/logger/logger.service';
 
 export function attachJoiMiddleware(validationSchema: Joi.ObjectSchema<any>): any {
   return (req: Request, res: Response, next: NextFunction) => {

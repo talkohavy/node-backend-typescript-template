@@ -1,15 +1,15 @@
 import express from 'express';
-import { configuration } from './configurations/index.js';
-import { CallContextMiddleware } from './lib/call-context/call-context.middleware.js';
-import { initCallContextService } from './lib/call-context/call-context.service.js';
-import { initConfigService } from './lib/config/config.service.js';
-import { initLoggerService } from './lib/logger/logger.service.js';
-import { attachBaseMiddlewares } from './middlewares/attachBaseMiddlewares.js';
-import { attachErrorMiddlewares } from './middlewares/attachErrorMiddlewares.js';
-import { attachBooksModule } from './modules/books/books.module.js';
-import { attachHealthCheckModule } from './modules/health-check/health-check.module.js';
-import { attachServerSentEventModule } from './modules/serverSentEvents/serverSentEvents.module.js';
-import { attachUsersModule } from './modules/users/users.module.js';
+import { configuration } from './configurations';
+import { CallContextMiddleware } from './lib/call-context/call-context.middleware';
+import { initCallContextService } from './lib/call-context/call-context.service';
+import { initConfigService } from './lib/config/config.service';
+import { initLoggerService } from './lib/logger/logger.service';
+import { attachBaseMiddlewares } from './middlewares/attachBaseMiddlewares';
+import { attachErrorMiddlewares } from './middlewares/attachErrorMiddlewares';
+import { attachBooksModule } from './modules/books/books.module';
+import { attachHealthCheckModule } from './modules/health-check/health-check.module';
+import { attachServerSentEventModule } from './modules/serverSentEvents/serverSentEvents.module';
+import { attachUsersModule } from './modules/users/users.module';
 
 export async function startServer() {
   const configService = initConfigService(configuration());

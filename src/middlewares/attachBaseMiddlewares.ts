@@ -2,9 +2,9 @@ import compression from 'compression';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import express, { type Express } from 'express';
-import { EnvOptions } from '../common/constants.js';
-import { handleCors } from '../common/utils/handleCors.js';
-import { attachHelmetMiddleware } from './attachHelmetMiddleware.js';
+import { EnvOptions } from '../common/constants';
+import { handleCors } from '../common/utils/handleCors';
+import { attachHelmetMiddleware } from './attachHelmetMiddleware';
 
 const EXCLUDED_PATHS = ['/health-check'];
 const EXCLUDED_PATHS_FOR_COMPRESSION = ['/sse', '/health-check'];

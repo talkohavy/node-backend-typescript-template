@@ -1,9 +1,9 @@
 import { Application } from 'express';
-import { STATUS_CODES } from '../../common/constants.js';
-import { logger } from '../../lib/logger/logger.service.js';
-import { attachJoiMiddleware } from '../../middlewares/attachJoiMiddleware.js';
-import { createUserSchema } from './users.dto.js';
-import { UsersService } from './users.service.js';
+import { STATUS_CODES } from '../../common/constants';
+import { logger } from '../../lib/logger/logger.service';
+import { attachJoiMiddleware } from '../../middlewares/attachJoiMiddleware';
+import { createUserSchema } from './users.dto';
+import { UsersService } from './users.service';
 
 export class UsersController {
   app: Application;

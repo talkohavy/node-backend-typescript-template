@@ -1,4 +1,4 @@
-import { Book, CreateBookDto, UpdateBookDto } from './types.js';
+import { Book, CreateBookDto, UpdateBookDto } from './types';
 
 const database: Array<Book> = [];
 

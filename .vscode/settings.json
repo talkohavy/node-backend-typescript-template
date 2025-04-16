@@ -45,7 +45,7 @@
   // Part 2: Javascript Rules
   // ------------------------
   "javascript.preferences.importModuleSpecifier": "shortest", // <--- defaults to "shortest"
-  "javascript.preferences.importModuleSpecifierEnding": "js", // <--- defaults to "auto"
+  "javascript.preferences.importModuleSpecifierEnding": "auto", // <--- defaults to "auto"
   "javascript.updateImportsOnFileMove.enabled": "always", // <--- defaults to "prompt"
   "js/ts.implicitProjectConfig.checkJs": true, // <--- defaults to "false". Either this property, or `checkJs` property within your jsconfig must be set to true for type-checkingto work inside js files.
 

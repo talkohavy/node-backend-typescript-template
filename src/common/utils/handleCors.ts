@@ -1,4 +1,4 @@
-import { EnvOptions } from '../constants.js';
+import { EnvOptions } from '../constants';
 
 const ALLOWED_DOMAINS: Array<string> = ['http://localhost:3000', 'https://luckylove.co.il'];
 const DOMAIN_REGEX = '.luckylove.co.il';

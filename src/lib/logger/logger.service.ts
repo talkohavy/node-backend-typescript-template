@@ -1,9 +1,9 @@
-import { COLORS } from '../../common/colors.js';
-import { CallContextService } from '../call-context/call-context.service.js';
-import { CONTEXT_KEYS } from '../call-context/logic/constants.js';
-import { ConfigService } from '../config/config.service.js';
-import { LogLevel, LogLevelKeys, LogLevelToNumber, SERVICE_NAME } from './logic/constants.js';
-import { convertErrorToObject } from './logic/utils/convertErrorToObject.js';
+import { COLORS } from '../../common/colors';
+import { CallContextService } from '../call-context/call-context.service';
+import { CONTEXT_KEYS } from '../call-context/logic/constants';
+import { ConfigService } from '../config/config.service';
+import { LogLevel, LogLevelKeys, LogLevelToNumber, SERVICE_NAME } from './logic/constants';
+import { convertErrorToObject } from './logic/utils/convertErrorToObject';
 import { EnrichLogMetadataProps, LoggerSettings } from './types';
 
 export class LoggerService {

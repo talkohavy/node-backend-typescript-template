@@ -1,4 +1,4 @@
-import { User, CreateUserDto, UpdateUserDto } from './types.js';
+import { User, CreateUserDto, UpdateUserDto } from './types';
 
 const database: Array<User> = [];
 

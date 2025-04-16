@@ -1,6 +1,6 @@
 import { Application } from 'express';
-import { ServerSentEventsService } from './serverSentEvents.service.js';
-import { createEventMessage } from './utils/createEventMessage.js';
+import { ServerSentEventsService } from './serverSentEvents.service';
+import { createEventMessage } from './utils/createEventMessage';
 
 export class ServerSentEventsController {
   app: Application;

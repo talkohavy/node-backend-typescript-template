@@ -1,7 +1,7 @@
 import { Application } from 'express';
-import { BooksController } from './books.controller.js';
-import { BooksMiddleware } from './books.middleware.js';
-import { BooksService } from './books.service.js';
+import { BooksController } from './books.controller';
+import { BooksMiddleware } from './books.middleware';
+import { BooksService } from './books.service';
 
 export function attachBooksModule(app: Application) {
   const service = new BooksService();

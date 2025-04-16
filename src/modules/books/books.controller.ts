@@ -1,9 +1,9 @@
 import { Application } from 'express';
-import { STATUS_CODES } from '../../common/constants.js';
-import { logger } from '../../lib/logger/logger.service.js';
-import { attachJoiMiddleware } from '../../middlewares/attachJoiMiddleware.js';
-import { createBookSchema } from './books.dto.js';
-import { BooksService } from './books.service.js';
+import { STATUS_CODES } from '../../common/constants';
+import { logger } from '../../lib/logger/logger.service';
+import { attachJoiMiddleware } from '../../middlewares/attachJoiMiddleware';
+import { createBookSchema } from './books.dto';
+import { BooksService } from './books.service';
 
 export class BooksController {
   app: Application;

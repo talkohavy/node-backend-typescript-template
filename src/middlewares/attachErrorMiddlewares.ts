@@ -1,6 +1,6 @@
 import { Application, Request, Response } from 'express';
-import { STATUS_CODES } from '../common/constants.js';
-import { logger } from '../lib/logger/logger.service.js';
+import { STATUS_CODES } from '../common/constants';
+import { logger } from '../lib/logger/logger.service';
 
 type AttachErrorMiddlewaresProps = {
   app: Application;

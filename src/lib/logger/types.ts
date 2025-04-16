@@ -1,4 +1,4 @@
-import type { LogLevelKeys } from './logic/constants.js';
+import type { LogLevelKeys } from './logic/constants';
 
 export type EnrichLogMetadataProps = { [key: string]: any };
 

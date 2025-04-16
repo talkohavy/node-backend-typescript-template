@@ -1,4 +1,4 @@
-import { Config } from '../../configurations/types.js';
+import { Config } from '../../configurations/types';
 
 export class ConfigService<T = Record<string, any>> {
   private readonly config: T;

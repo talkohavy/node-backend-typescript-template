@@ -1,7 +1,7 @@
 import { Application } from 'express';
-import { UsersController } from './users.controller.js';
-import { UsersMiddleware } from './users.middleware.js';
-import { UsersService } from './users.service.js';
+import { UsersController } from './users.controller';
+import { UsersMiddleware } from './users.middleware';
+import { UsersService } from './users.service';
 
 export function attachUsersModule(app: Application) {
   const service = new UsersService();

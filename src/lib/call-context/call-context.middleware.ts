@@ -1,8 +1,8 @@
 import { Application, NextFunction, Request, Response } from 'express';
-import { HEADERS } from '../../common/constants.js';
-import { ConfigService } from '../config/config.service.js';
+import { HEADERS } from '../../common/constants';
+import { ConfigService } from '../config/config.service';
 import { CallContextService } from './call-context.service';
-import { CONTEXT_KEYS } from './logic/constants.js';
+import { CONTEXT_KEYS } from './logic/constants';
 
 export class CallContextMiddleware {
   public constructor(
