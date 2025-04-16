@@ -1,4 +1,5 @@
 import redis, { RedisClientType } from 'redis';
+import { logger } from '../../lib/logger/logger.service.js';
 import { createEventMessage } from './utils/createEventMessage.js';
 
 const { createClient } = redis;
@@ -14,7 +15,7 @@ export class ServerSentEventsService {
     this.clients = [];
 
     this.redisSubscriber.subscribe('sse-events', (content) => {
-      console.log('Received event:', content);
+      logger.log('Received event:', content);
 
       this.clients.forEach((client) => {
         const message = createEventMessage({ content, eventName: 'my-data' });
@@ -24,12 +25,12 @@ export class ServerSentEventsService {
   }
 
   addClient(client: any) {
-    console.log('socket joined!');
+    logger.log('socket joined!');
     this.clients.push(client);
   }
 
   removeClient(res: any) {
-    console.log('socket left.');
+    logger.log('socket left.');
     this.clients.splice(this.clients.indexOf(res), 1);
   }
 
