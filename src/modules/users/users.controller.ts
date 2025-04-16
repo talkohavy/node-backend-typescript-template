@@ -1,6 +1,6 @@
 import { Application } from 'express';
 import { STATUS_CODES } from '../../common/constants';
-import { logger } from '../../lib/logger/logger.service';
+import { logger } from '../../lib/logger';
 import { attachJoiMiddleware } from '../../middlewares/attachJoiMiddleware';
 import { createUserSchema } from './users.dto';
 import { UsersService } from './users.service';
