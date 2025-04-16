@@ -44,10 +44,10 @@ export class UsersService {
     const parsedId = parseInt(userId);
     const userIndex = database.findIndex((user) => user.id === parsedId);
 
-    if (userIndex > -1) return null;
+    if (userIndex === -1) return null;
 
     database.splice(userIndex, 1);
 
-    return { message: 'User deleted successfully' };
+    return {};
   }
 }
