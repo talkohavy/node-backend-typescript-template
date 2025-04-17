@@ -10,5 +10,8 @@ export function configuration(): Config {
       logLevel: 'info',
       logEnvironment: 'development',
     },
+    database: {
+      connectionString: process.env.DB_CONNECTION_STRING || 'postgres://user:password@localhost:5432/mydb',
+    },
   };
 }

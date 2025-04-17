@@ -7,4 +7,7 @@ export type Config = {
     logLevel: string;
     logEnvironment: string;
   };
+  database: {
+    connectionString: string;
+  };
 };
