@@ -1,10 +1,14 @@
 {
-  // --------------------------
-  // Part 1: Basic Editor Rules
-  // --------------------------
+  "workbench.colorTheme": "Default Dark Modern", // "Light"
+  // -------------------
+  // Basic Editor Rules:
+  // -------------------
   "window.zoomLevel": 0,
   "window.zoomPerWindow": true, // <--- defaults to true. It used to be false before version 1.86.
   "workbench.tree.stickyScrollMaxItemCount": 7, // <--- defaults to 7. It used to be 1 before version 1.86.
+  "workbench.activityBar.iconClickBehavior": "focus",
+  "workbench.editor.editorActionsLocation": "default",
+  // "workbench.list.horizontalScrolling": true,
   "search.exclude": {
     // The default ones:
     "**/node_modules": true,
@@ -41,10 +45,22 @@
   // "editor.gotoLocation.multipleImplementations": "goto",
   // "editor.gotoLocation.multipleTypeDefinitions": ,
 
-  // ------------------------
-  // Part 2: Javascript Rules
-  // ------------------------
-  "javascript.preferences.importModuleSpecifier": "shortest", // <--- defaults to "shortest"
+  // ---------------
+  // Zen Mode Rules:
+  // ---------------
+  "zenMode.centerLayout": false,
+  "zenMode.fullScreen": true,
+  "zenMode.restore": true,
+  "zenMode.showTabs": "none",
+  "zenMode.hideStatusBar": true,
+  "zenMode.hideActivityBar": true,
+  "zenMode.hideLineNumbers": false,
+  "zenMode.silentNotifications": true,
+
+  // ------------------------------
+  // Javascript & Typescript Rules:
+  // ------------------------------
+  "javascript.preferences.importModuleSpecifier": "relative", // <--- defaults to "shortest"
   "javascript.preferences.importModuleSpecifierEnding": "auto", // <--- defaults to "auto"
   "javascript.updateImportsOnFileMove.enabled": "always", // <--- defaults to "prompt"
   "js/ts.implicitProjectConfig.checkJs": true, // <--- defaults to "false". Either this property, or `checkJs` property within your jsconfig must be set to true for type-checkingto work inside js files.
@@ -52,23 +68,106 @@
   "typescript.preferences.importModuleSpecifier": "relative", // <--- defaults to "shortest"
   "typescript.preferences.importModuleSpecifierEnding": "auto", // <--- defaults to "auto"
   "typescript.updateImportsOnFileMove.enabled": "always", // <--- defaults to "prompt"
-  // -------------------------------------
-  // Part 3: IDE Color Customization Rules
-  // -------------------------------------
+
+  // ----------------
+  // Work Tree Rules:
+  // ----------------
+  "workbench.tree.indent": 14,
+  "workbench.tree.renderIndentGuides": "always",
+
+  // ------------------------------
+  // IDE Color Customization Rules:
+  // ------------------------------
   "workbench.colorCustomizations": {
-    "editorLineNumber.activeForeground": "#00ff00"
-    // - Background related:
-    // "editor.background": "#000088",
-    // "editor.selectionBackground": "#008800",
-    // - Text related:
-    // "editor.foreground": "#880000",
-    // - Numbered lines related:
-    // "editorLineNumber.foreground": "#005500",
+    "[Default Dark Modern]": {
+      "activityBar.foreground": "#99ff99",
+      "activityBar.inactiveForeground": "#444",
+      "activityBar.dropBorder": "#00ff00",
+      "activityBar.border": "#666",
+      "activityBar.activeBorder": "#00000000",
+      "activityBar.activeBackground": "#ffffff33",
+      // "activityBar.background": "#000",
+      // "activityBarBadge.background": "#000",
+      // "activityBarBadge.foreground": "#fff",
+
+      "sideBar.border": "#535353",
+      // "sideBarTitle.background": "#0d2d78",
+      // "sideBar.background": "#000",
+      // "sideBar.foreground": "#fff",
+      // "sideBarTitle.foreground": "#ff0000",
+
+      // "tab.activeBackground": "default",
+      "tab.inactiveBackground": "#00000000",
+      "tab.inactiveForeground": "#666",
+      // "tab.hoverBackground": "#ff0000",
+
+      "dropdown.border": "#bbb",
+      "dropdown.foreground": "#ffffff",
+      // "dropdown.background": "default", // <--- #393939c7
+
+      "editor.background": "#1c1c1c",
+      "editor.foreground": "#ddd",
+      "editorLineNumber.activeForeground": "#00ff00",
+      "editorMultiCursor.primary.foreground": "#fff",
+      "editorMultiCursor.secondary.foreground": "#888",
+      // "editorLineNumber.foreground": "default",
+      // "editorCursor.foreground": "#00ff00",
+      // "editor.selectionBackground": "#008800",
+
+      "editorUnnecessaryCode.opacity": "#ffffff88",
+      // "editorUnnecessaryCode.border": "#fff",
+
+      // "diffEditor.insertedTextBackground": "#3E8C43fe", // <--- Inserted Text (Greenish by default)
+      "diffEditor.insertedTextBackground": "#00ff0030", // <--- Inserted Text (Greenish by default)
+      "diffEditor.removedTextBackground": "#9E4247fe", // <--- Removed Text (Reddish by default)
+      "diffEditor.insertedLineBackground": "#3E8C4330",
+      "diffEditor.removedLineBackground": "#633E3Dfe",
+      // "diffEditor.insertedTextBorder": "#008000",
+      // "diffEditor.removedTextBorder": "#FF0000fe",
+      // "diffEditorGutter.insertedLineBackground": "#0000ff"
+      // "diffEditorGutter.removedLineBackground": "#0000ff"
+
+      "inputOption.activeBackground": "#007ACC", // #2A5072 or #007ACC
+      "inputOption.activeBorder": "#007ACC",
+
+      "list.focusHighlightForeground": "#2784ff",
+      "list.highlightForeground": "#a3cbff",
+      // "list.hoverBackground": "default",
+      // "list.activeSelectionBackground": "default",
+      // "list.activeSelectionForeground": "default",
+      // "list.activeSelectionIconForeground": "default",
+
+      "search.resultsInfoForeground": "#00a2ff",
+
+      "toolbar.activeBackground": "#484848",
+      "toolbar.hoverBackground": "#eeeeee33",
+      // "toolbar.hoverOutline": "default",
+
+      "tree.indentGuidesStroke": "#c8c8c8", // <--- defaults to #585858
+      // "tree.inactiveIndentGuidesStroke": "#ff0000",
+
+      "widget.shadow": "#00ff00cc" // <--- or "#ff00cc". Color of find & replace tool, or the command palette.
+      // "widget.border": "default", // <--- of find & replace tool, or the command palette.
+
+      // "icon.foreground": "#9dc4ff",
+      // "foreground": "default",
+      // "disabledForeground": "default",
+      // "selection.background": "default",
+      // "textLink.foreground": "default"
+    },
+
+    "focusBorder": "#00000000",
+    "editorGutter.modifiedBackground": "#00000000",
+    "editorGutter.addedBackground": "#00000000",
+    "editorGutter.deletedBackground": "#00000000",
+    "editorGutter.foldingControlForeground": "#6c6cff",
+    "editorGutter.itemGlyphForeground": "#fff",
+    "editorGutter.itemBackground": "#586bffdb"
   },
 
-  // ---------------------------
-  // Part 4: code actions onSave
-  // ---------------------------
+  // --------------------------
+  // Code actions onSave Rules:
+  // --------------------------
   // - Mostly for formatting using a formatter (eslint & prettier)
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "always",
@@ -79,9 +178,9 @@
     // "source.organizeImports.biome": "always",
   },
 
-  // -----------------
-  // Part 5: git Rules
-  // -----------------
+  // ----------
+  // git Rules:
+  // ----------
   "git.closeDiffOnOperation": false, // <--- defaults to "true". Basically? This is relevant for when you hit the plus sign to stage changes. Do you want VsCode to close the DiffEditor afterwards? or not? I do not.
   "git.showCommitInput": false, // <--- defaults to "true". I'm not using it to commit, so I hide it.
   "git.showActionButton": { "commit": false, "publish": true, "sync": false },
@@ -91,18 +190,27 @@
   // "git.openDiffOnClick": false, // <--- defaults to "true".
   "files.exclude": { "**/.git": false },
 
-  // ---------------------
-  // Part 6: gitlens Rules
-  // ---------------------
+  // --------------
+  // gitlens Rules:
+  // --------------
   "gitlens.codeLens.enabled": false, // <--- finallyyy!!! I wanted to disable this for soooo longggg!
+  "gitlens.views.scm.grouped.views": {
+    // All of these will appear:
+    "branches": false,
+    "stashes": false,
+    // All of these will NOT appear:
+    "commits": true,
+    "remotes": true,
+    "repositories": true
+  },
   // "gitlens.advanced.blame.delayAfterEdit": 5000,
   // "gitlens.outputLevel": "warn",
   // "gitlens.currentLine.enabled": false,
   // "gitlens.currentLine.format": "${author, }${agoOrDate}${' via 'pullRequest}${ • message|50?}",
 
-  // ----------------------
-  // Part 7: terminal Rules
-  // ----------------------
+  // ---------------
+  // Terminal Rules:
+  // ---------------
   "terminal.integrated.smoothScrolling": true, // <--- defaults to "false".
   "terminal.integrated.copyOnSelection": true, // <--- defaults to "false".
   "terminal.integrated.rightClickBehavior": "copyPaste", // <--- defaults to "selectWord".
@@ -118,24 +226,24 @@
   // "terminal.integrated.defaultLocation": "view", // <--- defaults to "view".
   // "terminal.integrated.altClickMovesCursor": true, // <--- defaults to "true". Write a long word (i.e. multiCursorModifiermultiCursorModifier), and now alt+click a position within that word. watch what happens to the cursor.
 
-  // -------------------
-  // Part 8: debug Rules
-  // -------------------
+  // ------------
+  // Debug Rules:
+  // ------------
   "debug.console.acceptSuggestionOnEnter": "on", // finally!!! This drove me mad!!! defaults to off.
   "debug.closeReadonlyTabsOnEnd": true, // <--- defaults to false. When attached to a debugger, there can be internal or virtual source files that don't exist on-disk, which are opened as readonly. This new setting causes VS Code to automatically close any opened readonly files from the debug session when the session ends.
 
-  // ----------------------------
-  // Part 9: Rules for json files
-  // ----------------------------
+  // -----------
+  // JSON Rules:
+  // -----------
   "[jsonc]": {
     "editor.quickSuggestions": { "strings": "on" },
     "editor.suggest.insertMode": "replace", // defaults to insert
     "editor.defaultFormatter": "esbenp.prettier-vscode" // biomejs.biome or esbenp.prettier-vscode
   },
 
-  // --------------------------------
-  // Part 10: Rules for markdown files
-  // --------------------------------
+  // ---------------
+  // Markdown Rules:
+  // ---------------
   "[markdown]": {
     "editor.wordWrap": "on",
     "editor.renderWhitespace": "all",
@@ -143,16 +251,16 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
 
-  // --------------------------------------------
-  // Part 11: html should be parsed with prettier
-  // --------------------------------------------
+  // -----------
+  // HTML Rules:
+  // -----------
   "[html]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
 
-  // -------------------------
-  // Part 12: Rules for eslint
-  // -------------------------
+  // -------------
+  // Eslint Rules:
+  // -------------
   // "prettier.configPath": ".prettierrc.js",
   // Enable eslint for all supported languages
   "eslint.validate": [
@@ -166,14 +274,5 @@
     // "jsonc" // <--- commented out because it errored the eslintrc config file
     // "yaml" // <--- works badly on yamls
     // "markdown" // <--- works badly on markdowns
-  ],
-
-  // ----------------------------
-  // Part 13: Rules for css files
-  // ----------------------------
-  "css.lint.unknownProperties": "ignore",
-  "css.lint.unknownAtRules": "ignore"
-  // "[css]": {
-  //   "editor.defaultFormatter": "aeschli.vscode-css-formatter" // <--- i'm using prettier formatter instead of this, but also does an ok job.
-  // },
+  ]
 }
