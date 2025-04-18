@@ -9,6 +9,7 @@ import { attachErrorMiddlewares } from './middlewares/attachErrorMiddlewares';
 import { attachBooksModule } from './modules/books/books.module';
 import { attachHealthCheckModule } from './modules/health-check/health-check.module';
 import { attachServerSentEventModule } from './modules/serverSentEvents/serverSentEvents.module';
+import { attachTransactionsModule } from './modules/transactions/transactions.module';
 import { attachUsersModule } from './modules/users/users.module';
 
 export async function startServer() {
@@ -28,6 +29,7 @@ export async function startServer() {
   attachHealthCheckModule(app);
   attachUsersModule(app);
   attachBooksModule(app);
+  attachTransactionsModule(app);
 
   attachErrorMiddlewares({ app });
 

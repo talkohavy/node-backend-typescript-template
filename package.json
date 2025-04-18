@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "./dist/index.cjs",
+  "type": "module",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.cts",
   "exports": {
@@ -15,7 +16,6 @@
       "default": "./dist/index.mjs"
     }
   },
-  "type": "module",
   "scripts": {
     "clean": "rm -rf node_modules",
     "dev": "tsx watch --clear-screen=false --env-file=.env src/initServer.ts",
@@ -38,7 +38,6 @@
     "eslint": "^9.20.1",
     "eslint-plugin-perfectionist": "^4.9.0",
     "eslint-plugin-react-compiler": "19.0.0-beta-b2e8e9c-20241220",
-    "formidable": "^3.5.2",
     "globals": "^15.15.0",
     "helmet": "^7.1.0",
     "joi": "^17.13.3",
