@@ -34,7 +34,7 @@ export class UsersService {
     const parsedId = parseInt(userId);
     const userIndex = database.findIndex((user) => user.id === parsedId);
 
-    if (userIndex > -1) return null;
+    if (userIndex === -1) return null;
 
     database[userIndex] = { ...database[userIndex], ...user } as User;
     return database[userIndex];
