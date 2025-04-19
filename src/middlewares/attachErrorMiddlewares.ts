@@ -1,6 +1,6 @@
 import { Application, Request, Response } from 'express';
+import { COLORS } from '../common/colors';
 import { STATUS_CODES } from '../common/constants';
-import { logger } from '../lib/logger/logger.service';
 
 type AttachErrorMiddlewaresProps = {
   app: Application;
@@ -34,11 +34,11 @@ function pathNotFoundMiddleware(req: Request, _res: Response, next: any) {
 
 function globalErrorMiddleware(error: any, _req: Request, res: Response, _next: any) {
   const data = error.message;
-  console.error('▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼');
-  logger.error(error);
-  console.error('▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲');
+  console.error(COLORS.red, '▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼', COLORS.stop);
+  console.error(error);
+  console.error(COLORS.red, '▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲', COLORS.stop);
 
-  // console.log('store the error if <condition>...');
+  // if (condition) logger.error(error.message); // <--- store the error if <condition>...
 
   res.status(STATUS_CODES.INTERNAL_ERROR).json(data);
 }
