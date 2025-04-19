@@ -3,6 +3,7 @@
   // -------------------
   // Basic Editor Rules:
   // -------------------
+  "window.title": "${folderName}", // <--- "${dirty}${folderName}${separator}${activeFolderShort}\\${activeEditorShort}${separator}${activeEditorMedium}"
   "window.zoomLevel": 0,
   "window.zoomPerWindow": true, // <--- defaults to true. It used to be false before version 1.86.
   "workbench.tree.stickyScrollMaxItemCount": 7, // <--- defaults to 7. It used to be 1 before version 1.86.
@@ -54,8 +55,9 @@
   "zenMode.showTabs": "none",
   "zenMode.hideStatusBar": true,
   "zenMode.hideActivityBar": true,
-  "zenMode.hideLineNumbers": false,
+  "zenMode.hideLineNumbers": true,
   "zenMode.silentNotifications": true,
+  // "editor.minimap.autohide": true,
 
   // ------------------------------
   // Javascript & Typescript Rules:
