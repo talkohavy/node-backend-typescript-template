@@ -2,7 +2,7 @@ import { Application } from 'express';
 import { STATUS_CODES } from '../../common/constants';
 import { logger } from '../../lib/logger';
 import { attachJoiMiddleware } from '../../middlewares/attachJoiMiddleware';
-import { createUserSchema } from './users.dto';
+import { createUserSchema, updateUserSchema } from './users.dto';
 import { UsersService } from './users.service';
 
 export class UsersController {
@@ -55,7 +55,7 @@ export class UsersController {
   }
 
   updateUser() {
-    this.app.put('/users/:id', async (req, res): Promise<any> => {
+    this.app.patch('/users/:id', attachJoiMiddleware(updateUserSchema), async (req, res): Promise<any> => {
       logger.info('PUT /users/:id - updating user by ID');
 
       const userId = req.params.id;
