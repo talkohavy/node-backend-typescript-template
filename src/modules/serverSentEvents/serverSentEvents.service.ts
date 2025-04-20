@@ -18,8 +18,9 @@ export class ServerSentEventsService {
       logger.log('Received event:', content);
 
       this.clients.forEach((client) => {
-        const message = createEventMessage({ content, eventName: 'my-data' });
+        const message = createEventMessage({ content, eventName: 'luckylove-data' });
         client.write(message);
+        client.flush();
       });
     });
   }

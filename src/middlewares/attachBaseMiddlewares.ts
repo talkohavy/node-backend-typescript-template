@@ -7,7 +7,6 @@ import { handleCors } from '../common/utils/handleCors';
 import { attachHelmetMiddleware } from './attachHelmetMiddleware';
 
 const EXCLUDED_PATHS = ['/health-check'];
-const EXCLUDED_PATHS_FOR_COMPRESSION = ['/sse', '/health-check'];
 
 type AttachBaseMiddlewaresProps = {
   app: Express;
@@ -39,7 +38,7 @@ export function attachBaseMiddlewares(props: AttachBaseMiddlewaresProps) {
   app.use(
     compression({
       filter: (req, _res) => {
-        if (EXCLUDED_PATHS_FOR_COMPRESSION.includes(req.path)) return false;
+        if (EXCLUDED_PATHS.includes(req.path)) return false;
 
         return true;
       },

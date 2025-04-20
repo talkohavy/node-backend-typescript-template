@@ -21,7 +21,7 @@ export class CallContextMiddleware {
       this.callContextService.register();
       const requestId = req.headers[HEADERS.RequestId] as string;
 
-      if (!requestId) throw new Error(`Missing ${CONTEXT_KEYS.RequestId} header`);
+      if (!requestId && req.url !== '/sse') throw new Error(`Missing ${CONTEXT_KEYS.RequestId} header`);
 
       this.callContextService.set(CONTEXT_KEYS.RequestId, requestId);
       this.callContextService.set(CONTEXT_KEYS.Method, method);

@@ -13,23 +13,21 @@ export class ServerSentEventsController {
 
   connectToChannel() {
     this.app.get('/sse', (req, res) => {
+      res.setHeader('Content-Type', 'text/event-stream');
       res.setHeader('Cache-Control', 'no-cache');
-      res.setHeader('Connection', 'keep-alive');
-      res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
 
       this.serverSentEventsService.addClient(res);
 
-      res.writeHead(200, { 'Content-Type': 'text/event-stream' });
+      const message = createEventMessage({ content: 'Connection was successful!', eventName: 'connect' });
+
+      res.write(message);
+      res.flush();
 
       req.on('close', () => {
         this.serverSentEventsService.removeClient(res);
 
         res.end();
       });
-
-      const message = createEventMessage({ content: 'Connection was successful!', eventName: 'connect' });
-
-      res.write(message);
     });
   }
 
