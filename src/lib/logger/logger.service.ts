@@ -1,4 +1,4 @@
-import { COLORS } from '../../common/colors';
+import { colorMyJson } from 'color-my-json';
 import { CallContextService } from '../call-context/call-context.service';
 import { CONTEXT_KEYS } from '../call-context/logic/constants';
 import { ConfigService } from '../config/config.service';
@@ -27,7 +27,8 @@ export class LoggerService {
 
     const logMetadata = this.enrichLogMetadata(message, data, LogLevel.DEBUG);
 
-    console.log(COLORS.blue, '\n', logMetadata, COLORS.stop);
+    // console.log(COLORS.blue, '\n', logMetadata, COLORS.stop);
+    console.log('\n', colorMyJson(logMetadata));
   }
 
   log(message: string, data?: any): void {
@@ -35,7 +36,8 @@ export class LoggerService {
 
     const logMetadata = this.enrichLogMetadata(message, data, LogLevel.INFO);
 
-    console.log('\n', logMetadata);
+    // console.log('\n', logMetadata);
+    console.log('\n', colorMyJson(logMetadata));
   }
 
   info(message: string, data?: any): void {
@@ -43,7 +45,8 @@ export class LoggerService {
 
     const logMetadata = this.enrichLogMetadata(message, data, LogLevel.INFO);
 
-    console.log(COLORS.green, '\n', logMetadata, COLORS.stop);
+    // console.log(COLORS.green, '\n', logMetadata, COLORS.stop);
+    console.log(colorMyJson(logMetadata));
   }
 
   warn(message: string, data?: any): void {
@@ -51,7 +54,8 @@ export class LoggerService {
 
     const logMetadata = this.enrichLogMetadata(message, data, LogLevel.WARN);
 
-    console.log(COLORS.yellow, '\n', logMetadata, COLORS.stop);
+    // console.log(COLORS.yellow, '\n', logMetadata, COLORS.stop);
+    console.log('\n', colorMyJson(logMetadata));
   }
 
   error(message: string, data?: any): void {
@@ -59,7 +63,8 @@ export class LoggerService {
 
     const logMetadata = this.enrichLogMetadata(message, data, LogLevel.ERROR);
 
-    console.log(COLORS.red, '\n', logMetadata, COLORS.stop);
+    // console.log(COLORS.red, '\n', logMetadata, COLORS.stop);
+    console.log('\n', colorMyJson(logMetadata));
   }
 
   fatal(message: string, data?: any): void {
@@ -67,7 +72,8 @@ export class LoggerService {
 
     const logMetadata = this.enrichLogMetadata(message, data, LogLevel.FATAL);
 
-    console.log(COLORS.red, '\n', logMetadata, COLORS.stop);
+    // console.log(COLORS.red, '\n', logMetadata, COLORS.stop);
+    console.log('\n', colorMyJson(logMetadata));
   }
 
   private enrichLogMetadata(message: string, extraData: EnrichLogMetadataProps, level: LogLevelKeys) {
@@ -86,7 +92,7 @@ export class LoggerService {
       error,
     };
 
-    return JSON.stringify(enrichedLogMetadata);
+    return JSON.stringify(enrichedLogMetadata, null, 2);
   }
 
   private shouldLog(funcLogLevelAsString: LogLevelKeys) {
