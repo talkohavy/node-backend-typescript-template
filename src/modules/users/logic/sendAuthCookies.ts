@@ -21,7 +21,7 @@ export async function sendAuthCookies(props: SendAuthCookiesProps) {
   const refreshToken = await createRefreshToken({ payload });
 
   const options: CookieOptions = {
-    secure: isDev || isCI ? false : true, // <--- A cookie with the Secure attribute is only sent to the server with an encrypted request over the HTTPS protocol. It's never sent with unsecured HTTP
+    secure: !isDev && !isCI, // <--- A cookie with the Secure attribute is only sent to the server with an encrypted request over the HTTPS protocol. It's never sent with unsecured HTTP
     httpOnly: true, // <--- defaults to `false`. `true` means that client-side scripts (JavaScript) has no access to that cookie.
     domain: isDev || isCI ? undefined : '.luckylove.co.il', // production: '.luckylove.co.il' , development: 'localhost' or ' ' or null
     path: '/', // <--- only if the user on the frontend logs in on this path? i'll send the cookie to him! '/' means any path.
