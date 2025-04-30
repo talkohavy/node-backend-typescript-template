@@ -32,7 +32,7 @@ export class UsersService {
     const createdUser: User = {
       id: database.length + 1,
       email,
-      password: hashedPassword,
+      password: `${salt}:${hashedPassword}`,
       name,
       age,
     };
