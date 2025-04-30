@@ -18,3 +18,5 @@ export type UpdateUserDto = {
   age?: number;
   email?: string;
 };
+
+export type UserResponseDto = Omit<User, 'password'>;

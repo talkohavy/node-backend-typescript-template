@@ -60,8 +60,10 @@ export class UsersService {
 
     if (userIndex === -1) return null;
 
-    database[userIndex] = { ...database[userIndex], ...user } as User;
-    return database[userIndex];
+    const updatedUser = { ...database[userIndex], ...user } as User;
+    database[userIndex] = updatedUser;
+
+    return updatedUser;
   }
 
   async deleteUser(userId: string) {
