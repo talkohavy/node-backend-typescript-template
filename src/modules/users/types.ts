@@ -1,14 +1,16 @@
 export type User = {
   id: number;
-  name: string;
-  age: number;
   email: string;
+  password: string;
+  name?: string;
+  age?: number;
 };
 
 export type CreateUserDto = {
-  name: string;
+  email: string;
+  password: string;
+  name?: string;
   age?: number;
-  email?: string;
 };
 
 export type UpdateUserDto = {

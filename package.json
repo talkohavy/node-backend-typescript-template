@@ -31,6 +31,7 @@
   "license": "ISC",
   "dependencies": {
     "@eslint/js": "^9.20.0",
+    "@types/jsonwebtoken": "^9.0.9",
     "color-my-json": "^0.0.9",
     "compression": "^1.7.4",
     "cookie-parser": "^1.4.7",
@@ -42,6 +43,7 @@
     "globals": "^15.15.0",
     "helmet": "^7.1.0",
     "joi": "^17.13.3",
+    "jsonwebtoken": "^9.0.2",
     "nodemon": "^3.0.2",
     "pg": "^8.14.1",
     "redis": "^4.7.0",

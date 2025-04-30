@@ -1,4 +1,5 @@
 import { colorMyJson } from 'color-my-json';
+import { LoggerSettingsConfig } from '../../configurations/types';
 import { CallContextService } from '../call-context/call-context.service';
 import { CONTEXT_KEYS } from '../call-context/logic/constants';
 import { ConfigService } from '../config/config.service';
@@ -15,7 +16,7 @@ export class LoggerService {
     private readonly configService: ConfigService,
     private readonly callContextService: CallContextService,
   ) {
-    const loggerSettings = this.configService.get<LoggerSettings>('logSettings');
+    const loggerSettings = this.configService.get<LoggerSettingsConfig>('logSettings');
     this.globalLogLevel = LogLevelToNumber[loggerSettings?.logLevel ?? LogLevel.INFO];
 
     this.loggerSettings = loggerSettings;

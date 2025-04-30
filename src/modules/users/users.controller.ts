@@ -2,7 +2,8 @@ import { Application } from 'express';
 import { STATUS_CODES } from '../../common/constants';
 import { logger } from '../../lib/logger';
 import { attachJoiMiddleware } from '../../middlewares/attachJoiMiddleware';
-import { createUserSchema, updateUserSchema } from './users.dto';
+import { sendAuthCookies } from './logic/sendAuthCookies';
+import { createUserSchema, loginUserSchema, updateUserSchema } from './users.dto';
 import { UsersService } from './users.service';
 
 export class UsersController {
@@ -48,9 +49,11 @@ export class UsersController {
 
       const { body } = req;
 
-      const newUser = await this.usersService.createUser(body);
+      const createdUser = await this.usersService.createUser(body);
 
-      res.status(STATUS_CODES.CREATED).json(newUser);
+      sendAuthCookies({ res, user: createdUser });
+
+      res.status(STATUS_CODES.CREATED).json(createdUser);
     });
   }
 
@@ -89,11 +92,30 @@ export class UsersController {
     });
   }
 
+  login() {
+    this.app.post('/users/login', attachJoiMiddleware(loginUserSchema), async (req, res): Promise<any> => {
+      logger.info('POST /users/login - user login');
+
+      const { email, password } = req.body;
+
+      const user = await this.usersService.login(email, password);
+
+      if (!user) {
+        logger.error('Login failed for email', email);
+        return res.status(STATUS_CODES.UNAUTHORIZED).json({ message: 'Invalid credentials' });
+      }
+
+      sendAuthCookies({ res, user });
+      res.status(STATUS_CODES.OK).json(user);
+    });
+  }
+
   attachRoutes() {
     this.getUsers();
     this.getUserById();
     this.createUser();
     this.updateUser();
     this.deleteUser();
+    this.login();
   }
 }
