@@ -18,7 +18,7 @@ export async function startServer() {
 
   const app = express();
 
-  const PORT = configService.get('port');
+  const PORT = configService.get<number>('port');
 
   attachBaseMiddlewares({ app });
   callContextMiddleware.use(app, ['/health-check']);
