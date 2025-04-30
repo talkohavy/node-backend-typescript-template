@@ -7,7 +7,9 @@ export class ConfigService<T = Record<string, any>> {
     this.config = initialConfig;
   }
 
-  get<K = any>(key: string): K {
+  get<K = any>(key?: string): K {
+    if (!key) return this.config as unknown as K;
+
     const keys = key.split('.');
     let value: any = this.config;
 
