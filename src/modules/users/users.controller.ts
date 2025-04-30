@@ -56,7 +56,7 @@ export class UsersController {
 
       const createdUser = await this.usersService.createUser(body);
 
-      sendAuthCookies({ res, user: createdUser });
+      await sendAuthCookies({ res, user: createdUser });
 
       const sanitizedCreatedUser = sanitizeUser(createdUser);
 
@@ -114,7 +114,7 @@ export class UsersController {
         return res.status(STATUS_CODES.UNAUTHORIZED).json({ message: 'Invalid credentials' });
       }
 
-      sendAuthCookies({ res, user });
+      await sendAuthCookies({ res, user });
 
       const sanitizedUser = sanitizeUser(user);
 
