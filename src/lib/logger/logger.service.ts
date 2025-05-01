@@ -4,7 +4,7 @@ import { CallContextService } from '../call-context/call-context.service';
 import { CONTEXT_KEYS } from '../call-context/logic/constants';
 import { ConfigService } from '../config/config.service';
 import { LogLevel, LogLevelKeys, LogLevelToNumber, SERVICE_NAME } from './logic/constants';
-import { convertErrorToObject } from './logic/utils/convertErrorToObject';
+import { createEnumerableError } from './logic/utils/createEnumerableError';
 import { EnrichLogMetadataProps, LoggerSettings } from './types';
 
 export class LoggerService {
@@ -78,7 +78,7 @@ export class LoggerService {
   }
 
   private enrichLogMetadata(message: string, extraData: EnrichLogMetadataProps, level: LogLevelKeys) {
-    const error = extraData?.error && convertErrorToObject(extraData.error);
+    const error = extraData?.error && createEnumerableError(extraData.error);
 
     const logContextMetadata = this.getLogMetadataFromContext(this.callContextService.getStore());
 
