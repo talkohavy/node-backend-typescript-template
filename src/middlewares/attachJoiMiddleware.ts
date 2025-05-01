@@ -4,7 +4,7 @@ import { STATUS_CODES } from '../common/constants';
 import { logger } from '../lib/logger';
 
 export function attachJoiMiddleware(validationSchema: Joi.ObjectSchema<any>): any {
-  return (req: Request, res: Response, next: NextFunction) => {
+  return function validateUsingJoi(req: Request, res: Response, next: NextFunction) {
     const { body } = req;
 
     const { error } = validationSchema.validate(body);
