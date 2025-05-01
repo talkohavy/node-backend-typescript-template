@@ -1,4 +1,5 @@
 import { timingSafeEqual } from 'node:crypto';
+import { BadRequestError } from '../../lib/Errors';
 import { generateHashedPassword } from './logic/generateHashedPassword';
 import { generateSalt } from './logic/generateSalt';
 import { User, CreateUserDto, UpdateUserDto } from './types';
@@ -24,7 +25,7 @@ export class UsersService {
     const { email, password: rawPassword, name, age } = userData;
 
     const existingUser = database.find((user) => user.email === email);
-    if (existingUser) throw new Error('User with this email already exists');
+    if (existingUser) throw new BadRequestError('User with this email already exists');
 
     const salt = generateSalt();
     const hashedPassword = await generateHashedPassword({ rawPassword, salt });

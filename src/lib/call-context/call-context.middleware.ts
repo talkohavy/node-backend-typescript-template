@@ -1,6 +1,7 @@
 import { Application, NextFunction, Request, Response } from 'express';
 import { HEADERS } from '../../common/constants';
 import { ConfigService } from '../config/config.service';
+import { BadRequestError } from '../Errors';
 import { CallContextService } from './call-context.service';
 import { CONTEXT_KEYS } from './logic/constants';
 
@@ -21,7 +22,7 @@ export class CallContextMiddleware {
       this.callContextService.register();
       const requestId = req.headers[HEADERS.RequestId] as string;
 
-      if (!requestId && req.url !== '/sse') throw new Error(`Missing ${CONTEXT_KEYS.RequestId} header`);
+      if (!requestId && req.url !== '/sse') throw new BadRequestError(`Missing ${CONTEXT_KEYS.RequestId} header`);
 
       this.callContextService.set(CONTEXT_KEYS.RequestId, requestId);
       this.callContextService.set(CONTEXT_KEYS.Method, method);
