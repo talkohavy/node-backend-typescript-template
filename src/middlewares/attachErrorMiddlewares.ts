@@ -40,5 +40,10 @@ function globalErrorMiddleware(error: any, _req: Request, res: Response, _next: 
 
   // if (condition) logger.error(error.message); // <--- store the error if <condition>...
 
+  if (error.isCustomError) {
+    res.status(error.statusCode).json({ message: error.message });
+    return;
+  }
+
   res.status(STATUS_CODES.INTERNAL_ERROR).json(data);
 }
