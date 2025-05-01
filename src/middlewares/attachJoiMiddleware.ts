@@ -9,9 +9,10 @@ export function attachJoiMiddleware(validationSchema: Joi.ObjectSchema<any>): an
 
     const { error } = validationSchema.validate(body);
 
-    logger.log('Validation error', error);
-
-    if (error) return res.status(STATUS_CODES.BAD_REQUEST).json({ message: error.message });
+    if (error) {
+      logger.log('Validation error', error);
+      return res.status(STATUS_CODES.BAD_REQUEST).json({ message: error.message });
+    }
 
     next();
   };
