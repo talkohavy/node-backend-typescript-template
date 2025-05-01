@@ -1,4 +1,4 @@
-Prefer async/await syntax over .then()/.cacth()
+Prefer async/await syntax over .then()/.catch()
 
 Prefer using the `function` keyword to define functions rather than using arrow functions or `const` function expressions.
 
