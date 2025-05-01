@@ -1,5 +1,6 @@
 import { Application } from 'express';
 import { STATUS_CODES } from '../../common/constants';
+import { NotFoundError, UnauthorizedError } from '../../lib/Errors';
 import { logger } from '../../lib/logger';
 import { attachJoiMiddleware } from '../../middlewares/attachJoiMiddleware';
 import { sanitizeUser, sanitizeUsers } from './logic/sanitizeUser';
@@ -24,7 +25,7 @@ export class UsersController {
 
       const sanitizedUsers = sanitizeUsers(users);
 
-      res.status(STATUS_CODES.OK).json(sanitizedUsers);
+      res.json(sanitizedUsers);
     });
   }
 
@@ -39,12 +40,12 @@ export class UsersController {
       if (!user) {
         logger.error('User not found', userId);
 
-        return res.status(STATUS_CODES.NOT_FOUND).json({ message: 'User not found' });
+        throw new NotFoundError('User not found');
       }
 
       const sanitizedUser = sanitizeUser(user);
 
-      res.status(STATUS_CODES.OK).json(sanitizedUser);
+      res.json(sanitizedUser);
     });
   }
 
@@ -75,12 +76,12 @@ export class UsersController {
       if (!updatedUser) {
         logger.error('User not found', userId);
 
-        return res.status(STATUS_CODES.NOT_FOUND).json({ message: 'User not found' });
+        throw new NotFoundError('User not found');
       }
 
       const sanitizedUpdatedUser = sanitizeUser(updatedUser);
 
-      res.status(STATUS_CODES.OK).json(sanitizedUpdatedUser);
+      res.json(sanitizedUpdatedUser);
     });
   }
 
@@ -94,10 +95,10 @@ export class UsersController {
       if (!deletedUser) {
         logger.error('User not found', userId);
 
-        return res.status(STATUS_CODES.NOT_FOUND).json({ message: 'User not found' });
+        throw new NotFoundError('User not found');
       }
 
-      res.status(STATUS_CODES.OK).json({ message: 'User deleted successfully' });
+      res.json({ message: 'User deleted successfully' });
     });
   }
 
@@ -111,14 +112,15 @@ export class UsersController {
 
       if (!user) {
         logger.error('Login failed for email', email);
-        return res.status(STATUS_CODES.UNAUTHORIZED).json({ message: 'Invalid credentials' });
+
+        throw new UnauthorizedError('Invalid credentials');
       }
 
       await sendAuthCookies({ res, user });
 
       const sanitizedUser = sanitizeUser(user);
 
-      res.status(STATUS_CODES.OK).json(sanitizedUser);
+      res.json(sanitizedUser);
     });
   }
 
