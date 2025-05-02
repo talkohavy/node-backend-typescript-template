@@ -17,8 +17,8 @@ export class BadRequestError extends HttpException {
   constructor(message?: string, options?: BadRequestErrorOptions) {
     const { statusCode, shouldReport } = options ?? {};
 
-    if (statusCode && statusCode >= 400 && statusCode <= 499) {
-      throw new Error('statusCode of BadRequestError must be between 400 and 499');
+    if (statusCode && !(statusCode >= 400 && statusCode <= 499)) {
+      throw new Error(`statusCode of BadRequestError must be in range 400-499. Received: ${statusCode}`);
     }
 
     super({
