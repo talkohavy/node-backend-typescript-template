@@ -13,7 +13,7 @@ export class ForbiddenError extends HttpException {
     const { shouldReport } = options ?? {};
 
     super({
-      name: 'ForbiddenError',
+      name: ForbiddenError.name,
       message: message ?? 'Forbidden',
       statusCode: STATUS_CODES.FORBIDDEN,
       shouldReport,

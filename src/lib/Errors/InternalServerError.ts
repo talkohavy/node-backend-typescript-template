@@ -13,7 +13,7 @@ export class InternalServerError extends HttpException {
     const { shouldReport } = options ?? {};
 
     super({
-      name: 'InternalServerError',
+      name: InternalServerError.name,
       message: message ?? 'Internal Server Error',
       statusCode: STATUS_CODES.INTERNAL_ERROR,
       shouldReport,

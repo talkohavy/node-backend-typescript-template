@@ -22,7 +22,7 @@ export class HttpException extends BaseError {
   constructor(props: HttpExceptionConstructorProps) {
     const { name, message, statusCode, shouldReport = false } = props;
 
-    super({ name: name ?? 'HttpException', message });
+    super({ name: name ?? HttpException.name, message });
 
     this.statusCode = statusCode ?? STATUS_CODES.INTERNAL_ERROR;
     this.shouldReport = shouldReport;

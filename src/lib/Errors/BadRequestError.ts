@@ -22,7 +22,7 @@ export class BadRequestError extends HttpException {
     }
 
     super({
-      name: 'BadRequestError',
+      name: BadRequestError.name,
       message: message ?? 'Bad Request',
       statusCode: statusCode ?? STATUS_CODES.BAD_REQUEST,
       shouldReport,

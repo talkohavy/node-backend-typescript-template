@@ -13,7 +13,7 @@ export class NotFoundError extends HttpException {
     const { shouldReport } = options ?? {};
 
     super({
-      name: 'NotFoundError',
+      name: NotFoundError.name,
       message: message ?? 'Not Found',
       statusCode: STATUS_CODES.NOT_FOUND,
       shouldReport,

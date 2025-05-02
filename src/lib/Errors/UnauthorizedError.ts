@@ -13,7 +13,7 @@ export class UnauthorizedError extends HttpException {
     const { shouldReport } = options ?? {};
 
     super({
-      name: 'UnauthorizedError',
+      name: UnauthorizedError.name,
       message: message ?? 'Unauthorized',
       statusCode: STATUS_CODES.UNAUTHORIZED,
       shouldReport,
