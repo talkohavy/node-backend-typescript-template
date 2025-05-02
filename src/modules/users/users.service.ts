@@ -1,7 +1,7 @@
 import { timingSafeEqual } from 'node:crypto';
-import { BadRequestError } from '../../lib/Errors';
 import { generateHashedPassword } from './logic/generateHashedPassword';
 import { generateSalt } from './logic/generateSalt';
+import { UserAlreadyExistsError, UserNotFoundError, WrongPasswordError } from './logic/users.errors';
 import { User, CreateUserDto, UpdateUserDto } from './types';
 
 const database: Array<User> = [];
@@ -13,19 +13,19 @@ export class UsersService {
     return database;
   }
 
-  async getUserById(userId: string): Promise<User | null> {
+  async getUserById(userId: string): Promise<User> {
     const user = database.find((user) => user.id === parseInt(userId));
 
-    if (!user) return null;
+    if (!user) throw new UserNotFoundError(userId);
 
     return user;
   }
 
-  async createUser(userData: CreateUserDto) {
+  async createUser(userData: CreateUserDto): Promise<User> {
     const { email, password: rawPassword, name, age } = userData;
 
     const existingUser = database.find((user) => user.email === email);
-    if (existingUser) throw new BadRequestError('User with this email already exists');
+    if (existingUser) throw new UserAlreadyExistsError(email);
 
     const salt = generateSalt();
     const hashedPassword = await generateHashedPassword({ rawPassword, salt });
@@ -43,23 +43,23 @@ export class UsersService {
     return createdUser;
   }
 
-  async login(email: string, password: string): Promise<User | null> {
+  async login(email: string, password: string): Promise<User> {
     const user = database.find((user) => user.email === email);
 
-    if (!user) return null;
+    if (!user) throw new UserNotFoundError(email);
 
     const isPasswordValid = await this.getIsPasswordValid(user, password);
 
-    if (isPasswordValid) return user;
+    if (!isPasswordValid) throw new WrongPasswordError();
 
-    return null;
+    return user;
   }
 
-  async updateUser(userId: string, user: UpdateUserDto): Promise<User | null> {
+  async updateUser(userId: string, user: UpdateUserDto): Promise<User> {
     const parsedId = parseInt(userId);
     const userIndex = database.findIndex((user) => user.id === parsedId);
 
-    if (userIndex === -1) return null;
+    if (userIndex === -1) throw new UserNotFoundError(userId);
 
     const updatedUser = { ...database[userIndex], ...user } as User;
     database[userIndex] = updatedUser;
@@ -67,11 +67,11 @@ export class UsersService {
     return updatedUser;
   }
 
-  async deleteUser(userId: string) {
+  async deleteUser(userId: string): Promise<Record<string, never>> {
     const parsedId = parseInt(userId);
     const userIndex = database.findIndex((user) => user.id === parsedId);
 
-    if (userIndex === -1) return null;
+    if (userIndex === -1) throw new UserNotFoundError(userId);
 
     database.splice(userIndex, 1);
 

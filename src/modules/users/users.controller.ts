@@ -1,10 +1,11 @@
 import { Application } from 'express';
 import { STATUS_CODES } from '../../common/constants';
-import { NotFoundError, UnauthorizedError } from '../../lib/Errors';
+import { BadRequestError, NotFoundError, UnauthorizedError } from '../../lib/Errors';
 import { logger } from '../../lib/logger';
 import { attachJoiMiddleware } from '../../middlewares/attachJoiMiddleware';
 import { sanitizeUser, sanitizeUsers } from './logic/sanitizeUser';
 import { sendAuthCookies } from './logic/sendAuthCookies';
+import { UserAlreadyExistsError, UserNotFoundError } from './logic/users.errors';
 import { createUserSchema, loginUserSchema, updateUserSchema } from './users.dto';
 import { UsersService } from './users.service';
 
@@ -30,97 +31,111 @@ export class UsersController {
   }
 
   getUserById() {
-    this.app.get('/users/:id', async (req, res): Promise<any> => {
-      logger.info('GET /users/:id - fetching user by ID');
+    try {
+      this.app.get('/users/:id', async (req, res) => {
+        logger.info('GET /users/:id - fetching user by ID');
 
-      const userId = req.params.id;
+        const userId = req.params.id;
 
-      const user = await this.usersService.getUserById(userId);
+        const user = await this.usersService.getUserById(userId);
 
-      if (!user) {
-        logger.error('User not found', userId);
+        const sanitizedUser = sanitizeUser(user);
 
-        throw new NotFoundError('User not found');
+        res.json(sanitizedUser);
+      });
+    } catch (error) {
+      if (error instanceof UserNotFoundError) {
+        throw new NotFoundError(error.message);
       }
 
-      const sanitizedUser = sanitizeUser(user);
-
-      res.json(sanitizedUser);
-    });
+      throw error;
+    }
   }
 
   createUser() {
     this.app.post('/users', attachJoiMiddleware(createUserSchema), async (req, res) => {
-      logger.info('POST /users - creating new user');
+      try {
+        logger.info('POST /users - creating new user');
 
-      const { body } = req;
+        const { body } = req;
 
-      const createdUser = await this.usersService.createUser(body);
+        const createdUser = await this.usersService.createUser(body);
 
-      await sendAuthCookies({ res, user: createdUser });
+        await sendAuthCookies({ res, user: createdUser });
 
-      const sanitizedCreatedUser = sanitizeUser(createdUser);
+        const sanitizedCreatedUser = sanitizeUser(createdUser);
 
-      res.status(STATUS_CODES.CREATED).json(sanitizedCreatedUser);
+        res.status(STATUS_CODES.CREATED).json(sanitizedCreatedUser);
+      } catch (error) {
+        if (error instanceof UserAlreadyExistsError) {
+          throw new BadRequestError(error.message, { statusCode: STATUS_CODES.CONFLICT });
+        }
+
+        throw error;
+      }
     });
   }
 
   updateUser() {
-    this.app.patch('/users/:id', attachJoiMiddleware(updateUserSchema), async (req, res): Promise<any> => {
-      logger.info('PUT /users/:id - updating user by ID');
+    try {
+      this.app.patch('/users/:id', attachJoiMiddleware(updateUserSchema), async (req, res) => {
+        logger.info('PUT /users/:id - updating user by ID');
 
-      const userId = req.params.id;
-      const user = req.body;
-      const updatedUser = await this.usersService.updateUser(userId, user);
+        const userId = req.params.id;
+        const user = req.body;
+        const updatedUser = await this.usersService.updateUser(userId, user);
 
-      if (!updatedUser) {
-        logger.error('User not found', userId);
+        const sanitizedUpdatedUser = sanitizeUser(updatedUser);
 
-        throw new NotFoundError('User not found');
+        res.json(sanitizedUpdatedUser);
+      });
+    } catch (error: any) {
+      if (error instanceof UserNotFoundError) {
+        throw new NotFoundError(error.message);
       }
 
-      const sanitizedUpdatedUser = sanitizeUser(updatedUser);
-
-      res.json(sanitizedUpdatedUser);
-    });
+      throw error;
+    }
   }
 
   deleteUser() {
-    this.app.delete('/users/:id', async (req, res): Promise<any> => {
-      logger.info('DELETE /users/:id - deleting user by ID');
+    this.app.delete('/users/:id', async (req, res) => {
+      try {
+        logger.info('DELETE /users/:id - deleting user by ID');
 
-      const userId = req.params.id;
-      const deletedUser = await this.usersService.deleteUser(userId);
+        const userId = req.params.id;
+        await this.usersService.deleteUser(userId);
 
-      if (!deletedUser) {
-        logger.error('User not found', userId);
+        res.json({ message: 'User deleted successfully' });
+      } catch (error) {
+        if (error instanceof UserNotFoundError) {
+          throw new NotFoundError(error.message);
+        }
 
-        throw new NotFoundError('User not found');
+        throw error;
       }
-
-      res.json({ message: 'User deleted successfully' });
     });
   }
 
   login() {
-    this.app.post('/users/login', attachJoiMiddleware(loginUserSchema), async (req, res): Promise<any> => {
-      logger.info('POST /users/login - user login');
+    this.app.post('/users/login', attachJoiMiddleware(loginUserSchema), async (req, res) => {
+      try {
+        logger.info('POST /users/login - user login');
 
-      const { email, password } = req.body;
+        const { email, password } = req.body;
 
-      const user = await this.usersService.login(email, password);
+        const user = await this.usersService.login(email, password);
 
-      if (!user) {
-        logger.error('Login failed for email', email);
+        await sendAuthCookies({ res, user });
+
+        const sanitizedUser = sanitizeUser(user);
+
+        res.json(sanitizedUser);
+      } catch (error) {
+        logger.error('Login failed for email', { error });
 
         throw new UnauthorizedError('Invalid credentials');
       }
-
-      await sendAuthCookies({ res, user });
-
-      const sanitizedUser = sanitizeUser(user);
-
-      res.json(sanitizedUser);
     });
   }
 
