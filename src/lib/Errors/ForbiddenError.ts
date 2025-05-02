@@ -1,15 +1,21 @@
 import { STATUS_CODES } from '../../common/constants';
-import { BaseError } from './BaseError';
-import { CustomErrorOptions } from './types';
+import { HttpException } from './HttpException';
 
-export class ForbiddenError extends BaseError {
-  constructor(message?: string, options?: CustomErrorOptions) {
-    const { statusCode, shouldReport } = options ?? {};
+type ForbiddenErrorOptions = {
+  /**
+   * @default false
+   */
+  shouldReport?: boolean;
+};
+
+export class ForbiddenError extends HttpException {
+  constructor(message?: string, options?: ForbiddenErrorOptions) {
+    const { shouldReport } = options ?? {};
 
     super({
       name: 'ForbiddenError',
       message: message ?? 'Forbidden',
-      statusCode: statusCode ?? STATUS_CODES.FORBIDDEN,
+      statusCode: STATUS_CODES.FORBIDDEN,
       shouldReport,
     });
   }

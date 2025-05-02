@@ -1,15 +1,21 @@
 import { STATUS_CODES } from '../../common/constants';
-import { BaseError } from './BaseError';
-import { CustomErrorOptions } from './types';
+import { HttpException } from './HttpException';
 
-export class NotFoundError extends BaseError {
-  constructor(message?: string, options?: CustomErrorOptions) {
-    const { statusCode, shouldReport } = options ?? {};
+type NotFoundErrorOptions = {
+  /**
+   * @default false
+   */
+  shouldReport?: boolean;
+};
+
+export class NotFoundError extends HttpException {
+  constructor(message?: string, options?: NotFoundErrorOptions) {
+    const { shouldReport } = options ?? {};
 
     super({
       name: 'NotFoundError',
       message: message ?? 'Not Found',
-      statusCode: statusCode ?? STATUS_CODES.NOT_FOUND,
+      statusCode: STATUS_CODES.NOT_FOUND,
       shouldReport,
     });
   }

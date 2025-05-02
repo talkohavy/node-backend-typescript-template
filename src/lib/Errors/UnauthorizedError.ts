@@ -1,15 +1,21 @@
 import { STATUS_CODES } from '../../common/constants';
-import { BaseError } from './BaseError';
-import { CustomErrorOptions } from './types';
+import { HttpException } from './HttpException';
 
-export class UnauthorizedError extends BaseError {
-  constructor(message?: string, options?: CustomErrorOptions) {
-    const { statusCode, shouldReport } = options ?? {};
+type UnauthorizedErrorOptions = {
+  /**
+   * @default false
+   */
+  shouldReport?: boolean;
+};
+
+export class UnauthorizedError extends HttpException {
+  constructor(message?: string, options?: UnauthorizedErrorOptions) {
+    const { shouldReport } = options ?? {};
 
     super({
       name: 'UnauthorizedError',
       message: message ?? 'Unauthorized',
-      statusCode: statusCode ?? STATUS_CODES.UNAUTHORIZED,
+      statusCode: STATUS_CODES.UNAUTHORIZED,
       shouldReport,
     });
   }
