@@ -32,17 +32,16 @@ function pathNotFoundMiddleware(req: Request, _res: Response, next: any) {
 }
 
 function globalErrorMiddleware(error: any, _req: Request, res: Response, _next: any) {
-  const data = error.message;
   console.error('▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼');
   console.error(error);
   console.error('▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲');
 
   // if (condition) logger.error(error.message); // <--- store the error if <condition>...
 
-  if (error.isCustomError) {
-    res.status(error.statusCode).json({ message: error.message });
-    return;
-  }
+  const data = {
+    statusCode: error.isCustomError ? error.statusCode : STATUS_CODES.INTERNAL_ERROR,
+    message: error.message,
+  };
 
-  res.status(STATUS_CODES.INTERNAL_ERROR).json(data);
+  res.status(data.statusCode).json(data);
 }
