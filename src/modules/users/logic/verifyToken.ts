@@ -6,7 +6,9 @@ type VerifyTokenParams = {
   issuer: string;
 };
 
-export function verifyToken({ token, secret, issuer }: VerifyTokenParams): Promise<any> {
+export function verifyToken(props: VerifyTokenParams): Promise<any> {
+  const { token, secret, issuer } = props;
+
   const options: VerifyOptions = { issuer };
 
   return new Promise((resolve, reject) => {
