@@ -1,5 +1,4 @@
 import { Application, Request, Response } from 'express';
-import { COLORS } from '../common/colors';
 import { STATUS_CODES } from '../common/constants';
 
 type AttachErrorMiddlewaresProps = {
@@ -34,9 +33,9 @@ function pathNotFoundMiddleware(req: Request, _res: Response, next: any) {
 
 function globalErrorMiddleware(error: any, _req: Request, res: Response, _next: any) {
   const data = error.message;
-  console.error(COLORS.red, '▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼', COLORS.stop);
+  console.error('▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼');
   console.error(error);
-  console.error(COLORS.red, '▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲', COLORS.stop);
+  console.error('▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲');
 
   // if (condition) logger.error(error.message); // <--- store the error if <condition>...
 
