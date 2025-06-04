@@ -6,9 +6,9 @@ import { BooksService } from './books.service';
 export function attachBooksModule(app: Application) {
   const service = new BooksService();
   const controller = new BooksController(app, service);
-  const middleware = new BooksMiddleware();
+  const middleware = new BooksMiddleware(app);
 
-  middleware.use(app);
+  middleware.use();
 
   controller.attachRoutes();
 }
