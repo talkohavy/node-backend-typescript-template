@@ -9,10 +9,12 @@ export const STATUS_CODES = {
   INTERNAL_ERROR: 500,
 };
 
-export enum EnvOptions {
-  Prod = 'prod',
-  Dev = 'dev',
-}
+export const Environment = {
+  Prod: 'prod',
+  Dev: 'dev',
+} as const;
+
+export type EnvironmentValues = (typeof Environment)[keyof typeof Environment];
 
 export const HEADERS = {
   RequestId: 'x-request-id',

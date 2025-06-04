@@ -2,7 +2,7 @@ import compression from 'compression';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import express, { Application } from 'express';
-import { EnvOptions } from '../common/constants';
+import { Environment } from '../common/constants';
 import { handleCors } from '../common/utils/handleCors';
 import { attachHelmetMiddleware } from './attachHelmetMiddleware';
 
@@ -47,7 +47,7 @@ export function attachBaseMiddlewares(props: AttachBaseMiddlewaresProps) {
 
   app.use(
     cors({
-      origin: handleCors(EnvOptions.Dev),
+      origin: handleCors(Environment.Dev),
       methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'],
       credentials: true, // <--- Important! You'll get CORS Error without it.
     }),
