@@ -6,9 +6,9 @@ import { UsersService } from './users.service';
 export function attachUsersModule(app: Application) {
   const service = new UsersService();
   const controller = new UsersController(app, service);
-  const middleware = new UsersMiddleware();
+  const middleware = new UsersMiddleware(app);
 
-  middleware.use(app);
+  middleware.use();
 
   controller.attachRoutes();
 }
