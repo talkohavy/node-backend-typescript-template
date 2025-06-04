@@ -1,4 +1,4 @@
-import { Application } from 'express';
+import { Application, Request } from 'express';
 import { STATUS_CODES } from '../../common/constants';
 import { BadRequestError, NotFoundError, UnauthorizedError } from '../../lib/Errors';
 import { logger } from '../../lib/logger';
@@ -7,6 +7,7 @@ import { sanitizeUser, sanitizeUsers } from './logic/sanitizeUser';
 import { sendAuthCookies } from './logic/sendAuthCookies';
 import { UserAlreadyExistsError, UserNotFoundError } from './logic/users.errors';
 import { createUserSchema, loginUserSchema, updateUserSchema } from './users.dto';
+import { UsersMiddleware } from './users.middleware';
 import { UsersService } from './users.service';
 
 export class UsersController {
@@ -117,6 +118,16 @@ export class UsersController {
     });
   }
 
+  protectedRoute() {
+    this.app.post('/users/protected', new UsersMiddleware().authenticate, async (req: Request, res) => {
+      logger.info('POST /users/protected - accessing protected route');
+
+      logger.info('User data attached', { user: req.user });
+
+      res.json(req.body);
+    });
+  }
+
   login() {
     this.app.post('/users/login', attachJoiMiddleware(loginUserSchema), async (req, res) => {
       try {
@@ -146,5 +157,6 @@ export class UsersController {
     this.updateUser();
     this.deleteUser();
     this.login();
+    this.protectedRoute();
   }
 }
