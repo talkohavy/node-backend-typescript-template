@@ -1,7 +1,7 @@
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
-import express, { type Express } from 'express';
+import express, { Application } from 'express';
 import { EnvOptions } from '../common/constants';
 import { handleCors } from '../common/utils/handleCors';
 import { attachHelmetMiddleware } from './attachHelmetMiddleware';
@@ -9,7 +9,7 @@ import { attachHelmetMiddleware } from './attachHelmetMiddleware';
 const EXCLUDED_PATHS = ['/health-check'];
 
 type AttachBaseMiddlewaresProps = {
-  app: Express;
+  app: Application;
   bodySizeLimit?: string;
 };
 

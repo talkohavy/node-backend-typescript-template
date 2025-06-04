@@ -1,4 +1,4 @@
-import type { Express } from 'express';
+import type { Application } from 'express';
 import {
   contentSecurityPolicy,
   crossOriginEmbedderPolicy,
@@ -16,7 +16,7 @@ import {
 } from 'helmet';
 
 type AttachHelmetMiddlewareProps = {
-  app: Express;
+  app: Application;
 };
 
 export function attachHelmetMiddleware(props: AttachHelmetMiddlewareProps) {
