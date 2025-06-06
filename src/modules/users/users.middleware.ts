@@ -12,8 +12,8 @@ export class UsersMiddleware {
     this.app = app;
   }
 
-  public use(): void {
-    this.app.use('/users', (_req: Request, _res: Response, next: NextFunction): void => {
+  public use() {
+    this.app.use('/users', (_req: Request, _res: Response, next: NextFunction) => {
       console.log('Users middleware');
 
       next();

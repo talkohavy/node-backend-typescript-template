@@ -7,8 +7,8 @@ export class BooksMiddleware {
     this.app = app;
   }
 
-  public use(): void {
-    this.app.use('/books', (_req: Request, _res: Response, next: NextFunction): void => {
+  public use() {
+    this.app.use('/books', (_req: Request, _res: Response, next: NextFunction) => {
       console.log('Books middleware');
 
       next();

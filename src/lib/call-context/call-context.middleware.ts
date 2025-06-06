@@ -11,8 +11,8 @@ export class CallContextMiddleware {
     private readonly configService: ConfigService,
   ) {}
 
-  public use(app: Application, excludedPaths: Array<string> = []): void {
-    app.use((req: Request, res: Response, next: NextFunction): void => {
+  public use(app: Application, excludedPaths: Array<string> = []) {
+    app.use((req: Request, res: Response, next: NextFunction) => {
       if (excludedPaths.includes(req.path)) return void next();
 
       if (req.originalUrl.includes('favicon.ico')) return void res.status(204).end();

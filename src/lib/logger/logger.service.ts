@@ -23,7 +23,7 @@ export class LoggerService {
     this.domain = SERVICE_NAME;
   }
 
-  debug(message: string, data?: any): void {
+  debug(message: string, data?: any) {
     if (!this.shouldLog(LogLevel.DEBUG)) return;
 
     const logMetadata = this.enrichLogMetadata(message, data, LogLevel.DEBUG);
@@ -32,7 +32,7 @@ export class LoggerService {
     console.log('\n', colorMyJson(logMetadata));
   }
 
-  log(message: string, data?: any): void {
+  log(message: string, data?: any) {
     if (!this.shouldLog(LogLevel.INFO)) return;
 
     const logMetadata = this.enrichLogMetadata(message, data, LogLevel.INFO);
@@ -41,7 +41,7 @@ export class LoggerService {
     console.log('\n', colorMyJson(logMetadata));
   }
 
-  info(message: string, data?: any): void {
+  info(message: string, data?: any) {
     if (!this.shouldLog(LogLevel.INFO)) return;
 
     const logMetadata = this.enrichLogMetadata(message, data, LogLevel.INFO);
@@ -50,7 +50,7 @@ export class LoggerService {
     console.log(colorMyJson(logMetadata));
   }
 
-  warn(message: string, data?: any): void {
+  warn(message: string, data?: any) {
     if (!this.shouldLog(LogLevel.WARN)) return;
 
     const logMetadata = this.enrichLogMetadata(message, data, LogLevel.WARN);
@@ -59,7 +59,7 @@ export class LoggerService {
     console.log('\n', colorMyJson(logMetadata));
   }
 
-  error(message: string, data?: any): void {
+  error(message: string, data?: any) {
     // No need to call shouldLog. ALWAYS print if error and above!
 
     const logMetadata = this.enrichLogMetadata(message, data, LogLevel.ERROR);
@@ -68,7 +68,7 @@ export class LoggerService {
     console.log('\n', colorMyJson(logMetadata));
   }
 
-  fatal(message: string, data?: any): void {
+  fatal(message: string, data?: any) {
     // No need to call shouldLog. ALWAYS print if error and above!
 
     const logMetadata = this.enrichLogMetadata(message, data, LogLevel.FATAL);
