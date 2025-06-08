@@ -1,7 +1,7 @@
 import { Application } from 'express';
 import { STATUS_CODES } from '../../common/constants';
 import { logger } from '../../lib/logger/logger.service';
-import { attachJoiMiddleware } from '../../middlewares/attachJoiMiddleware';
+import { joiBodyMiddleware } from '../../middlewares/joiBodyMiddleware';
 import { createBookSchema } from './books.dto';
 import { BooksService } from './books.service';
 
@@ -43,7 +43,7 @@ export class BooksController {
   }
 
   createBook() {
-    this.app.post('/books', attachJoiMiddleware(createBookSchema), async (req, res) => {
+    this.app.post('/books', joiBodyMiddleware(createBookSchema), async (req, res) => {
       logger.info('POST /books - creating new book');
 
       const { body } = req;

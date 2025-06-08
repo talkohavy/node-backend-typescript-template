@@ -3,11 +3,11 @@ import Joi from 'joi';
 import { BadRequestError } from '../lib/Errors';
 import { logger } from '../lib/logger';
 
-export function attachJoiMiddleware(validationSchema: Joi.ObjectSchema<any>): any {
+export function joiQueryMiddleware(validationSchema: Joi.ObjectSchema<any>): any {
   return function validateUsingJoi(req: Request, _res: Response, next: NextFunction) {
-    const { body } = req;
+    const { query } = req;
 
-    const { error } = validationSchema.validate(body);
+    const { error } = validationSchema.validate(query);
 
     if (error) {
       logger.log('Validation error', error);

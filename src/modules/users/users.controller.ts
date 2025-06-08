@@ -2,7 +2,7 @@ import { Application, Request } from 'express';
 import { STATUS_CODES } from '../../common/constants';
 import { BadRequestError, NotFoundError, UnauthorizedError } from '../../lib/Errors';
 import { logger } from '../../lib/logger';
-import { attachJoiMiddleware } from '../../middlewares/attachJoiMiddleware';
+import { joiBodyMiddleware } from '../../middlewares/joiBodyMiddleware';
 import { sanitizeUser, sanitizeUsers } from './logic/sanitizeUser';
 import { sendAuthCookies } from './logic/sendAuthCookies';
 import { UserAlreadyExistsError, UserNotFoundError } from './logic/users.errors';
@@ -54,7 +54,7 @@ export class UsersController {
   }
 
   createUser() {
-    this.app.post('/users', attachJoiMiddleware(createUserSchema), async (req, res) => {
+    this.app.post('/users', joiBodyMiddleware(createUserSchema), async (req, res) => {
       try {
         logger.info('POST /users - creating new user');
 
@@ -79,7 +79,7 @@ export class UsersController {
 
   updateUser() {
     try {
-      this.app.patch('/users/:id', attachJoiMiddleware(updateUserSchema), async (req, res) => {
+      this.app.patch('/users/:id', joiBodyMiddleware(updateUserSchema), async (req, res) => {
         logger.info('PUT /users/:id - updating user by ID');
 
         const userId = req.params.id;
@@ -129,7 +129,7 @@ export class UsersController {
   }
 
   login() {
-    this.app.post('/users/login', attachJoiMiddleware(loginUserSchema), async (req, res) => {
+    this.app.post('/users/login', joiBodyMiddleware(loginUserSchema), async (req, res) => {
       try {
         logger.info('POST /users/login - user login');
 
