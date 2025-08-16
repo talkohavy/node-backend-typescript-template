@@ -1,18 +1,20 @@
 import { timingSafeEqual } from 'node:crypto';
-import { UsersRepository } from '../repositories/users.repository';
+import { generateHashedPassword } from '../logic/generateHashedPassword';
+import { generateSalt } from '../logic/generateSalt';
+import { UserAlreadyExistsError, UserNotFoundError, WrongPasswordError } from '../logic/users.errors';
+import { IUsersRepository } from '../repositories/interfaces/users.repository.base';
 import { DatabaseUser } from '../types';
-
-const database: Array<DatabaseUser> = [];
+import { CreateUserDto, UpdateUserDto } from './interfaces/users.service.interface';
 
 export class UsersService {
-  constructor(private readonly usersRepository: UsersRepository) {}
+  constructor(private readonly usersRepository: IUsersRepository) {}
 
   async getUsers(): Promise<Array<DatabaseUser>> {
-    return database;
+    return this.usersRepository.getUsers();
   }
 
   async getUserById(userId: string): Promise<DatabaseUser> {
-    const user = database.find((user) => user.id === parseInt(userId));
+    const user = await this.usersRepository.getUserById(userId);
 
     if (!user) throw new UserNotFoundError(userId);
 
@@ -22,27 +24,27 @@ export class UsersService {
   async createUser(userData: CreateUserDto): Promise<DatabaseUser> {
     const { email, password: rawPassword, name, age } = userData;
 
-    const existingUser = database.find((user) => user.email === email);
+    const existingUser = await this.usersRepository.getUserByEmail(email);
+
     if (existingUser) throw new UserAlreadyExistsError(email);
 
     const salt = generateSalt();
     const hashedPassword = await generateHashedPassword({ rawPassword, salt });
 
-    const createdUser: DatabaseUser = {
-      id: database.length + 1,
+    const createdUser: Omit<DatabaseUser, 'id'> = {
       email,
       password: `${salt}:${hashedPassword}`,
       name,
       age,
     };
 
-    database.push(createdUser);
+    const newUser = await this.usersRepository.createUser(createdUser);
 
-    return createdUser;
+    return newUser;
   }
 
   async login(email: string, password: string): Promise<DatabaseUser> {
-    const user = database.find((user) => user.email === email);
+    const user = await this.usersRepository.getUserByEmail(email);
 
     if (!user) throw new UserNotFoundError(email);
 
@@ -54,26 +56,24 @@ export class UsersService {
   }
 
   async updateUser(userId: string, user: UpdateUserDto): Promise<DatabaseUser> {
-    const parsedId = parseInt(userId);
-    const userIndex = database.findIndex((user) => user.id === parsedId);
+    const existingUser = await this.usersRepository.getUserById(userId);
 
-    if (userIndex === -1) throw new UserNotFoundError(userId);
+    if (!existingUser) throw new UserNotFoundError(userId);
 
-    const updatedUser = { ...database[userIndex], ...user } as DatabaseUser;
-    database[userIndex] = updatedUser;
+    const updatedUser = { ...existingUser, ...user } as DatabaseUser;
+
+    await this.usersRepository.updateUserById(userId, updatedUser);
 
     return updatedUser;
   }
 
-  async deleteUser(userId: string): Promise<Record<string, never>> {
-    const parsedId = parseInt(userId);
-    const userIndex = database.findIndex((user) => user.id === parsedId);
-
-    if (userIndex === -1) throw new UserNotFoundError(userId);
-
-    database.splice(userIndex, 1);
-
-    return {};
+  async deleteUser(userId: string): Promise<{ success: boolean }> {
+    try {
+      await this.usersRepository.deleteUserById(userId);
+      return { success: true };
+    } catch {
+      return { success: false };
+    }
   }
 
   /**

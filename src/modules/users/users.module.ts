@@ -3,13 +3,16 @@ import { configService } from '../../lib/config/config.service';
 import { PostgresConnection } from '../../lib/database/postgres.connection';
 import { UsersController } from './controllers/users.controller';
 import { UsersMiddleware } from './middleware/users.middleware';
-import { UsersRepository } from './repositories/users.repository';
+import { IUsersRepository } from './repositories/interfaces/users.repository.base';
+import { UsersPostgresRepository } from './repositories/users.postgres.repository';
 import { UsersService } from './services/users.service';
+// import { MongodbConnection } from '../../lib/database/mongo.connection';
+// import { UsersMongoRepository } from './repositories/users.mongo.repository';
 
 class UsersModule {
   private static instance: UsersModule;
   private usersService!: UsersService;
-  private usersRepository!: UsersRepository;
+  private usersRepository!: IUsersRepository;
 
   private constructor() {
     this.initializeModule();
@@ -23,20 +26,16 @@ class UsersModule {
   }
 
   protected initializeModule(): void {
-    const { connectionString } = configService.get<any>('mongodb');
+    const { connectionString } = configService.get<any>('mongodb'); // 'postgres'
 
     // Initialize repositories
+    // const dbClient = MongodbConnection.getInstance(connectionString, dbName);
+    // this.usersRepository = new UsersMongoRepository(dbClient);
     const dbClient = PostgresConnection.getInstance(connectionString);
-    this.usersRepository = new UsersRepository(dbClient);
+    this.usersRepository = new UsersPostgresRepository(dbClient);
 
-    // // Initialize services
-    // this.usersTransformerService = new UsersTransformerService();
-    // this.fieldScreeningService = new FieldScreeningService(sensitiveFields, nonSensitiveFields);
-
+    // Initialize services
     this.usersService = new UsersService(this.usersRepository);
-    // this.usersRepository,
-    // this.usersTransformerService,
-    // this.fieldScreeningService,
   }
 
   attachController(app: Application): void {
