@@ -6,6 +6,7 @@ import { initConfigService } from './lib/config/config.service';
 import { initLoggerService } from './lib/logger/logger.service';
 import { attachBaseMiddlewares } from './middlewares/attachBaseMiddlewares';
 import { attachErrorMiddlewares } from './middlewares/attachErrorMiddlewares';
+import { getAuthenticationModule } from './modules/authentication/authentication.module';
 import { getBooksModule } from './modules/books/books.module';
 import { attachHealthCheckModule } from './modules/health-check/health-check.module';
 import { getUsersModule } from './modules/users/users.module';
@@ -18,6 +19,7 @@ export async function startServer() {
 
   const usersModule = getUsersModule();
   const booksModule = getBooksModule();
+  const authenticationModule = getAuthenticationModule();
 
   const app = express();
 
@@ -29,6 +31,7 @@ export async function startServer() {
   attachHealthCheckModule(app);
   usersModule.attachController(app);
   booksModule.attachController(app);
+  authenticationModule.attachController(app);
   // attachServerSentEventModule(app);
   // attachTransactionsModule(app);
 

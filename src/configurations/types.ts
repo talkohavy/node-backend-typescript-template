@@ -15,9 +15,15 @@ export type JwtConfig = {
   issuer: string;
 };
 
-export type CookieNamesConfig = {
-  accessTokenCookieName: string;
-  refreshTokenCookieName: string;
+type SingleCookie = {
+  name: string;
+  domain: string;
+  maxAge: number;
+};
+
+export type CookiesConfig = {
+  accessCookie: SingleCookie;
+  refreshCookie: SingleCookie;
 };
 
 export type LoggerSettingsConfig = {
@@ -34,7 +40,7 @@ export type Config = {
   isDev: boolean;
   isCI: boolean;
   authCookie: AuthCookieConfig;
-  cookieNames: CookieNamesConfig;
+  cookies: CookiesConfig;
   jwt: JwtConfig;
   logSettings: LoggerSettingsConfig;
   database: DatabaseConfig;

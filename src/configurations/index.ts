@@ -15,9 +15,17 @@ export function configuration(): Config {
       refreshExpireTime: '1d',
       issuer: 'luckylove',
     },
-    cookieNames: {
-      accessTokenCookieName: 'access_token',
-      refreshTokenCookieName: 'refresh_token',
+    cookies: {
+      accessCookie: {
+        name: 'access_token',
+        domain: process.env.DOMAIN || 'localhost',
+        maxAge: 60 * 60 * 1000, // 1 hour
+      },
+      refreshCookie: {
+        name: 'refresh_token',
+        domain: process.env.DOMAIN || 'localhost',
+        maxAge: 24 * 60 * 60 * 1000, // 1 day
+      },
     },
     logSettings: {
       logLevel: 'info',
