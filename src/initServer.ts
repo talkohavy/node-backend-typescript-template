@@ -8,7 +8,7 @@ import { attachBaseMiddlewares } from './middlewares/attachBaseMiddlewares';
 import { attachErrorMiddlewares } from './middlewares/attachErrorMiddlewares';
 import { getBooksModule } from './modules/books/books.module';
 import { attachHealthCheckModule } from './modules/health-check/health-check.module';
-import { attachUsersModule } from './modules/users/users.module';
+import { getUsersModule } from './modules/users/users.module';
 
 export async function startServer() {
   const configService = initConfigService(configuration());
@@ -16,6 +16,7 @@ export async function startServer() {
   const logger = initLoggerService(configService, callContextService);
   const callContextMiddleware = new CallContextMiddleware(callContextService, configService);
 
+  const usersModule = getUsersModule();
   const booksModule = getBooksModule();
 
   const app = express();
@@ -26,7 +27,7 @@ export async function startServer() {
   callContextMiddleware.use(app, ['/health-check']);
 
   attachHealthCheckModule(app);
-  attachUsersModule(app);
+  usersModule.attachController(app);
   booksModule.attachController(app);
   // attachServerSentEventModule(app);
   // attachTransactionsModule(app);

@@ -1,19 +1,17 @@
 import { timingSafeEqual } from 'node:crypto';
-import { generateHashedPassword } from './logic/generateHashedPassword';
-import { generateSalt } from './logic/generateSalt';
-import { UserAlreadyExistsError, UserNotFoundError, WrongPasswordError } from './logic/users.errors';
-import { User, CreateUserDto, UpdateUserDto } from './types';
+import { UsersRepository } from '../repositories/users.repository';
+import { DatabaseUser } from '../types';
 
-const database: Array<User> = [];
+const database: Array<DatabaseUser> = [];
 
 export class UsersService {
-  constructor() {}
+  constructor(private readonly usersRepository: UsersRepository) {}
 
-  async getUsers(): Promise<Array<User>> {
+  async getUsers(): Promise<Array<DatabaseUser>> {
     return database;
   }
 
-  async getUserById(userId: string): Promise<User> {
+  async getUserById(userId: string): Promise<DatabaseUser> {
     const user = database.find((user) => user.id === parseInt(userId));
 
     if (!user) throw new UserNotFoundError(userId);
@@ -21,7 +19,7 @@ export class UsersService {
     return user;
   }
 
-  async createUser(userData: CreateUserDto): Promise<User> {
+  async createUser(userData: CreateUserDto): Promise<DatabaseUser> {
     const { email, password: rawPassword, name, age } = userData;
 
     const existingUser = database.find((user) => user.email === email);
@@ -30,7 +28,7 @@ export class UsersService {
     const salt = generateSalt();
     const hashedPassword = await generateHashedPassword({ rawPassword, salt });
 
-    const createdUser: User = {
+    const createdUser: DatabaseUser = {
       id: database.length + 1,
       email,
       password: `${salt}:${hashedPassword}`,
@@ -43,7 +41,7 @@ export class UsersService {
     return createdUser;
   }
 
-  async login(email: string, password: string): Promise<User> {
+  async login(email: string, password: string): Promise<DatabaseUser> {
     const user = database.find((user) => user.email === email);
 
     if (!user) throw new UserNotFoundError(email);
@@ -55,13 +53,13 @@ export class UsersService {
     return user;
   }
 
-  async updateUser(userId: string, user: UpdateUserDto): Promise<User> {
+  async updateUser(userId: string, user: UpdateUserDto): Promise<DatabaseUser> {
     const parsedId = parseInt(userId);
     const userIndex = database.findIndex((user) => user.id === parsedId);
 
     if (userIndex === -1) throw new UserNotFoundError(userId);
 
-    const updatedUser = { ...database[userIndex], ...user } as User;
+    const updatedUser = { ...database[userIndex], ...user } as DatabaseUser;
     database[userIndex] = updatedUser;
 
     return updatedUser;
@@ -84,7 +82,7 @@ export class UsersService {
    * The timingSafeEqual() function prevents that type of attack. It is used to determine whether two variables are equal,
    * without exposing timing information that may allow an attacker to guess one of the values.
    */
-  private async getIsPasswordValid(user: User, rawPassword: string): Promise<boolean> {
+  private async getIsPasswordValid(user: DatabaseUser, rawPassword: string): Promise<boolean> {
     const [salt, storedHashedPassword] = user.password.split(':') as [string, string];
     const generatedHashedPassword = await generateHashedPassword({ rawPassword, salt });
 
