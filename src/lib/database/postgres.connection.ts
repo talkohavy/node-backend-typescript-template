@@ -1,12 +1,22 @@
 import pg, { Client, QueryResultRow } from 'pg';
 
-export class DatabaseService {
-  dbClient: Client;
+export class PostgresConnection {
+  private static instance: PostgresConnection;
+  private readonly dbClient: Client;
 
-  constructor(connectionString: string) {
+  private constructor(connectionString: string) {
     this.dbClient = new pg.Client(connectionString);
 
     this.connect();
+  }
+
+  public static getInstance(connectionString?: string): PostgresConnection {
+    if (!PostgresConnection.instance) {
+      if (!connectionString) throw new Error('Database credentials are required for first initialization');
+
+      PostgresConnection.instance = new PostgresConnection(connectionString);
+    }
+    return PostgresConnection.instance;
   }
 
   connect() {
