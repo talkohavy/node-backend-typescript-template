@@ -1,11 +1,12 @@
 import { Application } from 'express';
-import { STATUS_CODES } from '../../common/constants';
-import { logger } from '../../lib/logger/logger.service';
-import { joiBodyMiddleware } from '../../middlewares/joiBodyMiddleware';
-import { createBookSchema } from './books.dto';
-import { BooksService } from './books.service';
+import { STATUS_CODES } from '../../../common/constants';
+import { ControllerFactory } from '../../../lib/controller-factory/controller-factory';
+import { logger } from '../../../lib/logger/logger.service';
+import { joiBodyMiddleware } from '../../../middlewares/joiBodyMiddleware';
+import { BooksService } from '../services/books.service';
+import { createBookSchema } from './dto/books.dto';
 
-export class BooksController {
+export class BooksController implements ControllerFactory {
   app: Application;
   booksService: BooksService;
 

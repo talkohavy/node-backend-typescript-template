@@ -1,14 +1,41 @@
 import { Application } from 'express';
-import { BooksController } from './books.controller';
-import { BooksMiddleware } from './books.middleware';
-import { BooksService } from './books.service';
+import { BooksController } from './controllers/books.controller';
+import { BooksMiddleware } from './middleware/books.middleware';
+import { BooksService } from './services/books.service';
 
-export function attachBooksModule(app: Application) {
-  const service = new BooksService();
-  const controller = new BooksController(app, service);
-  const middleware = new BooksMiddleware(app);
+export class BooksModule {
+  private static instance: BooksModule;
+  private booksService!: BooksService;
 
-  middleware.use();
+  private constructor() {
+    this.initializeModule();
+  }
 
-  controller.attachRoutes();
+  static getInstance(): BooksModule {
+    if (!BooksModule.instance) {
+      BooksModule.instance = new BooksModule();
+    }
+    return BooksModule.instance;
+  }
+
+  protected initializeModule(): void {
+    this.booksService = new BooksService();
+  }
+
+  attachController(app: Application): void {
+    const booksController = new BooksController(app, this.booksService);
+    const booksMiddleware = new BooksMiddleware(app);
+
+    booksMiddleware.use();
+
+    booksController.attachRoutes();
+  }
+
+  getBooksService(): BooksService {
+    return this.booksService;
+  }
+}
+
+export function createBooksModule(): BooksModule {
+  return BooksModule.getInstance();
 }

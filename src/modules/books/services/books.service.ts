@@ -1,4 +1,5 @@
-import { Book, CreateBookDto, UpdateBookDto } from './types';
+import { Book } from '../types';
+import { CreateBookDto, UpdateBookDto } from './interfaces/books.service.interface';
 
 const database: Array<Book> = [];
 
