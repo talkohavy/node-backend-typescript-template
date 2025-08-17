@@ -1,5 +1,5 @@
 import { Application, Request } from 'express';
-import { STATUS_CODES } from '../../../common/constants';
+import { StatusCodes } from '../../../common/constants';
 import { BadRequestError, NotFoundError, UnauthorizedError } from '../../../lib/Errors';
 import { logger } from '../../../lib/logger';
 import { joiBodyMiddleware } from '../../../middlewares/joiBodyMiddleware';
@@ -63,10 +63,10 @@ export class UsersController {
 
         const sanitizedCreatedUser = sanitizeUser(createdUser);
 
-        res.status(STATUS_CODES.CREATED).json(sanitizedCreatedUser);
+        res.status(StatusCodes.CREATED).json(sanitizedCreatedUser);
       } catch (error) {
         if (error instanceof UserAlreadyExistsError) {
-          throw new BadRequestError(error.message, { statusCode: STATUS_CODES.CONFLICT });
+          throw new BadRequestError(error.message, { statusCode: StatusCodes.CONFLICT });
         }
 
         throw error;

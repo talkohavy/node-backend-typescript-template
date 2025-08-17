@@ -1,4 +1,4 @@
-import { STATUS_CODES } from '../../common/constants';
+import { StatusCodes } from '../../common/constants';
 import { HttpException } from './HttpException';
 
 type ForbiddenErrorOptions = {
@@ -15,7 +15,7 @@ export class ForbiddenError extends HttpException {
     super({
       name: ForbiddenError.name,
       message: message ?? 'Forbidden',
-      statusCode: STATUS_CODES.FORBIDDEN,
+      statusCode: StatusCodes.FORBIDDEN,
       shouldReport,
     });
   }

@@ -1,5 +1,5 @@
 import { Application } from 'express';
-import { STATUS_CODES } from '../../../common/constants';
+import { StatusCodes } from '../../../common/constants';
 import { ControllerFactory } from '../../../lib/controller-factory/controller-factory';
 import { logger } from '../../../lib/logger/logger.service';
 import { joiBodyMiddleware } from '../../../middlewares/joiBodyMiddleware';
@@ -36,7 +36,7 @@ export class BooksController implements ControllerFactory {
       if (!book) {
         logger.error('Book not found', bookId);
 
-        return res.status(STATUS_CODES.NOT_FOUND).json({ message: 'Book not found' });
+        return res.status(StatusCodes.NOT_FOUND).json({ message: 'Book not found' });
       }
 
       res.json(book);
@@ -51,7 +51,7 @@ export class BooksController implements ControllerFactory {
 
       const newBook = await this.booksService.createBook(body);
 
-      res.status(STATUS_CODES.CREATED).json(newBook);
+      res.status(StatusCodes.CREATED).json(newBook);
     });
   }
 
@@ -66,7 +66,7 @@ export class BooksController implements ControllerFactory {
       if (!updatedBook) {
         logger.error('Book not found', bookId);
 
-        return res.status(STATUS_CODES.NOT_FOUND).json({ message: 'Book not found' });
+        return res.status(StatusCodes.NOT_FOUND).json({ message: 'Book not found' });
       }
 
       res.json(updatedBook);
@@ -83,7 +83,7 @@ export class BooksController implements ControllerFactory {
       if (!deletedBook) {
         logger.error('Book not found', bookId);
 
-        return res.status(STATUS_CODES.NOT_FOUND).json({ message: 'Book not found' });
+        return res.status(StatusCodes.NOT_FOUND).json({ message: 'Book not found' });
       }
 
       res.json({ message: 'Book deleted successfully' });

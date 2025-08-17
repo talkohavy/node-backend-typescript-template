@@ -1,4 +1,4 @@
-import { STATUS_CODES } from '../../common/constants';
+import { StatusCodes } from '../../common/constants';
 import { BaseError } from './BaseError';
 
 type HttpExceptionConstructorProps = {
@@ -24,7 +24,7 @@ export class HttpException extends BaseError {
 
     super({ name: name ?? HttpException.name, message });
 
-    this.statusCode = statusCode ?? STATUS_CODES.INTERNAL_ERROR;
+    this.statusCode = statusCode ?? StatusCodes.INTERNAL_ERROR;
     this.shouldReport = shouldReport;
   }
 }

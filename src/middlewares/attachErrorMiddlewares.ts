@@ -1,5 +1,5 @@
 import { Application, Request, Response } from 'express';
-import { STATUS_CODES } from '../common/constants';
+import { StatusCodes } from '../common/constants';
 
 type AttachErrorMiddlewaresProps = {
   app: Application;
@@ -39,7 +39,7 @@ function globalErrorMiddleware(error: any, _req: Request, res: Response, _next: 
   // if (condition) logger.error(error.message); // <--- store the error if <condition>...
 
   const data = {
-    statusCode: error.isCustomError ? error.statusCode : STATUS_CODES.INTERNAL_ERROR,
+    statusCode: error.isCustomError ? error.statusCode : StatusCodes.INTERNAL_ERROR,
     message: error.message,
   };
 

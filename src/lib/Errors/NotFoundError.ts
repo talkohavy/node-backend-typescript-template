@@ -1,4 +1,4 @@
-import { STATUS_CODES } from '../../common/constants';
+import { StatusCodes } from '../../common/constants';
 import { HttpException } from './HttpException';
 
 type NotFoundErrorOptions = {
@@ -15,7 +15,7 @@ export class NotFoundError extends HttpException {
     super({
       name: NotFoundError.name,
       message: message ?? 'Not Found',
-      statusCode: STATUS_CODES.NOT_FOUND,
+      statusCode: StatusCodes.NOT_FOUND,
       shouldReport,
     });
   }

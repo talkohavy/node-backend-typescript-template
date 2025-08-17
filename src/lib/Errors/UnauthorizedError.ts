@@ -1,4 +1,4 @@
-import { STATUS_CODES } from '../../common/constants';
+import { StatusCodes } from '../../common/constants';
 import { HttpException } from './HttpException';
 
 type UnauthorizedErrorOptions = {
@@ -15,7 +15,7 @@ export class UnauthorizedError extends HttpException {
     super({
       name: UnauthorizedError.name,
       message: message ?? 'Unauthorized',
-      statusCode: STATUS_CODES.UNAUTHORIZED,
+      statusCode: StatusCodes.UNAUTHORIZED,
       shouldReport,
     });
   }

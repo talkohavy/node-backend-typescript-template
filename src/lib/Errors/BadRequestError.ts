@@ -1,4 +1,4 @@
-import { STATUS_CODES } from '../../common/constants';
+import { StatusCodes } from '../../common/constants';
 import { HttpException } from './HttpException';
 
 type BadRequestErrorOptions = {
@@ -24,7 +24,7 @@ export class BadRequestError extends HttpException {
     super({
       name: BadRequestError.name,
       message: message ?? 'Bad Request',
-      statusCode: statusCode ?? STATUS_CODES.BAD_REQUEST,
+      statusCode: statusCode ?? StatusCodes.BAD_REQUEST,
       shouldReport,
     });
   }
