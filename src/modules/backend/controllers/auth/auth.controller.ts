@@ -6,16 +6,13 @@ import { ControllerFactory } from '../../../../lib/controller-factory';
 import { logger } from '../../../../lib/logger';
 import { AuthenticationService } from '../../../authentication/services/authentication.service';
 import { UserUtilitiesService } from '../../../users/services/user-utilities.service';
-import { BaseController } from '../shared/base.controller';
 
-export class AuthController extends BaseController implements ControllerFactory {
+export class AuthController implements ControllerFactory {
   constructor(
     private readonly app: Application,
     private readonly authService: AuthenticationService,
     private readonly userUtilitiesService: UserUtilitiesService,
-  ) {
-    super();
-  }
+  ) {}
 
   private login() {
     this.app.post('/auth/login', async (req: Request, res: Response) => {

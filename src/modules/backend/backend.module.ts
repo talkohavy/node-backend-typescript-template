@@ -15,7 +15,7 @@ export function attachBackendModule(app: Application) {
 
   // Initialize controllers with direct network service dependencies
   const authController = new AuthController(app, authService, usersService.userUtilitiesService);
-  const usersController = new UsersController(app, authService, usersService);
+  const usersController = new UsersController(app, usersService);
 
   // Initialize middleware and main controller
   const backendMiddleware = new BackendMiddleware(app);
