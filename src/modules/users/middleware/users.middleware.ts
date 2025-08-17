@@ -1,9 +1,9 @@
 import { Application, NextFunction, Response, Request } from 'express';
-import { Config } from '../../configurations/types';
-import { configService } from '../../lib/config/config.service';
-import { UnauthorizedError } from '../../lib/Errors';
-import { logger } from '../../lib/logger';
-import { verifyToken } from './logic/verifyToken';
+import { Config } from '../../../configurations/types';
+import { configService } from '../../../lib/config/config.service';
+import { UnauthorizedError } from '../../../lib/Errors';
+import { logger } from '../../../lib/logger';
+import { verifyToken } from '../logic/verifyToken';
 
 export class UsersMiddleware {
   app: Application;
@@ -24,12 +24,11 @@ export class UsersMiddleware {
     console.log('Authentication middleware for users');
 
     try {
-      const { jwt: jwtConfig } = configService.get<Config>('');
-      const { cookieNames } = configService.get<Config>('');
-      const { accessTokenCookieName } = cookieNames;
+      const { cookies, jwt: jwtConfig } = configService.get<Config>('');
+      const { accessCookie } = cookies;
       const { accessSecret, issuer } = jwtConfig;
 
-      const token = req.cookies[accessTokenCookieName];
+      const token = req.cookies[accessCookie.name];
 
       if (!token) throw new UnauthorizedError('No access token provided');
 
