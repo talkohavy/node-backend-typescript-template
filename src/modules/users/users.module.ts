@@ -1,6 +1,7 @@
 import { Application } from 'express';
 import { configService } from '../../lib/config/config.service';
 import { PostgresConnection } from '../../lib/database/postgres.connection';
+import { UsersCrudController } from './controllers/users-crud.controller';
 import { UsersController } from './controllers/users.controller';
 import { UsersMiddleware } from './middleware/users.middleware';
 import { IUsersRepository } from './repositories/interfaces/users.repository.base';
@@ -43,7 +44,11 @@ class UsersModule {
   }
 
   attachController(app: Application): void {
-    const usersController = new UsersController(app, this.usersService);
+    // Attach controllers
+    const usersCrudController = new UsersCrudController(app, this.usersService);
+    const usersController = new UsersController(usersCrudController);
+
+    // Attach middlewares
     const usersMiddleware = new UsersMiddleware(app);
 
     usersMiddleware.use();
