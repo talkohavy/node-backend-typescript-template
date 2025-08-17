@@ -7,6 +7,7 @@ import { initLoggerService } from './lib/logger/logger.service';
 import { attachBaseMiddlewares } from './middlewares/attachBaseMiddlewares';
 import { attachErrorMiddlewares } from './middlewares/attachErrorMiddlewares';
 import { getAuthenticationModule } from './modules/authentication/authentication.module';
+import { attachBackendModule } from './modules/backend/backend.module';
 import { getBooksModule } from './modules/books/books.module';
 import { attachHealthCheckModule } from './modules/health-check/health-check.module';
 import { getUsersModule } from './modules/users/users.module';
@@ -28,6 +29,7 @@ export async function startServer() {
   attachBaseMiddlewares({ app });
   callContextMiddleware.use(app, ['/health-check']);
 
+  attachBackendModule(app);
   attachHealthCheckModule(app);
   usersModule.attachController(app);
   booksModule.attachController(app);
