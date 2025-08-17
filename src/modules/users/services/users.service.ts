@@ -66,7 +66,7 @@ export class UsersService {
    * without exposing timing information that may allow an attacker to guess one of the values.
    */
   private async getIsPasswordValid(user: DatabaseUser, rawPassword: string): Promise<boolean> {
-    const [salt, storedHashedPassword] = user.password.split(':') as [string, string];
+    const [salt, storedHashedPassword] = user.hashedPassword.split(':') as [string, string];
     const generatedHashedPassword = await generateHashedPassword({ rawPassword, salt });
 
     const isMatch = timingSafeEqual(Buffer.from(storedHashedPassword), Buffer.from(generatedHashedPassword));
