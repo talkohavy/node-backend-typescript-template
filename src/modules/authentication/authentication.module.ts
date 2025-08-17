@@ -5,15 +5,14 @@ import { SessionManagementController } from './controllers/session-management.co
 import { TokenGenerationController } from './controllers/token-generation.controller';
 import { TokenVerificationController } from './controllers/token-verification.controller';
 import { AuthenticationMiddleware } from './middleware/authentication.middleware';
+import { AuthenticationService } from './services/authentication.service';
 import { PasswordManagementService } from './services/password-management.service';
 import { TokenGenerationService } from './services/token-generation.service';
 import { TokenVerificationService } from './services/token-verification.service';
 
 export class AuthenticationModule {
   private static instance: AuthenticationModule;
-  private passwordManagementService!: PasswordManagementService;
-  private tokenGenerationService!: TokenGenerationService;
-  private tokenVerificationService!: TokenVerificationService;
+  private authenticationService!: AuthenticationService;
 
   private constructor() {
     this.initializeModule();
@@ -28,16 +27,31 @@ export class AuthenticationModule {
 
   protected initializeModule(): void {
     // Initialize services
-    this.passwordManagementService = new PasswordManagementService();
-    this.tokenGenerationService = new TokenGenerationService();
-    this.tokenVerificationService = new TokenVerificationService();
+    const passwordManagementService = new PasswordManagementService();
+    const tokenGenerationService = new TokenGenerationService();
+    const tokenVerificationService = new TokenVerificationService();
+
+    this.authenticationService = new AuthenticationService(
+      passwordManagementService,
+      tokenGenerationService,
+      tokenVerificationService,
+    );
   }
 
   attachController(app: Application): void {
     const authenticationMiddleware = new AuthenticationMiddleware(app);
-    const passwordManagementController = new PasswordManagementController(app, this.passwordManagementService);
-    const tokenGenerationController = new TokenGenerationController(app, this.tokenGenerationService);
-    const tokenVerificationController = new TokenVerificationController(app, this.tokenVerificationService);
+    const passwordManagementController = new PasswordManagementController(
+      app,
+      this.authenticationService.passwordManagementService,
+    );
+    const tokenGenerationController = new TokenGenerationController(
+      app,
+      this.authenticationService.tokenGenerationService,
+    );
+    const tokenVerificationController = new TokenVerificationController(
+      app,
+      this.authenticationService.tokenVerificationService,
+    );
     const sessionManagementController = new SessionManagementController(app);
 
     const authenticationController = new AuthenticationController(
@@ -52,16 +66,8 @@ export class AuthenticationModule {
     authenticationController.attachRoutes();
   }
 
-  getPasswordManagementService(): PasswordManagementService {
-    return this.passwordManagementService;
-  }
-
-  getTokenGenerationService(): TokenGenerationService {
-    return this.tokenGenerationService;
-  }
-
-  getTokenVerificationService(): TokenVerificationService {
-    return this.tokenVerificationService;
+  getAuthenticationService(): AuthenticationService {
+    return this.authenticationService;
   }
 }
 
