@@ -1,7 +1,6 @@
 import { timingSafeEqual } from 'node:crypto';
 import { generateHashedPassword } from '../logic/generateHashedPassword';
-import { generateSalt } from '../logic/generateSalt';
-import { UserAlreadyExistsError, UserNotFoundError, WrongPasswordError } from '../logic/users.errors';
+import { UserNotFoundError, WrongPasswordError } from '../logic/users.errors';
 import { IUsersRepository } from '../repositories/interfaces/users.repository.base';
 import { DatabaseUser } from '../types';
 import { CreateUserDto, UpdateUserDto } from './interfaces/users.service.interface';
@@ -22,25 +21,9 @@ export class UsersService {
   }
 
   async createUser(userData: CreateUserDto): Promise<DatabaseUser> {
-    const { email, password: rawPassword, name, age } = userData;
+    const createdUser = await this.usersRepository.createUser(userData);
 
-    const existingUser = await this.usersRepository.getUserByEmail(email);
-
-    if (existingUser) throw new UserAlreadyExistsError(email);
-
-    const salt = generateSalt();
-    const hashedPassword = await generateHashedPassword({ rawPassword, salt });
-
-    const createdUser: Omit<DatabaseUser, 'id'> = {
-      email,
-      password: `${salt}:${hashedPassword}`,
-      name,
-      age,
-    };
-
-    const newUser = await this.usersRepository.createUser(createdUser);
-
-    return newUser;
+    return createdUser;
   }
 
   async login(email: string, password: string): Promise<DatabaseUser> {

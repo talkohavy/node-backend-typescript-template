@@ -1,11 +1,11 @@
 import { Application, Request } from 'express';
 import { StatusCodes } from '../../../common/constants';
-import { BadRequestError, NotFoundError, UnauthorizedError } from '../../../lib/Errors';
+import { NotFoundError, UnauthorizedError } from '../../../lib/Errors';
 import { logger } from '../../../lib/logger';
 import { joiBodyMiddleware } from '../../../middlewares/joiBodyMiddleware';
 import { sanitizeUser, sanitizeUsers } from '../logic/sanitizeUser';
 import { sendAuthCookies } from '../logic/sendAuthCookies';
-import { UserAlreadyExistsError, UserNotFoundError } from '../logic/users.errors';
+import { UserNotFoundError } from '../logic/users.errors';
 import { UsersMiddleware } from '../middleware/users.middleware';
 import { UsersService } from '../services/users.service';
 import { createUserSchema } from './dto/createUserSchema.dto';
@@ -52,25 +52,17 @@ export class UsersController {
 
   private createUser() {
     this.app.post('/users', joiBodyMiddleware(createUserSchema), async (req, res) => {
-      try {
-        logger.info('POST /users - creating new user');
+      logger.info('POST /users - creating new user');
 
-        const { body } = req;
+      const { body } = req;
 
-        const createdUser = await this.usersService.createUser(body);
+      const createdUser = await this.usersService.createUser(body);
 
-        await sendAuthCookies({ res, user: createdUser });
+      await sendAuthCookies({ res, user: createdUser });
 
-        const sanitizedCreatedUser = sanitizeUser(createdUser);
+      const sanitizedCreatedUser = sanitizeUser(createdUser);
 
-        res.status(StatusCodes.CREATED).json(sanitizedCreatedUser);
-      } catch (error) {
-        if (error instanceof UserAlreadyExistsError) {
-          throw new BadRequestError(error.message, { statusCode: StatusCodes.CONFLICT });
-        }
-
-        throw error;
-      }
+      res.status(StatusCodes.CREATED).json(sanitizedCreatedUser);
     });
   }
 
