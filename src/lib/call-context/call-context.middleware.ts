@@ -1,5 +1,6 @@
 import { Application, NextFunction, Request, Response } from 'express';
 import { HEADERS } from '../../common/constants';
+import { CookiesConfig } from '../../configurations/types';
 import { ConfigService } from '../config/config.service';
 import { BadRequestError } from '../Errors';
 import { CallContextService } from './call-context.service';
@@ -31,11 +32,11 @@ export class CallContextMiddleware {
       this.callContextService.set(CONTEXT_KEYS.Path, path);
       this.callContextService.set(CONTEXT_KEYS.Query, JSON.stringify(query));
 
-      const { accessTokenCookieName } = this.configService.get('cookieNames');
+      const { accessCookie } = this.configService.get<CookiesConfig>('cookies');
 
       this.callContextService.set(
         CONTEXT_KEYS.CookieHeaderValue,
-        [`${accessTokenCookieName}=${req.cookies[accessTokenCookieName]}`].join(';'),
+        [`${accessCookie.name}=${req.cookies[accessCookie.name]}`].join(';'),
       );
 
       next();
