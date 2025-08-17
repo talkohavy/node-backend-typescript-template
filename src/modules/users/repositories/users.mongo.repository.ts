@@ -89,9 +89,9 @@ export class UsersMongoRepository implements IUsersRepository {
 
   private transformMongoUser(mongoUser: any): DatabaseUser {
     return {
-      id: mongoUser._id.toString(),
+      _id: mongoUser._id.toString(),
       email: mongoUser.email,
-      password: mongoUser.password,
+      hashedPassword: mongoUser.hashedPassword,
       name: mongoUser.name,
       age: mongoUser.age,
     };
