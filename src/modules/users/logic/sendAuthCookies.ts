@@ -12,9 +12,9 @@ type SendAuthCookiesProps = {
 export async function sendAuthCookies(props: SendAuthCookiesProps) {
   const { res, user } = props;
 
-  const { authCookie, cookieNames, isCI, isDev } = configService.get<Config>('');
+  const { authCookie, cookies, isCI, isDev } = configService.get<Config>('');
   const { maxAge } = authCookie;
-  const { accessTokenCookieName, refreshTokenCookieName } = cookieNames;
+  const { accessCookie, refreshCookie } = cookies;
 
   const payload = { userID: user.id, name: user.name, email: user.email };
   const accessToken = await createAccessToken({ payload });
@@ -29,6 +29,6 @@ export async function sendAuthCookies(props: SendAuthCookiesProps) {
     sameSite: 'strict', // <--- Options are boolean | 'lax' (default) | 'strict' | 'none'. strict means that only the domain which created the cookie, is the only one who has access to it. lax also allows third-party sites to include our URL and send cookies.
   };
 
-  res.cookie(accessTokenCookieName, accessToken, options);
-  res.cookie(refreshTokenCookieName, refreshToken, options);
+  res.cookie(accessCookie.name, accessToken, options);
+  res.cookie(refreshCookie.name, refreshToken, options);
 }
