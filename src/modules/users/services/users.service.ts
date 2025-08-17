@@ -3,7 +3,7 @@ import { UsersCrudService } from './users-crud.service';
 
 export class UsersService {
   constructor(
-    public readonly usersCrudService: UsersCrudService,
-    public readonly userUtilitiesService: UserUtilitiesService,
+    public readonly crudService: UsersCrudService,
+    public readonly utilitiesService: UserUtilitiesService,
   ) {}
 }

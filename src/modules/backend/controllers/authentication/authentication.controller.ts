@@ -7,10 +7,10 @@ import { logger } from '../../../../lib/logger';
 import { AuthenticationService } from '../../../authentication/services/authentication.service';
 import { UserUtilitiesService } from '../../../users/services/user-utilities.service';
 
-export class AuthController implements ControllerFactory {
+export class AuthenticationController implements ControllerFactory {
   constructor(
     private readonly app: Application,
-    private readonly authService: AuthenticationService,
+    private readonly authenticationService: AuthenticationService,
     private readonly userUtilitiesService: UserUtilitiesService,
   ) {}
 
@@ -27,7 +27,7 @@ export class AuthController implements ControllerFactory {
       }
 
       // Step 2: Validate password
-      const isValid = await this.authService.passwordManagementService.getIsPasswordValid(
+      const isValid = await this.authenticationService.passwordManagementService.getIsPasswordValid(
         user.hashedPassword,
         password,
       );
@@ -37,7 +37,7 @@ export class AuthController implements ControllerFactory {
       }
 
       // Step 3: Generate tokens
-      const tokens = await this.authService.tokenGenerationService.createTokens(user._id.toString());
+      const tokens = await this.authenticationService.tokenGenerationService.createTokens(user._id.toString());
 
       // Step 4: Set cookies
       const { cookies, isDev } = configService.get<Config>('');
