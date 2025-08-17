@@ -1,7 +1,7 @@
 export type DatabaseUser = {
-  id: number;
+  _id: number;
   email: string;
-  password: string;
+  hashedPassword: string;
   name?: string;
   age?: number;
 };

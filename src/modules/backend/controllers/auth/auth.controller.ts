@@ -5,14 +5,14 @@ import { configService } from '../../../../lib/config/config.service';
 import { ControllerFactory } from '../../../../lib/controller-factory';
 import { logger } from '../../../../lib/logger';
 import { AuthenticationService } from '../../../authentication/services/authentication.service';
-import { UsersService } from '../../../users/services/users.service';
+import { UserUtilitiesService } from '../../../users/services/user-utilities.service';
 import { BaseController } from '../shared/base.controller';
 
 export class AuthController extends BaseController implements ControllerFactory {
   constructor(
     private readonly app: Application,
     private readonly authService: AuthenticationService,
-    private readonly usersService: UsersService,
+    private readonly userUtilitiesService: UserUtilitiesService,
   ) {
     super();
   }
@@ -24,7 +24,7 @@ export class AuthController extends BaseController implements ControllerFactory 
       logger.info('POST /auth/login - user login endpoint');
 
       // Step 1: Get user by email
-      const user = await this.usersService.getUserByEmail(email);
+      const user = await this.userUtilitiesService.getUserByEmail(email);
       if (!user) {
         return void res.status(StatusCodes.NOT_FOUND).json({ message: 'User not found' });
       }
