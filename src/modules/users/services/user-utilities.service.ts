@@ -1,9 +1,9 @@
 import { UserNotFoundError } from '../logic/users.errors';
-import { UsersPostgresRepository } from '../repositories/users.postgres.repository';
+import { IUsersRepository } from '../repositories/interfaces/users.repository.base';
 import { DatabaseUser } from '../types';
 
 export class UserUtilitiesService {
-  constructor(private readonly usersRepository: UsersPostgresRepository) {}
+  constructor(private readonly usersRepository: IUsersRepository) {}
 
   async getUserByEmail(email: string): Promise<DatabaseUser> {
     const fields = ['id', 'email', 'name', 'age'];

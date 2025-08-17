@@ -5,6 +5,8 @@ import { UsersController } from './controllers/users.controller';
 import { UsersMiddleware } from './middleware/users.middleware';
 import { IUsersRepository } from './repositories/interfaces/users.repository.base';
 import { UsersPostgresRepository } from './repositories/users.postgres.repository';
+import { UserUtilitiesService } from './services/user-utilities.service';
+import { UsersCrudService } from './services/users-crud.service';
 import { UsersService } from './services/users.service';
 // import { MongodbConnection } from '../../lib/database/mongo.connection';
 // import { UsersMongoRepository } from './repositories/users.mongo.repository';
@@ -35,7 +37,9 @@ class UsersModule {
     this.usersRepository = new UsersPostgresRepository(dbClient);
 
     // Initialize services
-    this.usersService = new UsersService(this.usersRepository);
+    const usersCrudService = new UsersCrudService(this.usersRepository);
+    const userUtilitiesService = new UserUtilitiesService(this.usersRepository);
+    this.usersService = new UsersService(usersCrudService, userUtilitiesService);
   }
 
   attachController(app: Application): void {
