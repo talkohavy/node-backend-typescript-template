@@ -28,7 +28,7 @@ class UsersModule {
   }
 
   protected initializeModule(): void {
-    const { connectionString } = configService.get<any>('mongodb'); // 'postgres'
+    const { connectionString } = configService.get<any>('database');
 
     // Initialize repositories
     // const dbClient = MongodbConnection.getInstance(connectionString, dbName);
