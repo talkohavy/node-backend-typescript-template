@@ -6,10 +6,19 @@ import {
   GetUsersProps,
   CreateUserDto,
   UpdateUserDto,
+  GetUserByEmailOptions,
 } from './interfaces/users.repository.interface';
 
 export class UsersPostgresRepository implements IUsersRepository {
   constructor(private readonly dbClient: PostgresConnection) {}
+
+  async getUserByEmail(email: string, options: GetUserByEmailOptions = {}): Promise<DatabaseUser | null> {
+    const fields = options.fields || ['*'];
+    const query = `SELECT ${fields.join(', ')} FROM users WHERE email = $1`;
+    const result = await this.dbClient.query(query, [email]);
+
+    return result.rows[0] || null;
+  }
 
   async createUser(body: CreateUserDto): Promise<DatabaseUser> {
     const query = `

@@ -1,3 +1,7 @@
+export type GetUserByEmailOptions = {
+  fields?: Array<string>;
+};
+
 export type CreateUserDto = {
   email: string;
   password: string;

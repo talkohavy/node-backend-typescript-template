@@ -7,6 +7,7 @@ import {
   GetUsersProps,
   CreateUserDto,
   UpdateUserDto,
+  GetUserByEmailOptions,
 } from './interfaces/users.repository.interface';
 
 // Define the user schema
@@ -29,6 +30,13 @@ export class UsersMongoRepository implements IUsersRepository {
     const mongoClient = this.dbClient.getClient();
     // Use the existing connection to create the model
     this.UserModel = mongoClient.models.User || mongoClient.model('User', userSchema);
+  }
+
+  async getUserByEmail(email: string, options: GetUserByEmailOptions = {}): Promise<DatabaseUser | null> {
+    const projection = options.fields ? options.fields.join(' ') : '';
+    const user = await this.UserModel.findOne({ email }, projection);
+
+    return user ? this.transformMongoUser(user) : null;
   }
 
   async createUser(body: CreateUserDto): Promise<DatabaseUser> {
