@@ -1,9 +1,5 @@
-import { Application } from 'express';
 import { configService } from '../../lib/config/config.service';
 import { PostgresConnection } from '../../lib/database/postgres.connection';
-import { UsersCrudController } from './controllers/users-crud.controller';
-import { UsersController } from './controllers/users.controller';
-import { UsersMiddleware } from './middleware/users.middleware';
 import { IUsersRepository } from './repositories/interfaces/users.repository.base';
 import { UsersPostgresRepository } from './repositories/users.postgres.repository';
 import { UserUtilitiesService } from './services/user-utilities.service';
@@ -41,19 +37,6 @@ class UsersModule {
     const usersCrudService = new UsersCrudService(this.usersRepository);
     const userUtilitiesService = new UserUtilitiesService(this.usersRepository);
     this.usersService = new UsersService(usersCrudService, userUtilitiesService);
-  }
-
-  attachController(app: Application): void {
-    // Attach controllers
-    const usersCrudController = new UsersCrudController(app, this.usersService);
-    const usersController = new UsersController(usersCrudController);
-
-    // Attach middlewares
-    const usersMiddleware = new UsersMiddleware(app);
-
-    usersMiddleware.use();
-
-    usersController.attachRoutes();
   }
 
   getUsersService(): UsersService {
