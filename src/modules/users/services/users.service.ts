@@ -9,7 +9,7 @@ import { CreateUserDto, UpdateUserDto } from './interfaces/users.service.interfa
 export class UsersService {
   constructor(private readonly usersRepository: IUsersRepository) {}
 
-  async getUsers(): Promise<Array<DatabaseUser>> {
+  async getUsers(_query?: any): Promise<Array<DatabaseUser>> {
     return this.usersRepository.getUsers();
   }
 
