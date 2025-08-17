@@ -3,9 +3,12 @@ import { StatusCodes } from '../../../../common/constants';
 import { ControllerFactory } from '../../../../lib/controller-factory';
 import { ForbiddenError, UnauthorizedError } from '../../../../lib/Errors';
 import { logger } from '../../../../lib/logger';
+import { joiBodyMiddleware } from '../../../../middlewares/joiBodyMiddleware';
 import { AuthenticationService } from '../../../authentication/services/authentication.service';
 import { UsersService } from '../../../users/services/users.service';
 import { extractTokenFromCookies } from '../../logic/extractTokenFromCookies';
+import { createUserSchema } from './dto/createUserSchema.dto';
+import { updateUserSchema } from './dto/updateUserSchema.dto';
 
 export class UsersCrudController implements ControllerFactory {
   constructor(
@@ -15,7 +18,7 @@ export class UsersCrudController implements ControllerFactory {
   ) {}
 
   private createUser() {
-    this.app.post('/users-service/users', async (req: Request, res: Response) => {
+    this.app.post('/users-service/users', joiBodyMiddleware(createUserSchema), async (req: Request, res: Response) => {
       const { body } = req;
 
       logger.info('POST /users-service/users - create new user');
@@ -50,6 +53,31 @@ export class UsersCrudController implements ControllerFactory {
     });
   }
 
+  private updateUser() {
+    this.app.patch(
+      '/users-service/users/:id',
+      joiBodyMiddleware(updateUserSchema),
+      async (req: Request, res: Response) => {
+        logger.info('PUT /users-service/users/:id - updating user by ID');
+
+        const token = extractTokenFromCookies(req.cookies);
+
+        const decodedToken = await this.authenticationService.tokenVerificationService.verifyToken(token);
+
+        if (!decodedToken) throw new UnauthorizedError();
+
+        const userId = req.params.id!;
+
+        if (decodedToken.id !== userId) throw new ForbiddenError();
+
+        const userData = req.body;
+        const updatedUser = await this.usersService.crudService.updateUser(userId, userData);
+
+        res.json(updatedUser);
+      },
+    );
+  }
+
   private deleteUser() {
     this.app.delete('/users-service/users/:id', async (req: Request, res: Response) => {
       const id = req.params.id!;
@@ -74,6 +102,7 @@ export class UsersCrudController implements ControllerFactory {
     this.createUser();
     this.getUsers();
     this.getUserById();
+    this.updateUser();
     this.deleteUser();
   }
 }
