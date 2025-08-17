@@ -4,30 +4,32 @@ import { Config, CookiesConfig } from '../../../../configurations/types';
 import { configService } from '../../../../lib/config/config.service';
 import { ControllerFactory } from '../../../../lib/controller-factory';
 import { logger } from '../../../../lib/logger';
-import { AuthenticationService } from '../../../authentication/services/authentication.service';
-import { UserUtilitiesService } from '../../../users/services/user-utilities.service';
+import { joiBodyMiddleware } from '../../../../middlewares/joiBodyMiddleware';
+import { AuthenticationNetworkService } from '../../services/authentication/authentication.network.service';
+import { UserUtilitiesNetworkService } from '../../services/users/user-utilities.network.service';
+import { loginSchema } from './dto/loginSchema.dto';
 
 export class AuthenticationController implements ControllerFactory {
   constructor(
     private readonly app: Application,
-    private readonly authenticationService: AuthenticationService,
-    private readonly userUtilitiesService: UserUtilitiesService,
+    private readonly authenticationNetworkService: AuthenticationNetworkService,
+    private readonly userUtilitiesNetworkService: UserUtilitiesNetworkService,
   ) {}
 
   private login() {
-    this.app.post('/auth/login', async (req: Request, res: Response) => {
+    this.app.post('/auth/login', joiBodyMiddleware(loginSchema), async (req: Request, res: Response) => {
       const { email, password } = req.body;
 
       logger.info('POST /auth/login - user login endpoint');
 
       // Step 1: Get user by email
-      const user = await this.userUtilitiesService.getUserByEmail(email);
+      const user = await this.userUtilitiesNetworkService.getUserByEmail(email);
       if (!user) {
         return void res.status(StatusCodes.NOT_FOUND).json({ message: 'User not found' });
       }
 
       // Step 2: Validate password
-      const isValid = await this.authenticationService.passwordManagementService.getIsPasswordValid(
+      const isValid = await this.authenticationNetworkService.passwordManagementService.getIsPasswordValid(
         user.hashedPassword,
         password,
       );
@@ -37,7 +39,7 @@ export class AuthenticationController implements ControllerFactory {
       }
 
       // Step 3: Generate tokens
-      const tokens = await this.authenticationService.tokenGenerationService.createTokens(user._id.toString());
+      const tokens = await this.authenticationNetworkService.tokenGenerationService.createTokens(user._id.toString());
 
       // Step 4: Set cookies
       const { cookies, isDev } = configService.get<Config>('');

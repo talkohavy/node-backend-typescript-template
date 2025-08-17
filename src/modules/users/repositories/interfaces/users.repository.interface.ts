@@ -4,9 +4,9 @@ export type GetUserByEmailOptions = {
 
 export type CreateUserDto = {
   email: string;
-  password: string;
-  name?: string;
-  age?: number;
+  hashedPassword: string;
+  nickname?: string;
+  dateOfBirth?: number | string;
 };
 
 export type GetUsersProps = {
