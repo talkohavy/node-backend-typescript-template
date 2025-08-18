@@ -2,20 +2,8 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "main": "./dist/index.cjs",
-  "type": "module",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.cts",
-  "exports": {
-    "require": {
-      "types": "./dist/index.d.cts",
-      "default": "./dist/index.cjs"
-    },
-    "import": {
-      "types": "./dist/index.d.mts",
-      "default": "./dist/index.mjs"
-    }
-  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "scripts": {
     "clean": "rm -rf node_modules",
     "dev": "tsx watch --clear-screen=false --env-file=.env src/initServer.ts",
