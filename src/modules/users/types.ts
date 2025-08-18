@@ -1,9 +1,7 @@
 export type DatabaseUser = {
-  _id: number;
+  id: number;
   email: string;
-  hashedPassword: string;
-  name?: string;
-  age?: number;
+  nickname?: string;
+  hashed_password: string;
+  date_of_birth?: number;
 };
-
-// export type UserResponseDto = Omit<User, 'password'>;

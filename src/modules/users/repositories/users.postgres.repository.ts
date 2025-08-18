@@ -22,7 +22,7 @@ export class UsersPostgresRepository implements IUsersRepository {
 
   async createUser(body: CreateUserDto): Promise<DatabaseUser> {
     const query = `
-      INSERT INTO users (email, hashedPassword, nickname, dateOfBirth, created_at, updated_at)
+      INSERT INTO users (email, hashed_password, nickname, date_of_birth, created_at, updated_at)
       VALUES ($1, $2, $3, $4, NOW(), NOW())
       RETURNING *
     `;

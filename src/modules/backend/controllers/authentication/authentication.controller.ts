@@ -30,7 +30,7 @@ export class AuthenticationController implements ControllerFactory {
 
       // Step 2: Validate password
       const isValid = await this.authenticationNetworkService.passwordManagementService.getIsPasswordValid(
-        user.hashedPassword,
+        user.hashed_password,
         password,
       );
 
@@ -39,7 +39,7 @@ export class AuthenticationController implements ControllerFactory {
       }
 
       // Step 3: Generate tokens
-      const tokens = await this.authenticationNetworkService.tokenGenerationService.createTokens(user._id.toString());
+      const tokens = await this.authenticationNetworkService.tokenGenerationService.createTokens(user.id.toString());
 
       // Step 4: Set cookies
       const { cookies, isDev } = configService.get<Config>('');

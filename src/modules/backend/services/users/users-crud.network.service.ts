@@ -1,3 +1,4 @@
+import crypto from 'node:crypto';
 import { DatabaseUser } from '../../../users/types';
 import { getUsersModule } from '../../../users/users.module';
 import { generateHashedPassword } from '../../controllers/users/logic/generateHashedPassword';
@@ -8,11 +9,12 @@ export class UsersCrudNetworkService {
   constructor() {}
 
   async createUser(body: any): Promise<DatabaseUser | null> {
-    const hashedPassword = await generateHashedPassword({ rawPassword: body.password, salt: 'some-salt' });
+    const salt = crypto.randomBytes(16).toString('hex');
+    const hashedPassword = await generateHashedPassword({ rawPassword: body.password, salt });
 
     const createUserPayload = {
       email: body.email,
-      hashedPassword,
+      hashedPassword: `${salt}:${hashedPassword}`,
       nickname: body.nickname,
       dateOfBirth: body.dateOfBirth,
     };

@@ -6,7 +6,7 @@ export class UserUtilitiesService {
   constructor(private readonly usersRepository: IUsersRepository) {}
 
   async getUserByEmail(email: string): Promise<DatabaseUser> {
-    const fields = ['id', 'email', 'nickname', 'hashedPassword'];
+    const fields = ['id', 'email', 'nickname', 'hashed_password'];
     const user = await this.usersRepository.getUserByEmail(email, { fields });
 
     if (!user) throw new UserNotFoundError(email);
