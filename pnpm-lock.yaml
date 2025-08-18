@@ -115,8 +115,8 @@ importers:
         specifier: ^29.3.2
         version: 29.3.2(@babel/core@7.26.0)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.26.0))(esbuild@0.25.8)(jest@29.7.0(@types/node@22.10.2))(typescript@5.8.2)
       tsx:
-        specifier: ^4.19.3
-        version: 4.19.3
+        specifier: ^4.20.4
+        version: 4.20.4
       typescript:
         specifier: ^5.8.2
         version: 5.8.2
@@ -4313,6 +4313,11 @@ packages:
 
   tsx@4.19.3:
     resolution: {integrity: sha512-4H8vUNGNjQ4V2EOoGw005+c+dGuPSnhpPBPHBtsZdGZBk/iJb4kguGlPWaZTZ3q5nMtFOEsY0nRDlh9PJyd6SQ==}
+    engines: {node: '>=18.0.0'}
+    hasBin: true
+
+  tsx@4.20.4:
+    resolution: {integrity: sha512-yyxBKfORQ7LuRt/BQKBXrpcq59ZvSW0XxwfjAt3w2/8PmdxaFzijtMhTawprSHhpzeM5BgU2hXHG3lklIERZXg==}
     engines: {node: '>=18.0.0'}
     hasBin: true
 
@@ -9074,6 +9079,13 @@ snapshots:
   tsscmp@1.0.6: {}
 
   tsx@4.19.3:
+    dependencies:
+      esbuild: 0.25.8
+      get-tsconfig: 4.10.0
+    optionalDependencies:
+      fsevents: 2.3.3
+
+  tsx@4.20.4:
     dependencies:
       esbuild: 0.25.8
       get-tsconfig: 4.10.0
