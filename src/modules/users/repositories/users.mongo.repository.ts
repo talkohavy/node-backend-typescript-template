@@ -89,11 +89,11 @@ export class UsersMongoRepository implements IUsersRepository {
 
   private transformMongoUser(mongoUser: any): DatabaseUser {
     return {
-      _id: mongoUser._id.toString(),
+      id: mongoUser._id.toString(),
       email: mongoUser.email,
-      hashedPassword: mongoUser.hashedPassword,
-      name: mongoUser.name,
-      age: mongoUser.age,
+      hashed_password: mongoUser.hashed_password,
+      nickname: mongoUser.nickname,
+      date_of_birth: mongoUser.dateOfBirth,
     };
   }
 }
