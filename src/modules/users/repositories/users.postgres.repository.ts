@@ -73,7 +73,9 @@ export class UsersPostgresRepository implements IUsersRepository {
   }
 
   async updateUserById(userId: string, body: UpdateUserDto): Promise<DatabaseUser> {
-    const fields = Object.keys(body).filter((key) => body[key as keyof UpdateUserDto] !== undefined);
+    const fields = Object.keys(body).filter(
+      (key) => body[key as keyof UpdateUserDto] !== undefined && key !== 'updated_at',
+    );
     const setClause = fields.map((field, index) => `${field} = $${index + 2}`).join(', ');
     const values = [userId, ...fields.map((field) => body[field as keyof UpdateUserDto])];
 
