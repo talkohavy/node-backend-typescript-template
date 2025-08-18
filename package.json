@@ -8,6 +8,7 @@
     "clean": "rm -rf node_modules",
     "dev": "tsx watch --clear-screen=false --env-file=.env src/initServer.ts",
     "build": "node build.config.mjs",
+    "start": "node --env-file=.env dist/index.js",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
     "format": "prettier . --check --config .prettierrc.mjs --ignore-path .prettierignore",
