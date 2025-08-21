@@ -1,7 +1,7 @@
 import { Application, Request, Response } from 'express';
 import { ControllerFactory } from '../../../lib/controller-factory';
 import { UnauthorizedError } from '../../../lib/Errors';
-import { logger } from '../../../lib/logger';
+import { logger } from '../../../lib/loggerService';
 import { joiBodyMiddleware } from '../../../middlewares/joiBodyMiddleware';
 import { PasswordManagementService } from '../services/password-management.service';
 import { getIsPasswordValidSchema } from './dto/get-is-password-valid.dto';

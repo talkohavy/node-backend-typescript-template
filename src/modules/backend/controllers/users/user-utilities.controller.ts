@@ -1,7 +1,7 @@
 import { Application, Request, Response } from 'express';
 import { StatusCodes } from '../../../../common/constants';
 import { ControllerFactory } from '../../../../lib/controller-factory';
-import { logger } from '../../../../lib/logger';
+import { logger } from '../../../../lib/loggerService';
 import { extractTokenFromCookies } from '../../logic/extractTokenFromCookies';
 import { AuthenticationNetworkService } from '../../services/authentication/authentication.network.service';
 import { UsersNetworkService } from '../../services/users/users.network.service';

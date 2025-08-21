@@ -1,19 +1,19 @@
 export const LogLevel = {
-  DEBUG: 'debug',
-  INFO: 'info',
-  WARN: 'warn',
-  ERROR: 'error',
-  FATAL: 'fatal',
+  Debug: 'debug',
+  Info: 'info',
+  Warn: 'warn',
+  Error: 'error',
+  Fatal: 'fatal',
 } as const;
 
-export type LogLevelKeys = (typeof LogLevel)[keyof typeof LogLevel];
+type LogLevelType = typeof LogLevel;
+export type LogLevelKeys = keyof LogLevelType;
+export type LogLevelValues = LogLevelType[LogLevelKeys];
 
-export const SERVICE_NAME = 'MY_BACKEND';
-
-export const LogLevelToNumber: Record<LogLevelKeys, number> = {
-  [LogLevel.FATAL]: 0,
-  [LogLevel.ERROR]: 1,
-  [LogLevel.WARN]: 3,
-  [LogLevel.INFO]: 4,
-  [LogLevel.DEBUG]: 5,
+export const LogLevelToNumber: Record<LogLevelValues, number> = {
+  [LogLevel.Fatal]: 0,
+  [LogLevel.Error]: 1,
+  [LogLevel.Warn]: 3,
+  [LogLevel.Info]: 4,
+  [LogLevel.Debug]: 5,
 };

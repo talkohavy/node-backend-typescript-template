@@ -2,7 +2,7 @@ import { Application, Request, Response } from 'express';
 import { StatusCodes } from '../../../../common/constants';
 import { ControllerFactory } from '../../../../lib/controller-factory';
 import { ForbiddenError, UnauthorizedError } from '../../../../lib/Errors';
-import { logger } from '../../../../lib/logger';
+import { logger } from '../../../../lib/loggerService';
 import { joiBodyMiddleware } from '../../../../middlewares/joiBodyMiddleware';
 import { extractTokenFromCookies } from '../../logic/extractTokenFromCookies';
 import { AuthenticationNetworkService } from '../../services/authentication/authentication.network.service';

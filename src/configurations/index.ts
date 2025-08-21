@@ -30,6 +30,7 @@ export function configuration(): Config {
     logSettings: {
       logLevel: 'info',
       logEnvironment: 'development',
+      useColoredOutput: process.env.NODE_ENV !== 'production',
     },
     database: {
       connectionString: process.env.DB_CONNECTION_STRING || 'postgres://user:password@localhost:5432/mydb',

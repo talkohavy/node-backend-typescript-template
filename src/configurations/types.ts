@@ -1,4 +1,4 @@
-import { LogLevelKeys } from '../lib/logger/logic/constants';
+import { LogLevelValues } from '../lib/logger/logic/constants';
 
 export type AuthCookieConfig = {
   /**
@@ -27,8 +27,9 @@ export type CookiesConfig = {
 };
 
 export type LoggerSettingsConfig = {
-  logLevel: LogLevelKeys;
+  logLevel: LogLevelValues;
   logEnvironment: string;
+  useColoredOutput: boolean;
 };
 
 export type DatabaseConfig = {

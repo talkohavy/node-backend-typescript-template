@@ -3,7 +3,7 @@ import { CookiesConfig } from '../../../configurations/types';
 import { configService } from '../../../lib/config/config.service';
 import { ControllerFactory } from '../../../lib/controller-factory';
 import { UnauthorizedError } from '../../../lib/Errors';
-import { logger } from '../../../lib/logger';
+import { logger } from '../../../lib/loggerService';
 import { TokenVerificationService } from '../services/token-verification.service';
 
 export class TokenVerificationController implements ControllerFactory {

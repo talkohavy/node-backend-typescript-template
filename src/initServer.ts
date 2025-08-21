@@ -3,7 +3,7 @@ import { configuration } from './configurations';
 import { CallContextMiddleware } from './lib/call-context/call-context.middleware';
 import { initCallContextService } from './lib/call-context/call-context.service';
 import { initConfigService } from './lib/config/config.service';
-import { initLoggerService } from './lib/logger/logger.service';
+import { initLoggerService } from './lib/loggerService/logger.service';
 import { attachBaseMiddlewares } from './middlewares/attachBaseMiddlewares';
 import { attachErrorMiddlewares } from './middlewares/attachErrorMiddlewares';
 import { attachBackendModule } from './modules/backend/backend.module';
