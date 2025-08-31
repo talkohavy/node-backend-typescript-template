@@ -2,12 +2,13 @@ import { LoggerSettingsConfig } from '../../configurations/types';
 import { CallContextService } from '../call-context/call-context.service';
 import { CONTEXT_KEYS } from '../call-context/logic/constants';
 import { ConfigService } from '../config/config.service';
-import { initLogger, Logger } from '../logger/logger';
+import { initLogger } from '../logger/logger';
+import { ILogger } from '../logger/types';
 import { SERVICE_NAME } from './logic/constants';
 import { EnrichLogMetadataProps } from './types';
 
 export class LoggerService {
-  readonly logger: Logger;
+  readonly logger: ILogger;
 
   public constructor(
     private readonly configService: ConfigService,

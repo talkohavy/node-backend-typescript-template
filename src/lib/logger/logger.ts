@@ -1,9 +1,9 @@
 import { colorMyJson } from 'color-my-json';
 import { LogLevel, LogLevelToNumber, LogLevelValues } from './logic/constants';
 import { createEnumerableError } from './logic/utils/createEnumerableError';
-import { EnrichLogMetadataProps, LoggerConstructorProps, LoggerSettings } from './types';
+import { EnrichLogMetadataProps, ILogger, LoggerConstructorProps, LoggerSettings } from './types';
 
-export class Logger {
+class Logger implements ILogger {
   private readonly settings: LoggerSettings;
   private readonly fixedKeys: Record<string, any>;
   private readonly globalLogLevelValue: number;

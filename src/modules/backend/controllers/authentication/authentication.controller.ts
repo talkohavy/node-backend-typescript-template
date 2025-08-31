@@ -3,12 +3,8 @@ import { StatusCodes } from '../../../../common/constants';
 import { Config, CookiesConfig } from '../../../../configurations/types';
 import { configService } from '../../../../lib/config/config.service';
 import { ControllerFactory } from '../../../../lib/controller-factory';
-<<<<<<< Updated upstream
 import { BadRequestError } from '../../../../lib/Errors';
-import { logger } from '../../../../lib/logger';
-=======
 import { logger } from '../../../../lib/loggerService';
->>>>>>> Stashed changes
 import { joiBodyMiddleware } from '../../../../middlewares/joiBodyMiddleware';
 import { UserNotFoundError } from '../../../users/logic/users.errors';
 import { AuthenticationNetworkService } from '../../services/authentication/authentication.network.service';
