@@ -1,11 +1,9 @@
-import { LoggerSettingsConfig } from '../../configurations/types';
+import type { ILogger } from '../logger';
+import { LoggerServiceSettings } from '../../configurations/types';
 import { CallContextService } from '../call-context/call-context.service';
-import { CONTEXT_KEYS } from '../call-context/logic/constants';
 import { ConfigService } from '../config/config.service';
 import { initLogger } from '../logger/logger';
-import { ILogger } from '../logger/types';
-import { SERVICE_NAME } from './logic/constants';
-import { EnrichLogMetadataProps } from './types';
+import { Context } from './logic/constants';
 
 export class LoggerService {
   readonly logger: ILogger;
@@ -14,9 +12,9 @@ export class LoggerService {
     private readonly configService: ConfigService,
     private readonly callContextService: CallContextService,
   ) {
-    const settings = this.configService.get<LoggerSettingsConfig>('logSettings');
+    const settings = this.configService.get<LoggerServiceSettings>('logSettings');
 
-    const fixedKeys = { domain: SERVICE_NAME };
+    const fixedKeys = { serviceName: settings.serviceName };
     this.logger = initLogger(settings, fixedKeys);
   }
 
@@ -58,7 +56,7 @@ export class LoggerService {
     this.logger.fatal(message, logMetadata);
   }
 
-  private addLogContext(data: EnrichLogMetadataProps = {}) {
+  private addLogContext(data: Record<string, any> = {}) {
     const logContextMetadata = this.getLogMetadataFromContext(this.callContextService.getStore());
 
     const enrichedLogMetadata = { data, ...logContextMetadata };
@@ -70,12 +68,12 @@ export class LoggerService {
     if (!callContextStore) return {};
 
     return {
-      [CONTEXT_KEYS.RequestId]: callContextStore.get(CONTEXT_KEYS.RequestId) as string,
-      [CONTEXT_KEYS.Method]: callContextStore.get(CONTEXT_KEYS.Method) as string,
-      [CONTEXT_KEYS.Query]: callContextStore.get(CONTEXT_KEYS.Query) as string,
-      [CONTEXT_KEYS.OriginalUrl]: callContextStore.get(CONTEXT_KEYS.OriginalUrl) as string,
-      [CONTEXT_KEYS.Url]: callContextStore.get(CONTEXT_KEYS.Url) as string,
-      [CONTEXT_KEYS.Path]: callContextStore.get(CONTEXT_KEYS.Path) as string,
+      [Context.RequestId]: callContextStore.get(Context.RequestId) as string,
+      [Context.Method]: callContextStore.get(Context.Method) as string,
+      [Context.Query]: callContextStore.get(Context.Query) as string,
+      [Context.OriginalUrl]: callContextStore.get(Context.OriginalUrl) as string,
+      [Context.Url]: callContextStore.get(Context.Url) as string,
+      [Context.Path]: callContextStore.get(Context.Path) as string,
     };
   }
 }

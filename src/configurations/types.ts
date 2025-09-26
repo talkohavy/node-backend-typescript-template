@@ -26,10 +26,11 @@ export type CookiesConfig = {
   refreshCookie: SingleCookie;
 };
 
-export type LoggerSettingsConfig = {
-  logLevel: LogLevelValues;
-  logEnvironment: string;
-  useColoredOutput: boolean;
+export type LoggerServiceSettings = {
+  serviceName?: string;
+  logLevel?: LogLevelValues;
+  logEnvironment?: string;
+  useColoredOutput?: boolean;
 };
 
 export type DatabaseConfig = {
@@ -43,6 +44,6 @@ export type Config = {
   authCookie: AuthCookieConfig;
   cookies: CookiesConfig;
   jwt: JwtConfig;
-  logSettings: LoggerSettingsConfig;
+  logSettings: LoggerServiceSettings;
   database: DatabaseConfig;
 };

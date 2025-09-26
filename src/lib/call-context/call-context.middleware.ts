@@ -1,45 +1,68 @@
 import { Application, NextFunction, Request, Response } from 'express';
-import { HEADERS } from '../../common/constants';
-import { CookiesConfig } from '../../configurations/types';
-import { ConfigService } from '../config/config.service';
-import { BadRequestError } from '../Errors';
 import { CallContextService } from './call-context.service';
-import { CONTEXT_KEYS } from './logic/constants';
+import { RequestContext } from './logic/constants';
 
 export class CallContextMiddleware {
-  public constructor(
-    private readonly callContextService: CallContextService<string, string>,
-    private readonly configService: ConfigService,
-  ) {}
+  public constructor(private readonly callContextService: CallContextService<string, string>) {}
 
-  public use(app: Application, excludedPaths: Array<string> = []) {
+  public use(
+    app: Application,
+    /**
+     * A middleware that will be executed BEFORE the context is created.
+     *
+     * You can use `shouldCallNext` to skip context creation and call next() right away.
+     *
+     * You can use `shouldReturn` to skip context creation and return right away.
+     *
+     * When you might want to call `shouldReturn`? Would'nt the request just hang?
+     * Well, obviously you'll have to call `res.end()` or `res.send()` or some similar method on `preUseMiddleware` before returning.
+     *
+     * @optional
+     */
+    preUseMiddleware?: (
+      req: Request,
+      res: Response,
+      next: NextFunction,
+    ) => { shouldCallNext?: boolean; shouldReturn?: boolean } | void,
+    /**
+     * A middleware that will be executed AFTER the context is created.
+     *
+     * You can use it to add more data to the context.
+     * @optional
+     */
+    postUseMiddleware?: (
+      callContextService: CallContextService<string, string>,
+      req: Request,
+      res: Response,
+      next: NextFunction,
+    ) => void,
+  ) {
     app.use((req: Request, res: Response, next: NextFunction) => {
-      if (excludedPaths.includes(req.path)) return void next();
+      if (preUseMiddleware) {
+        const { shouldCallNext, shouldReturn } = preUseMiddleware(req, res, next) ?? {};
 
-      if (req.originalUrl.includes('favicon.ico')) return void res.status(204).end();
+        if (shouldCallNext) return void next();
 
-      const { method, query, url, originalUrl, path } = req;
+        if (shouldReturn) return;
+      }
 
       this.callContextService.register();
-      const requestId = req.headers[HEADERS.RequestId] as string;
 
-      if (!requestId && req.url !== '/sse') throw new BadRequestError(`Missing ${CONTEXT_KEYS.RequestId} header`);
+      this.attachRequestInfo(req);
 
-      this.callContextService.set(CONTEXT_KEYS.RequestId, requestId);
-      this.callContextService.set(CONTEXT_KEYS.Method, method);
-      this.callContextService.set(CONTEXT_KEYS.OriginalUrl, originalUrl);
-      this.callContextService.set(CONTEXT_KEYS.Url, url);
-      this.callContextService.set(CONTEXT_KEYS.Path, path);
-      this.callContextService.set(CONTEXT_KEYS.Query, JSON.stringify(query));
-
-      const { accessCookie } = this.configService.get<CookiesConfig>('cookies');
-
-      this.callContextService.set(
-        CONTEXT_KEYS.CookieHeaderValue,
-        [`${accessCookie.name}=${req.cookies[accessCookie.name]}`].join(';'),
-      );
+      postUseMiddleware?.(this.callContextService, req, res, next);
 
       next();
     });
+  }
+
+  private attachRequestInfo(req: Request) {
+    const { method, query, url, originalUrl, path } = req;
+
+    this.callContextService.set(RequestContext.Method, method);
+    this.callContextService.set(RequestContext.OriginalUrl, originalUrl);
+    this.callContextService.set(RequestContext.Url, url);
+    this.callContextService.set(RequestContext.Path, path);
+    this.callContextService.set(RequestContext.Query, JSON.stringify(query));
   }
 }

@@ -1,4 +1,6 @@
 import express from 'express';
+import { postUseMiddleware } from './common/utils/postUseMiddleware';
+import { preUseMiddleware } from './common/utils/preUseMiddleware';
 import { configuration } from './configurations';
 import { CallContextMiddleware } from './lib/call-context/call-context.middleware';
 import { initCallContextService } from './lib/call-context/call-context.service';
@@ -13,14 +15,15 @@ export async function startServer() {
   const configService = initConfigService(configuration());
   const callContextService = initCallContextService();
   const logger = initLoggerService(configService, callContextService);
-  const callContextMiddleware = new CallContextMiddleware(callContextService, configService);
+
+  const callContextMiddleware = new CallContextMiddleware(callContextService);
 
   const app = express();
 
   const PORT = configService.get<number>('port');
 
   attachBaseMiddlewares({ app });
-  callContextMiddleware.use(app, ['/health-check']);
+  callContextMiddleware.use(app, preUseMiddleware, postUseMiddleware);
 
   attachHealthCheckModule(app);
   attachBackendModule(app);

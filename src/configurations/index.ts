@@ -28,6 +28,7 @@ export function configuration(): Config {
       },
     },
     logSettings: {
+      serviceName: 'my-service',
       logLevel: 'info',
       logEnvironment: 'development',
       useColoredOutput: process.env.NODE_ENV !== 'production',

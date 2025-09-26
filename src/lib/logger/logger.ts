@@ -1,7 +1,8 @@
 import { colorMyJson } from 'color-my-json';
+import { ILogger, LoggerConstructorProps } from './logger.interface';
 import { LogLevel, LogLevelToNumber, LogLevelValues } from './logic/constants';
 import { createEnumerableError } from './logic/utils/createEnumerableError';
-import { EnrichLogMetadataProps, ILogger, LoggerConstructorProps, LoggerSettings } from './types';
+import { LoggerSettings } from './types';
 
 class Logger implements ILogger {
   private readonly settings: LoggerSettings;
@@ -88,7 +89,7 @@ class Logger implements ILogger {
     console.log(logMetadata);
   }
 
-  private enrichLogMetadata(message: string, extraData: EnrichLogMetadataProps, level: LogLevelValues) {
+  private enrichLogMetadata(message: string, extraData: Record<string, any>, level: LogLevelValues) {
     const error = extraData?.error && createEnumerableError(extraData.error);
 
     const enrichedLogMetadata = {

@@ -6,9 +6,9 @@ export const LogLevel = {
   Fatal: 'fatal',
 } as const;
 
-type LogLevelType = typeof LogLevel;
-export type LogLevelKeys = keyof LogLevelType;
-export type LogLevelValues = LogLevelType[LogLevelKeys];
+type TypeOfLogLevel = typeof LogLevel;
+export type LogLevelKeys = keyof TypeOfLogLevel;
+export type LogLevelValues = TypeOfLogLevel[LogLevelKeys];
 
 export const LogLevelToNumber: Record<LogLevelValues, number> = {
   [LogLevel.Fatal]: 0,

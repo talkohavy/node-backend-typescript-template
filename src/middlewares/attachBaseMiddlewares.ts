@@ -17,7 +17,7 @@ export function attachBaseMiddlewares(props: AttachBaseMiddlewaresProps) {
   const { app, bodySizeLimit = '10mb' } = props;
 
   app.disable('x-powered-by');
-  app.set('etag', false);
+  // app.set('etag', false);
 
   attachHelmetMiddleware({ app });
 
