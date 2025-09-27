@@ -1,8 +1,9 @@
 import { Application, Request, Response } from 'express';
 import { createWriteStream } from 'fs';
 import { join } from 'path';
+import { ControllerFactory } from '../../lib/controller-factory';
 
-export class TransactionsController {
+export class TransactionsController implements ControllerFactory {
   app: Application;
 
   constructor(app: Application) {

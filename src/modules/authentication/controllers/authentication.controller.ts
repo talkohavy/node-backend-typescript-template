@@ -1,9 +1,10 @@
+import { ControllerFactory } from '../../../lib/controller-factory';
 import { PasswordManagementController } from './password-management.controller';
 import { SessionManagementController } from './session-management.controller';
 import { TokenGenerationController } from './token-generation.controller';
 import { TokenVerificationController } from './token-verification.controller';
 
-export class AuthenticationController {
+export class AuthenticationController implements ControllerFactory {
   constructor(
     private readonly passwordManagementController: PasswordManagementController,
     private readonly tokenGenerationController: TokenGenerationController,

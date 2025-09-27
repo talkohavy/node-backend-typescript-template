@@ -1,7 +1,8 @@
 import { Application } from 'express';
 import { logger } from '../../configurations';
+import { ControllerFactory } from '../../lib/controller-factory';
 
-export class HealthCheckController {
+export class HealthCheckController implements ControllerFactory {
   app: Application;
 
   constructor(app: Application) {

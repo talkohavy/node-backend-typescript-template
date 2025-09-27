@@ -1,8 +1,9 @@
 import { Application } from 'express';
+import { ControllerFactory } from '../../lib/controller-factory';
 import { ServerSentEventsService } from './serverSentEvents.service';
 import { createEventMessage } from './utils/createEventMessage';
 
-export class ServerSentEventsController {
+export class ServerSentEventsController implements ControllerFactory {
   app: Application;
   serverSentEventsService: ServerSentEventsService;
 
