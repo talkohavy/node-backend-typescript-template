@@ -3,11 +3,7 @@ import { logger } from '../../configurations';
 import { ControllerFactory } from '../../lib/controller-factory';
 
 export class HealthCheckController implements ControllerFactory {
-  app: Application;
-
-  constructor(app: Application) {
-    this.app = app;
-  }
+  constructor(private readonly app: Application) {}
 
   healthCheck() {
     this.app.get('/health-check', async (_req, res) => {

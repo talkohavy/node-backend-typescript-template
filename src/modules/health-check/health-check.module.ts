@@ -1,8 +1,21 @@
 import { Application } from 'express';
 import { HealthCheckController } from './health-check.controller';
 
-export function attachHealthCheckModule(app: Application) {
-  const controller = new HealthCheckController(app);
+export class HealthCheckModule {
+  private static instance: HealthCheckModule;
 
-  controller.attachRoutes();
+  private constructor() {}
+
+  static getInstance(): HealthCheckModule {
+    if (!HealthCheckModule.instance) {
+      HealthCheckModule.instance = new HealthCheckModule();
+    }
+    return HealthCheckModule.instance;
+  }
+
+  attachController(app: Application): void {
+    const controller = new HealthCheckController(app);
+
+    controller.attachRoutes();
+  }
 }
