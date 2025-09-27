@@ -1,4 +1,6 @@
 import type { Config } from './constants';
+import { Environment } from '../common/constants';
+import { LogLevel } from '../lib/logger';
 
 export function configuration(): Config {
   return {
@@ -29,8 +31,8 @@ export function configuration(): Config {
     },
     logSettings: {
       serviceName: 'my-service',
-      logLevel: 'info',
-      logEnvironment: 'development',
+      logLevel: LogLevel.Debug,
+      logEnvironment: Environment.Dev,
       useColoredOutput: process.env.NODE_ENV !== 'production',
     },
     database: {

@@ -1,4 +1,5 @@
 import type { LoggerSettings } from '../lib/logger';
+import { EnvironmentValues } from '../common/constants';
 
 export const ConfigKeys = {
   Port: 'port',
@@ -53,7 +54,7 @@ export type JwtConfig = {
 
 export type LoggerServiceSettings = LoggerSettings & {
   serviceName?: string;
-  logEnvironment?: string;
+  logEnvironment?: EnvironmentValues;
 };
 
 export type DatabaseConfig = {
