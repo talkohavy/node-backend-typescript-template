@@ -1,5 +1,6 @@
-import { configuration, initConfigService } from '../configurations';
+import { configuration } from '../configurations';
 import { initCallContextService } from './initCallContextService';
+import { initConfigService } from './initConfigService';
 import { initLoggerService } from './initLoggerService';
 
 export async function bootstrap() {
