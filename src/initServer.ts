@@ -11,12 +11,14 @@ import { attachBaseMiddlewares } from './middlewares/attachBaseMiddlewares';
 import { attachErrorMiddlewares } from './middlewares/attachErrorMiddlewares';
 import { BackendModule } from './modules/backend/backend.module';
 import { attachHealthCheckModule } from './modules/health-check/health-check.module';
+// import { TransactionsModule } from './modules/transactions/transactions.module';
 
 export async function startServer() {
   const configService = initConfigService(configuration());
   const callContextService = initCallContextService();
   const logger = initLoggerService(callContextService);
   const backendModule = BackendModule.getInstance();
+  // const transactionsModule = TransactionsModule.getInstance();
 
   const callContextMiddleware = new CallContextMiddleware(callContextService);
 
@@ -30,7 +32,7 @@ export async function startServer() {
   attachHealthCheckModule(app);
   backendModule.attachController(app);
   // attachServerSentEventModule(app);
-  // attachTransactionsModule(app);
+  // transactionsModule.attachController(app);
 
   attachErrorMiddlewares({ app });
 
