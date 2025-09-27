@@ -35,7 +35,7 @@ export class BackendModule {
   }
 
   protected initializeModule(): void {
-    this.userUtilitiesNetworkService = new UserUtilitiesNetworkService();
+    // Init AuthenticationNetworkService
     this.passwordManagementNetworkService = new PasswordManagementNetworkService();
     this.tokenGenerationNetworkService = new TokenGenerationNetworkService();
     this.tokenVerificationNetworkService = new TokenVerificationNetworkService();
@@ -45,27 +45,34 @@ export class BackendModule {
       this.tokenVerificationNetworkService,
     );
 
+    // Init UsersNetworkService
     this.usersCrudNetworkService = new UsersCrudNetworkService();
+    this.userUtilitiesNetworkService = new UserUtilitiesNetworkService();
     this.usersNetworkService = new UsersNetworkService(this.usersCrudNetworkService, this.userUtilitiesNetworkService);
   }
 
   attachController(app: Application): void {
+    // Init Authentication Controller
     const authenticationController = new AuthenticationController(
       app,
       this.authenticationNetworkService,
       this.userUtilitiesNetworkService,
     );
 
+    // Init UsersCrud Controller
     const usersCrudController = new UsersCrudController(
       app,
       this.usersNetworkService,
       this.authenticationNetworkService,
     );
+
+    // Init UserUtilities Controller
     const userUtilitiesController = new UserUtilitiesController(
       app,
       this.usersNetworkService,
       this.authenticationNetworkService,
     );
+    // Init Users Controller
     const usersController = new UsersController(userUtilitiesController, usersCrudController);
 
     // Initialize middleware and main controller
