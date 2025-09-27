@@ -1,5 +1,5 @@
-import { configService } from '../../configurations';
-import { ConfigKeys } from '../../configurations/constants';
+import { ConfigKeys } from '../../configurations';
+import { configService } from '../../core';
 import { PostgresConnection } from '../../lib/database/postgres.connection';
 import { IUsersRepository } from './repositories/interfaces/users.repository.base';
 import { UsersPostgresRepository } from './repositories/users.postgres.repository';

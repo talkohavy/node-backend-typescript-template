@@ -1,7 +1,7 @@
 import { Application, CookieOptions, Request, Response } from 'express';
 import { StatusCodes } from '../../../../common/constants';
-import { configService, ConfigKeys, type CookiesConfig, type Config } from '../../../../configurations';
-import { logger } from '../../../../core';
+import { ConfigKeys, type CookiesConfig, type Config } from '../../../../configurations';
+import { logger, configService } from '../../../../core';
 import { ControllerFactory } from '../../../../lib/controller-factory';
 import { BadRequestError } from '../../../../lib/Errors';
 import { joiBodyMiddleware } from '../../../../middlewares/joiBodyMiddleware';

@@ -1,5 +1,6 @@
 import jwt, { VerifyOptions } from 'jsonwebtoken';
-import { ConfigKeys, configService, type JwtConfig } from '../../../configurations';
+import { ConfigKeys, type JwtConfig } from '../../../configurations';
+import { configService } from '../../../core';
 
 export class TokenVerificationService {
   constructor() {}
