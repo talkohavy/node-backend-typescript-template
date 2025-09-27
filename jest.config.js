@@ -1,4 +1,3 @@
-// @ts-ignore
 import requireJSON from 'json-easy-strip';
 import { createDefaultPreset } from 'ts-jest';
 import { pathsToModuleNameMapper } from 'ts-jest';
