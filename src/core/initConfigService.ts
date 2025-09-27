@@ -1,4 +1,4 @@
-import type { Config } from './constants';
+import { Config } from '../configurations';
 import { ConfigService } from '../lib/config-service';
 
 export let configService: ConfigService<Config>;
