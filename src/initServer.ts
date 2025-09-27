@@ -9,14 +9,14 @@ import { CallContextMiddleware } from './lib/call-context/call-context.middlewar
 import { initCallContextService } from './lib/call-context/call-context.service';
 import { attachBaseMiddlewares } from './middlewares/attachBaseMiddlewares';
 import { attachErrorMiddlewares } from './middlewares/attachErrorMiddlewares';
-import { attachBackendModule } from './modules/backend/backend.module';
+import { BackendModule } from './modules/backend/backend.module';
 import { attachHealthCheckModule } from './modules/health-check/health-check.module';
 
 export async function startServer() {
   const configService = initConfigService(configuration());
   const callContextService = initCallContextService();
-
   const logger = initLoggerService(callContextService);
+  const backendModule = BackendModule.getInstance();
 
   const callContextMiddleware = new CallContextMiddleware(callContextService);
 
@@ -28,7 +28,7 @@ export async function startServer() {
   callContextMiddleware.use(app, preUseMiddleware, postUseMiddleware);
 
   attachHealthCheckModule(app);
-  attachBackendModule(app);
+  backendModule.attachController(app);
   // attachServerSentEventModule(app);
   // attachTransactionsModule(app);
 

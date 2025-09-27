@@ -13,39 +13,67 @@ import { UserUtilitiesNetworkService } from './services/users/user-utilities.net
 import { UsersCrudNetworkService } from './services/users/users-crud.network.service';
 import { UsersNetworkService } from './services/users/users.network.service';
 
-export function attachBackendModule(app: Application) {
-  // initialize shared services
-  const userUtilitiesNetworkService = new UserUtilitiesNetworkService();
+export class BackendModule {
+  private static instance: BackendModule;
+  private userUtilitiesNetworkService!: UserUtilitiesNetworkService;
+  private passwordManagementNetworkService!: PasswordManagementNetworkService;
+  private tokenGenerationNetworkService!: TokenGenerationNetworkService;
+  private tokenVerificationNetworkService!: TokenVerificationNetworkService;
+  private authenticationNetworkService!: AuthenticationNetworkService;
+  private usersCrudNetworkService!: UsersCrudNetworkService;
+  private usersNetworkService!: UsersNetworkService;
 
-  // Initialize authentication controller
-  const passwordManagementNetworkService = new PasswordManagementNetworkService();
-  const tokenGenerationNetworkService = new TokenGenerationNetworkService();
-  const tokenVerificationNetworkService = new TokenVerificationNetworkService();
-  const authenticationNetworkService = new AuthenticationNetworkService(
-    passwordManagementNetworkService,
-    tokenGenerationNetworkService,
-    tokenVerificationNetworkService,
-  );
+  private constructor() {
+    this.initializeModule();
+  }
 
-  const authenticationController = new AuthenticationController(
-    app,
-    authenticationNetworkService,
-    userUtilitiesNetworkService,
-  );
+  static getInstance(): BackendModule {
+    if (!BackendModule.instance) {
+      BackendModule.instance = new BackendModule();
+    }
+    return BackendModule.instance;
+  }
 
-  // Initialize users controller
-  const usersCrudNetworkService = new UsersCrudNetworkService();
-  const usersNetworkService = new UsersNetworkService(usersCrudNetworkService, userUtilitiesNetworkService);
+  protected initializeModule(): void {
+    this.userUtilitiesNetworkService = new UserUtilitiesNetworkService();
+    this.passwordManagementNetworkService = new PasswordManagementNetworkService();
+    this.tokenGenerationNetworkService = new TokenGenerationNetworkService();
+    this.tokenVerificationNetworkService = new TokenVerificationNetworkService();
+    this.authenticationNetworkService = new AuthenticationNetworkService(
+      this.passwordManagementNetworkService,
+      this.tokenGenerationNetworkService,
+      this.tokenVerificationNetworkService,
+    );
 
-  const usersCrudController = new UsersCrudController(app, usersNetworkService, authenticationNetworkService);
-  const userUtilitiesController = new UserUtilitiesController(app, usersNetworkService, authenticationNetworkService);
-  const usersController = new UsersController(userUtilitiesController, usersCrudController);
+    this.usersCrudNetworkService = new UsersCrudNetworkService();
+    this.usersNetworkService = new UsersNetworkService(this.usersCrudNetworkService, this.userUtilitiesNetworkService);
+  }
 
-  // Initialize middleware and main controller
-  const backendMiddleware = new BackendMiddleware(app);
-  const backendController = new BackendController(authenticationController, usersController);
+  attachController(app: Application): void {
+    const authenticationController = new AuthenticationController(
+      app,
+      this.authenticationNetworkService,
+      this.userUtilitiesNetworkService,
+    );
 
-  backendMiddleware.use();
+    const usersCrudController = new UsersCrudController(
+      app,
+      this.usersNetworkService,
+      this.authenticationNetworkService,
+    );
+    const userUtilitiesController = new UserUtilitiesController(
+      app,
+      this.usersNetworkService,
+      this.authenticationNetworkService,
+    );
+    const usersController = new UsersController(userUtilitiesController, usersCrudController);
 
-  backendController.attachRoutes();
+    // Initialize middleware and main controller
+    const backendMiddleware = new BackendMiddleware(app);
+    const backendController = new BackendController(authenticationController, usersController);
+
+    backendMiddleware.use();
+
+    backendController.attachRoutes();
+  }
 }
