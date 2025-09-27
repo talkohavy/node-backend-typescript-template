@@ -4,11 +4,7 @@ import { join } from 'path';
 import { ControllerFactory } from '../../lib/controller-factory';
 
 export class TransactionsController implements ControllerFactory {
-  app: Application;
-
-  constructor(app: Application) {
-    this.app = app;
-  }
+  constructor(private readonly app: Application) {}
 
   async uploadFile() {
     this.app.post('/transactions/upload-file', (req: Request, res: Response): any => {
