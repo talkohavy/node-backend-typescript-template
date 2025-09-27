@@ -1,4 +1,4 @@
-import type { LogLevelValues } from '../lib/logger';
+import type { LoggerSettings } from '../lib/logger';
 
 export const ConfigKeys = {
   Port: 'port',
@@ -51,11 +51,9 @@ export type JwtConfig = {
   issuer: string;
 };
 
-export type LoggerServiceSettings = {
+export type LoggerServiceSettings = LoggerSettings & {
   serviceName?: string;
-  logLevel?: LogLevelValues;
   logEnvironment?: string;
-  useColoredOutput?: boolean;
 };
 
 export type DatabaseConfig = {
