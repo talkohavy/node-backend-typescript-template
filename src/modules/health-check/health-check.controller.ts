@@ -1,5 +1,5 @@
 import { Application } from 'express';
-import { logger } from '../../configurations';
+import { logger } from '../../core';
 import { ControllerFactory } from '../../lib/controller-factory';
 
 export class HealthCheckController implements ControllerFactory {

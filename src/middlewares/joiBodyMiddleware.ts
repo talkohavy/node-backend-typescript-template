@@ -1,6 +1,6 @@
 import type { NextFunction, Request, Response } from 'express';
 import Joi from 'joi';
-import { logger } from '../configurations';
+import { logger } from '../core';
 import { BadRequestError } from '../lib/Errors';
 
 export function joiBodyMiddleware(validationSchema: Joi.ObjectSchema<any>): any {

@@ -1,6 +1,6 @@
 import { Application, Request, Response } from 'express';
 import { StatusCodes } from '../../../../common/constants';
-import { logger } from '../../../../configurations';
+import { logger } from '../../../../core';
 import { ControllerFactory } from '../../../../lib/controller-factory';
 import { extractTokenFromCookies } from '../../logic/extractTokenFromCookies';
 import { AuthenticationNetworkService } from '../../services/authentication/authentication.network.service';

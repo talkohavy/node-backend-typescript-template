@@ -1,7 +1,8 @@
 import { Application, Request, Response } from 'express';
-import { configService, logger } from '../../../configurations';
+import { configService } from '../../../configurations';
 import { ConfigKeys } from '../../../configurations/constants';
 import { CookiesConfig } from '../../../configurations/constants';
+import { logger } from '../../../core';
 import { ControllerFactory } from '../../../lib/controller-factory';
 import { UnauthorizedError } from '../../../lib/Errors';
 import { TokenVerificationService } from '../services/token-verification.service';

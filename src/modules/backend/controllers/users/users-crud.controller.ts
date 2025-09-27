@@ -1,6 +1,6 @@
 import { Application, Request, Response } from 'express';
 import { StatusCodes } from '../../../../common/constants';
-import { logger } from '../../../../configurations';
+import { logger } from '../../../../core';
 import { ControllerFactory } from '../../../../lib/controller-factory';
 import { ForbiddenError, UnauthorizedError } from '../../../../lib/Errors';
 import { joiBodyMiddleware } from '../../../../middlewares/joiBodyMiddleware';

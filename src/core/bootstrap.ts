@@ -1,0 +1,14 @@
+import { configuration, initConfigService } from '../configurations';
+import { initCallContextService } from './initCallContextService';
+import { initLoggerService } from './initLoggerService';
+
+export async function bootstrap() {
+  const configSettings = configuration();
+  const configService = initConfigService(configSettings);
+
+  const callContextService = initCallContextService();
+
+  const loggerService = initLoggerService(callContextService);
+
+  return { configService, callContextService, loggerService };
+}

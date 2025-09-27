@@ -1,5 +1,5 @@
 import { Application, Request, Response } from 'express';
-import { logger } from '../../../configurations';
+import { logger } from '../../../core';
 import { ControllerFactory } from '../../../lib/controller-factory';
 import { UnauthorizedError } from '../../../lib/Errors';
 import { joiBodyMiddleware } from '../../../middlewares/joiBodyMiddleware';

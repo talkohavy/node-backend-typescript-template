@@ -1,12 +1,9 @@
 import express from 'express';
 import { postUseMiddleware } from './common/utils/postUseMiddleware';
 import { preUseMiddleware } from './common/utils/preUseMiddleware';
-import { configuration } from './configurations';
-import { ConfigKeys } from './configurations/constants';
-import { initConfigService } from './configurations/initConfigService';
-import { initLoggerService } from './configurations/initLoggerService';
+import { ConfigKeys } from './configurations';
+import { bootstrap } from './core';
 import { CallContextMiddleware } from './lib/call-context/call-context.middleware';
-import { initCallContextService } from './lib/call-context/call-context.service';
 import { attachBaseMiddlewares } from './middlewares/attachBaseMiddlewares';
 import { attachErrorMiddlewares } from './middlewares/attachErrorMiddlewares';
 import { BackendModule } from './modules/backend/backend.module';
@@ -14,9 +11,9 @@ import { HealthCheckModule } from './modules/health-check/health-check.module';
 // import { TransactionsModule } from './modules/transactions/transactions.module';
 
 export async function startServer() {
-  const configService = initConfigService(configuration());
-  const callContextService = initCallContextService();
-  const logger = initLoggerService(callContextService);
+  // Initialize all core services using bootstrap
+  const { configService, callContextService, loggerService: logger } = await bootstrap();
+
   const backendModule = BackendModule.getInstance();
   const healthCheckModule = HealthCheckModule.getInstance();
   // const transactionsModule = TransactionsModule.getInstance();
