@@ -1,12 +1,12 @@
-import { configService } from '../configurations';
 import { ConfigKeys } from '../configurations/constants';
 import { CallContextService } from '../lib/call-context';
+import { ConfigService } from '../lib/config-service';
 import { Logger, LogLevel, type LoggerSettings } from '../lib/logger';
 import { LoggerService } from '../lib/logger-service';
 
 export let logger: LoggerService;
 
-export function initLoggerService(callContextService: CallContextService): LoggerService {
+export function initLoggerService(configService: ConfigService, callContextService: CallContextService): LoggerService {
   const logSettings = configService.get(ConfigKeys.LogSettings);
 
   const settings: LoggerSettings = {

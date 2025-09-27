@@ -9,7 +9,7 @@ export async function bootstrap() {
 
   const callContextService = initCallContextService();
 
-  const loggerService = initLoggerService(callContextService);
+  const loggerService = initLoggerService(configService, callContextService);
 
   return { configService, callContextService, loggerService };
 }
