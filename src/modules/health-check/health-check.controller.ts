@@ -1,5 +1,5 @@
 import { Application } from 'express';
-import { logger } from '../../lib/loggerService/logger.service';
+import { logger } from '../../configurations';
 
 export class HealthCheckController {
   app: Application;

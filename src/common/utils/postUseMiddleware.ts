@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { CallContextService } from '../../lib/call-context';
-import { Context } from '../../lib/loggerService/logic/constants';
+import { Context } from '../../lib/logger-service';
 import { HEADERS } from '../constants';
 
 export function postUseMiddleware(

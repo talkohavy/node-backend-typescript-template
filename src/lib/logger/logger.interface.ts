@@ -2,6 +2,11 @@ import { LoggerSettings } from './types';
 
 export type LoggerConstructorProps = {
   settings: LoggerSettings;
+  /**
+   * Optional fixed keys with fixed values to include in every log entry.
+   *
+   * Useful for things like serviceName, environment, etc.
+   */
   fixedKeys?: Record<string, any>;
 };
 

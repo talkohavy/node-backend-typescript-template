@@ -1,9 +1,9 @@
 import { Application, Request, Response } from 'express';
-import { CookiesConfig } from '../../../configurations/types';
-import { configService } from '../../../lib/config/config.service';
+import { configService, logger } from '../../../configurations';
+import { ConfigKeys } from '../../../configurations/constants';
+import { CookiesConfig } from '../../../configurations/constants';
 import { ControllerFactory } from '../../../lib/controller-factory';
 import { UnauthorizedError } from '../../../lib/Errors';
-import { logger } from '../../../lib/loggerService';
 import { TokenVerificationService } from '../services/token-verification.service';
 
 export class TokenVerificationController implements ControllerFactory {
@@ -30,7 +30,7 @@ export class TokenVerificationController implements ControllerFactory {
   }
 
   private extractTokenFromCookies(cookies: any): string {
-    const { accessCookie } = configService.get<CookiesConfig>('cookies');
+    const { accessCookie } = configService.get<CookiesConfig>(ConfigKeys.Cookies);
     const token = cookies[accessCookie.name] as string;
 
     return token;

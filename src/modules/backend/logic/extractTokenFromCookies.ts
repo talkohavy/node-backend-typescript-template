@@ -1,5 +1,4 @@
-import { CookiesConfig } from '../../../configurations/types';
-import { configService } from '../../../lib/config/config.service';
+import { configService, type CookiesConfig } from '../../../configurations';
 
 export function extractTokenFromCookies(cookies: any): string {
   const { accessCookie } = configService.get<CookiesConfig>('cookies');

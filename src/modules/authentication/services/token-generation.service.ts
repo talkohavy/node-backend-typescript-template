@@ -1,6 +1,5 @@
 import jwt, { SignOptions } from 'jsonwebtoken';
-import { JwtConfig } from '../../../configurations/types';
-import { configService } from '../../../lib/config/config.service';
+import { configService, ConfigKeys, type JwtConfig } from '../../../configurations';
 import { CreateAccessTokenProps, CreateRefreshTokenProps } from './interfaces/token-generation.interface';
 
 export class TokenGenerationService {
@@ -17,7 +16,7 @@ export class TokenGenerationService {
   async createAccessToken(props: CreateAccessTokenProps): Promise<string> {
     const { payload } = props;
 
-    const { accessSecret, accessExpireTime, issuer } = configService.get<JwtConfig>('jwt');
+    const { accessSecret, accessExpireTime, issuer } = configService.get<JwtConfig>(ConfigKeys.Jwt);
 
     const options: SignOptions = {
       expiresIn: accessExpireTime as any,
@@ -38,7 +37,7 @@ export class TokenGenerationService {
   async createRefreshToken(props: CreateRefreshTokenProps): Promise<string> {
     const { payload } = props;
 
-    const { refreshSecret, refreshExpireTime, issuer } = configService.get<JwtConfig>('jwt');
+    const { refreshSecret, refreshExpireTime, issuer } = configService.get<JwtConfig>(ConfigKeys.Jwt);
 
     const options: SignOptions = {
       expiresIn: refreshExpireTime as any,

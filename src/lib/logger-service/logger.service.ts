@@ -1,22 +1,12 @@
 import type { ILogger } from '../logger';
-import { LoggerServiceSettings } from '../../configurations/types';
 import { CallContextService } from '../call-context/call-context.service';
-import { ConfigService } from '../config/config.service';
-import { initLogger } from '../logger/logger';
 import { Context } from './logic/constants';
 
 export class LoggerService {
-  readonly logger: ILogger;
-
   public constructor(
-    private readonly configService: ConfigService,
+    private readonly logger: ILogger,
     private readonly callContextService: CallContextService,
-  ) {
-    const settings = this.configService.get<LoggerServiceSettings>('logSettings');
-
-    const fixedKeys = { serviceName: settings.serviceName };
-    this.logger = initLogger(settings, fixedKeys);
-  }
+  ) {}
 
   debug(message: string, data?: any) {
     const logMetadata = this.addLogContext(data);
@@ -76,12 +66,4 @@ export class LoggerService {
       [Context.Path]: callContextStore.get(Context.Path) as string,
     };
   }
-}
-
-export let logger: LoggerService;
-
-export function initLoggerService(configService: ConfigService, callContextService: CallContextService): LoggerService {
-  logger = new LoggerService(configService, callContextService);
-
-  return logger;
 }

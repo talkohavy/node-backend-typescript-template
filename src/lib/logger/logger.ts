@@ -4,7 +4,7 @@ import { LogLevel, LogLevelToNumber, LogLevelValues } from './logic/constants';
 import { createEnumerableError } from './logic/utils/createEnumerableError';
 import { LoggerSettings } from './types';
 
-class Logger implements ILogger {
+export class Logger implements ILogger {
   private readonly settings: LoggerSettings;
   private readonly fixedKeys: Record<string, any>;
   private readonly globalLogLevelValue: number;
@@ -109,10 +109,4 @@ class Logger implements ILogger {
 
     return currentLogLevelValue <= this.globalLogLevelValue;
   }
-}
-
-export function initLogger(settings: LoggerSettings, fixedKeys?: Record<string, any>): Logger {
-  const logger = new Logger({ settings, fixedKeys });
-
-  return logger;
 }

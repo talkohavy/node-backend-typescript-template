@@ -1,6 +1,6 @@
 import { Application, Request, Response } from 'express';
+import { logger } from '../../../configurations';
 import { ControllerFactory } from '../../../lib/controller-factory';
-import { logger } from '../../../lib/loggerService';
 
 export class SessionManagementController implements ControllerFactory {
   constructor(private readonly app: Application) {}

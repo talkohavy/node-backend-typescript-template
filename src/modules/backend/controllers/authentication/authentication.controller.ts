@@ -1,10 +1,8 @@
 import { Application, CookieOptions, Request, Response } from 'express';
 import { StatusCodes } from '../../../../common/constants';
-import { Config, CookiesConfig } from '../../../../configurations/types';
-import { configService } from '../../../../lib/config/config.service';
+import { logger, configService, ConfigKeys, type CookiesConfig, type Config } from '../../../../configurations';
 import { ControllerFactory } from '../../../../lib/controller-factory';
 import { BadRequestError } from '../../../../lib/Errors';
-import { logger } from '../../../../lib/loggerService';
 import { joiBodyMiddleware } from '../../../../middlewares/joiBodyMiddleware';
 import { UserNotFoundError } from '../../../users/logic/users.errors';
 import { AuthenticationNetworkService } from '../../services/authentication/authentication.network.service';
@@ -77,7 +75,7 @@ export class AuthenticationController implements ControllerFactory {
     this.app.get('/users/logout', async (_req, res) => {
       logger.info('GET /users/logout - user logout');
 
-      const { accessCookie, refreshCookie } = configService.get<CookiesConfig>('cookies');
+      const { accessCookie, refreshCookie } = configService.get<CookiesConfig>(ConfigKeys.Cookies);
 
       res.clearCookie(accessCookie.name);
       res.clearCookie(refreshCookie.name);

@@ -1,7 +1,7 @@
 import { Application } from 'express';
 import { StatusCodes } from '../../../common/constants';
+import { logger } from '../../../configurations';
 import { ControllerFactory } from '../../../lib/controller-factory/controller-factory';
-import { logger } from '../../../lib/loggerService/logger.service';
 import { joiBodyMiddleware } from '../../../middlewares/joiBodyMiddleware';
 import { BooksService } from '../services/books.service';
 import { createBookSchema } from './dto/books.dto';

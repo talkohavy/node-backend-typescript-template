@@ -1,6 +1,6 @@
 import { Application, Request, Response } from 'express';
+import { logger } from '../../../configurations';
 import { ControllerFactory } from '../../../lib/controller-factory';
-import { logger } from '../../../lib/loggerService';
 import { joiBodyMiddleware } from '../../../middlewares/joiBodyMiddleware';
 import { TokenGenerationService } from '../services/token-generation.service';
 import { createTokensSchema } from './dto/create-tokens.dto';

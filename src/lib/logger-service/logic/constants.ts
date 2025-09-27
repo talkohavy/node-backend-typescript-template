@@ -1,4 +1,4 @@
-import { RequestContext } from '../../call-context/logic/constants';
+import { RequestContext } from '../../call-context';
 
 export const Context = {
   ...RequestContext,

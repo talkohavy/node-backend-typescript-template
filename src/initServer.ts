@@ -2,10 +2,11 @@ import express from 'express';
 import { postUseMiddleware } from './common/utils/postUseMiddleware';
 import { preUseMiddleware } from './common/utils/preUseMiddleware';
 import { configuration } from './configurations';
+import { ConfigKeys } from './configurations/constants';
+import { initConfigService } from './configurations/initConfigService';
+import { initLoggerService } from './configurations/initLoggerService';
 import { CallContextMiddleware } from './lib/call-context/call-context.middleware';
 import { initCallContextService } from './lib/call-context/call-context.service';
-import { initConfigService } from './lib/config/config.service';
-import { initLoggerService } from './lib/loggerService/logger.service';
 import { attachBaseMiddlewares } from './middlewares/attachBaseMiddlewares';
 import { attachErrorMiddlewares } from './middlewares/attachErrorMiddlewares';
 import { attachBackendModule } from './modules/backend/backend.module';
@@ -14,13 +15,14 @@ import { attachHealthCheckModule } from './modules/health-check/health-check.mod
 export async function startServer() {
   const configService = initConfigService(configuration());
   const callContextService = initCallContextService();
-  const logger = initLoggerService(configService, callContextService);
+
+  const logger = initLoggerService(callContextService);
 
   const callContextMiddleware = new CallContextMiddleware(callContextService);
 
   const app = express();
 
-  const PORT = configService.get<number>('port');
+  const PORT = configService.get<number>(ConfigKeys.Port);
 
   attachBaseMiddlewares({ app });
   callContextMiddleware.use(app, preUseMiddleware, postUseMiddleware);

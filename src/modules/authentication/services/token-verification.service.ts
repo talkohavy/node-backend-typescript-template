@@ -1,12 +1,11 @@
 import jwt, { VerifyOptions } from 'jsonwebtoken';
-import { JwtConfig } from '../../../configurations/types';
-import { configService } from '../../../lib/config/config.service';
+import { ConfigKeys, configService, type JwtConfig } from '../../../configurations';
 
 export class TokenVerificationService {
   constructor() {}
 
   async verifyToken(token: string): Promise<any> {
-    const { accessSecret, issuer } = configService.get<JwtConfig>('jwt');
+    const { accessSecret, issuer } = configService.get<JwtConfig>(ConfigKeys.Jwt);
 
     const options: VerifyOptions = { issuer };
 

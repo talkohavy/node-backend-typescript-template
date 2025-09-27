@@ -1,4 +1,5 @@
-import { configService } from '../../lib/config/config.service';
+import { configService } from '../../configurations';
+import { ConfigKeys } from '../../configurations/constants';
 import { PostgresConnection } from '../../lib/database/postgres.connection';
 import { IUsersRepository } from './repositories/interfaces/users.repository.base';
 import { UsersPostgresRepository } from './repositories/users.postgres.repository';
@@ -25,7 +26,7 @@ class UsersModule {
   }
 
   protected initializeModule(): void {
-    const { connectionString } = configService.get<any>('database');
+    const { connectionString } = configService.get<any>(ConfigKeys.Database);
 
     // Initialize repositories
     // const dbClient = MongodbConnection.getInstance(connectionString, dbName);

@@ -1,5 +1,3 @@
-import { Config } from '../../configurations/types';
-
 export class ConfigService<T = Record<string, any>> {
   private readonly config: T;
 
@@ -29,12 +27,4 @@ export class ConfigService<T = Record<string, any>> {
   getAll(): T {
     return this.config;
   }
-}
-
-export let configService: ConfigService;
-
-export function initConfigService(initialConfig: Config) {
-  configService = new ConfigService(initialConfig);
-
-  return configService;
 }
