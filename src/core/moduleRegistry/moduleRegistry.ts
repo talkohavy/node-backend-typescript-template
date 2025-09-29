@@ -1,7 +1,8 @@
 import { Application } from 'express';
-import { BackendModule } from '../../modules/backend';
 import { HealthCheckModule } from '../../modules/health-check';
+import { UsersModule } from '../../modules/users';
 import { IModule } from './types';
+// import { BackendModule } from '../../modules/backend';
 // import { TransactionsModule } from '../modules/transactions';
 
 export class ModuleRegistry {
@@ -14,7 +15,8 @@ export class ModuleRegistry {
   private initializeModules(): void {
     // Register all modules here
     this.modules.push(HealthCheckModule.getInstance());
-    this.modules.push(BackendModule.getInstance());
+    this.modules.push(UsersModule.getInstance());
+    // this.modules.push(BackendModule.getInstance());
     // this.modules.push(TransactionsModule.getInstance());
   }
 
