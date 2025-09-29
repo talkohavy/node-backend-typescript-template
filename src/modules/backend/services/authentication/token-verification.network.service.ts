@@ -1,8 +1,8 @@
-import { getAuthenticationModule } from '../../../authentication/authentication.module';
+import { AuthenticationModule } from '../../../authentication';
 
 export class TokenVerificationNetworkService {
   private readonly tokenVerificationService =
-    getAuthenticationModule().getAuthenticationService().tokenVerificationService;
+    AuthenticationModule.getInstance().getAuthenticationService().tokenVerificationService;
 
   constructor() {}
 

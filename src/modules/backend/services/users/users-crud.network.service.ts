@@ -1,6 +1,5 @@
 import crypto from 'node:crypto';
-import { DatabaseUser } from '../../../users/types';
-import { UsersModule } from '../../../users/users.module';
+import { UsersModule, type DatabaseUser } from '../../../users';
 import { generateHashedPassword } from '../../controllers/users/logic/generateHashedPassword';
 
 export class UsersCrudNetworkService {

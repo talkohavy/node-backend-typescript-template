@@ -70,7 +70,3 @@ export class AuthenticationModule {
     return this.authenticationService;
   }
 }
-
-export function getAuthenticationModule(): AuthenticationModule {
-  return AuthenticationModule.getInstance();
-}

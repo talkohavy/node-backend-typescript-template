@@ -1,8 +1,8 @@
 import { Application } from 'express';
-import { BackendModule } from '../../modules/backend/backend.module';
-import { HealthCheckModule } from '../../modules/health-check/health-check.module';
+import { BackendModule } from '../../modules/backend';
+import { HealthCheckModule } from '../../modules/health-check';
 import { IModule } from './types';
-// import { TransactionsModule } from '../modules/transactions/transactions.module';
+// import { TransactionsModule } from '../modules/transactions';
 
 export class ModuleRegistry {
   private modules: IModule[] = [];

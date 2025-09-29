@@ -1,8 +1,9 @@
-import { getAuthenticationModule } from '../../../authentication/authentication.module';
+import { AuthenticationModule } from '../../../authentication';
 import { CreateAccessTokenProps, CreateRefreshTokenProps } from './interfaces/token-generation.network.interface';
 
 export class TokenGenerationNetworkService {
-  private readonly tokenGenerationService = getAuthenticationModule().getAuthenticationService().tokenGenerationService;
+  private readonly tokenGenerationService =
+    AuthenticationModule.getInstance().getAuthenticationService().tokenGenerationService;
 
   constructor() {}
 

@@ -1,9 +1,9 @@
-import { getAuthenticationModule } from '../../../authentication/authentication.module';
+import { AuthenticationModule } from '../../../authentication';
 import { GenerateHashedPasswordProps } from './interfaces/password-management.network.interface';
 
 export class PasswordManagementNetworkService {
   private readonly passwordManagementService =
-    getAuthenticationModule().getAuthenticationService().passwordManagementService;
+    AuthenticationModule.getInstance().getAuthenticationService().passwordManagementService;
 
   constructor() {}
 
