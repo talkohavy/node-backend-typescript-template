@@ -6,6 +6,7 @@ import { bootstrap, ModuleRegistry } from './core';
 import { CallContextMiddleware } from './lib/call-context/call-context.middleware';
 import { attachBaseMiddlewares } from './middlewares/attachBaseMiddlewares';
 import { attachErrorMiddlewares } from './middlewares/attachErrorMiddlewares';
+import { attachRequestIdMiddleware } from './middlewares/attachRequestIdMiddleware';
 
 export async function startServer() {
   const { configService, callContextService, loggerService: logger } = await bootstrap();
@@ -18,6 +19,7 @@ export async function startServer() {
 
   const PORT = configService.get<number>(ConfigKeys.Port);
 
+  attachRequestIdMiddleware(app);
   attachBaseMiddlewares(app);
   callContextMiddleware.use(app, preUseMiddleware, postUseMiddleware);
 
