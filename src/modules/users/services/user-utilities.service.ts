@@ -1,12 +1,18 @@
 import { UserNotFoundError } from '../logic/users.errors';
 import { IUsersRepository } from '../repositories/interfaces/users.repository.base';
+import { FieldScreeningService } from '../services/field-screening.service';
 import { DatabaseUser } from '../types';
 
 export class UserUtilitiesService {
-  constructor(private readonly usersRepository: IUsersRepository) {}
+  constructor(
+    private readonly usersRepository: IUsersRepository,
+    private readonly fieldScreeningService: FieldScreeningService,
+  ) {}
 
   async getUserByEmail(email: string): Promise<DatabaseUser> {
-    const fields = ['id', 'email', 'nickname', 'hashed_password'];
+    const nonSensitiveFields = this.fieldScreeningService.getNonSensitiveFields();
+    const fields = [...nonSensitiveFields, 'hashedPassword'];
+
     const user = await this.usersRepository.getUserByEmail(email, { fields });
 
     if (!user) throw new UserNotFoundError(email);

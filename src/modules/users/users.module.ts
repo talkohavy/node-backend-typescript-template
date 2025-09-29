@@ -1,18 +1,24 @@
+import { Application } from 'express';
 import { ConfigKeys } from '../../configurations';
 import { configService } from '../../core';
 import { PostgresConnection } from '../../lib/database/postgres.connection';
+import { UserUtilitiesController } from './controllers/user-utilities.controller';
+import { UsersCrudController } from './controllers/users-crud.controller';
+import { UsersController } from './controllers/users.controller';
+import { UsersMiddleware } from './middleware/users.middleware';
 import { IUsersRepository } from './repositories/interfaces/users.repository.base';
 import { UsersPostgresRepository } from './repositories/users.postgres.repository';
+import { FieldScreeningService } from './services/field-screening.service';
 import { UserUtilitiesService } from './services/user-utilities.service';
 import { UsersCrudService } from './services/users-crud.service';
-import { UsersService } from './services/users.service';
 // import { MongodbConnection } from '../../lib/database/mongo.connection';
 // import { UsersMongoRepository } from './repositories/users.mongo.repository';
 
 export class UsersModule {
   private static instance: UsersModule;
-  private usersService!: UsersService;
   private usersRepository!: IUsersRepository;
+  private usersCrudService!: UsersCrudService;
+  private userUtilitiesService!: UserUtilitiesService;
 
   private constructor() {
     this.initializeModule();
@@ -34,13 +40,31 @@ export class UsersModule {
     const dbClient = PostgresConnection.getInstance(connectionString);
     this.usersRepository = new UsersPostgresRepository(dbClient);
 
-    // Initialize services
-    const usersCrudService = new UsersCrudService(this.usersRepository);
-    const userUtilitiesService = new UserUtilitiesService(this.usersRepository);
-    this.usersService = new UsersService(usersCrudService, userUtilitiesService);
+    // Initialize helper services
+    const fieldScreeningService = new FieldScreeningService(['password'], ['name']);
+
+    // Initialize main services
+    this.userUtilitiesService = new UserUtilitiesService(this.usersRepository, fieldScreeningService);
+    this.usersCrudService = new UsersCrudService(this.usersRepository);
   }
 
-  getUsersService(): UsersService {
-    return this.usersService;
+  attachController(app: Application): void {
+    const userUtilitiesController = new UserUtilitiesController(app, this.userUtilitiesService);
+    const usersCrudController = new UsersCrudController(app, this.usersCrudService);
+
+    const usersController = new UsersController(userUtilitiesController, usersCrudController);
+    const usersMiddleware = new UsersMiddleware(app);
+
+    usersMiddleware.use();
+
+    usersController.attachRoutes();
+  }
+
+  getUserUtilitiesService(): UserUtilitiesService {
+    return this.userUtilitiesService;
+  }
+
+  getUsersCrudService(): UsersCrudService {
+    return this.usersCrudService;
   }
 }

@@ -24,7 +24,7 @@ export class UsersCrudService {
     return this.usersRepository.getUsers();
   }
 
-  async updateUser(userId: string, user: UpdateUserDto): Promise<DatabaseUser> {
+  async updateUserById(userId: string, user: UpdateUserDto): Promise<DatabaseUser> {
     const existingUser = await this.usersRepository.getUserById(userId);
 
     if (!existingUser) throw new UserNotFoundError(userId);
@@ -36,7 +36,7 @@ export class UsersCrudService {
     return updatedUser;
   }
 
-  async deleteUser(userId: string): Promise<{ success: boolean }> {
+  async deleteUserById(userId: string): Promise<{ success: boolean }> {
     try {
       await this.usersRepository.deleteUserById(userId);
       return { success: true };

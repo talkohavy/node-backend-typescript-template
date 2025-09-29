@@ -3,7 +3,7 @@ import { UsersModule, type DatabaseUser } from '../../../users';
 import { generateHashedPassword } from '../../controllers/users/logic/generateHashedPassword';
 
 export class UsersCrudNetworkService {
-  private readonly usersService = UsersModule.getInstance().getUsersService();
+  private readonly usersService = UsersModule.getInstance().getUsersCrudService();
 
   constructor() {}
 
@@ -18,31 +18,31 @@ export class UsersCrudNetworkService {
       dateOfBirth: body.dateOfBirth,
     };
 
-    const data = await this.usersService.crudService.createUser(createUserPayload);
+    const data = await this.usersService.createUser(createUserPayload);
 
     return data;
   }
 
   async getUsers(queryParams?: Record<string, any>): Promise<DatabaseUser[]> {
-    const data = await this.usersService.crudService.getUsers(queryParams);
+    const data = await this.usersService.getUsers(queryParams);
 
     return data;
   }
 
   async getUserById(userId: string): Promise<DatabaseUser> {
-    const data = await this.usersService.crudService.getUserById(userId);
+    const data = await this.usersService.getUserById(userId);
 
     return data;
   }
 
   async updateUserById(userId: string, userData: Partial<DatabaseUser>): Promise<DatabaseUser> {
-    const data = await this.usersService.crudService.updateUser(userId, userData);
+    const data = await this.usersService.updateUserById(userId, userData);
 
     return data;
   }
 
   async deleteUserById(id: string): Promise<{ success: boolean }> {
-    const data = await this.usersService.crudService.deleteUser(id);
+    const data = await this.usersService.deleteUserById(id);
 
     return data;
   }

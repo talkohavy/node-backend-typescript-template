@@ -2,7 +2,7 @@ import { UsersModule } from '../../../users';
 import { DatabaseUser } from '../../../users/types';
 
 export class UserUtilitiesNetworkService {
-  private readonly userUtilitiesService = UsersModule.getInstance().getUsersService().utilitiesService;
+  private readonly userUtilitiesService = UsersModule.getInstance().getUserUtilitiesService();
 
   constructor() {}
 
