@@ -30,7 +30,7 @@ export function configuration(): Config {
       },
     },
     logSettings: {
-      serviceName: 'my-service',
+      serviceName: 'my-nest-like-server',
       logLevel: LogLevel.Debug,
       logEnvironment: Environment.Dev,
       useColoredOutput: process.env.NODE_ENV !== 'production',
