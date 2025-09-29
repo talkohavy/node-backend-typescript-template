@@ -1,8 +1,8 @@
 import { DatabaseUser } from '../../../users/types';
-import { getUsersModule } from '../../../users/users.module';
+import { UsersModule } from '../../../users/users.module';
 
 export class UserUtilitiesNetworkService {
-  private readonly userUtilitiesService = getUsersModule().getUsersService().utilitiesService;
+  private readonly userUtilitiesService = UsersModule.getInstance().getUsersService().utilitiesService;
 
   constructor() {}
 

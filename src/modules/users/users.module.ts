@@ -9,7 +9,7 @@ import { UsersService } from './services/users.service';
 // import { MongodbConnection } from '../../lib/database/mongo.connection';
 // import { UsersMongoRepository } from './repositories/users.mongo.repository';
 
-class UsersModule {
+export class UsersModule {
   private static instance: UsersModule;
   private usersService!: UsersService;
   private usersRepository!: IUsersRepository;
@@ -43,8 +43,4 @@ class UsersModule {
   getUsersService(): UsersService {
     return this.usersService;
   }
-}
-
-export function getUsersModule(): UsersModule {
-  return UsersModule.getInstance();
 }

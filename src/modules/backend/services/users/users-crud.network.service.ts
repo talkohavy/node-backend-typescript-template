@@ -1,10 +1,10 @@
 import crypto from 'node:crypto';
 import { DatabaseUser } from '../../../users/types';
-import { getUsersModule } from '../../../users/users.module';
+import { UsersModule } from '../../../users/users.module';
 import { generateHashedPassword } from '../../controllers/users/logic/generateHashedPassword';
 
 export class UsersCrudNetworkService {
-  private readonly usersService = getUsersModule().getUsersService();
+  private readonly usersService = UsersModule.getInstance().getUsersService();
 
   constructor() {}
 

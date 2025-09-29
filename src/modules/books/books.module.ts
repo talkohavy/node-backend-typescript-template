@@ -3,7 +3,7 @@ import { BooksController } from './controllers/books.controller';
 import { BooksMiddleware } from './middleware/books.middleware';
 import { BooksService } from './services/books.service';
 
-class BooksModule {
+export class BooksModule {
   private static instance: BooksModule;
   private booksService!: BooksService;
 
@@ -34,8 +34,4 @@ class BooksModule {
   getBooksService(): BooksService {
     return this.booksService;
   }
-}
-
-export function getBooksModule(): BooksModule {
-  return BooksModule.getInstance();
 }
