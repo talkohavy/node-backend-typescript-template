@@ -1,32 +1,20 @@
 import express from 'express';
-import { postUseMiddleware } from './common/utils/postUseMiddleware';
-import { preUseMiddleware } from './common/utils/preUseMiddleware';
 import { ConfigKeys } from './configurations';
 import { bootstrap, ModuleRegistry } from './core';
-import { CallContextMiddleware } from './lib/call-context/call-context.middleware';
-import { attachBaseMiddlewares } from './middlewares/attachBaseMiddlewares';
-import { attachErrorMiddlewares } from './middlewares/attachErrorMiddlewares';
-import { attachRequestIdMiddleware } from './middlewares/attachRequestIdMiddleware';
+import { MiddlewareRegistry } from './core/middlewareRegistry/middlewareRegistry';
 
 export async function startServer() {
-  const { configService, callContextService, loggerService: logger } = await bootstrap();
+  const { configService, loggerService: logger } = await bootstrap();
 
   const moduleRegistry = new ModuleRegistry();
-
-  const callContextMiddleware = new CallContextMiddleware(callContextService);
+  const middlewareRegistry = new MiddlewareRegistry();
 
   const app = express();
 
-  const PORT = configService.get<number>(ConfigKeys.Port);
-
-  attachRequestIdMiddleware(app);
-  attachBaseMiddlewares(app);
-  callContextMiddleware.use(app, preUseMiddleware, postUseMiddleware);
-
+  middlewareRegistry.useAllMiddlewares(app);
   moduleRegistry.attachAllControllers(app);
 
-  attachErrorMiddlewares({ app });
-
+  const PORT = configService.get<number>(ConfigKeys.Port);
   app.listen(PORT, () => logger.log(`server started on port ${PORT}`));
 }
 

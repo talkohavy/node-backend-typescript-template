@@ -1,13 +1,7 @@
 import { Application, Request, Response } from 'express';
 import { StatusCodes } from '../common/constants';
 
-type AttachErrorMiddlewaresProps = {
-  app: Application;
-};
-
-export function attachErrorMiddlewares(props: AttachErrorMiddlewaresProps) {
-  const { app } = props;
-
+export function attachErrorMiddlewares(app: Application) {
   process.on('unhandledRejection', (err) => {
     console.error('unhandledRejection', { err });
     console.error('Should not get here!  You are missing a try/catch somewhere.');
