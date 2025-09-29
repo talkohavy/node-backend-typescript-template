@@ -8,13 +8,12 @@ import { attachHelmetMiddleware } from './attachHelmetMiddleware';
 
 const EXCLUDED_PATHS = ['/health-check'];
 
-type AttachBaseMiddlewaresProps = {
-  app: Application;
+type AttachBaseMiddlewaresOptions = {
   bodySizeLimit?: string;
 };
 
-export function attachBaseMiddlewares(props: AttachBaseMiddlewaresProps) {
-  const { app, bodySizeLimit = '10mb' } = props;
+export function attachBaseMiddlewares(app: Application, options?: AttachBaseMiddlewaresOptions) {
+  const { bodySizeLimit = '10mb' } = options ?? {};
 
   app.disable('x-powered-by');
   // app.set('etag', false);

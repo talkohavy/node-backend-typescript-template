@@ -18,7 +18,7 @@ export async function startServer() {
 
   const PORT = configService.get<number>(ConfigKeys.Port);
 
-  attachBaseMiddlewares({ app });
+  attachBaseMiddlewares(app);
   callContextMiddleware.use(app, preUseMiddleware, postUseMiddleware);
 
   moduleRegistry.attachAllControllers(app);
