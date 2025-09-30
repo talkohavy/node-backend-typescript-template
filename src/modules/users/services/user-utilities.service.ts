@@ -11,7 +11,7 @@ export class UserUtilitiesService {
 
   async getUserByEmail(email: string): Promise<DatabaseUser> {
     const nonSensitiveFields = this.fieldScreeningService.getNonSensitiveFields();
-    const fields = [...nonSensitiveFields, 'hashedPassword'];
+    const fields = [...nonSensitiveFields, 'hashed_password'];
 
     const user = await this.usersRepository.getUserByEmail(email, { fields });
 

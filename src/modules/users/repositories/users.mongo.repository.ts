@@ -1,3 +1,4 @@
+import { Types } from 'mongoose';
 import { UserModel } from '../../../database/mongo/models/user/user.model';
 import { MongodbConnection } from '../../../lib/database/mongo.connection';
 import { DatabaseUser } from '../types';
@@ -10,23 +11,31 @@ import {
   GetUserByEmailOptions,
 } from './interfaces/users.repository.interface';
 
+const { ObjectId } = Types;
+
 export class UsersMongoRepository implements IUsersRepository {
   constructor() {
     MongodbConnection.getInstance().ensureConnected();
   }
 
   async getUserByEmail(email: string, options: GetUserByEmailOptions = {}): Promise<DatabaseUser | null> {
-    const projection = options.fields ? options.fields.join(' ') : '';
-    const user = await UserModel.findOne({ email }, projection);
+    const { options: optionsRaw = {} } = options; // , fields
 
-    return user ? this.transformMongoUser(user) : null;
+    const queryStatement = { email };
+    const fieldProjection = undefined; // getProjection(fields);
+    const queryOptions = { lean: true, ...optionsRaw };
+
+    const userResult = (await UserModel.findOne(queryStatement, fieldProjection, queryOptions)) as DatabaseUser;
+
+    return userResult;
   }
 
   async createUser(body: CreateUserDto): Promise<DatabaseUser> {
-    const user = new UserModel(body);
-    const savedUser = await user.save();
+    const userData = { _id: new ObjectId(), ...body };
 
-    return this.transformMongoUser(savedUser);
+    const userResult = (await UserModel.create(userData)) as unknown as DatabaseUser;
+
+    return userResult;
   }
 
   async getUsers(props?: GetUsersProps): Promise<Array<DatabaseUser>> {
@@ -49,34 +58,36 @@ export class UsersMongoRepository implements IUsersRepository {
       query = query.sort(sortObj);
     }
 
-    const users = await query.exec();
-    return users.map((user: any) => this.transformMongoUser(user));
+    const users = (await query.exec()) as unknown as Array<DatabaseUser>;
+
+    return users;
   }
 
-  async getUserById(userId: string, _options: GetUserByIdOptions = {}): Promise<DatabaseUser | null> {
-    const user = await UserModel.findById(userId);
-    return user ? this.transformMongoUser(user) : null;
+  async getUserById(userId: string, options: GetUserByIdOptions = {}): Promise<DatabaseUser | null> {
+    const { options: optionsRaw = {} } = options; // fields,
+    const projection = undefined; // getProjection(fields);
+    const queryOptions = { lean: true, ...optionsRaw };
+
+    const userResult = (await UserModel.findById(userId, projection, queryOptions)) as DatabaseUser | null; // <--- This query ONLY WORKS if you had manually declared an _id field in your model. If not, you'd get back an error saying: "Argument passed in must be a string of 12 bytes or a string of 24 hex characters or an integer"
+
+    return userResult;
   }
 
   async updateUserById(userId: string, body: UpdateUserDto): Promise<DatabaseUser> {
-    const updatedUser = await UserModel.findByIdAndUpdate(userId, { $set: body }, { new: true });
+    const queryStatement = { _id: userId };
+    const updateStatement = [{ $addFields: body }];
+    const updateOptions = { new: true, lean: true }; // As an alternative to the `new` option, you can also use the `returnOriginal` option. returnOriginal: false is equivalent to new: true. The returnOriginal option exists for consistency with the the MongoDB Node driver's findOneAndUpdate(), which has the same option.
+    const updatedUser = (await UserModel.findOneAndUpdate(
+      queryStatement,
+      updateStatement,
+      updateOptions,
+    )) as DatabaseUser;
 
-    if (!updatedUser) throw new Error('User not found');
-    return this.transformMongoUser(updatedUser);
+    return updatedUser;
   }
 
   async deleteUserById(userId: string): Promise<boolean> {
     const result = await UserModel.findByIdAndDelete(userId);
     return !!result;
-  }
-
-  private transformMongoUser(mongoUser: any): DatabaseUser {
-    return {
-      id: mongoUser._id.toString(),
-      email: mongoUser.email,
-      hashed_password: mongoUser.hashed_password,
-      nickname: mongoUser.nickname,
-      date_of_birth: mongoUser.dateOfBirth,
-    };
   }
 }

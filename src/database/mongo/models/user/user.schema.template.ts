@@ -11,7 +11,6 @@ export const userSchemaTemplate: SchemaTemplate = {
    */
   _id: { type: Types.ObjectId, required: true, unique: true },
   email: { type: String, required: true, index: true, unique: true, lowercase: true, needPermission: true },
-  hashedPassword: { type: String, required: true, select: false },
+  hashed_password: { type: String, required: true, select: false },
   nickname: { type: String, default: '', required: true, index: true, unique: true },
-  lastUpdated: { type: Number, default: 555555, required: true, select: false },
 };

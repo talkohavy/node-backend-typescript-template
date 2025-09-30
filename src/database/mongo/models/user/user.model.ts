@@ -8,9 +8,9 @@ const { Schema, model } = mongoose;
 const userSchema = new Schema(userSchemaTemplate, {
   collection: 'users',
   toJSON: {
-    transform(_doc, ret) {
+    transform(_doc, _ret) {
       // Note: Fields will be available on backend, but will not transfer to frontend
-      delete ret.hashedPassword;
+      // delete ret.hashed_password;
       // delete ret.__v;
       // delete ret._id;
     },

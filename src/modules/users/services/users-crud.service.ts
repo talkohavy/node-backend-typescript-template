@@ -1,4 +1,5 @@
 import { UserNotFoundError } from '../logic/users.errors';
+import { createNewUserPayload } from '../logic/utils/createNewUserPayload';
 import { IUsersRepository } from '../repositories/interfaces/users.repository.base';
 import { DatabaseUser } from '../types';
 import { CreateUserDto, UpdateUserDto } from './interfaces/users.service.interface';
@@ -7,7 +8,9 @@ export class UsersCrudService {
   constructor(private readonly usersRepository: IUsersRepository) {}
 
   async createUser(userData: CreateUserDto): Promise<DatabaseUser> {
-    const createdUser = await this.usersRepository.createUser(userData);
+    const newUserPayload = createNewUserPayload(userData);
+
+    const createdUser = await this.usersRepository.createUser(newUserPayload);
 
     return createdUser;
   }

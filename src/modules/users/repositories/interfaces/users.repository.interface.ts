@@ -1,13 +1,15 @@
+import { QueryOptions } from 'mongoose';
+import { DatabaseUser } from '../../types';
+
 export type GetUserByEmailOptions = {
-  fields?: Array<string>;
+  fields?: any;
+  /**
+   * _**lean**_ option is set to `true` by default.
+   */
+  options?: QueryOptions;
 };
 
-export type CreateUserDto = {
-  email: string;
-  password: string;
-  nickname?: string;
-  dateOfBirth?: number | string;
-};
+export type CreateUserDto = Omit<DatabaseUser, 'id'>;
 
 export type GetUsersProps = {
   filter: any;
