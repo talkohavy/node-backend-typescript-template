@@ -9,8 +9,6 @@ export class MongodbConnection {
   private constructor(connectionString: string) {
     this.credentials = { connectionString };
     this.dbClient = mongoose;
-
-    this.connect();
   }
 
   public static getInstance(connectionString?: string): MongodbConnection {

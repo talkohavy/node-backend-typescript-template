@@ -6,8 +6,6 @@ export class PostgresConnection {
 
   private constructor(connectionString: string) {
     this.dbClient = new pg.Client(connectionString);
-
-    this.connect();
   }
 
   public static getInstance(connectionString?: string): PostgresConnection {
