@@ -1,18 +1,14 @@
 import { Application } from 'express';
-import { ConfigKeys, DatabaseConfig } from '../../configurations';
-import { configService } from '../../core';
-import { PostgresConnection } from '../../lib/database/postgres.connection';
 import { UserUtilitiesController } from './controllers/user-utilities.controller';
 import { UsersCrudController } from './controllers/users-crud.controller';
 import { UsersController } from './controllers/users.controller';
 import { UsersMiddleware } from './middleware/users.middleware';
 import { IUsersRepository } from './repositories/interfaces/users.repository.base';
-import { UsersPostgresRepository } from './repositories/users.postgres.repository';
+import { UsersMongoRepository } from './repositories/users.mongo.repository';
 import { FieldScreeningService } from './services/field-screening.service';
 import { UserUtilitiesService } from './services/user-utilities.service';
 import { UsersCrudService } from './services/users-crud.service';
-// import { MongodbConnection } from '../../lib/database/mongo.connection';
-// import { UsersMongoRepository } from './repositories/users.mongo.repository';
+// import { UsersPostgresRepository } from './repositories/users.postgres.repository';
 
 export class UsersModule {
   private static instance: UsersModule;
@@ -32,15 +28,9 @@ export class UsersModule {
   }
 
   protected async initializeModule(): Promise<void> {
-    const { connectionString } = configService.get<DatabaseConfig>(ConfigKeys.Database);
-
     // Initialize repositories
-    // const dbClient = MongodbConnection.getInstance(connectionString);
-    // await dbClient.connect();
-    // this.usersRepository = new UsersMongoRepository(dbClient);
-    const dbClient = PostgresConnection.getInstance(connectionString);
-    dbClient.connect();
-    this.usersRepository = new UsersPostgresRepository(dbClient);
+    this.usersRepository = new UsersMongoRepository();
+    // this.usersRepository = new UsersPostgresRepository();
 
     // Initialize helper services
     const fieldScreeningService = new FieldScreeningService(['hashedPassword'], ['nickname']);

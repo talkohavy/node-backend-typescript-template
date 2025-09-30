@@ -11,9 +11,8 @@ import {
 } from './interfaces/users.repository.interface';
 
 export class UsersMongoRepository implements IUsersRepository {
-  constructor(private readonly dbService: MongodbConnection) {
-    // Ensure database is connected
-    this.dbService.getClient();
+  constructor() {
+    MongodbConnection.getInstance().ensureConnected();
   }
 
   async getUserByEmail(email: string, options: GetUserByEmailOptions = {}): Promise<DatabaseUser | null> {

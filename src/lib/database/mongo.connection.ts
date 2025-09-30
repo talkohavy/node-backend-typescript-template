@@ -63,12 +63,6 @@ export class MongodbConnection {
     return connectWithRetry();
   }
 
-  public getClient(): Mongoose {
-    if (!this.isConnected) throw new Error('Database is not connected. Call connect() first.');
-
-    return this.dbClient;
-  }
-
   public async disconnect(): Promise<void> {
     if (this.isConnected) {
       await this.dbClient.disconnect();
@@ -81,5 +75,9 @@ export class MongodbConnection {
     const isHealthy = this.isConnected && this.dbClient.connection.readyState === 1;
 
     return isHealthy;
+  }
+
+  public ensureConnected() {
+    if (!this.isConnected) throw new Error('Database is not connected. Call connect() first.');
   }
 }
