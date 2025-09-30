@@ -4,11 +4,11 @@ import { UsersCrudController } from './controllers/users-crud.controller';
 import { UsersController } from './controllers/users.controller';
 import { UsersMiddleware } from './middleware/users.middleware';
 import { IUsersRepository } from './repositories/interfaces/users.repository.base';
-import { UsersMongoRepository } from './repositories/users.mongo.repository';
+import { UsersPostgresRepository } from './repositories/users.postgres.repository';
 import { FieldScreeningService } from './services/field-screening.service';
 import { UserUtilitiesService } from './services/user-utilities.service';
 import { UsersCrudService } from './services/users-crud.service';
-// import { UsersPostgresRepository } from './repositories/users.postgres.repository';
+// import { UsersMongoRepository } from './repositories/users.mongo.repository';
 
 export class UsersModule {
   private static instance: UsersModule;
@@ -29,8 +29,8 @@ export class UsersModule {
 
   protected async initializeModule(): Promise<void> {
     // Initialize repositories
-    this.usersRepository = new UsersMongoRepository();
-    // this.usersRepository = new UsersPostgresRepository();
+    // this.usersRepository = new UsersMongoRepository();
+    this.usersRepository = new UsersPostgresRepository();
 
     // Initialize helper services
     const fieldScreeningService = new FieldScreeningService(['hashedPassword'], ['nickname']);
