@@ -31,7 +31,7 @@ export class UsersPostgresRepository implements IUsersRepository {
       VALUES ($1, $2, $3, $4, NOW(), NOW())
       RETURNING *
     `;
-    const values = [body.email, body.hashedPassword, body.nickname || null, body.dateOfBirth || null];
+    const values = [body.email, body.password, body.nickname || null, body.dateOfBirth || null];
 
     const result = await this.dbClient.query(query, values);
     return result.rows[0] as DatabaseUser;

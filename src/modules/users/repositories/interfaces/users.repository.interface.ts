@@ -4,7 +4,7 @@ export type GetUserByEmailOptions = {
 
 export type CreateUserDto = {
   email: string;
-  hashedPassword: string;
+  password: string;
   nickname?: string;
   dateOfBirth?: number | string;
 };

@@ -24,14 +24,8 @@ export class UsersCrudService {
     return this.usersRepository.getUsers();
   }
 
-  async updateUserById(userId: string, user: UpdateUserDto): Promise<DatabaseUser> {
-    const existingUser = await this.usersRepository.getUserById(userId);
-
-    if (!existingUser) throw new UserNotFoundError(userId);
-
-    const updatedUser = { ...existingUser, ...user } as DatabaseUser;
-
-    await this.usersRepository.updateUserById(userId, updatedUser);
+  async updateUserById(userId: string, userData: UpdateUserDto): Promise<DatabaseUser> {
+    const updatedUser = await this.usersRepository.updateUserById(userId, userData);
 
     return updatedUser;
   }
