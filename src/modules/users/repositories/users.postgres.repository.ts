@@ -10,7 +10,12 @@ import {
 } from './interfaces/users.repository.interface';
 
 export class UsersPostgresRepository implements IUsersRepository {
-  constructor(private readonly dbClient: PostgresConnection) {}
+  private readonly dbClient: PostgresConnection;
+
+  constructor() {
+    this.dbClient = PostgresConnection.getInstance();
+    this.dbClient.ensureConnected();
+  }
 
   async getUserByEmail(email: string, options: GetUserByEmailOptions = {}): Promise<DatabaseUser | null> {
     const fields = options.fields || ['*'];
