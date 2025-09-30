@@ -17,20 +17,21 @@ export class PostgresConnection {
     return PostgresConnection.instance;
   }
 
-  connect() {
-    this.dbClient.connect((err) => {
-      if (err) return console.error('Error connecting to PostgreSQL:', err);
-
-      console.log('Successfully Connected to Postgres!');
-    });
+  async connect() {
+    try {
+      await this.dbClient.connect();
+      console.log('✅ Successfully Connected to Postgres!');
+    } catch (error) {
+      console.error('❌ Error connecting to PostgreSQL:', error);
+    }
   }
 
   async disconnect() {
     try {
       await this.dbClient.end();
-      console.log('Disconnected from PostgreSQL');
+      console.log('📴 Disconnected from PostgreSQL');
     } catch (error) {
-      console.error('Error disconnecting from PostgreSQL:', error);
+      console.error('❌ Error disconnecting from PostgreSQL:', error);
     }
   }
 
