@@ -1,0 +1,17 @@
+import mongoose from 'mongoose';
+import { SchemaTemplate } from '../../types';
+
+const { Types } = mongoose;
+
+export const userSchemaTemplate: SchemaTemplate = {
+  /**
+   * Type of _id here MUST be ObjectId! Because mongodb ALWAYS stores _id as ObjectId.
+   * Event if you put here String, and pass new ObjectId(myStr), `mongoose` would still convert it to string.
+   * In that case, for a GET request, you would get null! As if the user does not exist.
+   */
+  _id: { type: Types.ObjectId, required: true, unique: true },
+  email: { type: String, required: true, index: true, unique: true, lowercase: true, needPermission: true },
+  hashedPassword: { type: String, required: true, select: false },
+  nickname: { type: String, default: '', required: true, index: true, unique: true },
+  lastUpdated: { type: Number, default: 555555, required: true, select: false },
+};

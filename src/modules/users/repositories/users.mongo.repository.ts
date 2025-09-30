@@ -1,4 +1,4 @@
-import mongoose, { Model } from 'mongoose';
+import { UserModel } from '../../../database/mongo/models/user/user.model';
 import { MongodbConnection } from '../../../lib/database/mongo.connection';
 import { DatabaseUser } from '../types';
 import { IUsersRepository } from './interfaces/users.repository.base';
@@ -10,44 +10,28 @@ import {
   GetUserByEmailOptions,
 } from './interfaces/users.repository.interface';
 
-// Define the user schema
-const userSchema = new mongoose.Schema(
-  {
-    email: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
-    name: String,
-    age: Number,
-  },
-  {
-    timestamps: true,
-  },
-);
-
 export class UsersMongoRepository implements IUsersRepository {
-  private readonly UserModel: Model<any>;
-
-  constructor(private readonly dbClient: MongodbConnection) {
-    const mongoClient = this.dbClient.getClient();
-    // Use the existing connection to create the model
-    this.UserModel = mongoClient.models.User || mongoClient.model('User', userSchema);
+  constructor(private readonly dbService: MongodbConnection) {
+    // Ensure database is connected
+    this.dbService.getClient();
   }
 
   async getUserByEmail(email: string, options: GetUserByEmailOptions = {}): Promise<DatabaseUser | null> {
     const projection = options.fields ? options.fields.join(' ') : '';
-    const user = await this.UserModel.findOne({ email }, projection);
+    const user = await UserModel.findOne({ email }, projection);
 
     return user ? this.transformMongoUser(user) : null;
   }
 
   async createUser(body: CreateUserDto): Promise<DatabaseUser> {
-    const user = new this.UserModel(body);
+    const user = new UserModel(body);
     const savedUser = await user.save();
 
     return this.transformMongoUser(savedUser);
   }
 
   async getUsers(props?: GetUsersProps): Promise<Array<DatabaseUser>> {
-    let query = this.UserModel.find(props?.filter || {});
+    let query = UserModel.find(props?.filter || {});
 
     if (props?.options?.skip) {
       query = query.skip(props.options.skip);
@@ -71,19 +55,19 @@ export class UsersMongoRepository implements IUsersRepository {
   }
 
   async getUserById(userId: string, _options: GetUserByIdOptions = {}): Promise<DatabaseUser | null> {
-    const user = await this.UserModel.findById(userId);
+    const user = await UserModel.findById(userId);
     return user ? this.transformMongoUser(user) : null;
   }
 
   async updateUserById(userId: string, body: UpdateUserDto): Promise<DatabaseUser> {
-    const updatedUser = await this.UserModel.findByIdAndUpdate(userId, { $set: body }, { new: true });
+    const updatedUser = await UserModel.findByIdAndUpdate(userId, { $set: body }, { new: true });
 
     if (!updatedUser) throw new Error('User not found');
     return this.transformMongoUser(updatedUser);
   }
 
   async deleteUserById(userId: string): Promise<boolean> {
-    const result = await this.UserModel.findByIdAndDelete(userId);
+    const result = await UserModel.findByIdAndDelete(userId);
     return !!result;
   }
 
