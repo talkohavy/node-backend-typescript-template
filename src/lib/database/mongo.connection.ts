@@ -4,20 +4,22 @@ export class MongodbConnection {
   private static instance: MongodbConnection;
   private dbClient: Mongoose;
   private isConnected: boolean = false;
-  private credentials: { connectionString: string; dbName: string };
+  private credentials: { connectionString: string };
 
-  private constructor(connectionString: string, dbName: string) {
-    this.credentials = { connectionString, dbName };
+  private constructor(connectionString: string) {
+    this.credentials = { connectionString };
     this.dbClient = mongoose;
+
+    this.connect();
   }
 
-  public static getInstance(connectionString?: string, dbName?: string): MongodbConnection {
+  public static getInstance(connectionString?: string): MongodbConnection {
     console.log('🔍 Attempting to get MongodbConnection instance...');
     if (!MongodbConnection.instance) {
-      if (!connectionString || !dbName) throw new Error('Database credentials are required for first initialization');
+      if (!connectionString) throw new Error('Database credentials are required for first initialization');
 
       console.log('🔄 Creating new MongodbConnection instance...');
-      MongodbConnection.instance = new MongodbConnection(connectionString, dbName);
+      MongodbConnection.instance = new MongodbConnection(connectionString);
     }
     console.log('✅ MongodbConnection instance retrieved successfully');
     return MongodbConnection.instance;
@@ -33,10 +35,9 @@ export class MongodbConnection {
 
     const connectWithRetry = async (): Promise<void> => {
       try {
-        const { connectionString, dbName } = this.credentials;
+        const { connectionString } = this.credentials;
 
         await this.dbClient.connect(connectionString, {
-          dbName,
           maxPoolSize: 10, // Maintain up to 10 socket connections
           serverSelectionTimeoutMS: 5000, // Keep trying to send operations for 5 seconds
           socketTimeoutMS: 45000, // Close sockets after 45 seconds of inactivity
