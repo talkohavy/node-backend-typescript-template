@@ -1,5 +1,5 @@
 import { Application } from 'express';
-import { ConfigKeys } from '../../configurations';
+import { ConfigKeys, DatabaseConfig } from '../../configurations';
 import { configService } from '../../core';
 import { PostgresConnection } from '../../lib/database/postgres.connection';
 import { UserUtilitiesController } from './controllers/user-utilities.controller';
@@ -31,17 +31,19 @@ export class UsersModule {
     return UsersModule.instance;
   }
 
-  protected initializeModule(): void {
-    const { connectionString } = configService.get<any>(ConfigKeys.Database);
+  protected async initializeModule(): Promise<void> {
+    const { connectionString } = configService.get<DatabaseConfig>(ConfigKeys.Database);
 
     // Initialize repositories
-    // const dbClient = MongodbConnection.getInstance(connectionString, dbName);
+    // const dbClient = MongodbConnection.getInstance(connectionString);
+    // await dbClient.connect();
     // this.usersRepository = new UsersMongoRepository(dbClient);
     const dbClient = PostgresConnection.getInstance(connectionString);
+    dbClient.connect();
     this.usersRepository = new UsersPostgresRepository(dbClient);
 
     // Initialize helper services
-    const fieldScreeningService = new FieldScreeningService(['password'], ['name']);
+    const fieldScreeningService = new FieldScreeningService(['hashedPassword'], ['nickname']);
 
     // Initialize main services
     this.userUtilitiesService = new UserUtilitiesService(this.usersRepository, fieldScreeningService);
