@@ -8,7 +8,6 @@ export async function initConnections() {
 
   // Initialize database connections
   // const dbClient = MongodbConnection.getInstance(connectionString);
-  // await dbClient.connect();
   const dbClient = PostgresConnection.getInstance(connectionString);
   await dbClient.connect();
 }
