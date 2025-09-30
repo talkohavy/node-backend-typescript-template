@@ -12,14 +12,11 @@ export class MongodbConnection {
   }
 
   public static getInstance(connectionString?: string): MongodbConnection {
-    console.log('🔍 Attempting to get MongodbConnection instance...');
     if (!MongodbConnection.instance) {
       if (!connectionString) throw new Error('Database credentials are required for first initialization');
 
-      console.log('🔄 Creating new MongodbConnection instance...');
       MongodbConnection.instance = new MongodbConnection(connectionString);
     }
-    console.log('✅ MongodbConnection instance retrieved successfully');
     return MongodbConnection.instance;
   }
 
