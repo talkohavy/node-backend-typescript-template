@@ -46,4 +46,9 @@ export class PostgresConnection {
       throw error;
     }
   }
+
+  public ensureConnected() {
+    // @ts-ignore
+    if (!this.dbClient._connected) throw new Error('Database not connected');
+  }
 }
