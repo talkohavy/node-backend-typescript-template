@@ -1,0 +1,1 @@
+export { initGlobalServices } from './initGlobalServices';

@@ -1,5 +1,5 @@
 import { AsyncLocalStorage } from 'async_hooks';
-import { CallContextService } from '../lib/call-context';
+import { CallContextService } from '../../lib/call-context';
 
 export let callContextService: CallContextService<string, string>;
 

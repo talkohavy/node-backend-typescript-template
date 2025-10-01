@@ -1,9 +1,9 @@
-import { configuration } from '../configurations';
+import { configuration } from '../../configurations';
 import { initCallContextService } from './initCallContextService';
 import { initConfigService } from './initConfigService';
 import { initLoggerService } from './initLoggerService';
 
-export async function bootstrap() {
+export async function initGlobalServices() {
   const configSettings = configuration();
   const configService = initConfigService(configSettings);
 

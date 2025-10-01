@@ -1,8 +1,8 @@
-import { ConfigKeys } from '../configurations';
-import { CallContextService } from '../lib/call-context';
-import { ConfigService } from '../lib/config-service';
-import { Logger, LogLevel, type LoggerSettings } from '../lib/logger';
-import { LoggerService } from '../lib/logger-service';
+import { ConfigKeys } from '../../configurations';
+import { CallContextService } from '../../lib/call-context';
+import { ConfigService } from '../../lib/config-service';
+import { Logger, LogLevel, type LoggerSettings } from '../../lib/logger';
+import { LoggerService } from '../../lib/logger-service';
 
 export let logger: LoggerService;
 

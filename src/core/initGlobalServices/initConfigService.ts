@@ -1,5 +1,5 @@
-import { Config } from '../configurations';
-import { ConfigService } from '../lib/config-service';
+import { Config } from '../../configurations';
+import { ConfigService } from '../../lib/config-service';
 
 export let configService: ConfigService<Config>;
 

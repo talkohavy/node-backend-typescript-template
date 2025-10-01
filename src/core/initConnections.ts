@@ -1,9 +1,9 @@
 import { ConfigKeys, DatabaseConfig } from '../configurations';
+import { ConfigService } from '../lib/config-service';
 import { PostgresConnection } from '../lib/database/postgres.connection';
-import { configService } from './initConfigService';
 // import { MongodbConnection } from '../lib/database/mongo.connection';
 
-export async function initConnections() {
+export async function initConnections(configService: ConfigService) {
   const { connectionString } = configService.get<DatabaseConfig>(ConfigKeys.Database);
 
   // Initialize database connections

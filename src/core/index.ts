@@ -1,10 +1,14 @@
 // singleton services initializer
-export { bootstrap } from './bootstrap';
+export { initGlobalServices } from './initGlobalServices';
 
-// Module registry initializer
+// connections initializer
+export { initConnections } from './initConnections';
+
+// Module & Middleware registries
 export { ModuleRegistry } from './moduleRegistry';
+export { MiddlewareRegistry } from './middlewareRegistry';
 
-// Core services already initialized
-export { callContextService } from './initCallContextService';
-export { logger } from './initLoggerService';
-export { configService } from './initConfigService';
+// initialized global singleton services
+export { callContextService } from './initGlobalServices/initCallContextService';
+export { logger } from './initGlobalServices/initLoggerService';
+export { configService } from './initGlobalServices/initConfigService';

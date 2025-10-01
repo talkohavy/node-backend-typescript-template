@@ -1,15 +1,14 @@
 import express from 'express';
 import { ConfigKeys } from './configurations';
-import { bootstrap, ModuleRegistry } from './core';
-import { initConnections } from './core/initConnections';
-import { MiddlewareRegistry } from './core/middlewareRegistry/middlewareRegistry';
+import { initGlobalServices, initConnections, ModuleRegistry, MiddlewareRegistry } from './core';
 
 export async function startServer() {
-  const { configService, loggerService: logger } = await bootstrap();
-  await initConnections();
+  const { configService, callContextService, loggerService: logger } = await initGlobalServices();
+
+  await initConnections(configService);
 
   const moduleRegistry = new ModuleRegistry();
-  const middlewareRegistry = new MiddlewareRegistry();
+  const middlewareRegistry = new MiddlewareRegistry(callContextService);
 
   const app = express();
 
