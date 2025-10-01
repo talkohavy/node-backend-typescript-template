@@ -13,8 +13,11 @@ export async function startServer() {
 
   const app = express();
 
-  middlewareRegistry.useAllMiddlewares(app);
+  middlewareRegistry.usePreMiddlewares(app);
+
   moduleRegistry.attachAllControllers(app);
+
+  middlewareRegistry.usePostMiddlewares(app);
 
   const PORT = configService.get<number>(ConfigKeys.Port);
   app.listen(PORT, () => logger.log(`server started on port ${PORT}`));

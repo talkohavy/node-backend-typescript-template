@@ -8,14 +8,16 @@ import { attachRequestIdMiddleware } from '../../middlewares/attachRequestIdMidd
 import { callContextService } from '../initCallContextService';
 
 export class MiddlewareRegistry {
-  useAllMiddlewares(app: Application): void {
+  usePreMiddlewares(app: Application): void {
     const callContextMiddleware = new CallContextMiddleware(callContextService);
 
     attachRequestIdMiddleware(app);
     attachBaseMiddlewares(app);
 
     callContextMiddleware.use(app, preUseMiddleware, postUseMiddleware);
+  }
 
+  usePostMiddlewares(app: Application): void {
     attachErrorMiddlewares(app);
   }
 }
