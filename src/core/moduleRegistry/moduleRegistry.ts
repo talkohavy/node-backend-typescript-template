@@ -1,23 +1,19 @@
 import { Application } from 'express';
-import { HealthCheckModule } from '../../modules/health-check';
-import { UsersModule } from '../../modules/users';
-import { IModule } from './types';
-// import { BackendModule } from '../../modules/backend';
-// import { TransactionsModule } from '../modules/transactions';
+import { StaticModule, RegisteredModule } from './types';
 
 export class ModuleRegistry {
-  private modules: IModule[] = [];
+  private modules: RegisteredModule[] = [];
 
-  constructor() {
-    this.initializeModules();
+  constructor(modules: StaticModule[]) {
+    this.modules = [];
+
+    this.registerModules(modules);
   }
 
-  private initializeModules(): void {
-    // Register all modules here
-    this.modules.push(HealthCheckModule.getInstance());
-    this.modules.push(UsersModule.getInstance());
-    // this.modules.push(BackendModule.getInstance());
-    // this.modules.push(TransactionsModule.getInstance());
+  private registerModules(modules: StaticModule[]): void {
+    modules.forEach((module) => {
+      this.modules.push(module.getInstance());
+    });
   }
 
   attachAllControllers(app: Application): void {
