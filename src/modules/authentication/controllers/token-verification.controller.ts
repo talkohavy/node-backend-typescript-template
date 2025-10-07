@@ -1,8 +1,8 @@
 import { Application, Request, Response } from 'express';
 import { ConfigKeys, type CookiesConfig } from '../../../configurations';
 import { logger, configService } from '../../../core';
-import { ControllerFactory } from '../../../lib/controller-factory';
 import { UnauthorizedError } from '../../../lib/Errors';
+import { ControllerFactory } from '../../../lib/lucky-server';
 import { TokenVerificationService } from '../services/token-verification.service';
 
 export class TokenVerificationController implements ControllerFactory {

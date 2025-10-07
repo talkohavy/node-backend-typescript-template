@@ -1,4 +1,4 @@
-import { ControllerFactory } from '../../../lib/controller-factory';
+import { ControllerFactory } from '../../../lib/lucky-server';
 import { PasswordManagementController } from './password-management.controller';
 import { SessionManagementController } from './session-management.controller';
 import { TokenGenerationController } from './token-generation.controller';

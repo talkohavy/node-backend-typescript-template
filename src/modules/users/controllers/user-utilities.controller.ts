@@ -1,6 +1,6 @@
 import { Application, Request, Response } from 'express';
 import { logger } from '../../../core';
-import { ControllerFactory } from '../../../lib/controller-factory';
+import { ControllerFactory } from '../../../lib/lucky-server';
 import { NotFoundError } from '../../../lib/Errors';
 import { joiBodyMiddleware } from '../../../middlewares/joi-body.middleware';
 import { UserNotFoundError } from '../logic/users.errors';

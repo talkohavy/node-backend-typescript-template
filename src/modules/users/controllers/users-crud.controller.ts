@@ -1,7 +1,7 @@
 import { Application, Request, Response } from 'express';
 import { StatusCodes } from '../../../common/constants';
 import { logger } from '../../../core';
-import { ControllerFactory } from '../../../lib/controller-factory';
+import { ControllerFactory } from '../../../lib/lucky-server';
 import { joiBodyMiddleware } from '../../../middlewares/joi-body.middleware';
 import { UsersCrudService } from '../services/users-crud.service';
 import { createUserSchema } from './dto/createUserSchema.dto';

@@ -1,4 +1,4 @@
-import { ControllerFactory } from '../../../lib/controller-factory';
+import { ControllerFactory } from '../../../lib/lucky-server';
 import { UserUtilitiesController } from './user-utilities.controller';
 import { UsersCrudController } from './users-crud.controller';
 
