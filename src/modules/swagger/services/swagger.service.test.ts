@@ -24,7 +24,7 @@ describe('SwaggerService', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-    process.env.USERS_SERVICE_BASE_URL = 'http://localhost:8001';
+    process.env.SWAGGER_DOCS_BASE_URL = 'http://localhost:8000';
     mockUsersSwagger = {
       name: 'Users',
       docs: {
@@ -61,7 +61,7 @@ describe('SwaggerService', () => {
     it('should include dropdown options in urls', () => {
       const result = swaggerService.createTopLevelSwaggerConfig();
 
-      expect(result.swaggerOptions?.urls).toEqual([{ name: 'Users', url: 'http://localhost:8001/Users.swagger.json' }]);
+      expect(result.swaggerOptions?.urls).toEqual([{ name: 'Users', url: 'http://localhost:8000/Users.swagger.json' }]);
     });
 
     it('should handle multiple swagger docs', () => {
@@ -81,11 +81,11 @@ describe('SwaggerService', () => {
       expect(result.swaggerOptions?.urls).toHaveLength(2);
       expect(result.swaggerOptions?.urls).toContainEqual({
         name: 'Users',
-        url: 'http://localhost:8001/Users.swagger.json',
+        url: 'http://localhost:8000/Users.swagger.json',
       });
       expect(result.swaggerOptions?.urls).toContainEqual({
         name: 'Chats',
-        url: 'http://localhost:8001/Chats.swagger.json',
+        url: 'http://localhost:8000/Chats.swagger.json',
       });
     });
   });

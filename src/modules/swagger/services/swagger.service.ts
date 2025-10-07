@@ -1,6 +1,6 @@
 import fs from 'fs';
 import { SwaggerUiOptions } from 'swagger-ui-express';
-import { SwaggerConfig } from '../configs/SwaggerConfig';
+import { SwaggerConfig } from '../logic/swagger.abstract.config';
 import { DropdownOption } from '../types';
 
 export class SwaggerService {
@@ -50,7 +50,7 @@ export class SwaggerService {
   }
 
   private createDropdownOptions(): Array<DropdownOption> {
-    const SERVICE_BASE_URL = process.env.SWAGGER_DOCS_BASE_URL ?? 'http://localhost:8001';
+    const SERVICE_BASE_URL = process.env.SWAGGER_DOCS_BASE_URL ?? 'http://localhost:8004';
 
     return this.swaggerDocsArr.map((swaggerConfig) => {
       const { name } = swaggerConfig;

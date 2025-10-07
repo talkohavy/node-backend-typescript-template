@@ -4,7 +4,7 @@ import { LogLevel } from '../lib/logger';
 
 export function configuration(): Config {
   return {
-    port: (process.env.BACKEND_PORT || 8001) as number,
+    port: (process.env.PORT || 8000) as number,
     isDev: !!process.env.IS_DEV,
     isCI: !!process.env.IS_CI,
     authCookie: {
