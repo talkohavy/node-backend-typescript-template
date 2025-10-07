@@ -1,7 +1,8 @@
 import { Application } from 'express';
+import { ModuleFactory } from '../../lib/lucky-server';
 import { HealthCheckController } from './health-check.controller';
 
-export class HealthCheckModule {
+export class HealthCheckModule implements ModuleFactory {
   private static instance: HealthCheckModule;
 
   private constructor() {}

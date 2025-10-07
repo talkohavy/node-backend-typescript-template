@@ -1,4 +1,5 @@
 import { Application } from 'express';
+import { ModuleFactory } from '../../lib/lucky-server';
 import { AuthenticationController } from './controllers';
 import { PasswordManagementController } from './controllers/password-management.controller';
 import { SessionManagementController } from './controllers/session-management.controller';
@@ -10,7 +11,7 @@ import { PasswordManagementService } from './services/password-management.servic
 import { TokenGenerationService } from './services/token-generation.service';
 import { TokenVerificationService } from './services/token-verification.service';
 
-export class AuthenticationModule {
+export class AuthenticationModule implements ModuleFactory {
   private static instance: AuthenticationModule;
   private authenticationService!: AuthenticationService;
 

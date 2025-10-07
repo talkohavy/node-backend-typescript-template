@@ -1,4 +1,5 @@
 import { Application } from 'express';
+import { ModuleFactory } from '../../lib/lucky-server';
 import { AuthenticationController } from './controllers/authentication/authentication.controller';
 import { BackendController } from './controllers/backend.controller';
 import { UserUtilitiesController } from './controllers/users/user-utilities.controller';
@@ -13,7 +14,7 @@ import { UserUtilitiesNetworkService } from './services/users/user-utilities.net
 import { UsersCrudNetworkService } from './services/users/users-crud.network.service';
 import { UsersNetworkService } from './services/users/users.network.service';
 
-export class BackendModule {
+export class BackendModule implements ModuleFactory {
   private static instance: BackendModule;
   private userUtilitiesNetworkService!: UserUtilitiesNetworkService;
   private passwordManagementNetworkService!: PasswordManagementNetworkService;

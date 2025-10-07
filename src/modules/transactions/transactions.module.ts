@@ -1,7 +1,8 @@
 import { Application } from 'express';
+import { ModuleFactory } from '../../lib/lucky-server';
 import { TransactionsController } from './transactions.controller';
 
-export class TransactionsModule {
+export class TransactionsModule implements ModuleFactory {
   private static instance: TransactionsModule;
 
   private constructor() {}

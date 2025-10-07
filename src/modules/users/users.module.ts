@@ -1,4 +1,5 @@
 import { Application } from 'express';
+import { ModuleFactory } from '../../lib/lucky-server';
 import { UserUtilitiesController } from './controllers/user-utilities.controller';
 import { UsersCrudController } from './controllers/users-crud.controller';
 import { UsersController } from './controllers/users.controller';
@@ -10,7 +11,7 @@ import { UserUtilitiesService } from './services/user-utilities.service';
 import { UsersCrudService } from './services/users-crud.service';
 // import { UsersMongoRepository } from './repositories/users.mongo.repository';
 
-export class UsersModule {
+export class UsersModule implements ModuleFactory {
   private static instance: UsersModule;
   private usersRepository!: IUsersRepository;
   private usersCrudService!: UsersCrudService;
