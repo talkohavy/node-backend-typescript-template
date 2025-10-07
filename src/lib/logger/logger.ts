@@ -82,7 +82,8 @@ export class Logger implements ILogger {
   }
 
   private logFormattedOutput(logMetadata: string): void {
-    console.log('\n', colorMyJson(logMetadata));
+    console.log('');
+    console.log(colorMyJson(logMetadata));
   }
 
   private logRawOutput(logMetadata: string): void {
