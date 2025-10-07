@@ -5,7 +5,6 @@ export { initGlobalServices } from './initGlobalServices';
 export { initConnections } from './initConnections';
 
 // Module & Middleware registries
-export { ModuleRegistry } from './moduleRegistry';
 export { MiddlewareRegistry } from './middlewareRegistry';
 
 // initialized global singleton services

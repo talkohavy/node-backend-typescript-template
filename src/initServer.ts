@@ -1,6 +1,7 @@
 import express from 'express';
 import { ConfigKeys } from './configurations';
-import { initGlobalServices, initConnections, ModuleRegistry, MiddlewareRegistry } from './core';
+import { initGlobalServices, initConnections, MiddlewareRegistry } from './core';
+import { ModuleRegistry } from './lib/lucky-server';
 import { HealthCheckModule } from './modules/health-check';
 import { UsersModule } from './modules/users';
 // import { BackendModule } from '../../modules/backend';
