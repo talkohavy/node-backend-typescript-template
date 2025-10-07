@@ -2,7 +2,7 @@ import { Application, Request, Response } from 'express';
 import { logger } from '../../../core';
 import { ControllerFactory } from '../../../lib/controller-factory';
 import { UnauthorizedError } from '../../../lib/Errors';
-import { joiBodyMiddleware } from '../../../middlewares/joiBodyMiddleware';
+import { joiBodyMiddleware } from '../../../middlewares/joi-body.middleware';
 import { PasswordManagementService } from '../services/password-management.service';
 import { getIsPasswordValidSchema } from './dto/get-is-password-valid.dto';
 

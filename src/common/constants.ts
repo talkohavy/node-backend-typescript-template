@@ -57,3 +57,12 @@ export type EnvironmentValues = TypeOfEnvironment[EnvironmentKeys];
 export const HEADERS = {
   RequestId: 'x-request-id',
 };
+
+export const API_URLS = {
+  healthCheck: '/api/health-check',
+};
+
+/**
+ * Paths that should be excluded from certain middlewares
+ */
+export const EXCLUDED_PATHS = [API_URLS.healthCheck];

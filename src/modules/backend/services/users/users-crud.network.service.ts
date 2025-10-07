@@ -1,5 +1,6 @@
 import crypto from 'node:crypto';
 import { UsersModule, type DatabaseUser } from '../../../users';
+import { CreateUserDto } from '../../../users/services/interfaces/users.service.interface';
 import { generateHashedPassword } from '../../controllers/users/logic/generateHashedPassword';
 
 export class UsersCrudNetworkService {
@@ -11,9 +12,9 @@ export class UsersCrudNetworkService {
     const salt = crypto.randomBytes(16).toString('hex');
     const hashedPassword = await generateHashedPassword({ rawPassword: body.password, salt });
 
-    const createUserPayload = {
+    const createUserPayload: CreateUserDto = {
       email: body.email,
-      hashedPassword: `${salt}:${hashedPassword}`,
+      password: `${salt}:${hashedPassword}`,
       nickname: body.nickname,
       dateOfBirth: body.dateOfBirth,
     };

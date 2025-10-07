@@ -3,7 +3,7 @@ import { StatusCodes } from '../../../../common/constants';
 import { logger } from '../../../../core';
 import { ControllerFactory } from '../../../../lib/controller-factory';
 import { ForbiddenError, UnauthorizedError } from '../../../../lib/Errors';
-import { joiBodyMiddleware } from '../../../../middlewares/joiBodyMiddleware';
+import { joiBodyMiddleware } from '../../../../middlewares/joi-body.middleware';
 import { extractTokenFromCookies } from '../../logic/extractTokenFromCookies';
 import { AuthenticationNetworkService } from '../../services/authentication/authentication.network.service';
 import { UsersNetworkService } from '../../services/users/users.network.service';

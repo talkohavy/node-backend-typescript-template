@@ -2,7 +2,7 @@ import { Application, Request, Response } from 'express';
 import { logger } from '../../../core';
 import { ControllerFactory } from '../../../lib/controller-factory';
 import { NotFoundError } from '../../../lib/Errors';
-import { joiBodyMiddleware } from '../../../middlewares/joiBodyMiddleware';
+import { joiBodyMiddleware } from '../../../middlewares/joi-body.middleware';
 import { UserNotFoundError } from '../logic/users.errors';
 import { UserUtilitiesService } from '../services/user-utilities.service';
 import { getUserByEmailSchema } from './dto/get-user-by-email.dto';

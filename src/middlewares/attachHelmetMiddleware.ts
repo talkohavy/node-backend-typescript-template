@@ -15,13 +15,7 @@ import {
   xXssProtection,
 } from 'helmet';
 
-type AttachHelmetMiddlewareProps = {
-  app: Application;
-};
-
-export function attachHelmetMiddleware(props: AttachHelmetMiddlewareProps) {
-  const { app } = props;
-
+export function attachHelmetMiddleware(app: Application) {
   app.use(contentSecurityPolicy());
   app.use(crossOriginEmbedderPolicy({ policy: 'require-corp' }));
   app.use(crossOriginOpenerPolicy({ policy: 'same-origin' }));

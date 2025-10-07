@@ -4,7 +4,7 @@ import { ConfigKeys, type CookiesConfig, type Config } from '../../../../configu
 import { logger, configService } from '../../../../core';
 import { ControllerFactory } from '../../../../lib/controller-factory';
 import { BadRequestError } from '../../../../lib/Errors';
-import { joiBodyMiddleware } from '../../../../middlewares/joiBodyMiddleware';
+import { joiBodyMiddleware } from '../../../../middlewares/joi-body.middleware';
 import { UserNotFoundError } from '../../../users/logic/users.errors';
 import { AuthenticationNetworkService } from '../../services/authentication/authentication.network.service';
 import { UserUtilitiesNetworkService } from '../../services/users/user-utilities.network.service';

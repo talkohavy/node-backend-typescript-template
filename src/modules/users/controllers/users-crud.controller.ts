@@ -2,7 +2,7 @@ import { Application, Request, Response } from 'express';
 import { StatusCodes } from '../../../common/constants';
 import { logger } from '../../../core';
 import { ControllerFactory } from '../../../lib/controller-factory';
-import { joiBodyMiddleware } from '../../../middlewares/joiBodyMiddleware';
+import { joiBodyMiddleware } from '../../../middlewares/joi-body.middleware';
 import { UsersCrudService } from '../services/users-crud.service';
 import { createUserSchema } from './dto/createUserSchema.dto';
 import { updateUserSchema } from './dto/updateUserSchema.dto';

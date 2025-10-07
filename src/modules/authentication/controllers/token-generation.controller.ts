@@ -1,7 +1,7 @@
 import { Application, Request, Response } from 'express';
 import { logger } from '../../../core';
 import { ControllerFactory } from '../../../lib/controller-factory';
-import { joiBodyMiddleware } from '../../../middlewares/joiBodyMiddleware';
+import { joiBodyMiddleware } from '../../../middlewares/joi-body.middleware';
 import { TokenGenerationService } from '../services/token-generation.service';
 import { createTokensSchema } from './dto/create-tokens.dto';
 
