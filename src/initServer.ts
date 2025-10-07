@@ -3,6 +3,7 @@ import { ConfigKeys } from './configurations';
 import { initGlobalServices, initConnections, MiddlewareRegistry } from './core';
 import { ModuleRegistry } from './lib/lucky-server';
 import { HealthCheckModule } from './modules/health-check';
+import { SwaggerModule } from './modules/swagger';
 import { UsersModule } from './modules/users';
 // import { BackendModule } from '../../modules/backend';
 // import { TransactionsModule } from '../modules/transactions';
@@ -12,7 +13,7 @@ export async function startServer() {
 
   await initConnections(configService);
 
-  const moduleRegistry = new ModuleRegistry([HealthCheckModule, UsersModule]); // BackendModule, TransactionsModule
+  const moduleRegistry = new ModuleRegistry([HealthCheckModule, UsersModule, SwaggerModule]); // BackendModule, TransactionsModule
   const middlewareRegistry = new MiddlewareRegistry(callContextService);
 
   const app = express();

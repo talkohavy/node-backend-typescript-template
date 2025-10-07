@@ -21,6 +21,8 @@
   "dependencies": {
     "@eslint/js": "^9.20.0",
     "@types/jsonwebtoken": "^9.0.9",
+    "@types/swagger-ui-express": "^4.1.8",
+    "api-opener": "^2.0.1",
     "color-my-json": "^0.0.9",
     "compression": "^1.7.4",
     "cookie-parser": "^1.4.7",
@@ -37,6 +39,7 @@
     "nodemon": "^3.0.2",
     "pg": "^8.14.1",
     "redis": "^4.7.0",
+    "swagger-ui-express": "^5.0.1",
     "typescript-eslint": "^8.24.0"
   },
   "devDependencies": {

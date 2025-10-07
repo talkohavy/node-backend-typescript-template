@@ -60,6 +60,7 @@ export const HEADERS = {
 
 export const API_URLS = {
   healthCheck: '/api/health-check',
+  swagger: '/api/docs',
 };
 
 /**
