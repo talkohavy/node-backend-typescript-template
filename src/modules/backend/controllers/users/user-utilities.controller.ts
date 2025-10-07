@@ -1,7 +1,7 @@
 import { Application, Request, Response } from 'express';
-import { StatusCodes } from '../../../../common/constants';
+import { API_URLS, StatusCodes } from '../../../../common/constants';
 import { logger } from '../../../../core';
-import { ControllerFactory } from '../../../../lib/controller-factory';
+import { ControllerFactory } from '../../../../lib/lucky-server';
 import { extractTokenFromCookies } from '../../logic/extractTokenFromCookies';
 import { AuthenticationNetworkService } from '../../services/authentication/authentication.network.service';
 import { UsersNetworkService } from '../../services/users/users.network.service';
@@ -14,8 +14,8 @@ export class UserUtilitiesController implements ControllerFactory {
   ) {}
 
   private getProfile() {
-    this.app.get('/users-service/users/get-profile', async (req: Request, res: Response) => {
-      logger.info(`GET /users-service/users/get-profile - get user profile`);
+    this.app.get(API_URLS.getProfile, async (req: Request, res: Response) => {
+      logger.info(`GET ${API_URLS.getProfile} - get user profile`);
 
       const token = extractTokenFromCookies(req.cookies);
 

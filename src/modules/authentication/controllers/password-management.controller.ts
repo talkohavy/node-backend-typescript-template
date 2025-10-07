@@ -1,4 +1,5 @@
 import { Application, Request, Response } from 'express';
+import { API_URLS } from '../../../common/constants';
 import { logger } from '../../../core';
 import { UnauthorizedError } from '../../../lib/Errors';
 import { ControllerFactory } from '../../../lib/lucky-server';
@@ -14,11 +15,11 @@ export class PasswordManagementController implements ControllerFactory {
 
   private getIsPasswordValid() {
     this.app.post(
-      '/auth/is-password-valid',
+      API_URLS.isPasswordValid,
       joiBodyMiddleware(getIsPasswordValidSchema),
       async (req: Request, res: Response) => {
         try {
-          logger.info('POST /auth/is-password-valid - check if password is valid');
+          logger.info(`POST ${API_URLS.isPasswordValid} - check if password is valid`);
 
           const { hashedPassword: saltAndHashedPassword, password } = req.body;
 

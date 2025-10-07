@@ -61,6 +61,26 @@ export const HEADERS = {
 export const API_URLS = {
   healthCheck: '/api/health-check',
   swagger: '/api/docs',
+  // authentication
+  authMiddleware: '/api/auth',
+  login: '/api/auth/login',
+  logout: '/api/auth/logout',
+  tokens: '/api/auth/tokens',
+  verifyToken: '/api/auth/verify-token',
+  isPasswordValid: '/api/auth/is-password-valid',
+  // users
+  users: '/api/users',
+  userById: '/api/users/:userId',
+  getProfile: '/api/users/get-profile',
+  getUserByEmail: '/api/users/get-by-email',
+  // books
+  books: '/api/books',
+  bookById: '/api/books/:bookId',
+  // transactions
+  transactions: '/api/transactions',
+  uploadTransactionFile: '/api/transactions/upload-file',
+  // backend
+  backendMiddleware: '/api/backend',
 };
 
 /**

@@ -1,7 +1,7 @@
 import { Application } from 'express';
-import { StatusCodes } from '../../../common/constants';
+import { API_URLS, StatusCodes } from '../../../common/constants';
 import { logger } from '../../../core';
-import { ControllerFactory } from '../../../lib/controller-factory/controller-factory';
+import { ControllerFactory } from '../../../lib/lucky-server';
 import { joiBodyMiddleware } from '../../../middlewares/joi-body.middleware';
 import { BooksService } from '../services/books.service';
 import { createBookSchema } from './dto/books.dto';
@@ -16,8 +16,8 @@ export class BooksController implements ControllerFactory {
   }
 
   getBooks() {
-    this.app.get('/books', async (_req, res) => {
-      logger.info('GET /books - fetching books');
+    this.app.get(API_URLS.books, async (_req, res) => {
+      logger.info(`GET ${API_URLS.books} - fetching books`);
 
       const books = await this.booksService.getBooks();
 
@@ -26,10 +26,10 @@ export class BooksController implements ControllerFactory {
   }
 
   getBookById() {
-    this.app.get('/books/:id', async (req, res): Promise<any> => {
-      logger.info('GET /books/:id - fetching book by ID');
+    this.app.get(API_URLS.bookById, async (req, res): Promise<any> => {
+      logger.info(`GET ${API_URLS.bookById} - fetching book by ID`);
 
-      const bookId = req.params.id;
+      const bookId = req.params.bookId!;
 
       const book = await this.booksService.getBookById(bookId);
 
@@ -44,8 +44,8 @@ export class BooksController implements ControllerFactory {
   }
 
   createBook() {
-    this.app.post('/books', joiBodyMiddleware(createBookSchema), async (req, res) => {
-      logger.info('POST /books - creating new book');
+    this.app.post(API_URLS.books, joiBodyMiddleware(createBookSchema), async (req, res) => {
+      logger.info(`POST ${API_URLS.books} - creating new book`);
 
       const { body } = req;
 
@@ -56,10 +56,10 @@ export class BooksController implements ControllerFactory {
   }
 
   updateBook() {
-    this.app.put('/books/:id', async (req, res): Promise<any> => {
-      logger.info('PUT /books/:id - updating book by ID');
+    this.app.put(API_URLS.bookById, async (req, res): Promise<any> => {
+      logger.info(`PUT ${API_URLS.bookById} - updating book by ID`);
 
-      const bookId = req.params.id;
+      const bookId = req.params.bookId!;
       const book = req.body;
       const updatedBook = await this.booksService.updateBook(bookId, book);
 
@@ -74,10 +74,10 @@ export class BooksController implements ControllerFactory {
   }
 
   deleteBook() {
-    this.app.delete('/books/:id', async (req, res): Promise<any> => {
-      logger.info('DELETE /books/:id - deleting book by ID');
+    this.app.delete(API_URLS.bookById, async (req, res): Promise<any> => {
+      logger.info(`DELETE ${API_URLS.bookById} - deleting book by ID`);
 
-      const bookId = req.params.id;
+      const bookId = req.params.bookId!;
       const deletedBook = await this.booksService.deleteBook(bookId);
 
       if (!deletedBook) {

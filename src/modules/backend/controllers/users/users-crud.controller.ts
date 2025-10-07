@@ -1,8 +1,8 @@
 import { Application, Request, Response } from 'express';
-import { StatusCodes } from '../../../../common/constants';
+import { API_URLS, StatusCodes } from '../../../../common/constants';
 import { logger } from '../../../../core';
-import { ControllerFactory } from '../../../../lib/controller-factory';
 import { ForbiddenError, UnauthorizedError } from '../../../../lib/Errors';
+import { ControllerFactory } from '../../../../lib/lucky-server';
 import { joiBodyMiddleware } from '../../../../middlewares/joi-body.middleware';
 import { extractTokenFromCookies } from '../../logic/extractTokenFromCookies';
 import { AuthenticationNetworkService } from '../../services/authentication/authentication.network.service';
@@ -18,10 +18,10 @@ export class UsersCrudController implements ControllerFactory {
   ) {}
 
   private createUser() {
-    this.app.post('/users-service/users', joiBodyMiddleware(createUserSchema), async (req: Request, res: Response) => {
+    this.app.post(API_URLS.users, joiBodyMiddleware(createUserSchema), async (req: Request, res: Response) => {
       const { body } = req;
 
-      logger.info('POST /users-service/users - create new user');
+      logger.info(`POST ${API_URLS.users} - create new user`);
 
       const user = await this.usersNetworkService.crudService.createUser(body);
 
@@ -30,10 +30,10 @@ export class UsersCrudController implements ControllerFactory {
   }
 
   private getUsers() {
-    this.app.get('/users-service/users', async (req: Request, res: Response) => {
+    this.app.get(API_URLS.users, async (req: Request, res: Response) => {
       const { query } = req;
 
-      logger.info('GET /users-service/users - get all users');
+      logger.info(`GET ${API_URLS.users} - get all users`);
 
       const users = await this.usersNetworkService.crudService.getUsers(query);
 
@@ -42,47 +42,43 @@ export class UsersCrudController implements ControllerFactory {
   }
 
   private getUserById() {
-    this.app.get('/users-service/users/:id', async (req: Request, res: Response) => {
-      const id = req.params.id! as string;
+    this.app.get(API_URLS.userById, async (req: Request, res: Response) => {
+      const userId = req.params.userId! as string;
 
-      logger.info(`GET /users-service/users/${id} - get user by id`);
+      logger.info(`GET ${API_URLS.userById} - get user by id`);
 
-      const fetchedUser = await this.usersNetworkService.crudService.getUserById(id);
+      const fetchedUser = await this.usersNetworkService.crudService.getUserById(userId);
 
       res.json(fetchedUser);
     });
   }
 
   private updateUser() {
-    this.app.patch(
-      '/users-service/users/:id',
-      joiBodyMiddleware(updateUserSchema),
-      async (req: Request, res: Response) => {
-        logger.info('PUT /users-service/users/:id - updating user by ID');
+    this.app.patch(API_URLS.userById, joiBodyMiddleware(updateUserSchema), async (req: Request, res: Response) => {
+      logger.info(`PATCH ${API_URLS.userById} - updating user by ID`);
 
-        const token = extractTokenFromCookies(req.cookies);
+      const token = extractTokenFromCookies(req.cookies);
 
-        const decodedToken = await this.authenticationNetworkService.tokenVerificationService.verifyToken(token);
+      const decodedToken = await this.authenticationNetworkService.tokenVerificationService.verifyToken(token);
 
-        if (!decodedToken) throw new UnauthorizedError();
+      if (!decodedToken) throw new UnauthorizedError();
 
-        const userId = req.params.id!;
+      const userId = req.params.userId!;
 
-        if (decodedToken.id !== userId) throw new ForbiddenError();
+      if (decodedToken.id !== userId) throw new ForbiddenError();
 
-        const userData = req.body;
-        const updatedUser = await this.usersNetworkService.crudService.updateUserById(userId, userData);
+      const userData = req.body;
+      const updatedUser = await this.usersNetworkService.crudService.updateUserById(userId, userData);
 
-        res.json(updatedUser);
-      },
-    );
+      res.json(updatedUser);
+    });
   }
 
   private deleteUser() {
-    this.app.delete('/users-service/users/:id', async (req: Request, res: Response) => {
-      const id = req.params.id!;
+    this.app.delete(API_URLS.userById, async (req: Request, res: Response) => {
+      const id = req.params.userId!;
 
-      logger.info(`DELETE /users-service/users/${id} - delete user`);
+      logger.info(`DELETE ${API_URLS.userById} - delete user`);
 
       const token = extractTokenFromCookies(req.cookies);
 

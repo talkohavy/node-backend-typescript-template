@@ -1,4 +1,5 @@
 import { Application, Request, Response } from 'express';
+import { API_URLS } from '../../../common/constants';
 import { ConfigKeys, type CookiesConfig } from '../../../configurations';
 import { logger, configService } from '../../../core';
 import { UnauthorizedError } from '../../../lib/Errors';
@@ -12,8 +13,8 @@ export class TokenVerificationController implements ControllerFactory {
   ) {}
 
   private verifyToken() {
-    this.app.get('/auth/verify-token', async (req: Request, res: Response) => {
-      logger.info('GET /auth/verify-token - verify tokens');
+    this.app.get(API_URLS.verifyToken, async (req: Request, res: Response) => {
+      logger.info(`GET ${API_URLS.verifyToken} - verify tokens`);
 
       const encodedToken = this.extractTokenFromCookies(req.cookies);
 

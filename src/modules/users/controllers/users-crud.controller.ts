@@ -1,5 +1,5 @@
 import { Application, Request, Response } from 'express';
-import { StatusCodes } from '../../../common/constants';
+import { API_URLS, StatusCodes } from '../../../common/constants';
 import { logger } from '../../../core';
 import { ControllerFactory } from '../../../lib/lucky-server';
 import { joiBodyMiddleware } from '../../../middlewares/joi-body.middleware';
@@ -14,10 +14,10 @@ export class UsersCrudController implements ControllerFactory {
   ) {}
 
   private createUser() {
-    this.app.post('/users', joiBodyMiddleware(createUserSchema), async (req: Request, res: Response) => {
+    this.app.post(API_URLS.users, joiBodyMiddleware(createUserSchema), async (req: Request, res: Response) => {
       const { body } = req;
 
-      logger.info('POST /users - create new user');
+      logger.info(`POST ${API_URLS.users} - create new user`);
 
       const user = await this.usersService.createUser(body);
 
@@ -26,10 +26,10 @@ export class UsersCrudController implements ControllerFactory {
   }
 
   private getUsers() {
-    this.app.get('/users', async (req: Request, res: Response) => {
+    this.app.get(API_URLS.users, async (req: Request, res: Response) => {
       const { query } = req;
 
-      logger.info('GET /users - get all users');
+      logger.info(`GET ${API_URLS.users} - get all users`);
 
       const users = await this.usersService.getUsers(query);
 
@@ -38,10 +38,10 @@ export class UsersCrudController implements ControllerFactory {
   }
 
   private getUserById() {
-    this.app.get('/users/:id', async (req: Request, res: Response) => {
-      const id = req.params.id! as string;
+    this.app.get(API_URLS.userById, async (req: Request, res: Response) => {
+      const id = req.params.userId! as string;
 
-      logger.info(`GET /users/${id} - get user by id`);
+      logger.info(`GET ${API_URLS.userById} - get user by id`);
 
       const fetchedUser = await this.usersService.getUserById(id);
 
@@ -50,10 +50,10 @@ export class UsersCrudController implements ControllerFactory {
   }
 
   private updateUserById() {
-    this.app.patch('/users/:id', joiBodyMiddleware(updateUserSchema), async (req: Request, res: Response) => {
-      logger.info('PUT /users/:id - updating user by ID');
+    this.app.patch(API_URLS.userById, joiBodyMiddleware(updateUserSchema), async (req: Request, res: Response) => {
+      logger.info(`PATCH ${API_URLS.userById} - updating user by ID`);
 
-      const userId = req.params.id!;
+      const userId = req.params.userId!;
       const userData = req.body;
 
       const updatedUser = await this.usersService.updateUserById(userId, userData);
@@ -63,12 +63,12 @@ export class UsersCrudController implements ControllerFactory {
   }
 
   private deleteUserById() {
-    this.app.delete('/users/:id', async (req: Request, res: Response) => {
-      const id = req.params.id!;
+    this.app.delete(API_URLS.userById, async (req: Request, res: Response) => {
+      const userId = req.params.userId!;
 
-      logger.info(`DELETE /users/${id} - delete user`);
+      logger.info(`DELETE ${API_URLS.userById} - delete user`);
 
-      const result = await this.usersService.deleteUserById(id);
+      const result = await this.usersService.deleteUserById(userId);
 
       res.json(result);
     });

@@ -1,9 +1,9 @@
 import { Application, CookieOptions, Request, Response } from 'express';
-import { StatusCodes } from '../../../../common/constants';
+import { API_URLS, StatusCodes } from '../../../../common/constants';
 import { ConfigKeys, type CookiesConfig, type Config } from '../../../../configurations';
 import { logger, configService } from '../../../../core';
-import { ControllerFactory } from '../../../../lib/controller-factory';
 import { BadRequestError } from '../../../../lib/Errors';
+import { ControllerFactory } from '../../../../lib/lucky-server';
 import { joiBodyMiddleware } from '../../../../middlewares/joi-body.middleware';
 import { UserNotFoundError } from '../../../users/logic/users.errors';
 import { AuthenticationNetworkService } from '../../services/authentication/authentication.network.service';
@@ -18,11 +18,11 @@ export class AuthenticationController implements ControllerFactory {
   ) {}
 
   private login() {
-    this.app.post('/auth/login', joiBodyMiddleware(loginSchema), async (req: Request, res: Response) => {
+    this.app.post(API_URLS.login, joiBodyMiddleware(loginSchema), async (req: Request, res: Response) => {
       try {
-        const { email, password } = req.body;
+        logger.info(`POST ${API_URLS.login} - user login endpoint`);
 
-        logger.info('POST /auth/login - user login endpoint');
+        const { email, password } = req.body;
 
         // Step 1: Get user by email
         const user = await this.userUtilitiesNetworkService.getUserByEmail(email);
@@ -73,8 +73,8 @@ export class AuthenticationController implements ControllerFactory {
   }
 
   private logout() {
-    this.app.get('/users/logout', async (_req, res) => {
-      logger.info('GET /users/logout - user logout');
+    this.app.get(API_URLS.logout, async (_req, res) => {
+      logger.info(`GET ${API_URLS.logout} - user logout`);
 
       const { accessCookie, refreshCookie } = configService.get<CookiesConfig>(ConfigKeys.Cookies);
 

@@ -1,13 +1,14 @@
 import { Application, Request, Response } from 'express';
 import { createWriteStream } from 'fs';
 import { join } from 'path';
-import { ControllerFactory } from '../../lib/controller-factory';
+import { API_URLS } from '../../common/constants';
+import { ControllerFactory } from '../../lib/lucky-server';
 
 export class TransactionsController implements ControllerFactory {
   constructor(private readonly app: Application) {}
 
   async uploadFile() {
-    this.app.post('/transactions/upload-file', (req: Request, res: Response): any => {
+    this.app.post(API_URLS.uploadTransactionFile, (req: Request, res: Response): any => {
       this.handleFileUpload(req, res);
     });
   }

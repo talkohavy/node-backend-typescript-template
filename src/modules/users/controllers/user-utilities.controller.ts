@@ -1,7 +1,8 @@
 import { Application, Request, Response } from 'express';
+import { API_URLS } from '../../../common/constants';
 import { logger } from '../../../core';
-import { ControllerFactory } from '../../../lib/lucky-server';
 import { NotFoundError } from '../../../lib/Errors';
+import { ControllerFactory } from '../../../lib/lucky-server';
 import { joiBodyMiddleware } from '../../../middlewares/joi-body.middleware';
 import { UserNotFoundError } from '../logic/users.errors';
 import { UserUtilitiesService } from '../services/user-utilities.service';
@@ -15,7 +16,7 @@ export class UserUtilitiesController implements ControllerFactory {
 
   private getUserByEmail() {
     this.app.post(
-      '/users/get-by-email',
+      API_URLS.getUserByEmail,
       joiBodyMiddleware(getUserByEmailSchema),
       async (req: Request, res: Response) => {
         try {

@@ -1,5 +1,5 @@
 import { Application } from 'express';
-import { ControllerFactory } from '../../lib/controller-factory';
+import { ControllerFactory } from '../../lib/lucky-server';
 import { ServerSentEventsService } from './serverSentEvents.service';
 import { createEventMessage } from './utils/createEventMessage';
 
