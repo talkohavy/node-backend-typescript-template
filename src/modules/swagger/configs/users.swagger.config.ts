@@ -5,8 +5,10 @@ import {
   createApiRoute,
   createSwaggerApiDocs,
 } from 'api-opener';
+import { API_URLS } from '../../../common/constants';
 import { SwaggerConfig } from '../logic/swagger.abstract.config';
-import { DEFINITION_REFS, definitions } from './definitions/users.definitions';
+import { definitions, OBJECT_REFS } from './objects';
+// import { OBJECT_REFS } from './objects/users.definitions';
 
 export class UsersSwaggerConfig extends SwaggerConfig {
   constructor() {
@@ -15,7 +17,7 @@ export class UsersSwaggerConfig extends SwaggerConfig {
     this.docs = createSwaggerApiDocs({
       title: 'LuckyLove: users-service',
       baseUrl: 'http://localhost:8000',
-      definitions,
+      definitions: definitions,
       routes: [
         // The order of everything here matters!!!
         // #############################
@@ -30,7 +32,7 @@ export class UsersSwaggerConfig extends SwaggerConfig {
         //   operationId: 'user-verb-user',
         //   parameters: [addIdParamToPath({ objectName: 'user', operationName: 'verb', isPositiveNumber: true })],
         //   requestBody: addRequestBody({
-        //     refString: DEFINITION_REFS.verb,
+        //     refString: OBJECT_REFS.verb,
         //     description: 'A json with the verbID',
         //     isRequired: true,
         //   }),
@@ -42,30 +44,27 @@ export class UsersSwaggerConfig extends SwaggerConfig {
         // Get Many:
         createApiRoute({
           method: 'get',
-          route: '/api/users',
+          route: API_URLS.users,
           summary: 'Find users by query params',
           parameters: [
             addPageParamToQuery(),
-            // {
-            //   in: 'query',
-            //   name: 'view',
-            //   description: 'Which view to select',
-            //   schema: { type: 'number', default: 1, enum: [1, 2, 3] },
-            // },
+            {
+              in: 'query',
+              name: 'view',
+              description: 'Which view to select',
+              schema: { type: 'number', default: 1, enum: [1, 2, 3] },
+            },
           ],
           responses: {
             '200': {
               description: 'User deleted successfully',
               content: {
                 'application/json': {
-                  schema: {
-                    type: 'object',
-                    properties: {
-                      message: { type: 'string', example: 'User deleted successfully' },
-                    },
-                  },
+                  schema: { $ref: OBJECT_REFS.user },
                 },
-                'application/x-www-form-urlencoded': { schema: { type: 'string' } },
+                'application/x-www-form-urlencoded': {
+                  schema: { $ref: OBJECT_REFS.user },
+                },
               },
             },
           },
@@ -77,15 +76,26 @@ export class UsersSwaggerConfig extends SwaggerConfig {
           summary: 'Find users by query params',
           operationId: 'single-user',
           parameters: [addIdParamToPath()],
+          responses: {
+            '200': {
+              description: 'User fetched successfully',
+              content: {
+                'application/json': {
+                  schema: { $ref: OBJECT_REFS.user },
+                },
+                'application/x-www-form-urlencoded': {},
+              },
+            },
+          },
         }),
         // Post One:
         createApiRoute({
           method: 'post',
-          route: '/api/users',
+          route: API_URLS.users,
           summary: 'Create new user in db',
           operationId: 'create-user',
           requestBody: addRequestBody({
-            refString: DEFINITION_REFS.register,
+            refString: OBJECT_REFS.user,
             isRequired: true,
           }),
         }),
@@ -96,6 +106,17 @@ export class UsersSwaggerConfig extends SwaggerConfig {
           summary: 'Update user by ID',
           operationId: 'update-user',
           parameters: [addIdParamToPath()],
+          responses: {
+            '200': {
+              description: 'User updated successfully',
+              content: {
+                'application/json': {
+                  schema: { $ref: OBJECT_REFS.user },
+                },
+                'application/x-www-form-urlencoded': {},
+              },
+            },
+          },
         }),
         // Delete One:
         createApiRoute({
@@ -113,6 +134,11 @@ export class UsersSwaggerConfig extends SwaggerConfig {
               schema: { type: 'string' },
             },
           ],
+          responses: {
+            '200': {
+              description: 'User deleted successfully',
+            },
+          },
         }),
       ],
     });
