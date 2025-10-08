@@ -54,7 +54,9 @@ export class SwaggerService {
   private createDropdownOptions(): Array<DropdownOption> {
     const SERVICE_BASE_URL = process.env.SWAGGER_DOCS_BASE_URL ?? 'http://localhost:8004';
 
-    return this.swaggerDocsArr.map((swaggerConfig) => {
+    return this.swaggerDocsArr.map((SwaggerConfigClass) => {
+      const swaggerConfig = new SwaggerConfigClass();
+
       const { name } = swaggerConfig;
 
       const configJsonUrl = `${SERVICE_BASE_URL}/${name}.swagger.json`;

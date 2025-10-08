@@ -20,20 +20,22 @@ jest.mock('../logic/swagger.abstract.config', () => ({
 
 describe('SwaggerService', () => {
   let swaggerService: SwaggerService;
-  let mockUsersSwagger: any;
+  let MockUsersSwagger: any;
 
   beforeEach(() => {
     jest.clearAllMocks();
     process.env.SWAGGER_DOCS_BASE_URL = 'http://localhost:8000';
-    mockUsersSwagger = {
-      name: 'Users',
-      docs: {
+
+    MockUsersSwagger = class {
+      name = 'Users';
+      docs = {
         swagger: '2.0',
         info: { title: 'Users API', version: '1.0.0' },
         paths: {},
-      },
+      };
     };
-    swaggerService = new SwaggerService([mockUsersSwagger]);
+
+    swaggerService = new SwaggerService([MockUsersSwagger]);
   });
 
   describe('createTopLevelSwaggerConfig', () => {
@@ -58,16 +60,16 @@ describe('SwaggerService', () => {
     });
 
     it('should handle multiple swagger docs', () => {
-      const mockChatsSwagger = {
-        name: 'Chats',
-        docs: {
+      const MockChatsSwagger = class {
+        name = 'Chats';
+        docs = {
           swagger: '2.0',
           info: { title: 'Chats API' },
           paths: {},
-        },
+        };
       };
 
-      swaggerService = new SwaggerService([mockUsersSwagger, mockChatsSwagger]);
+      swaggerService = new SwaggerService([MockUsersSwagger, MockChatsSwagger]);
 
       const result = swaggerService.createTopLevelSwaggerConfig();
 
@@ -101,27 +103,27 @@ describe('SwaggerService', () => {
 
     it('should handle multiple swagger configs', () => {
       const outputDir = '/test/output';
-      const mockChatsSwagger = {
-        name: 'Chats',
-        docs: {
+      const MockChatsSwagger = class {
+        name = 'Chats';
+        docs = {
           swagger: '2.0',
           info: { title: 'Chats API' },
           paths: {},
-        },
+        };
       };
 
-      swaggerService = new SwaggerService([mockUsersSwagger, mockChatsSwagger]);
+      swaggerService = new SwaggerService([MockUsersSwagger, MockChatsSwagger]);
 
       swaggerService.generateSwaggerDocsFromConfigs(outputDir);
 
       expect(mockFs.writeFileSync).toHaveBeenCalledTimes(2);
       expect(mockFs.writeFileSync).toHaveBeenCalledWith(
         `${outputDir}/Users.swagger.json`,
-        JSON.stringify(mockUsersSwagger.docs),
+        JSON.stringify(new MockUsersSwagger().docs),
       );
       expect(mockFs.writeFileSync).toHaveBeenCalledWith(
         `${outputDir}/Chats.swagger.json`,
-        JSON.stringify(mockChatsSwagger.docs),
+        JSON.stringify(new MockChatsSwagger().docs),
       );
     });
 
