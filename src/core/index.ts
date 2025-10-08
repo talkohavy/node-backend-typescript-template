@@ -11,3 +11,7 @@ export { MiddlewareRegistry } from './middlewareRegistry';
 export { callContextService } from './initGlobalServices/initCallContextService';
 export { logger } from './initGlobalServices/initLoggerService';
 export { configService } from './initGlobalServices/initConfigService';
+
+// initialized global connections
+export { redisPubConnection } from './initConnections/initRedisConnection';
+export { redisSubConnection } from './initConnections/initRedisConnection';

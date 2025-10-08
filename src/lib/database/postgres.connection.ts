@@ -1,6 +1,7 @@
 import pg, { Client, QueryResultRow } from 'pg';
+import { ConnectionFactory } from '../lucky-server';
 
-export class PostgresConnection {
+export class PostgresConnection implements ConnectionFactory {
   private static instance: PostgresConnection;
   private readonly dbClient: Client;
 
@@ -50,5 +51,9 @@ export class PostgresConnection {
   public ensureConnected() {
     // @ts-ignore
     if (!this.dbClient._connected) throw new Error('Database not connected');
+  }
+
+  public getClient(): Client {
+    return this.dbClient;
   }
 }

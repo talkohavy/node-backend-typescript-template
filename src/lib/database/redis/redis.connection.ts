@@ -1,7 +1,8 @@
 import { createClient, type RedisClientType } from 'redis';
 import type { RedisConfig, RedisConnectionConstructorProps } from './types';
+import { ConnectionFactory } from '../../lucky-server';
 
-export class RedisConnection {
+export class RedisConnection implements ConnectionFactory {
   private redisClient: RedisClientType | null = null;
   private connectionPromise: Promise<RedisClientType> | null = null;
   private _config: RedisConfig;
@@ -40,6 +41,12 @@ export class RedisConnection {
     } catch (error) {
       this.connectionPromise = null;
       throw error;
+    }
+  }
+
+  async ensureConnected(): Promise<void> {
+    if (!this.isConnected()) {
+      throw new Error(`Redis client is not connected (${this._config.connectionName})`);
     }
   }
 

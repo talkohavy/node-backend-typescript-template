@@ -1,6 +1,7 @@
 import mongoose, { Mongoose } from 'mongoose';
+import { ConnectionFactory } from '../lucky-server';
 
-export class MongodbConnection {
+export class MongodbConnection implements ConnectionFactory {
   private static instance: MongodbConnection;
   private dbClient: Mongoose;
   private isConnected: boolean = false;
@@ -74,5 +75,9 @@ export class MongodbConnection {
 
   public ensureConnected() {
     if (!this.isConnected) throw new Error('Database is not connected. Call connect() first.');
+  }
+
+  public getClient(): Mongoose {
+    return this.dbClient;
   }
 }

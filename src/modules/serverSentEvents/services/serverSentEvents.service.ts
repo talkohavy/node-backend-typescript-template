@@ -1,20 +1,20 @@
-import redis, { RedisClientType } from 'redis';
-import { logger } from '../../../core';
+import { RedisClientType } from 'redis';
+import { logger, redisPubConnection, redisSubConnection } from '../../../core';
 import { createEventMessage } from '../utils/createEventMessage';
 
-const { createClient } = redis;
-
 export class ServerSentEventsService {
-  redisSubscriber: RedisClientType;
-
-  clients: Array<any>;
+  private readonly redisPubClient: RedisClientType;
+  private readonly redisSubClient: RedisClientType;
+  private readonly clients: Array<any> = [];
 
   constructor() {
-    this.redisSubscriber = createClient({ url: 'redis://localhost:6379' });
-    this.redisSubscriber.connect();
-    this.clients = [];
+    redisPubConnection.ensureConnected();
+    redisSubConnection.ensureConnected();
 
-    this.redisSubscriber.subscribe('sse-events', (content) => {
+    this.redisPubClient = redisPubConnection.getClient()!;
+    this.redisSubClient = redisSubConnection.getClient()!;
+
+    this.redisSubClient.subscribe('sse-events', (content) => {
       logger.log('Received event:', content);
 
       this.clients.forEach((client) => {
@@ -35,14 +35,7 @@ export class ServerSentEventsService {
     this.clients.splice(this.clients.indexOf(res), 1);
   }
 
-  // ##########################################
-  redisPublisher = {} as RedisClientType;
-
   runSimulation() {
-    this.redisPublisher = createClient({ url: 'redis://localhost:6379' });
-    this.redisPublisher.connect();
-    // ############################
-
     setInterval(() => {
       const eventData = { time: new Date().toISOString() };
 
@@ -51,6 +44,8 @@ export class ServerSentEventsService {
   }
 
   async broadcastEvent(data: any) {
-    return this.redisPublisher.publish('sse-events', JSON.stringify(data));
+    const messageContent = JSON.stringify(data);
+    const result = await this.redisPubClient.publish('sse-events', messageContent);
+    return result;
   }
 }

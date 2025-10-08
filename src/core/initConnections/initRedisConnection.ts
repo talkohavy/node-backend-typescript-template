@@ -1,10 +1,14 @@
 import { RedisConnection } from '../../lib/database/redis';
 
+export let redisPubConnection: RedisConnection = {} as RedisConnection;
+export let redisSubConnection: RedisConnection = {} as RedisConnection;
+
 export async function initRedisConnection(connectionString: string) {
   const pubConnection = new RedisConnection({ connectionString, connectionName: 'pub' });
   const subConnection = new RedisConnection({ connectionString, connectionName: 'sub' });
 
-  const [pubClient, subClient] = await Promise.all([pubConnection.connect(), subConnection.connect()]);
+  redisPubConnection = pubConnection;
+  redisSubConnection = subConnection;
 
-  return { pubClient, subClient };
+  await Promise.all([pubConnection.connect(), subConnection.connect()]); // const [pubClient, subClient] =
 }
