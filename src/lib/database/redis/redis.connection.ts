@@ -94,8 +94,6 @@ export class RedisConnection implements ConnectionFactory {
 
       await this.redisClient.connect();
 
-      console.log(`Successfully connected to Redis (${this._config.connectionName})!`);
-
       // Only flush in development and when explicitly requested
       if (process.env.NODE_ENV === 'development' && config.flushOnConnect) {
         await this.redisClient.flushAll();
