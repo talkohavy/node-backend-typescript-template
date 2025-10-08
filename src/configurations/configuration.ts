@@ -38,5 +38,8 @@ export function configuration(): Config {
     database: {
       connectionString: process.env.DB_CONNECTION_STRING || 'postgres://user:password@localhost:5432/mydb',
     },
+    redis: {
+      connectionString: process.env.REDIS_CONNECTION_STRING || 'redis://localhost:6379',
+    },
   };
 }
