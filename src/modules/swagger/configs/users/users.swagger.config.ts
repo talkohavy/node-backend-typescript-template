@@ -6,10 +6,10 @@ import {
   createSwaggerApiDocs,
 } from 'api-opener';
 import { API_URLS } from '../../../../common/constants';
-import { SwaggerConfig } from '../../logic/swagger.abstract.config';
+import { AbstractSwaggerConfig } from '../../logic/swagger.abstract.config';
 import { definitions, USER_REFS } from './user.refs';
 
-export class UsersSwaggerConfig extends SwaggerConfig {
+export class UsersSwaggerConfig extends AbstractSwaggerConfig {
   constructor() {
     super('Users');
 

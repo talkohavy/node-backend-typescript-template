@@ -3,7 +3,7 @@
  * This class is used to create Swagger API documentation.
  * It can be extended to add more configurations or methods as needed.
  */
-export abstract class SwaggerConfig {
+export abstract class AbstractSwaggerConfig {
   name = '';
   docs: Record<string, any> = {};
 
@@ -11,4 +11,8 @@ export abstract class SwaggerConfig {
     this.name = name;
     this.docs = {};
   }
+}
+
+export interface StaticSwaggerConfig {
+  new (): AbstractSwaggerConfig;
 }

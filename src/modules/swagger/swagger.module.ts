@@ -21,10 +21,7 @@ export class SwaggerModule implements ModuleFactory {
   }
 
   protected initializeModule(): void {
-    const usersSwaggerConfig = new UsersSwaggerConfig();
-    const booksSwaggerConfig = new BooksSwaggerConfig();
-
-    this.swaggerService = new SwaggerService([usersSwaggerConfig, booksSwaggerConfig]);
+    this.swaggerService = new SwaggerService([UsersSwaggerConfig, BooksSwaggerConfig]);
   }
 
   attachController(app: Application): void {

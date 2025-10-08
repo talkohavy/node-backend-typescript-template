@@ -1,10 +1,10 @@
 import type { SwaggerUiOptions } from 'swagger-ui-express';
 import fs from 'fs';
-import type { SwaggerConfig } from '../logic/swagger.abstract.config';
+import type { StaticSwaggerConfig } from '../logic/swagger.abstract.config';
 import type { DropdownOption } from '../types';
 
 export class SwaggerService {
-  constructor(private readonly swaggerDocsArr: Array<SwaggerConfig>) {}
+  constructor(private readonly swaggerDocsArr: Array<StaticSwaggerConfig>) {}
 
   createTopLevelSwaggerConfig(): SwaggerUiOptions {
     const dropdownOptions = this.createDropdownOptions();
@@ -38,8 +38,10 @@ export class SwaggerService {
    * Pass in the destination path of the directory, where the files should be created.
    */
   generateSwaggerDocsFromConfigs(destinationPath: string): void {
-    this.swaggerDocsArr.forEach((swaggerConfig) => {
-      const { name, docs } = swaggerConfig;
+    this.swaggerDocsArr.forEach((SwaggerConfigClass) => {
+      const configInstance = new SwaggerConfigClass();
+
+      const { name, docs } = configInstance;
 
       const configJsonContent = JSON.stringify(docs);
 
