@@ -1,6 +1,6 @@
+import type { EnvironmentValues } from '../common/constants';
+import type { RedisConfig } from '../lib/database/redis';
 import type { LoggerSettings } from '../lib/logger';
-import { EnvironmentValues } from '../common/constants';
-import { RedisConfig } from '../lib/database/redis';
 
 export const ConfigKeys = {
   Port: 'port',

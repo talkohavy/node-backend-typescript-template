@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { SchemaTemplate } from '../../types';
+import type { SchemaTemplate } from '../../types';
 import { userSchemaTemplate } from './user.schema.template';
 
 const { Schema, model } = mongoose;
@@ -20,7 +20,6 @@ const userSchema = new Schema(userSchemaTemplate, {
 
 // Step 2: attach 'pre' and/or 'post' hooks onto your schema object
 // Delete all fields  with { select: false } after a successful document creation.
-// @ts-ignore
 userSchema.post('save', (doc) => {
   function removePropertiesRecursivelyAfterCreate(
     partialSchemaTemplate: SchemaTemplate,

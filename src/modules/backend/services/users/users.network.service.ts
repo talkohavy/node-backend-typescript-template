@@ -1,5 +1,5 @@
-import { UserUtilitiesNetworkService } from './user-utilities.network.service';
-import { UsersCrudNetworkService } from './users-crud.network.service';
+import type { UserUtilitiesNetworkService } from './user-utilities.network.service';
+import type { UsersCrudNetworkService } from './users-crud.network.service';
 
 export class UsersNetworkService {
   constructor(

@@ -1,10 +1,10 @@
-import { Application, Request, Response } from 'express';
+import type { Application, Request, Response } from 'express';
+import type { ControllerFactory } from '../../../../lib/lucky-server';
+import type { AuthenticationNetworkService } from '../../services/authentication/authentication.network.service';
+import type { UsersNetworkService } from '../../services/users/users.network.service';
 import { API_URLS, StatusCodes } from '../../../../common/constants';
 import { logger } from '../../../../core';
-import { ControllerFactory } from '../../../../lib/lucky-server';
 import { extractTokenFromCookies } from '../../logic/extractTokenFromCookies';
-import { AuthenticationNetworkService } from '../../services/authentication/authentication.network.service';
-import { UsersNetworkService } from '../../services/users/users.network.service';
 
 export class UserUtilitiesController implements ControllerFactory {
   constructor(

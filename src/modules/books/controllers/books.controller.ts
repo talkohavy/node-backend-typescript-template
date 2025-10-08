@@ -1,9 +1,9 @@
-import { Application, Request, Response } from 'express';
+import type { Application, Request, Response } from 'express';
+import type { ControllerFactory } from '../../../lib/lucky-server';
+import type { BooksService } from '../services/books.service';
 import { API_URLS, StatusCodes } from '../../../common/constants';
 import { logger } from '../../../core';
-import { ControllerFactory } from '../../../lib/lucky-server';
 import { joiBodyMiddleware } from '../../../middlewares/joi-body.middleware';
-import { BooksService } from '../services/books.service';
 import { createBookSchema } from './dto/books.dto';
 
 export class BooksController implements ControllerFactory {

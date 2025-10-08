@@ -1,6 +1,6 @@
-import { ControllerFactory } from '../../../lib/lucky-server';
-import { AuthenticationController } from './authentication/authentication.controller';
-import { UsersController } from './users/users.controller';
+import type { ControllerFactory } from '../../../lib/lucky-server';
+import type { AuthenticationController } from './authentication/authentication.controller';
+import type { UsersController } from './users/users.controller';
 
 export class BackendController implements ControllerFactory {
   constructor(

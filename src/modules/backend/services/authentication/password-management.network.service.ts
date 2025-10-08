@@ -1,5 +1,5 @@
+import type { GenerateHashedPasswordProps } from './interfaces/password-management.network.interface';
 import { AuthenticationModule } from '../../../authentication';
-import { GenerateHashedPasswordProps } from './interfaces/password-management.network.interface';
 
 export class PasswordManagementNetworkService {
   private readonly passwordManagementService =

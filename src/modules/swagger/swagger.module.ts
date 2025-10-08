@@ -1,5 +1,5 @@
 import type { Application } from 'express';
-import { ModuleFactory } from '../../lib/lucky-server';
+import type { ModuleFactory } from '../../lib/lucky-server';
 import { UsersSwaggerConfig } from './configs/users.swagger.config';
 import { SwaggerMiddleware } from './middlewares';
 import { SwaggerService } from './services/swagger.service';

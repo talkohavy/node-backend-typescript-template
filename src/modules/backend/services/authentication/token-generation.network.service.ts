@@ -1,5 +1,5 @@
+import type { CreateAccessTokenProps, CreateRefreshTokenProps } from './interfaces/token-generation.network.interface';
 import { AuthenticationModule } from '../../../authentication';
-import { CreateAccessTokenProps, CreateRefreshTokenProps } from './interfaces/token-generation.network.interface';
 
 export class TokenGenerationNetworkService {
   private readonly tokenGenerationService =

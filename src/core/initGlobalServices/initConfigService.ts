@@ -1,4 +1,4 @@
-import { Config } from '../../configurations';
+import type { Config } from '../../configurations';
 import { ConfigService } from '../../lib/config-service';
 
 export let configService: ConfigService<Config>;

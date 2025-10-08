@@ -1,4 +1,4 @@
-import jwt, { VerifyOptions } from 'jsonwebtoken';
+import jwt, { type VerifyOptions } from 'jsonwebtoken';
 import { ConfigKeys, type JwtConfig } from '../../../configurations';
 import { configService } from '../../../core';
 

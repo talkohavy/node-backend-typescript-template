@@ -1,10 +1,10 @@
-import mongoose, { Mongoose } from 'mongoose';
-import { ConnectionFactory } from '../lucky-server';
+import mongoose, { type Mongoose } from 'mongoose';
+import type { ConnectionFactory } from '../lucky-server';
 
 export class MongodbConnection implements ConnectionFactory {
   private static instance: MongodbConnection;
   private dbClient: Mongoose;
-  private isConnected: boolean = false;
+  private isConnected = false;
   private credentials: { connectionString: string };
 
   private constructor(connectionString: string) {

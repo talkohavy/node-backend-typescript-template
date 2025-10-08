@@ -1,5 +1,5 @@
-import { Application } from 'express';
-import { ModuleFactory } from '../../lib/lucky-server';
+import type { Application } from 'express';
+import type { ModuleFactory } from '../../lib/lucky-server';
 import { BooksController } from './controllers/books.controller';
 import { BooksMiddleware } from './middleware/books.middleware';
 import { BooksService } from './services/books.service';

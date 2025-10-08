@@ -1,5 +1,5 @@
-import { Book } from '../types';
-import { CreateBookDto, UpdateBookDto } from './interfaces/books.service.interface';
+import type { Book } from '../types';
+import type { CreateBookDto, UpdateBookDto } from './interfaces/books.service.interface';
 
 const database: Array<Book> = [];
 
@@ -11,7 +11,7 @@ export class BooksService {
   }
 
   async getBookById(userId: string): Promise<Book | null> {
-    const book = database.find((book) => book.id === parseInt(userId));
+    const book = database.find((book) => book.id === Number.parseInt(userId, 10));
 
     if (!book) return null;
 
@@ -32,7 +32,7 @@ export class BooksService {
   }
 
   async updateBook(userId: string, user: UpdateBookDto): Promise<Book | null> {
-    const parsedId = parseInt(userId);
+    const parsedId = Number.parseInt(userId, 10);
     const bookIndex = database.findIndex((book) => book.id === parsedId);
 
     if (bookIndex === -1) return null;
@@ -43,7 +43,7 @@ export class BooksService {
   }
 
   async deleteBook(userId: string) {
-    const parsedId = parseInt(userId);
+    const parsedId = Number.parseInt(userId, 10);
     const bookIndex = database.findIndex((book) => book.id === parsedId);
 
     if (bookIndex === -1) return null;

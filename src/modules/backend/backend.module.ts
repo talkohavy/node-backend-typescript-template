@@ -1,5 +1,5 @@
-import { Application } from 'express';
-import { ModuleFactory } from '../../lib/lucky-server';
+import type { Application } from 'express';
+import type { ModuleFactory } from '../../lib/lucky-server';
 import { AuthenticationController } from './controllers/authentication/authentication.controller';
 import { BackendController } from './controllers/backend.controller';
 import { UserUtilitiesController } from './controllers/users/user-utilities.controller';

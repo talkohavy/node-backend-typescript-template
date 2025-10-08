@@ -1,13 +1,13 @@
-import { Application, CookieOptions, Request, Response } from 'express';
+import type { Application, CookieOptions, Request, Response } from 'express';
+import type { ControllerFactory } from '../../../../lib/lucky-server';
+import type { AuthenticationNetworkService } from '../../services/authentication/authentication.network.service';
+import type { UserUtilitiesNetworkService } from '../../services/users/user-utilities.network.service';
 import { API_URLS, StatusCodes } from '../../../../common/constants';
 import { ConfigKeys, type CookiesConfig, type Config } from '../../../../configurations';
 import { logger, configService } from '../../../../core';
 import { BadRequestError } from '../../../../lib/Errors';
-import { ControllerFactory } from '../../../../lib/lucky-server';
 import { joiBodyMiddleware } from '../../../../middlewares/joi-body.middleware';
 import { UserNotFoundError } from '../../../users/logic/users.errors';
-import { AuthenticationNetworkService } from '../../services/authentication/authentication.network.service';
-import { UserUtilitiesNetworkService } from '../../services/users/user-utilities.network.service';
 import { loginSchema } from './dto/loginSchema.dto';
 
 export class AuthenticationController implements ControllerFactory {

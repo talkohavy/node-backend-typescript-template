@@ -1,5 +1,5 @@
-import { Application } from 'express';
-import { ModuleFactory } from '../../lib/lucky-server';
+import type { Application } from 'express';
+import type { ModuleFactory } from '../../lib/lucky-server';
 import { ServerSentEventsController } from './controllers/serverSentEvents.controller';
 import { ServerSentEventsService } from './services/serverSentEvents.service';
 

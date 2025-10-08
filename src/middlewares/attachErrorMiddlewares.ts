@@ -1,4 +1,4 @@
-import { Application, Request, Response } from 'express';
+import type { Application, Request, Response } from 'express';
 import { StatusCodes } from '../common/constants';
 
 export function attachErrorMiddlewares(app: Application) {

@@ -1,8 +1,8 @@
-import { Application, Request, Response } from 'express';
+import type { Application, Request, Response } from 'express';
 import { createWriteStream } from 'fs';
 import { join } from 'path';
+import type { ControllerFactory } from '../../lib/lucky-server';
 import { API_URLS } from '../../common/constants';
-import { ControllerFactory } from '../../lib/lucky-server';
 
 export class TransactionsController implements ControllerFactory {
   constructor(private readonly app: Application) {}

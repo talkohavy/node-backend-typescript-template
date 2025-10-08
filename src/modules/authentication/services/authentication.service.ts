@@ -1,6 +1,6 @@
-import { PasswordManagementService } from './password-management.service';
-import { TokenGenerationService } from './token-generation.service';
-import { TokenVerificationService } from './token-verification.service';
+import type { PasswordManagementService } from './password-management.service';
+import type { TokenGenerationService } from './token-generation.service';
+import type { TokenVerificationService } from './token-verification.service';
 
 export class AuthenticationService {
   constructor(

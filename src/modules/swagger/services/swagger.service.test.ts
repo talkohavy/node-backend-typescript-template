@@ -38,7 +38,7 @@ describe('SwaggerService', () => {
 
   describe('constructor', () => {
     it('should initialize with swagger docs array', () => {
-      // @ts-ignore
+      // @ts-expect-error
       expect(swaggerService.docsArr).toEqual([mockUsersSwagger]);
     });
   });

@@ -1,8 +1,8 @@
 import { colorMyJson } from 'color-my-json';
-import { ILogger, LoggerConstructorProps } from './logger.interface';
-import { LogLevel, LogLevelToNumber, LogLevelValues } from './logic/constants';
+import type { ILogger, LoggerConstructorProps } from './logger.interface';
+import type { LoggerSettings } from './types';
+import { LogLevel, LogLevelToNumber, type LogLevelValues } from './logic/constants';
 import { createEnumerableError } from './logic/utils/createEnumerableError';
-import { LoggerSettings } from './types';
 
 export class Logger implements ILogger {
   private readonly settings: LoggerSettings;

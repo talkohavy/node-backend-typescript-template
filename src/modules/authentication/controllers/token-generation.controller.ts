@@ -1,9 +1,9 @@
-import { Application, Request, Response } from 'express';
+import type { Application, Request, Response } from 'express';
+import type { ControllerFactory } from '../../../lib/lucky-server';
+import type { TokenGenerationService } from '../services/token-generation.service';
 import { API_URLS } from '../../../common/constants';
 import { logger } from '../../../core';
-import { ControllerFactory } from '../../../lib/lucky-server';
 import { joiBodyMiddleware } from '../../../middlewares/joi-body.middleware';
-import { TokenGenerationService } from '../services/token-generation.service';
 import { createTokensSchema } from './dto/create-tokens.dto';
 
 export class TokenGenerationController implements ControllerFactory {

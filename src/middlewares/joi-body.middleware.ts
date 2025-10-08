@@ -1,5 +1,5 @@
 import type { NextFunction, Request, Response } from 'express';
-import Joi from 'joi';
+import type Joi from 'joi';
 import { logger } from '../core';
 import { BadRequestError } from '../lib/Errors';
 

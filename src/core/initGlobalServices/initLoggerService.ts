@@ -1,6 +1,6 @@
+import type { CallContextService } from '../../lib/call-context';
+import type { ConfigService } from '../../lib/config-service';
 import { ConfigKeys } from '../../configurations';
-import { CallContextService } from '../../lib/call-context';
-import { ConfigService } from '../../lib/config-service';
 import { Logger, LogLevel, type LoggerSettings } from '../../lib/logger';
 import { LoggerService } from '../../lib/logger-service';
 

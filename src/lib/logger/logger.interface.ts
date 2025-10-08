@@ -1,4 +1,4 @@
-import { LoggerSettings } from './types';
+import type { LoggerSettings } from './types';
 
 export type LoggerConstructorProps = {
   settings: LoggerSettings;

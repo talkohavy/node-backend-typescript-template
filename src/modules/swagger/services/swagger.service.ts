@@ -1,7 +1,7 @@
+import type { SwaggerUiOptions } from 'swagger-ui-express';
 import fs from 'fs';
-import { SwaggerUiOptions } from 'swagger-ui-express';
-import { SwaggerConfig } from '../logic/swagger.abstract.config';
-import { DropdownOption } from '../types';
+import type { SwaggerConfig } from '../logic/swagger.abstract.config';
+import type { DropdownOption } from '../types';
 
 export class SwaggerService {
   constructor(private readonly swaggerDocsArr: Array<SwaggerConfig>) {}

@@ -1,5 +1,5 @@
+import type { DatabaseUser } from '../../../users/types';
 import { UsersModule } from '../../../users';
-import { DatabaseUser } from '../../../users/types';
 
 export class UserUtilitiesNetworkService {
   private readonly userUtilitiesService = UsersModule.getInstance().getUserUtilitiesService();

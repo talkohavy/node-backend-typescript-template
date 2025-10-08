@@ -1,6 +1,6 @@
-import { ControllerFactory } from '../../../../lib/lucky-server';
-import { UserUtilitiesController } from './user-utilities.controller';
-import { UsersCrudController } from './users-crud.controller';
+import type { ControllerFactory } from '../../../../lib/lucky-server';
+import type { UserUtilitiesController } from './user-utilities.controller';
+import type { UsersCrudController } from './users-crud.controller';
 
 export class UsersController implements ControllerFactory {
   constructor(

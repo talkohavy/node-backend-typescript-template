@@ -1,5 +1,5 @@
-import { Application } from 'express';
-import { ModuleFactory } from '../../lib/lucky-server';
+import type { Application } from 'express';
+import type { ModuleFactory } from '../../lib/lucky-server';
 import { HealthCheckController } from './health-check.controller';
 
 export class HealthCheckModule implements ModuleFactory {

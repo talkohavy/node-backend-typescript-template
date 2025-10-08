@@ -1,12 +1,12 @@
-import { Application, Request, Response } from 'express';
+import type { Application, Request, Response } from 'express';
+import type { ControllerFactory } from '../../../../lib/lucky-server';
+import type { AuthenticationNetworkService } from '../../services/authentication/authentication.network.service';
+import type { UsersNetworkService } from '../../services/users/users.network.service';
 import { API_URLS, StatusCodes } from '../../../../common/constants';
 import { logger } from '../../../../core';
 import { ForbiddenError, UnauthorizedError } from '../../../../lib/Errors';
-import { ControllerFactory } from '../../../../lib/lucky-server';
 import { joiBodyMiddleware } from '../../../../middlewares/joi-body.middleware';
 import { extractTokenFromCookies } from '../../logic/extractTokenFromCookies';
-import { AuthenticationNetworkService } from '../../services/authentication/authentication.network.service';
-import { UsersNetworkService } from '../../services/users/users.network.service';
 import { createUserSchema } from './dto/createUserSchema.dto';
 import { updateUserSchema } from './dto/updateUserSchema.dto';
 

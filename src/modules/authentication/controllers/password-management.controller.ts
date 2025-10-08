@@ -1,10 +1,10 @@
-import { Application, Request, Response } from 'express';
+import type { Application, Request, Response } from 'express';
+import type { ControllerFactory } from '../../../lib/lucky-server';
+import type { PasswordManagementService } from '../services/password-management.service';
 import { API_URLS } from '../../../common/constants';
 import { logger } from '../../../core';
 import { UnauthorizedError } from '../../../lib/Errors';
-import { ControllerFactory } from '../../../lib/lucky-server';
 import { joiBodyMiddleware } from '../../../middlewares/joi-body.middleware';
-import { PasswordManagementService } from '../services/password-management.service';
 import { getIsPasswordValidSchema } from './dto/get-is-password-valid.dto';
 
 export class PasswordManagementController implements ControllerFactory {

@@ -1,6 +1,6 @@
-import { PasswordManagementNetworkService } from './password-management.network.service';
-import { TokenGenerationNetworkService } from './token-generation.network.service';
-import { TokenVerificationNetworkService } from './token-verification.network.service';
+import type { PasswordManagementNetworkService } from './password-management.network.service';
+import type { TokenGenerationNetworkService } from './token-generation.network.service';
+import type { TokenVerificationNetworkService } from './token-verification.network.service';
 
 export class AuthenticationNetworkService {
   constructor(

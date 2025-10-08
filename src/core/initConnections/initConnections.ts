@@ -1,6 +1,6 @@
-import { ConfigKeys, DatabaseConfig } from '../../configurations';
-import { ConfigService } from '../../lib/config-service';
-import { RedisConfig } from '../../lib/database/redis';
+import type { ConfigService } from '../../lib/config-service';
+import type { RedisConfig } from '../../lib/database/redis';
+import { ConfigKeys, type DatabaseConfig } from '../../configurations';
 import { initPostgresqlConnection } from './initPostgresqlConnection';
 import { initRedisConnection } from './initRedisConnection';
 // import { initMongodbConnection } from './initMongodbConnection';

@@ -4,7 +4,7 @@
  * It can be extended to add more configurations or methods as needed.
  */
 export abstract class SwaggerConfig {
-  name: string = '';
+  name = '';
   docs: Record<string, any> = {};
 
   constructor(name: string) {

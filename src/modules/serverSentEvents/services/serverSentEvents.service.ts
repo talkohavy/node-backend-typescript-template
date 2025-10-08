@@ -1,4 +1,4 @@
-import { RedisClientType } from 'redis';
+import type { RedisClientType } from 'redis';
 import { logger, redisPubConnection, redisSubConnection } from '../../../core';
 import { createEventMessage } from '../utils/createEventMessage';
 

@@ -1,9 +1,9 @@
 import cookieParser from 'cookie-parser';
-import express, { Application } from 'express';
+import express, { type Application } from 'express';
 import { EXCLUDED_PATHS } from '../../common/constants';
 import { postUseMiddleware } from '../../common/utils/postUseMiddleware';
 import { preUseMiddleware } from '../../common/utils/preUseMiddleware';
-import { CallContextMiddleware, CallContextService } from '../../lib/call-context';
+import { CallContextMiddleware, type CallContextService } from '../../lib/call-context';
 import { attachErrorMiddlewares } from '../../middlewares/attachErrorMiddlewares';
 import { attachHelmetMiddleware } from '../../middlewares/attachHelmetMiddleware';
 import { compressionMiddleware } from '../../middlewares/compression.middleware';

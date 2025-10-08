@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import type { Request, Response, NextFunction } from 'express';
 
 export function preUseMiddleware(req: Request, res: Response, _next: NextFunction) {
   // excluded paths:
