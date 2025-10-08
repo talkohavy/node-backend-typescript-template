@@ -1,8 +1,8 @@
+import type { IUsersRepository } from '../repositories/interfaces/users.repository.base';
+import type { DatabaseUser } from '../types';
+import type { CreateUserDto, UpdateUserDto } from './interfaces/users.service.interface';
 import { UserNotFoundError } from '../logic/users.errors';
 import { createNewUserPayload } from '../logic/utils/createNewUserPayload';
-import { IUsersRepository } from '../repositories/interfaces/users.repository.base';
-import { DatabaseUser } from '../types';
-import { CreateUserDto, UpdateUserDto } from './interfaces/users.service.interface';
 
 export class UsersCrudService {
   constructor(private readonly usersRepository: IUsersRepository) {}

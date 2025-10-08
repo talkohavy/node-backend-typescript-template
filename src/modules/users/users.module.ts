@@ -1,10 +1,10 @@
-import { Application } from 'express';
-import { ModuleFactory } from '../../lib/lucky-server';
+import type { Application } from 'express';
+import type { ModuleFactory } from '../../lib/lucky-server';
+import type { IUsersRepository } from './repositories/interfaces/users.repository.base';
 import { UserUtilitiesController } from './controllers/user-utilities.controller';
 import { UsersCrudController } from './controllers/users-crud.controller';
 import { UsersController } from './controllers/users.controller';
 import { UsersMiddleware } from './middleware/users.middleware';
-import { IUsersRepository } from './repositories/interfaces/users.repository.base';
 import { UsersPostgresRepository } from './repositories/users.postgres.repository';
 import { FieldScreeningService } from './services/field-screening.service';
 import { UserUtilitiesService } from './services/user-utilities.service';
