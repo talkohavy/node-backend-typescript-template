@@ -4,6 +4,6 @@ export const definitions = {
   User: UserObject,
 };
 
-export const OBJECT_REFS = {
+export const USER_REFS = {
   user: '#/components/schemas/User',
 };

@@ -5,10 +5,9 @@ import {
   createApiRoute,
   createSwaggerApiDocs,
 } from 'api-opener';
-import { API_URLS } from '../../../common/constants';
-import { SwaggerConfig } from '../logic/swagger.abstract.config';
-import { definitions, OBJECT_REFS } from './objects';
-// import { OBJECT_REFS } from './objects/users.definitions';
+import { API_URLS } from '../../../../common/constants';
+import { SwaggerConfig } from '../../logic/swagger.abstract.config';
+import { definitions, USER_REFS } from './user.refs';
 
 export class UsersSwaggerConfig extends SwaggerConfig {
   constructor() {
@@ -17,7 +16,7 @@ export class UsersSwaggerConfig extends SwaggerConfig {
     this.docs = createSwaggerApiDocs({
       title: 'LuckyLove: users-service',
       baseUrl: 'http://localhost:8000',
-      definitions: definitions,
+      definitions,
       routes: [
         // The order of everything here matters!!!
         // #############################
@@ -32,7 +31,7 @@ export class UsersSwaggerConfig extends SwaggerConfig {
         //   operationId: 'user-verb-user',
         //   parameters: [addIdParamToPath({ objectName: 'user', operationName: 'verb', isPositiveNumber: true })],
         //   requestBody: addRequestBody({
-        //     refString: OBJECT_REFS.verb,
+        //     refString: USER_REFS.verb,
         //     description: 'A json with the verbID',
         //     isRequired: true,
         //   }),
@@ -60,10 +59,10 @@ export class UsersSwaggerConfig extends SwaggerConfig {
               description: 'User deleted successfully',
               content: {
                 'application/json': {
-                  schema: { $ref: OBJECT_REFS.user },
+                  schema: { $ref: USER_REFS.user },
                 },
                 'application/x-www-form-urlencoded': {
-                  schema: { $ref: OBJECT_REFS.user },
+                  schema: { $ref: USER_REFS.user },
                 },
               },
             },
@@ -81,7 +80,7 @@ export class UsersSwaggerConfig extends SwaggerConfig {
               description: 'User fetched successfully',
               content: {
                 'application/json': {
-                  schema: { $ref: OBJECT_REFS.user },
+                  schema: { $ref: USER_REFS.user },
                 },
                 'application/x-www-form-urlencoded': {},
               },
@@ -95,7 +94,7 @@ export class UsersSwaggerConfig extends SwaggerConfig {
           summary: 'Create new user in db',
           operationId: 'create-user',
           requestBody: addRequestBody({
-            refString: OBJECT_REFS.user,
+            refString: USER_REFS.user,
             isRequired: true,
           }),
         }),
@@ -111,7 +110,7 @@ export class UsersSwaggerConfig extends SwaggerConfig {
               description: 'User updated successfully',
               content: {
                 'application/json': {
-                  schema: { $ref: OBJECT_REFS.user },
+                  schema: { $ref: USER_REFS.user },
                 },
                 'application/x-www-form-urlencoded': {},
               },
