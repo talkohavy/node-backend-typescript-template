@@ -7,7 +7,7 @@ jest.mock('fs', () => ({
 
 const mockFs = fs as jest.Mocked<typeof fs>;
 
-jest.mock('../configs/users.swagger', () => ({
+jest.mock('../logic/swagger.abstract.config', () => ({
   UsersSwagger: jest.fn().mockImplementation(() => ({
     name: 'Users',
     docs: {
@@ -34,13 +34,6 @@ describe('SwaggerService', () => {
       },
     };
     swaggerService = new SwaggerService([mockUsersSwagger]);
-  });
-
-  describe('constructor', () => {
-    it('should initialize with swagger docs array', () => {
-      // @ts-expect-error
-      expect(swaggerService.docsArr).toEqual([mockUsersSwagger]);
-    });
   });
 
   describe('createTopLevelSwaggerConfig', () => {

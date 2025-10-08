@@ -1,32 +1,15 @@
 import type { Application } from 'express';
 import { SwaggerModule } from './swagger.module';
 
-// Mock dependencies
-jest.mock('./configs/users.swagger', () => ({
-  UsersSwagger: jest.fn().mockImplementation(() => ({
-    name: 'Users',
-    docs: { swagger: '2.0' },
-  })),
-}));
-
-const mockSwaggerController = {
-  attachRoutes: jest.fn(),
+const mockSwaggerMiddleware = {
+  use: jest.fn(),
 };
 
-jest.mock('./controllers', () => ({
-  SwaggerController: jest.fn().mockImplementation(() => mockSwaggerController),
+jest.mock('./middlewares', () => ({
+  SwaggerMiddleware: jest.fn().mockImplementation(() => mockSwaggerMiddleware),
 }));
 
-const mockSwaggerService = {
-  createTopLevelSwaggerConfig: jest.fn(),
-  createJsonFilesFromAllSwaggerConfigs: jest.fn(),
-};
-
-jest.mock('./services/swagger.service', () => ({
-  SwaggerService: jest.fn().mockImplementation(() => mockSwaggerService),
-}));
-
-// Mock express app
+// Mock express app to pass to attachController method
 const mockApp = {
   use: jest.fn(),
   get: jest.fn(),
@@ -56,19 +39,19 @@ describe('SwaggerModule', () => {
   describe('attachController', () => {
     it('should create and attach swagger controller', async () => {
       // Act
-      await swaggerModule.attachController(mockApp);
+      swaggerModule.attachController(mockApp);
 
       // Assert
-      expect(mockSwaggerController.attachRoutes).toHaveBeenCalled();
+      expect(mockSwaggerMiddleware.use).toHaveBeenCalled();
     });
 
     it('should initialize swagger service with users swagger config', async () => {
       // Act
-      await swaggerModule.attachController(mockApp);
+      swaggerModule.attachController(mockApp);
 
       // Assert
       // The module should have been initialized with the mocked services
-      expect(mockSwaggerController.attachRoutes).toHaveBeenCalled();
+      expect(mockSwaggerMiddleware.use).toHaveBeenCalled();
     });
   });
 
