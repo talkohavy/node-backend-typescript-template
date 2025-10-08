@@ -13,8 +13,8 @@ export class TokenGenerationController implements ControllerFactory {
   ) {}
 
   private createTokens() {
-    this.app.post(API_URLS.tokens, joiBodyMiddleware(createTokensSchema), async (req: Request, res: Response) => {
-      logger.info(`POST ${API_URLS.tokens} - create tokens`);
+    this.app.post(API_URLS.createTokens, joiBodyMiddleware(createTokensSchema), async (req: Request, res: Response) => {
+      logger.info(`POST ${API_URLS.createTokens} - create tokens`);
 
       const { userId } = req.body;
 

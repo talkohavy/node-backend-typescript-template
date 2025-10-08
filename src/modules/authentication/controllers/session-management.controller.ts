@@ -7,8 +7,8 @@ export class SessionManagementController implements ControllerFactory {
   constructor(private readonly app: Application) {}
 
   private logout() {
-    this.app.get(API_URLS.logout, async (_req: Request, res: Response) => {
-      logger.info(`GET ${API_URLS.logout} - user logout`);
+    this.app.get(API_URLS.authLogout, async (_req: Request, res: Response) => {
+      logger.info(`GET ${API_URLS.authLogout} - user logout`);
 
       // maybe blacklist token here
 

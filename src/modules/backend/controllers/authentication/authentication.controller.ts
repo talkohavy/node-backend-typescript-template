@@ -18,9 +18,9 @@ export class AuthenticationController implements ControllerFactory {
   ) {}
 
   private login() {
-    this.app.post(API_URLS.login, joiBodyMiddleware(loginSchema), async (req: Request, res: Response) => {
+    this.app.post(API_URLS.authLogin, joiBodyMiddleware(loginSchema), async (req: Request, res: Response) => {
       try {
-        logger.info(`POST ${API_URLS.login} - user login endpoint`);
+        logger.info(`POST ${API_URLS.authLogin} - user login endpoint`);
 
         const { email, password } = req.body;
 
@@ -73,8 +73,8 @@ export class AuthenticationController implements ControllerFactory {
   }
 
   private logout() {
-    this.app.get(API_URLS.logout, async (_req, res) => {
-      logger.info(`GET ${API_URLS.logout} - user logout`);
+    this.app.get(API_URLS.authLogout, async (_req, res) => {
+      logger.info(`GET ${API_URLS.authLogout} - user logout`);
 
       const { accessCookie, refreshCookie } = configService.get<CookiesConfig>(ConfigKeys.Cookies);
 

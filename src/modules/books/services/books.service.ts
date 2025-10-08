@@ -18,7 +18,7 @@ export class BooksService {
     return book;
   }
 
-  async createBook(book: CreateBookDto) {
+  async createBook(book: CreateBookDto): Promise<Book> {
     const newBook = {
       id: database.length + 1,
       name: book.name,

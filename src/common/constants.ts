@@ -62,10 +62,10 @@ export const API_URLS = {
   healthCheck: '/api/health-check',
   swagger: '/api/docs',
   // authentication
-  authMiddleware: '/api/auth',
-  login: '/api/auth/login',
-  logout: '/api/auth/logout',
-  tokens: '/api/auth/tokens',
+  auth: '/api/auth',
+  authLogin: '/api/auth/login',
+  authLogout: '/api/auth/logout',
+  createTokens: '/api/auth/tokens',
   verifyToken: '/api/auth/verify-token',
   isPasswordValid: '/api/auth/is-password-valid',
   // users
