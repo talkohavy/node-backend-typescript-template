@@ -4,8 +4,6 @@ import { ConfigKeys, type JwtConfig } from '../../../configurations';
 import { configService } from '../../../core';
 
 export class TokenGenerationService {
-  constructor() {}
-
   async createTokens(userId: string): Promise<{ accessToken: string; refreshToken: string }> {
     const payload = { id: userId };
     const accessToken = await this.createAccessToken({ payload });
