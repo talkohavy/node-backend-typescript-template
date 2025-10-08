@@ -12,7 +12,7 @@ export class BooksController implements ControllerFactory {
     private readonly booksService: BooksService,
   ) {}
 
-  getBooks() {
+  private getBooks() {
     this.app.get(API_URLS.books, async (_req, res) => {
       logger.info(`GET ${API_URLS.books} - fetching books`);
 
@@ -22,7 +22,7 @@ export class BooksController implements ControllerFactory {
     });
   }
 
-  getBookById() {
+  private getBookById() {
     this.app.get(API_URLS.bookById, async (req: Request, res: Response) => {
       logger.info(`GET ${API_URLS.bookById} - fetching book by ID`);
 
@@ -40,7 +40,7 @@ export class BooksController implements ControllerFactory {
     });
   }
 
-  createBook() {
+  private createBook() {
     this.app.post(API_URLS.books, joiBodyMiddleware(createBookSchema), async (req: Request, res: Response) => {
       logger.info(`POST ${API_URLS.books} - creating new book`);
 
@@ -52,7 +52,7 @@ export class BooksController implements ControllerFactory {
     });
   }
 
-  updateBook() {
+  private updateBook() {
     this.app.put(API_URLS.bookById, async (req: Request, res: Response) => {
       logger.info(`PUT ${API_URLS.bookById} - updating book by ID`);
 
@@ -70,7 +70,7 @@ export class BooksController implements ControllerFactory {
     });
   }
 
-  deleteBook() {
+  private deleteBook() {
     this.app.delete(API_URLS.bookById, async (req: Request, res: Response) => {
       logger.info(`DELETE ${API_URLS.bookById} - deleting book by ID`);
 

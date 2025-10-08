@@ -6,7 +6,7 @@ import { ControllerFactory } from '../../lib/lucky-server';
 export class HealthCheckController implements ControllerFactory {
   constructor(private readonly app: Application) {}
 
-  healthCheck() {
+  private healthCheck() {
     this.app.get(API_URLS.healthCheck, async (_req, res) => {
       logger.info(`GET ${API_URLS.healthCheck} - performing health check`);
 

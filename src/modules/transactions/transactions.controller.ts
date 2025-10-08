@@ -7,121 +7,117 @@ import { ControllerFactory } from '../../lib/lucky-server';
 export class TransactionsController implements ControllerFactory {
   constructor(private readonly app: Application) {}
 
-  async uploadFile() {
-    this.app.post(API_URLS.uploadTransactionFile, (req: Request, res: Response): any => {
-      this.handleFileUpload(req, res);
-    });
-  }
+  private uploadFile() {
+    this.app.post(API_URLS.uploadTransactionFile, (req: Request, res: Response) => {
+      try {
+        const contentType = req.headers['content-type'];
 
-  private handleFileUpload(req: Request, res: Response) {
-    try {
-      const contentType = req.headers['content-type'];
-
-      if (!contentType) {
-        return res.status(400).json({ message: 'Missing content-type header' });
-      }
-
-      if (contentType.startsWith('multipart/form-data')) {
-        const boundary = contentType.split('boundary=')[1];
-
-        if (!boundary) {
-          return res.status(400).json({ message: 'Invalid content-type header' });
+        if (!contentType) {
+          return void res.status(400).json({ message: 'Missing content-type header' });
         }
 
-        let buffer = Buffer.alloc(0);
-        const metadataArr: Array<any> = [];
-        let currentFileStream: any = null;
-        let currentMetadata: any = null;
+        if (contentType.startsWith('multipart/form-data')) {
+          const boundary = contentType.split('boundary=')[1];
 
-        req.on('data', (chunk) => {
-          buffer = Buffer.concat([buffer, chunk]);
+          if (!boundary) {
+            return void res.status(400).json({ message: 'Invalid content-type header' });
+          }
 
-          while (true) {
-            const boundaryIndex = buffer.indexOf(`--${boundary}`);
-            if (boundaryIndex === -1) break;
+          let buffer = Buffer.alloc(0);
+          const metadataArr: Array<any> = [];
+          let currentFileStream: any = null;
+          let currentMetadata: any = null;
 
-            const partEndIndex = buffer.indexOf('\r\n\r\n', boundaryIndex);
-            if (partEndIndex === -1) break;
+          req.on('data', (chunk) => {
+            buffer = Buffer.concat([buffer, chunk]);
 
-            const headers = buffer.subarray(boundaryIndex, partEndIndex).toString();
-            const contentDispositionMatch = headers.match(/Content-Disposition: form-data;.*filename="([^"]*)"/);
-            const contentTypeMatch = headers.match(/Content-Type: ([^\r\n]*)/);
+            while (true) {
+              const boundaryIndex = buffer.indexOf(`--${boundary}`);
+              if (boundaryIndex === -1) break;
 
-            if (contentDispositionMatch) {
-              const filename = contentDispositionMatch[1]!;
-              const filePath = join(process.cwd(), filename);
+              const partEndIndex = buffer.indexOf('\r\n\r\n', boundaryIndex);
+              if (partEndIndex === -1) break;
 
-              if (currentFileStream) {
-                currentFileStream.end();
+              const headers = buffer.subarray(boundaryIndex, partEndIndex).toString();
+              const contentDispositionMatch = headers.match(/Content-Disposition: form-data;.*filename="([^"]*)"/);
+              const contentTypeMatch = headers.match(/Content-Type: ([^\r\n]*)/);
+
+              if (contentDispositionMatch) {
+                const filename = contentDispositionMatch[1]!;
+                const filePath = join(process.cwd(), filename);
+
+                if (currentFileStream) {
+                  currentFileStream.end();
+                }
+
+                currentFileStream = createWriteStream(filePath);
+                currentMetadata = {
+                  filename,
+                  fileType: contentTypeMatch ? contentTypeMatch[1] : 'unknown',
+                  uploadPath: filePath,
+                  uploadTimestamp: new Date().toISOString(),
+                };
+
+                metadataArr.push(currentMetadata);
               }
 
-              currentFileStream = createWriteStream(filePath);
-              currentMetadata = {
-                filename,
-                fileType: contentTypeMatch ? contentTypeMatch[1] : 'unknown',
-                uploadPath: filePath,
-                uploadTimestamp: new Date().toISOString(),
-              };
+              const contentStartIndex = partEndIndex + 4;
+              const nextBoundaryIndex = buffer.indexOf(`--${boundary}`, contentStartIndex);
 
-              metadataArr.push(currentMetadata);
-            }
-
-            const contentStartIndex = partEndIndex + 4;
-            const nextBoundaryIndex = buffer.indexOf(`--${boundary}`, contentStartIndex);
-
-            if (nextBoundaryIndex !== -1) {
-              const fileContent = buffer.subarray(contentStartIndex, nextBoundaryIndex - 2);
-              if (currentFileStream) {
-                currentFileStream.write(fileContent);
+              if (nextBoundaryIndex !== -1) {
+                const fileContent = buffer.subarray(contentStartIndex, nextBoundaryIndex - 2);
+                if (currentFileStream) {
+                  currentFileStream.write(fileContent);
+                }
+                buffer = buffer.subarray(nextBoundaryIndex);
+              } else {
+                buffer = buffer.subarray(contentStartIndex);
+                break;
               }
-              buffer = buffer.subarray(nextBoundaryIndex);
-            } else {
-              buffer = buffer.subarray(contentStartIndex);
-              break;
             }
-          }
-        });
+          });
 
-        req.on('end', () => {
-          if (currentFileStream) {
-            currentFileStream.end();
-          }
-          res.status(200).json({ message: 'Files uploaded successfully', metadata: metadataArr });
-        });
+          req.on('end', () => {
+            if (currentFileStream) {
+              currentFileStream.end();
+            }
+            res.status(200).json({ message: 'Files uploaded successfully', metadata: metadataArr });
+          });
 
-        req.on('error', (err) => {
-          if (currentFileStream) {
-            currentFileStream.end();
-          }
-          res.status(500).json({ message: 'Error during file upload', error: err.message });
-        });
-      } else {
-        // Handle binary file upload
-        const filename = req.headers['x-filename'] || 'uploaded-file';
-        const filePath = join(process.cwd(), filename as string);
+          req.on('error', (err) => {
+            if (currentFileStream) {
+              currentFileStream.end();
+            }
+            res.status(500).json({ message: 'Error during file upload', error: err.message });
+          });
+        } else {
+          // Handle binary file upload
+          const filename = req.headers['x-filename'] || 'uploaded-file';
+          const filePath = join(process.cwd(), filename as string);
 
-        const writeStream = createWriteStream(filePath);
-        const metadata: any = {
-          filename,
-          fileType: contentType,
-          uploadPath: filePath,
-          uploadTimestamp: new Date().toISOString(),
-        };
+          const writeStream = createWriteStream(filePath);
+          const metadata: any = {
+            filename,
+            fileType: contentType,
+            uploadPath: filePath,
+            uploadTimestamp: new Date().toISOString(),
+          };
 
-        req.pipe(writeStream);
+          req.pipe(writeStream);
 
-        writeStream.on('finish', () => {
-          res.status(200).json({ message: 'File uploaded successfully', metadata });
-        });
+          writeStream.on('finish', () => {
+            res.status(200).json({ message: 'File uploaded successfully', metadata });
+          });
 
-        writeStream.on('error', (err) => {
-          res.status(500).json({ message: 'Error saving file', error: err.message });
-        });
+          writeStream.on('error', (err) => {
+            res.status(500).json({ message: 'Error saving file', error: err.message });
+          });
+        }
+      } catch (error: any) {
+        console.log('Error during file upload:', error);
+        res.status(500).json({ message: 'Internal server error', error: error.message });
       }
-    } catch (error: any) {
-      console.log('Error during file upload:', error);
-      res.status(500).json({ message: 'Internal server error', error: error.message });
-    }
+    });
   }
 
   attachRoutes() {
