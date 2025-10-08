@@ -1,1 +1,1 @@
-export { attachServerSentEventModule } from './serverSentEvents.module';
+export { ServerSentEventModule } from './serverSentEvents.module';

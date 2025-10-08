@@ -1,18 +1,15 @@
 import { Application } from 'express';
-import { ControllerFactory } from '../../lib/lucky-server';
-import { ServerSentEventsService } from './serverSentEvents.service';
-import { createEventMessage } from './utils/createEventMessage';
+import { ControllerFactory } from '../../../lib/lucky-server';
+import { ServerSentEventsService } from '../services/serverSentEvents.service';
+import { createEventMessage } from '../utils/createEventMessage';
 
 export class ServerSentEventsController implements ControllerFactory {
-  app: Application;
-  serverSentEventsService: ServerSentEventsService;
+  constructor(
+    private readonly app: Application,
+    private readonly serverSentEventsService: ServerSentEventsService,
+  ) {}
 
-  constructor(app: Application, serverSentEventsService: ServerSentEventsService) {
-    this.app = app;
-    this.serverSentEventsService = serverSentEventsService;
-  }
-
-  connectToChannel() {
+  private connectToChannel() {
     this.app.get('/sse', (req, res) => {
       res.setHeader('Content-Type', 'text/event-stream');
       res.setHeader('Cache-Control', 'no-cache');

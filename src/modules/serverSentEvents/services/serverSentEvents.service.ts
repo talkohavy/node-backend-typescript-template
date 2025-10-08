@@ -1,6 +1,6 @@
 import redis, { RedisClientType } from 'redis';
-import { logger } from '../../core';
-import { createEventMessage } from './utils/createEventMessage';
+import { logger } from '../../../core';
+import { createEventMessage } from '../utils/createEventMessage';
 
 const { createClient } = redis;
 

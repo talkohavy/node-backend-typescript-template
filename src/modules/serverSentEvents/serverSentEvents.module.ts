@@ -1,12 +1,30 @@
 import { Application } from 'express';
-import { ServerSentEventsController } from './serverSentEvents.controller';
-import { ServerSentEventsService } from './serverSentEvents.service';
+import { ModuleFactory } from '../../lib/lucky-server';
+import { ServerSentEventsController } from './controllers/serverSentEvents.controller';
+import { ServerSentEventsService } from './services/serverSentEvents.service';
 
-export function attachServerSentEventModule(app: Application) {
-  const service = new ServerSentEventsService();
-  const controller = new ServerSentEventsController(app, service);
+export class ServerSentEventModule implements ModuleFactory {
+  private static instance: ServerSentEventModule;
+  private serverSentEventsService!: ServerSentEventsService;
 
-  // service.runSimulation();
+  private constructor() {
+    this.initializeModule();
+  }
 
-  controller.attachRoutes();
+  static getInstance(): ServerSentEventModule {
+    if (!ServerSentEventModule.instance) {
+      ServerSentEventModule.instance = new ServerSentEventModule();
+    }
+    return ServerSentEventModule.instance;
+  }
+
+  protected initializeModule(): void {
+    this.serverSentEventsService = new ServerSentEventsService();
+  }
+
+  attachController(app: Application): void {
+    const controller = new ServerSentEventsController(app, this.serverSentEventsService);
+
+    controller.attachRoutes();
+  }
 }
