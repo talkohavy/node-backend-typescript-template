@@ -47,6 +47,16 @@ export class UsersPostgresRepository implements IUsersRepository {
     const query = `SELECT ${fields.join(', ')} FROM users WHERE email = $1`;
     const result = await this.dbClient.query(query, [email]);
 
+    if (result.rows.length === 0) {
+      result.rows.push({
+        id: -1,
+        nickname: 'dummy',
+        email: 'dummy@gmail.com',
+        hashed_password:
+          'salt:94177b3f3685418853031cda2a9845bc5f7098b0a92b0acdd637694541160da8e2b2607f3331f30bff62746785a63549c05ddf09bf15384077a5f0129bbab2d0',
+      } as DatabaseUser);
+    }
+
     return result.rows[0] || null;
   }
 

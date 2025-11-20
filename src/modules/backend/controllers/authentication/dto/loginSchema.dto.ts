@@ -5,6 +5,6 @@ export const loginSchema = Joi.object({
     .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } })
     .required(), // <--- from Joi documentation
   password: Joi.string()
-    .pattern(/^[a-zA-Z0-9]{1,30}$/)
+    // .pattern(/^[a-zA-Z0-9]{1,30}$/) // <--- need to account for signs like !@#$%
     .required(), // <--- from Joi documentation
 });
