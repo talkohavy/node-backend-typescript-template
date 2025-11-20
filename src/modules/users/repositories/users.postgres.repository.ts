@@ -1,13 +1,13 @@
-import { PostgresConnection } from '../../../lib/database/postgres.connection';
-import { DatabaseUser } from '../types';
-import { IUsersRepository } from './interfaces/users.repository.base';
-import {
+import type { DatabaseUser } from '../types';
+import type { IUsersRepository } from './interfaces/users.repository.base';
+import type {
   GetUserByIdOptions,
   GetUsersProps,
   CreateUserDto,
   UpdateUserDto,
   GetUserByEmailOptions,
 } from './interfaces/users.repository.interface';
+import { PostgresConnection } from '../../../lib/database/postgres.connection';
 
 export class UsersPostgresRepository implements IUsersRepository {
   private readonly dbClient: PostgresConnection;
@@ -15,6 +15,31 @@ export class UsersPostgresRepository implements IUsersRepository {
   constructor() {
     this.dbClient = PostgresConnection.getInstance();
     this.dbClient.ensureConnected();
+    this.initializeTable();
+  }
+
+  private async initializeTable(): Promise<void> {
+    try {
+      const createTableQuery = `
+        CREATE TABLE IF NOT EXISTS public.users
+        (
+          id SERIAL PRIMARY KEY,
+          email VARCHAR(255) UNIQUE NOT NULL,
+          nickname VARCHAR(255),
+          hashed_password VARCHAR(255) NOT NULL,
+          date_of_birth BIGINT,
+          is_active BOOLEAN DEFAULT true,
+          created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+          updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+        );
+      `;
+
+      await this.dbClient.query(createTableQuery);
+      console.log('✅ Users table initialized successfully');
+    } catch (error) {
+      console.error('❌ Error initializing users table:', error);
+      throw error;
+    }
   }
 
   async getUserByEmail(email: string, options: GetUserByEmailOptions = {}): Promise<DatabaseUser | null> {
