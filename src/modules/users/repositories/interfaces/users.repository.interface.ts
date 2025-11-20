@@ -1,5 +1,5 @@
-import { QueryOptions } from 'mongoose';
-import { DatabaseUser } from '../../types';
+import type { QueryOptions } from 'mongoose';
+import type { DatabaseUser } from '../../types';
 
 export type GetUserByEmailOptions = {
   fields?: any;

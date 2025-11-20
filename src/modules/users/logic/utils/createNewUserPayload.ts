@@ -1,5 +1,5 @@
-import { CreateUserDto } from '../../services/interfaces/users.service.interface';
-import { DatabaseUser } from '../../types';
+import type { CreateUserDto } from '../../services/interfaces/users.service.interface';
+import type { DatabaseUser } from '../../types';
 
 export function createNewUserPayload(body: CreateUserDto) {
   const createdUserValues: Omit<DatabaseUser, 'id'> = {

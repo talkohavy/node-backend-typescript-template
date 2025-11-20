@@ -1,15 +1,15 @@
 import { Types } from 'mongoose';
-import { UserModel } from '../../../database/mongo/models/user/user.model';
-import { MongodbConnection } from '../../../lib/database/mongo.connection';
-import { DatabaseUser } from '../types';
-import { IUsersRepository } from './interfaces/users.repository.base';
-import {
+import type { DatabaseUser } from '../types';
+import type { IUsersRepository } from './interfaces/users.repository.base';
+import type {
   GetUserByIdOptions,
   GetUsersProps,
   CreateUserDto,
   UpdateUserDto,
   GetUserByEmailOptions,
 } from './interfaces/users.repository.interface';
+import { UserModel } from '../../../database/mongo/models/user/user.model';
+import { MongodbConnection } from '../../../lib/database/mongo.connection';
 
 const { ObjectId } = Types;
 

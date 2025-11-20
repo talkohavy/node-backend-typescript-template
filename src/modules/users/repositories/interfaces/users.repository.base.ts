@@ -1,5 +1,5 @@
-import { DatabaseUser } from '../../types';
-import {
+import type { DatabaseUser } from '../../types';
+import type {
   GetUserByIdOptions,
   GetUsersProps,
   CreateUserDto,
