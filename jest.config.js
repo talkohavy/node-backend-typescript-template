@@ -1,7 +1,21 @@
-import requireJSON from 'json-easy-strip';
+import fs from 'fs';
+import { parse } from 'jsonc-parser';
 import { createDefaultPreset } from 'ts-jest';
 import { pathsToModuleNameMapper } from 'ts-jest';
-const tsconfig = requireJSON('./tsconfig.json');
+
+/** @type {any} */
+const errors = [];
+const jsonText = fs.readFileSync('./tsconfig.json', 'utf-8');
+const tsconfig = parse(jsonText, errors, {
+  allowTrailingComma: true,
+  disallowComments: false,
+  allowEmptyContent: false,
+});
+
+if (errors.length > 0) {
+  console.error('Parse errors:', errors);
+  process.exit(1);
+}
 
 /**
  * @type {import('ts-jest').JestConfigWithTsJest}

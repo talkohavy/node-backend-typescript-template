@@ -55,7 +55,7 @@
     "express": "^5.2.1",
     "globals": "^16.5.0",
     "jest": "^30.2.0",
-    "json-easy-strip": "^1.0.6",
+    "jsonc-parser": "^3.3.1",
     "prettier": "^3.7.4",
     "supertest": "^7.1.4",
     "ts-jest": "^29.4.6",
