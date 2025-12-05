@@ -33,7 +33,7 @@ function globalErrorMiddleware(error: any, _req: Request, res: Response, _next: 
   // if (condition) logger.error(error.message); // <--- store the error if <condition>...
 
   const data = {
-    statusCode: error.isCustomError ? error.statusCode : StatusCodes.INTERNAL_ERROR,
+    statusCode: error.statusCode ?? StatusCodes.INTERNAL_ERROR,
     message: error.message,
   };
 
