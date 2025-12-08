@@ -1,7 +1,7 @@
 import type { Application, Request, Response } from 'express';
 import { StatusCodes } from '../common/constants';
 
-export function attachErrorMiddlewares(app: Application) {
+export function setErrorHandler(app: Application) {
   process.on('unhandledRejection', (err) => {
     console.error('unhandledRejection', { err });
     console.error('Should not get here!  You are missing a try/catch somewhere.');

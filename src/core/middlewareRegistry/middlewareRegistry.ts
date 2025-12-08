@@ -4,7 +4,6 @@ import { EXCLUDED_PATHS } from '../../common/constants';
 import { postUseMiddleware } from '../../common/utils/postUseMiddleware';
 import { preUseMiddleware } from '../../common/utils/preUseMiddleware';
 import { CallContextMiddleware, type CallContextService } from '../../lib/call-context';
-import { attachErrorMiddlewares } from '../../middlewares/attachErrorMiddlewares';
 import { attachHelmetMiddleware } from '../../middlewares/attachHelmetMiddleware';
 import { compressionMiddleware } from '../../middlewares/compression.middleware';
 import { corsMiddleware } from '../../middlewares/cors.middleware';
@@ -42,9 +41,5 @@ export class MiddlewareRegistry {
     app.use(corsMiddleware);
 
     callContextMiddleware.use(app, preUseMiddleware, postUseMiddleware);
-  }
-
-  usePostMiddlewares(app: Application): void {
-    attachErrorMiddlewares(app);
   }
 }

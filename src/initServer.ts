@@ -3,6 +3,7 @@ import express from 'express';
 import { ConfigKeys } from './configurations';
 import { initGlobalServices, initConnections, MiddlewareRegistry } from './core';
 import { ModuleRegistry } from './lib/lucky-server';
+import { setErrorHandler } from './middlewares/attachErrorMiddlewares';
 import { BackendModule } from './modules/backend';
 // import { BooksModule } from './modules/books';
 import { HealthCheckModule } from './modules/health-check';
@@ -23,7 +24,7 @@ export async function startServer() {
 
   moduleRegistry.attachAllControllers(app);
 
-  middlewareRegistry.usePostMiddlewares(app);
+  setErrorHandler(app);
 
   const PORT = configService.get<number>(ConfigKeys.Port);
   app.listen(PORT, () => logger.log(`server started on port ${PORT}`));
