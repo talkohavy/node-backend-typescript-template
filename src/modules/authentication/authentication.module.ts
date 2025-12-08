@@ -1,5 +1,4 @@
 import type { Application } from 'express';
-import type { ModuleFactory } from '../../lib/lucky-server';
 import { AuthenticationController } from './controllers';
 import { PasswordManagementController } from './controllers/password-management.controller';
 import { SessionManagementController } from './controllers/session-management.controller';
@@ -11,22 +10,22 @@ import { PasswordManagementService } from './services/password-management.servic
 import { TokenGenerationService } from './services/token-generation.service';
 import { TokenVerificationService } from './services/token-verification.service';
 
-export class AuthenticationModule implements ModuleFactory {
+export class AuthenticationModule {
   private static instance: AuthenticationModule;
   private authenticationService!: AuthenticationService;
 
-  private constructor() {
-    this.initializeModule();
-  }
-
-  static getInstance(): AuthenticationModule {
+  static getInstance(app?: any): AuthenticationModule {
     if (!AuthenticationModule.instance) {
-      AuthenticationModule.instance = new AuthenticationModule();
+      AuthenticationModule.instance = new AuthenticationModule(app);
     }
     return AuthenticationModule.instance;
   }
 
-  protected initializeModule(): void {
+  private constructor(private readonly app: any) {
+    this.initializeModule();
+  }
+
+  private initializeModule(): void {
     // Initialize services
     const passwordManagementService = new PasswordManagementService();
     const tokenGenerationService = new TokenGenerationService();
@@ -37,9 +36,11 @@ export class AuthenticationModule implements ModuleFactory {
       tokenGenerationService,
       tokenVerificationService,
     );
+
+    this.attachController(this.app);
   }
 
-  attachController(app: Application): void {
+  private attachController(app: Application): void {
     const authenticationMiddleware = new AuthenticationMiddleware(app);
     const passwordManagementController = new PasswordManagementController(
       app,

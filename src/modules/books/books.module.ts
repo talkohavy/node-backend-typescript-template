@@ -1,29 +1,30 @@
 import type { Application } from 'express';
-import type { ModuleFactory } from '../../lib/lucky-server';
 import { BooksController } from './controllers/books.controller';
 import { BooksMiddleware } from './middleware/books.middleware';
 import { BooksService } from './services/books.service';
 
-export class BooksModule implements ModuleFactory {
+export class BooksModule {
   private static instance: BooksModule;
   private booksService!: BooksService;
 
-  private constructor() {
-    this.initializeModule();
-  }
-
-  static getInstance(): BooksModule {
+  static getInstance(app?: any): BooksModule {
     if (!BooksModule.instance) {
-      BooksModule.instance = new BooksModule();
+      BooksModule.instance = new BooksModule(app);
     }
     return BooksModule.instance;
   }
 
-  protected initializeModule(): void {
-    this.booksService = new BooksService();
+  private constructor(private readonly app: any) {
+    this.initializeModule();
   }
 
-  attachController(app: Application): void {
+  private initializeModule(): void {
+    this.booksService = new BooksService();
+
+    this.attachController(this.app);
+  }
+
+  private attachController(app: Application): void {
     const booksController = new BooksController(app, this.booksService);
     const booksMiddleware = new BooksMiddleware(app);
 

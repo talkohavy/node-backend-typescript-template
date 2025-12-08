@@ -1,5 +1,3 @@
-import type { Application } from 'express';
-import type { ModuleFactory } from '../../lib/lucky-server';
 import type { IUsersRepository } from './repositories/interfaces/users.repository.base';
 import { UserUtilitiesController } from './controllers/user-utilities.controller';
 import { UsersCrudController } from './controllers/users-crud.controller';
@@ -11,24 +9,24 @@ import { UserUtilitiesService } from './services/user-utilities.service';
 import { UsersCrudService } from './services/users-crud.service';
 // import { UsersMongoRepository } from './repositories/users.mongo.repository';
 
-export class UsersModule implements ModuleFactory {
+export class UsersModule {
   private static instance: UsersModule;
   private usersRepository!: IUsersRepository;
   private usersCrudService!: UsersCrudService;
   private userUtilitiesService!: UserUtilitiesService;
 
-  private constructor() {
-    this.initializeModule();
-  }
-
-  static getInstance(): UsersModule {
+  static getInstance(app?: any): UsersModule {
     if (!UsersModule.instance) {
-      UsersModule.instance = new UsersModule();
+      UsersModule.instance = new UsersModule(app!);
     }
     return UsersModule.instance;
   }
 
-  protected async initializeModule(): Promise<void> {
+  private constructor(private readonly app: any) {
+    this.initializeModule();
+  }
+
+  private async initializeModule(): Promise<void> {
     // Initialize repositories
     // this.usersRepository = new UsersMongoRepository();
     this.usersRepository = new UsersPostgresRepository();
@@ -39,14 +37,16 @@ export class UsersModule implements ModuleFactory {
     // Initialize main services
     this.userUtilitiesService = new UserUtilitiesService(this.usersRepository, fieldScreeningService);
     this.usersCrudService = new UsersCrudService(this.usersRepository);
+
+    this.attachController();
   }
 
-  attachController(app: Application): void {
-    const userUtilitiesController = new UserUtilitiesController(app, this.userUtilitiesService);
-    const usersCrudController = new UsersCrudController(app, this.usersCrudService);
+  private attachController(): void {
+    const userUtilitiesController = new UserUtilitiesController(this.app, this.userUtilitiesService);
+    const usersCrudController = new UsersCrudController(this.app, this.usersCrudService);
 
     const usersController = new UsersController(userUtilitiesController, usersCrudController);
-    const usersMiddleware = new UsersMiddleware(app);
+    const usersMiddleware = new UsersMiddleware(this.app);
 
     usersMiddleware.use();
 

@@ -1,28 +1,29 @@
 import type { Application } from 'express';
-import type { ModuleFactory } from '../../lib/lucky-server';
 import { ServerSentEventsController } from './controllers/serverSentEvents.controller';
 import { ServerSentEventsService } from './services/serverSentEvents.service';
 
-export class ServerSentEventModule implements ModuleFactory {
+export class ServerSentEventModule {
   private static instance: ServerSentEventModule;
   private serverSentEventsService!: ServerSentEventsService;
 
-  private constructor() {
-    this.initializeModule();
-  }
-
-  static getInstance(): ServerSentEventModule {
+  static getInstance(app?: any): ServerSentEventModule {
     if (!ServerSentEventModule.instance) {
-      ServerSentEventModule.instance = new ServerSentEventModule();
+      ServerSentEventModule.instance = new ServerSentEventModule(app);
     }
     return ServerSentEventModule.instance;
   }
 
-  protected initializeModule(): void {
-    this.serverSentEventsService = new ServerSentEventsService();
+  private constructor(private readonly app: any) {
+    this.initializeModule();
   }
 
-  attachController(app: Application): void {
+  private initializeModule(): void {
+    this.serverSentEventsService = new ServerSentEventsService();
+
+    this.attachController(this.app);
+  }
+
+  private attachController(app: Application): void {
     const controller = new ServerSentEventsController(app, this.serverSentEventsService);
 
     controller.attachRoutes();

@@ -1,5 +1,4 @@
 import type { Application } from 'express';
-import type { ModuleFactory } from '../../lib/lucky-server';
 import { AuthenticationController } from './controllers/authentication/authentication.controller';
 import { BackendController } from './controllers/backend.controller';
 import { UserUtilitiesController } from './controllers/users/user-utilities.controller';
@@ -14,7 +13,7 @@ import { UserUtilitiesNetworkService } from './services/users/user-utilities.net
 import { UsersCrudNetworkService } from './services/users/users-crud.network.service';
 import { UsersNetworkService } from './services/users/users.network.service';
 
-export class BackendModule implements ModuleFactory {
+export class BackendModule {
   private static instance: BackendModule;
   private userUtilitiesNetworkService!: UserUtilitiesNetworkService;
   private passwordManagementNetworkService!: PasswordManagementNetworkService;
@@ -24,18 +23,18 @@ export class BackendModule implements ModuleFactory {
   private usersCrudNetworkService!: UsersCrudNetworkService;
   private usersNetworkService!: UsersNetworkService;
 
-  private constructor() {
-    this.initializeModule();
-  }
-
-  static getInstance(): BackendModule {
+  static getInstance(app?: any): BackendModule {
     if (!BackendModule.instance) {
-      BackendModule.instance = new BackendModule();
+      BackendModule.instance = new BackendModule(app);
     }
     return BackendModule.instance;
   }
 
-  protected initializeModule(): void {
+  private constructor(private readonly app: any) {
+    this.initializeModule();
+  }
+
+  private initializeModule(): void {
     // Init AuthenticationNetworkService
     this.passwordManagementNetworkService = new PasswordManagementNetworkService();
     this.tokenGenerationNetworkService = new TokenGenerationNetworkService();
@@ -50,9 +49,11 @@ export class BackendModule implements ModuleFactory {
     this.usersCrudNetworkService = new UsersCrudNetworkService();
     this.userUtilitiesNetworkService = new UserUtilitiesNetworkService();
     this.usersNetworkService = new UsersNetworkService(this.usersCrudNetworkService, this.userUtilitiesNetworkService);
+
+    this.attachController(this.app);
   }
 
-  attachController(app: Application): void {
+  private attachController(app: Application): void {
     // Init Authentication Controller
     const authenticationController = new AuthenticationController(
       app,

@@ -1,20 +1,25 @@
 import type { Application } from 'express';
-import type { ModuleFactory } from '../../lib/lucky-server';
 import { HealthCheckController } from './health-check.controller';
 
-export class HealthCheckModule implements ModuleFactory {
+export class HealthCheckModule {
   private static instance: HealthCheckModule;
 
-  private constructor() {}
-
-  static getInstance(): HealthCheckModule {
+  static getInstance(app?: any): HealthCheckModule {
     if (!HealthCheckModule.instance) {
-      HealthCheckModule.instance = new HealthCheckModule();
+      HealthCheckModule.instance = new HealthCheckModule(app);
     }
     return HealthCheckModule.instance;
   }
 
-  attachController(app: Application): void {
+  private constructor(private readonly app: any) {
+    this.initializeModule();
+  }
+
+  private async initializeModule(): Promise<void> {
+    this.attachController(this.app);
+  }
+
+  private attachController(app: Application): void {
     const controller = new HealthCheckController(app);
 
     controller.attachRoutes();

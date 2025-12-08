@@ -1,20 +1,25 @@
 import type { Application } from 'express';
-import type { ModuleFactory } from '../../lib/lucky-server';
 import { TransactionsController } from './transactions.controller';
 
-export class TransactionsModule implements ModuleFactory {
+export class TransactionsModule {
   private static instance: TransactionsModule;
 
-  private constructor() {}
-
-  static getInstance(): TransactionsModule {
+  static getInstance(app?: any): TransactionsModule {
     if (!TransactionsModule.instance) {
-      TransactionsModule.instance = new TransactionsModule();
+      TransactionsModule.instance = new TransactionsModule(app);
     }
     return TransactionsModule.instance;
   }
 
-  attachController(app: Application): void {
+  private constructor(private readonly app: any) {
+    this.initializeModule();
+  }
+
+  private initializeModule(): void {
+    this.attachController(this.app);
+  }
+
+  private attachController(app: Application): void {
     const controller = new TransactionsController(app);
 
     controller.attachRoutes();

@@ -1,10 +1,5 @@
 export interface StaticModule {
-  getInstance: () => ModuleFactory;
-}
-
-export interface ModuleFactory {
-  attachController(app: any): void;
-  attachEventHandlers?(io: any): void;
+  getInstance: (app: any) => any;
 }
 
 export type ErrorHandlerFn = (app: any) => void;
