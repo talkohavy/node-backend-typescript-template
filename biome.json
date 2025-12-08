@@ -29,7 +29,8 @@
         "noUnusedImports": "off",
         "noUnusedVariables": "off",
         "noInnerDeclarations": "off",
-        "noVoidTypeReturn": "off"
+        "noVoidTypeReturn": "off",
+        "noUnusedPrivateClassMembers": "off"
       },
       "complexity": {
         "noForEach": "off",
