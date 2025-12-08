@@ -12,11 +12,10 @@ export class AppFactory {
     });
   }
 
-  registerMiddleware(modules: MiddlewareFactory[]): void {
-    modules.forEach((middleware) => {
+  registerPlugins(middlewares: MiddlewareFactory[]): void {
+    middlewares.forEach((middleware) => {
       this.registeredMiddleware.push(middleware);
-      // specific for "express" framework:
-      this.app.use(middleware);
+      middleware(this.app);
     });
   }
 

@@ -1,5 +1,3 @@
-import type { NextFunction, Request, Response } from 'express';
-
 export interface StaticModule {
   getInstance: () => ModuleFactory;
 }
@@ -11,5 +9,4 @@ export interface ModuleFactory {
 
 export type ErrorHandlerFn = (app: any) => void;
 
-// Specific to "express" framework
-export type MiddlewareFactory = (req: Request, res: Response, next: NextFunction) => void;
+export type MiddlewareFactory = (app: any) => void;
