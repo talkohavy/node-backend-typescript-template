@@ -1,4 +1,4 @@
-import type { ErrorHandlerFn, MiddlewareFactory, StaticModule } from './types';
+import type { ErrorHandlerFn, MiddlewareFactory, ModuleConstructor } from './types';
 
 export class AppFactory {
   private registeredModules: any[] = [];
@@ -6,9 +6,12 @@ export class AppFactory {
 
   constructor(public readonly app: any) {}
 
-  registerModules(modules: StaticModule[]): void {
-    modules.forEach((module) => {
-      this.registeredModules.push(module.getInstance(this.app));
+  registerModules(modules: ModuleConstructor[]): void {
+    this.app.modules = {};
+    modules.forEach((Module) => {
+      const moduleInstance = new Module(this.app);
+      this.registeredModules.push(moduleInstance);
+      this.app.modules[Module.name] = moduleInstance;
     });
   }
 

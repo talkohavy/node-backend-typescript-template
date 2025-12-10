@@ -1,10 +1,8 @@
+import type { UserUtilitiesService } from '../../../users/services/user-utilities.service';
 import type { DatabaseUser } from '../../../users/types';
-import { UsersModule } from '../../../users';
 
 export class UserUtilitiesNetworkService {
-  private readonly userUtilitiesService = UsersModule.getInstance().getUserUtilitiesService();
-
-  constructor() {}
+  constructor(private readonly userUtilitiesService: UserUtilitiesService) {}
 
   async getUserByEmail(email: string): Promise<DatabaseUser | null> {
     const data = await this.userUtilitiesService.getUserByEmail(email);

@@ -1,11 +1,8 @@
+import type { TokenGenerationService } from '../../../authentication/services/token-generation.service';
 import type { CreateAccessTokenProps, CreateRefreshTokenProps } from './interfaces/token-generation.network.interface';
-import { AuthenticationModule } from '../../../authentication';
 
 export class TokenGenerationNetworkService {
-  private readonly tokenGenerationService =
-    AuthenticationModule.getInstance().getAuthenticationService().tokenGenerationService;
-
-  constructor() {}
+  constructor(private readonly tokenGenerationService: TokenGenerationService) {}
 
   async createTokens(userId: string) {
     const data = await this.tokenGenerationService.createTokens(userId);

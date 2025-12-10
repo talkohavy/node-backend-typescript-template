@@ -1,10 +1,7 @@
-import { AuthenticationModule } from '../../../authentication';
+import type { TokenVerificationService } from '../../../authentication/services/token-verification.service';
 
 export class TokenVerificationNetworkService {
-  private readonly tokenVerificationService =
-    AuthenticationModule.getInstance().getAuthenticationService().tokenVerificationService;
-
-  constructor() {}
+  constructor(private readonly tokenVerificationService: TokenVerificationService) {}
 
   async verifyToken(token: string) {
     const data = await this.tokenVerificationService.verifyToken(token);

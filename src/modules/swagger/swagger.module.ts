@@ -5,17 +5,9 @@ import { SwaggerMiddleware } from './middlewares';
 import { SwaggerService } from './services/swagger.service';
 
 export class SwaggerModule {
-  private static instance: SwaggerModule;
   private swaggerService!: SwaggerService;
 
-  static getInstance(app?: any): SwaggerModule {
-    if (!SwaggerModule.instance) {
-      SwaggerModule.instance = new SwaggerModule(app);
-    }
-    return SwaggerModule.instance;
-  }
-
-  private constructor(private readonly app: any) {
+  constructor(private readonly app: any) {
     this.initializeModule();
   }
 

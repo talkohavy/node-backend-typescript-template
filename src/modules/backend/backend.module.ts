@@ -1,4 +1,5 @@
-import type { Application } from 'express';
+import type { ServerApp } from '../../common/types';
+import { AuthenticationModule } from '../authentication';
 import { AuthenticationController } from './controllers/authentication/authentication.controller';
 import { BackendController } from './controllers/backend.controller';
 import { UserUtilitiesController } from './controllers/users/user-utilities.controller';
@@ -14,7 +15,6 @@ import { UsersCrudNetworkService } from './services/users/users-crud.network.ser
 import { UsersNetworkService } from './services/users/users.network.service';
 
 export class BackendModule {
-  private static instance: BackendModule;
   private userUtilitiesNetworkService!: UserUtilitiesNetworkService;
   private passwordManagementNetworkService!: PasswordManagementNetworkService;
   private tokenGenerationNetworkService!: TokenGenerationNetworkService;
@@ -23,22 +23,22 @@ export class BackendModule {
   private usersCrudNetworkService!: UsersCrudNetworkService;
   private usersNetworkService!: UsersNetworkService;
 
-  static getInstance(app?: any): BackendModule {
-    if (!BackendModule.instance) {
-      BackendModule.instance = new BackendModule(app);
-    }
-    return BackendModule.instance;
-  }
-
-  private constructor(private readonly app: any) {
+  constructor(private readonly app: ServerApp) {
     this.initializeModule();
   }
 
   private initializeModule(): void {
+    const { userUtilitiesService, usersCrudService } = this.app.modules.UsersModule;
+
+    const authenticationModule = new AuthenticationModule(this.app);
+    this.app.modules.AuthenticationModule = authenticationModule;
+    const { passwordManagementService, tokenGenerationService, tokenVerificationService } =
+      authenticationModule.getAuthenticationService();
+
     // Init AuthenticationNetworkService
-    this.passwordManagementNetworkService = new PasswordManagementNetworkService();
-    this.tokenGenerationNetworkService = new TokenGenerationNetworkService();
-    this.tokenVerificationNetworkService = new TokenVerificationNetworkService();
+    this.passwordManagementNetworkService = new PasswordManagementNetworkService(passwordManagementService);
+    this.tokenGenerationNetworkService = new TokenGenerationNetworkService(tokenGenerationService);
+    this.tokenVerificationNetworkService = new TokenVerificationNetworkService(tokenVerificationService);
     this.authenticationNetworkService = new AuthenticationNetworkService(
       this.passwordManagementNetworkService,
       this.tokenGenerationNetworkService,
@@ -46,14 +46,14 @@ export class BackendModule {
     );
 
     // Init UsersNetworkService
-    this.usersCrudNetworkService = new UsersCrudNetworkService();
-    this.userUtilitiesNetworkService = new UserUtilitiesNetworkService();
+    this.usersCrudNetworkService = new UsersCrudNetworkService(usersCrudService);
+    this.userUtilitiesNetworkService = new UserUtilitiesNetworkService(userUtilitiesService);
     this.usersNetworkService = new UsersNetworkService(this.usersCrudNetworkService, this.userUtilitiesNetworkService);
 
     this.attachController(this.app);
   }
 
-  private attachController(app: Application): void {
+  private attachController(app: ServerApp): void {
     // Init Authentication Controller
     const authenticationController = new AuthenticationController(
       app,

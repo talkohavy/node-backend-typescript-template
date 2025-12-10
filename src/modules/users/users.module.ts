@@ -10,19 +10,11 @@ import { UsersCrudService } from './services/users-crud.service';
 // import { UsersMongoRepository } from './repositories/users.mongo.repository';
 
 export class UsersModule {
-  private static instance: UsersModule;
   private usersRepository!: IUsersRepository;
   private usersCrudService!: UsersCrudService;
   private userUtilitiesService!: UserUtilitiesService;
 
-  static getInstance(app?: any): UsersModule {
-    if (!UsersModule.instance) {
-      UsersModule.instance = new UsersModule(app!);
-    }
-    return UsersModule.instance;
-  }
-
-  private constructor(private readonly app: any) {
+  constructor(private readonly app: any) {
     this.initializeModule();
   }
 

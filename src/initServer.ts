@@ -9,7 +9,6 @@ import { HealthCheckModule } from './modules/health-check';
 import { SwaggerModule } from './modules/swagger';
 import { UsersModule } from './modules/users';
 import { bodyLimitPlugin } from './plugins/bodyLimit.plugin';
-import { compressionPlugin } from './plugins/compression.plugin';
 import { cookieParserPlugin } from './plugins/cookieParser.plugin';
 import { corsPlugin } from './plugins/cors/cors.plugin';
 import { errorHandlerPlugin } from './plugins/errorHandler.plugin';
@@ -34,10 +33,9 @@ export async function startServer() {
     bodyLimitPlugin,
     urlEncodedPlugin,
     cookieParserPlugin,
-    compressionPlugin,
   ]);
 
-  appModule.registerModules([HealthCheckModule, BackendModule, UsersModule, SwaggerModule]); // BooksModule, BackendModule, TransactionsModule
+  appModule.registerModules([HealthCheckModule, UsersModule, SwaggerModule, BackendModule]); // BooksModule, BackendModule, TransactionsModule
 
   appModule.registerErrorHandler(errorHandlerPlugin);
 

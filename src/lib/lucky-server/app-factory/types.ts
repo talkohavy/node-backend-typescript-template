@@ -1,6 +1,4 @@
-export interface StaticModule {
-  getInstance: (app: any) => any;
-}
+export type ModuleConstructor = new (app: any) => any;
 
 export type ErrorHandlerFn = (app: any) => void;
 

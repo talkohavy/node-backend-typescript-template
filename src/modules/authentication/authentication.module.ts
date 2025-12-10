@@ -11,17 +11,9 @@ import { TokenGenerationService } from './services/token-generation.service';
 import { TokenVerificationService } from './services/token-verification.service';
 
 export class AuthenticationModule {
-  private static instance: AuthenticationModule;
   private authenticationService!: AuthenticationService;
 
-  static getInstance(app?: any): AuthenticationModule {
-    if (!AuthenticationModule.instance) {
-      AuthenticationModule.instance = new AuthenticationModule(app);
-    }
-    return AuthenticationModule.instance;
-  }
-
-  private constructor(private readonly app: any) {
+  constructor(private readonly app: any) {
     this.initializeModule();
   }
 
