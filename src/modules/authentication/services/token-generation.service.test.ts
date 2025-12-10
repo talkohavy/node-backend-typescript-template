@@ -1,4 +1,4 @@
-import { configService } from '../../../core';
+import { configService as configServiceToMock } from '../../../core';
 import { TokenGenerationService } from '../services/token-generation.service';
 
 jest.mock('../../../core', () => ({
@@ -8,14 +8,14 @@ jest.mock('../../../core', () => ({
 }));
 
 // Type assertion for better TypeScript support
-const mockConfigService = configService as jest.Mocked<typeof configService>;
+const configService = configServiceToMock as jest.Mocked<typeof configServiceToMock>;
 
 describe('TokenGenerationService', () => {
   let service: TokenGenerationService;
 
   beforeEach(() => {
     // Setup mock return values for JWT config
-    mockConfigService.get.mockReturnValue({
+    configService.get.mockReturnValue({
       accessSecret: 'test-access-secret',
       refreshSecret: 'test-refresh-secret',
       accessExpireTime: '15m',
@@ -42,6 +42,30 @@ describe('TokenGenerationService', () => {
       expect(typeof result.refreshToken).toBe('string');
       expect(result.accessToken.length).toBeGreaterThan(0);
       expect(result.refreshToken.length).toBeGreaterThan(0);
+    });
+  });
+
+  describe('createAccessToken', () => {
+    it('should create a valid access token', async () => {
+      const payload = { id: 'user-123' };
+
+      const token = await service.createAccessToken({ payload });
+
+      expect(typeof token).toBe('string');
+      expect(token.length).toBeGreaterThan(0);
+      expect(configService.get).toHaveBeenCalled();
+    });
+  });
+
+  describe('createRefreshToken', () => {
+    it('should create a valid refresh token', async () => {
+      const payload = { id: 'user-123' };
+
+      const token = await service.createRefreshToken({ payload });
+
+      expect(typeof token).toBe('string');
+      expect(token.length).toBeGreaterThan(0);
+      expect(configService.get).toHaveBeenCalled();
     });
   });
 });
