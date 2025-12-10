@@ -45,7 +45,7 @@ export async function startServer() {
       UsersModule,
       BooksModule,
       FileUploadModule,
-      //  BackendModule,
+      //  BackendModule, // <--- MUST come after UsersModule and AuthenticationModule
       ServerSentEventModule,
       SwaggerModule,
     ],
