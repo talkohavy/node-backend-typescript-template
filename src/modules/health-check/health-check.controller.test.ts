@@ -1,6 +1,6 @@
 import express from 'express';
 import request from 'supertest';
-import { API_URLS } from '../../common/constants';
+import { API_URLS, StatusCodes } from '../../common/constants';
 import { logger } from '../../core';
 import { HealthCheckController } from './health-check.controller';
 
@@ -28,7 +28,7 @@ describe('HealthCheckController', () => {
   it('should return status OK when health check endpoint is called', async () => {
     const response = await request(app).get(API_URLS.healthCheck);
 
-    expect(response.status).toBe(200);
+    expect(response.status).toBe(StatusCodes.OK);
     expect(response.body).toEqual({ status: 'OK' });
     expect(mockLogger.info).toHaveBeenCalledWith(`GET ${API_URLS.healthCheck} - performing health check`);
   });

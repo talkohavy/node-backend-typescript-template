@@ -1,7 +1,7 @@
 import express from 'express';
 import request from 'supertest';
 import type { FileUploadService } from './services/file-upload.service';
-import { API_URLS } from '../../common/constants';
+import { API_URLS, StatusCodes } from '../../common/constants';
 import { logger } from '../../core';
 import { FileUploadController } from './file-upload.controller';
 
@@ -48,7 +48,7 @@ describe('FileUploadController', () => {
         .post(API_URLS.uploadFileMultipart)
         .set('Content-Type', 'multipart/form-data; boundary=test');
 
-      expect(response.status).toBe(200);
+      expect(response.status).toBe(StatusCodes.OK);
       expect(response.body).toEqual(mockResult);
       expect(mockFileUploadService.handleMultipartUpload).toHaveBeenCalledWith(expect.any(Object));
       expect(mockLogger.info).toHaveBeenCalledWith(`POST ${API_URLS.uploadFileMultipart} - uploading file`);
@@ -74,7 +74,7 @@ describe('FileUploadController', () => {
         .set('Content-Type', 'application/pdf')
         .send('binary data');
 
-      expect(response.status).toBe(200);
+      expect(response.status).toBe(StatusCodes.OK);
       expect(response.body).toEqual(mockResult);
       expect(mockFileUploadService.handleBinaryUpload).toHaveBeenCalledWith(expect.any(Object));
       expect(mockLogger.info).toHaveBeenCalledWith(`POST ${API_URLS.uploadFileBinary} - uploading file`);
