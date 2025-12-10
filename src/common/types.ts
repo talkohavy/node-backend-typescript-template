@@ -14,6 +14,9 @@ export type OptimizedModules = {
         tokenVerificationService: any;
       };
     };
+    FileUploadModule: {
+      fileUploadService: any;
+    };
   };
 };
 

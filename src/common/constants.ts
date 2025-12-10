@@ -99,5 +99,8 @@ export const optimizedModules: OptimizedModules = {
       userUtilitiesService: null as any,
     },
     HealthCheckModule: null as any,
+    FileUploadModule: {
+      fileUploadService: null as any,
+    },
   },
 };
