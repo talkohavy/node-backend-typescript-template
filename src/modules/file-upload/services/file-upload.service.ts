@@ -6,29 +6,11 @@ import type { FileMetadata, UploadResult } from '../types';
 import { extractBoundary, parseMultipartHeaders } from '../utils';
 
 export class FileUploadService {
-  /**
-   * Determines upload type and routes to appropriate handler
-   */
-  async uploadFile(req: Request): Promise<UploadResult> {
-    const contentType = req.headers['content-type'];
+  async handleBinaryUpload(req: Request): Promise<UploadResult> {
+    const contentType = req.headers['content-type'] || '';
 
     if (!contentType) throw new Error('Missing content-type header');
 
-    if (contentType.startsWith('multipart/form-data')) {
-      const boundary = extractBoundary(contentType);
-
-      if (!boundary) throw new Error('Invalid multipart/form-data content-type header! boundary missing.');
-
-      return this.handleMultipartUpload(req, boundary);
-    }
-
-    return this.handleBinaryUpload(req, contentType);
-  }
-
-  /**
-   * Handles binary file upload
-   */
-  async handleBinaryUpload(req: Request, contentType: string): Promise<UploadResult> {
     const filename = (req.headers['x-filename'] as string) || 'uploaded-file';
     const filePath = join(process.cwd(), filename);
 
@@ -84,10 +66,17 @@ export class FileUploadService {
    * 9. On 'end' event, close all streams and return metadata
    *
    * @param req - Express request object (readable stream)
-   * @param boundary - The boundary string extracted from Content-Type header
    * @returns Promise resolving to upload result with file metadata
    */
-  async handleMultipartUpload(req: Request, boundary: string): Promise<UploadResult> {
+  async handleMultipartUpload(req: Request): Promise<UploadResult> {
+    const contentType = req.headers['content-type'] || '';
+
+    if (!contentType.startsWith('multipart/form-data')) throw new Error('Missing content-type header');
+
+    const boundary = extractBoundary(contentType);
+
+    if (!boundary) throw new Error('Invalid multipart/form-data content-type header! boundary missing.');
+
     return new Promise((resolve, reject) => {
       const bufferRef: { current: Buffer } = { current: Buffer.alloc(0) };
       const metadataArr: Array<FileMetadata> = [];

@@ -77,9 +77,9 @@ export const API_URLS = {
   // books
   books: '/api/books',
   bookById: '/api/books/:bookId',
-  // transactions
-  transactions: '/api/transactions',
-  uploadTransactionFile: '/api/transactions/upload-file',
+  // upload file
+  uploadFileMultipart: '/api/upload-file/multipart',
+  uploadFileBinary: '/api/upload-file/binary',
   // backend
   backendMiddleware: '/api/backend',
 } satisfies Record<string, `/${string}`>;
