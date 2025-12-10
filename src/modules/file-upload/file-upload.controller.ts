@@ -4,7 +4,7 @@ import type { FileUploadService } from './services/file-upload.service';
 import { API_URLS, StatusCodes } from '../../common/constants';
 import { logger } from '../../core';
 
-export class TransactionsController implements ControllerFactory {
+export class FileUploadController implements ControllerFactory {
   constructor(
     private readonly app: Application,
     private readonly fileUploadService: FileUploadService,

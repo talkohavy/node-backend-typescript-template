@@ -1,8 +1,8 @@
 import type { Application } from 'express';
+import { FileUploadController } from './file-upload.controller';
 import { FileUploadService } from './services/file-upload.service';
-import { TransactionsController } from './transactions.controller';
 
-export class TransactionsModule {
+export class FileUploadModule {
   private fileUploadService!: FileUploadService;
 
   constructor(private readonly app: any) {
@@ -16,7 +16,7 @@ export class TransactionsModule {
   }
 
   private attachController(app: Application): void {
-    const controller = new TransactionsController(app, this.fileUploadService);
+    const controller = new FileUploadController(app, this.fileUploadService);
 
     controller.attachRoutes();
   }

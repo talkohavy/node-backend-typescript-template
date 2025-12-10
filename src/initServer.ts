@@ -5,9 +5,9 @@ import { initGlobalServices, initConnections } from './core';
 import { AppFactory } from './lib/lucky-server/app-factory';
 import { BackendModule } from './modules/backend';
 import { BooksModule } from './modules/books';
+import { FileUploadModule } from './modules/file-upload';
 import { HealthCheckModule } from './modules/health-check';
 import { SwaggerModule } from './modules/swagger';
-import { TransactionsModule } from './modules/transactions';
 import { UsersModule } from './modules/users';
 import { bodyLimitPlugin } from './plugins/bodyLimit.plugin';
 import { cookieParserPlugin } from './plugins/cookieParser.plugin';
@@ -37,7 +37,7 @@ export async function startServer() {
   ]);
 
   appModule.registerModules(
-    [HealthCheckModule, UsersModule, BooksModule, TransactionsModule, BackendModule, SwaggerModule],
+    [HealthCheckModule, UsersModule, BooksModule, FileUploadModule, BackendModule, SwaggerModule],
     optimizedModules,
   );
 
