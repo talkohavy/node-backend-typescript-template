@@ -6,6 +6,56 @@ import type { FileMetadata, UploadResult } from '../types';
 import { extractBoundary, parseMultipartHeaders } from '../utils';
 
 export class FileUploadService {
+  /**
+   * Binary uploads can have various Content-Type values depending on the file type. Here are the common ones:
+   *
+   * Generic Binary
+   * - application/octet-stream
+   *
+   * Image Files
+   * - image/jpeg
+   * - image/png
+   * - image/gif
+   * - image/webp
+   * - image/svg+xml
+   *
+   * Document Files
+   * - application/pdf
+   * - application/msword
+   * - application/vnd.openxmlformats-officedocument.wordprocessingml.document (for .docx)
+   * - application/vnd.ms-excel
+   * - application/vnd.openxmlformats-officedocument.spreadsheetml.sheet (for .xlsx)
+   * - application/vnd.ms-powerpoint
+   * - application/vnd.openxmlformats-officedocument.presentationml.presentation (for .pptx)
+   *
+   * Archive Files
+   * - application/zip
+   * - application/msword
+   *
+   * Audio Files
+   * - audio/mpeg
+   * - audio/mp3
+   * - audio/aac
+   * - audio/flac
+   * - audio/webm
+   * - audio/wav
+   * - audio/ogg
+   *
+   * Video Files
+   * - video/mp4
+   * - video/mpeg
+   * - video/webm
+   * - video/ogg
+   * - video/quicktime (.mov)
+   * - video/x-msvideo (.avi)
+   * - video/x-ms-wmv (.wmv)
+   *
+   * Text Files
+   * - text/plain
+   * - text/csv
+   * - application/json
+   *
+   */
   async handleBinaryUpload(req: Request): Promise<UploadResult> {
     const contentType = req.headers['content-type'] || '';
 
