@@ -7,6 +7,36 @@ import { extractBoundary, parseMultipartHeaders } from '../utils';
 
 export class FileUploadService {
   /**
+   * Whitelist of allowed Content-Types for binary uploads.
+   * Modify this array to control what file types can be uploaded.
+   */
+  private readonly allowedContentTypes = [
+    // Generic Binary
+    'application/octet-stream',
+    // Image Files
+    'image/jpeg',
+    'image/png',
+    // Document Files
+    'application/pdf',
+    'application/msword',
+    // Archive Files
+    'application/zip',
+    'application/gzip',
+    // Audio Files
+    'audio/mp3',
+    // Video Files
+    'video/mp4',
+    'video/mpeg',
+    'video/webm',
+    'video/ogg',
+    'video/quicktime',
+    // Text Files
+    'text/plain',
+    'text/csv',
+    'application/json',
+  ];
+
+  /**
    * Binary uploads can have various Content-Type values depending on the file type. Here are the common ones:
    *
    * Generic Binary
@@ -60,6 +90,12 @@ export class FileUploadService {
     const contentType = req.headers['content-type'] || '';
 
     if (!contentType) throw new Error('Missing content-type header');
+
+    if (!this.allowedContentTypes.includes(contentType)) {
+      throw new Error(
+        `Content-Type '${contentType}' is not allowed. Allowed types: ${this.allowedContentTypes.join(', ')}`,
+      );
+    }
 
     const filename = (req.headers['x-filename'] as string) || 'uploaded-file';
     const filePath = join(process.cwd(), filename);
