@@ -1,0 +1,128 @@
+import express from 'express';
+import request from 'supertest';
+import type { UsersCrudService } from '../services/users-crud.service';
+import { API_URLS, StatusCodes } from '../../../common/constants';
+import { logger } from '../../../core';
+import { errorHandlerPlugin } from '../../../plugins/errorHandler.plugin';
+import { UsersCrudController } from './users-crud.controller';
+
+jest.mock('../../../core', () => ({
+  logger: {
+    info: jest.fn(),
+    error: jest.fn(),
+  },
+}));
+
+jest.mock('../../../middlewares/joi-body.middleware', () => ({
+  joiBodyMiddleware: jest.fn(() => (_req: any, _res: any, next: any) => next()),
+}));
+
+const mockLogger = logger as jest.Mocked<typeof logger>;
+
+describe('UsersCrudController', () => {
+  let app: express.Application;
+  let mockUsersService: jest.Mocked<UsersCrudService>;
+
+  beforeEach(() => {
+    app = express();
+    app.use(express.json());
+
+    mockUsersService = {
+      createUser: jest.fn(),
+      getUsers: jest.fn(),
+      getUserById: jest.fn(),
+      updateUserById: jest.fn(),
+      deleteUserById: jest.fn(),
+    } as any;
+
+    const controller = new UsersCrudController(app, mockUsersService);
+    controller.attachRoutes();
+    errorHandlerPlugin(app);
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  describe('POST /api/users', () => {
+    it('should create a new user', async () => {
+      const newUser = { email: 'test@example.com', name: 'Test User', password: 'password123' };
+      const createdUser = { id: '123', ...newUser };
+
+      (mockUsersService.createUser as jest.Mock).mockResolvedValue(createdUser);
+
+      const response = await request(app).post(API_URLS.users).send(newUser);
+
+      expect(response.status).toBe(StatusCodes.CREATED);
+      expect(response.body).toEqual(createdUser);
+      expect(mockUsersService.createUser).toHaveBeenCalledWith(newUser);
+      expect(mockLogger.info).toHaveBeenCalledWith(`POST ${API_URLS.users} - create new user`);
+    });
+  });
+
+  describe('GET /api/users', () => {
+    it('should return all users', async () => {
+      const mockUsers = [
+        { id: '1', email: 'user1@example.com', name: 'User 1' },
+        { id: '2', email: 'user2@example.com', name: 'User 2' },
+      ];
+
+      (mockUsersService.getUsers as jest.Mock).mockResolvedValue(mockUsers);
+
+      const response = await request(app).get(API_URLS.users);
+
+      expect(response.status).toBe(StatusCodes.OK);
+      expect(response.body).toEqual(mockUsers);
+      expect(mockUsersService.getUsers).toHaveBeenCalledWith({});
+      expect(mockLogger.info).toHaveBeenCalledWith(`GET ${API_URLS.users} - get all users`);
+    });
+  });
+
+  describe('GET /api/users/:userId', () => {
+    it('should return user by id', async () => {
+      const mockUser = { id: 'user-123', email: 'test@example.com', name: 'Test User' };
+
+      (mockUsersService.getUserById as jest.Mock).mockResolvedValue(mockUser);
+
+      const response = await request(app).get('/api/users/user-123');
+
+      expect(response.status).toBe(StatusCodes.OK);
+      expect(response.body).toEqual(mockUser);
+      expect(mockUsersService.getUserById).toHaveBeenCalledWith('user-123');
+      expect(mockLogger.info).toHaveBeenCalledWith(`GET ${API_URLS.userById} - get user by id`);
+    });
+  });
+
+  describe('PATCH /api/users/:userId', () => {
+    it('should update user by id', async () => {
+      const userId = 'user-123';
+      const updateData = { name: 'Updated Name' };
+      const updatedUser = { id: userId, email: 'test@example.com', name: 'Updated Name' };
+
+      (mockUsersService.updateUserById as jest.Mock).mockResolvedValue(updatedUser);
+
+      const response = await request(app).patch(`/api/users/${userId}`).send(updateData);
+
+      expect(response.status).toBe(StatusCodes.OK);
+      expect(response.body).toEqual(updatedUser);
+      expect(mockUsersService.updateUserById).toHaveBeenCalledWith(userId, updateData);
+      expect(mockLogger.info).toHaveBeenCalledWith(`PATCH ${API_URLS.userById} - updating user by ID`);
+    });
+  });
+
+  describe('DELETE /api/users/:userId', () => {
+    it('should delete user by id', async () => {
+      const userId = 'user-123';
+      const deleteResult = { success: true };
+
+      (mockUsersService.deleteUserById as jest.Mock).mockResolvedValue(deleteResult);
+
+      const response = await request(app).delete(`/api/users/${userId}`);
+
+      expect(response.status).toBe(StatusCodes.OK);
+      expect(response.body).toEqual(deleteResult);
+      expect(mockUsersService.deleteUserById).toHaveBeenCalledWith(userId);
+      expect(mockLogger.info).toHaveBeenCalledWith(`DELETE ${API_URLS.userById} - delete user`);
+    });
+  });
+});
