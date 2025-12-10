@@ -3,17 +3,9 @@ import { ServerSentEventsController } from './controllers/serverSentEvents.contr
 import { ServerSentEventsService } from './services/serverSentEvents.service';
 
 export class ServerSentEventModule {
-  private static instance: ServerSentEventModule;
   private serverSentEventsService!: ServerSentEventsService;
 
-  static getInstance(app?: any): ServerSentEventModule {
-    if (!ServerSentEventModule.instance) {
-      ServerSentEventModule.instance = new ServerSentEventModule(app);
-    }
-    return ServerSentEventModule.instance;
-  }
-
-  private constructor(private readonly app: any) {
+  constructor(private readonly app: any) {
     this.initializeModule();
   }
 
