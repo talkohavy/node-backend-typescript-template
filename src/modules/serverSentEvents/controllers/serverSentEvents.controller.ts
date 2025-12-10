@@ -19,7 +19,7 @@ export class ServerSentEventsController implements ControllerFactory {
       const message = createEventMessage({ content: 'Connection was successful!', eventName: 'connect' });
 
       res.write(message);
-      res.flush();
+      res.flushHeaders();
 
       req.on('close', () => {
         this.serverSentEventsService.removeClient(res);
@@ -27,6 +27,8 @@ export class ServerSentEventsController implements ControllerFactory {
         res.end();
       });
     });
+
+    this.serverSentEventsService.runSimulation();
   }
 
   attachRoutes() {

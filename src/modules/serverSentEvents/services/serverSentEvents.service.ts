@@ -20,7 +20,7 @@ export class ServerSentEventsService {
       this.clients.forEach((client) => {
         const message = createEventMessage({ content, eventName: 'luckylove-data' });
         client.write(message);
-        client.flush();
+        client.flushHeaders();
       });
     });
   }
@@ -40,7 +40,7 @@ export class ServerSentEventsService {
       const eventData = { time: new Date().toISOString() };
 
       this.broadcastEvent(eventData);
-    }, 5000);
+    }, 1000);
   }
 
   async broadcastEvent(data: any) {
