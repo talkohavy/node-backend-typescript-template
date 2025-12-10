@@ -1,26 +1,22 @@
 import type { Application } from 'express';
+import { FileUploadService } from './services/file-upload.service';
 import { TransactionsController } from './transactions.controller';
 
 export class TransactionsModule {
-  private static instance: TransactionsModule;
+  private fileUploadService!: FileUploadService;
 
-  static getInstance(app?: any): TransactionsModule {
-    if (!TransactionsModule.instance) {
-      TransactionsModule.instance = new TransactionsModule(app);
-    }
-    return TransactionsModule.instance;
-  }
-
-  private constructor(private readonly app: any) {
+  constructor(private readonly app: any) {
     this.initializeModule();
   }
 
   private initializeModule(): void {
+    this.fileUploadService = new FileUploadService();
+
     this.attachController(this.app);
   }
 
   private attachController(app: Application): void {
-    const controller = new TransactionsController(app);
+    const controller = new TransactionsController(app, this.fileUploadService);
 
     controller.attachRoutes();
   }

@@ -1,6 +1,5 @@
 import express from 'express';
 import { optimizedModules } from './common/constants';
-// import { TransactionsModule } from '../modules/transactions';
 import { ConfigKeys } from './configurations';
 import { initGlobalServices, initConnections } from './core';
 import { AppFactory } from './lib/lucky-server/app-factory';
@@ -8,6 +7,7 @@ import { BackendModule } from './modules/backend';
 import { BooksModule } from './modules/books';
 import { HealthCheckModule } from './modules/health-check';
 import { SwaggerModule } from './modules/swagger';
+import { TransactionsModule } from './modules/transactions';
 import { UsersModule } from './modules/users';
 import { bodyLimitPlugin } from './plugins/bodyLimit.plugin';
 import { cookieParserPlugin } from './plugins/cookieParser.plugin';
@@ -37,9 +37,9 @@ export async function startServer() {
   ]);
 
   appModule.registerModules(
-    [HealthCheckModule, UsersModule, BooksModule, SwaggerModule, BackendModule],
+    [HealthCheckModule, UsersModule, BooksModule, TransactionsModule, BackendModule, SwaggerModule],
     optimizedModules,
-  ); // BooksModule, BackendModule, TransactionsModule
+  );
 
   appModule.registerErrorHandler(errorHandlerPlugin);
 
