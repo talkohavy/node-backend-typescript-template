@@ -7,32 +7,22 @@ import { extractBoundary, parseMultipartHeaders } from '../utils';
 
 export class FileUploadService {
   /**
-   * Handles multipart form data file upload
+   * Determines upload type and routes to appropriate handler
    */
-  async handleMultipartUpload(req: Request, boundary: string): Promise<UploadResult> {
-    return new Promise((resolve, reject) => {
-      const bufferRef: { current: Buffer } = { current: Buffer.alloc(0) };
-      const metadataArr: Array<FileMetadata> = [];
-      const fileStreamRef: { current: WriteStream | null } = { current: null };
+  async uploadFile(req: Request): Promise<UploadResult> {
+    const contentType = req.headers['content-type'];
 
-      req.on('data', (chunk) => {
-        bufferRef.current = Buffer.concat([bufferRef.current, chunk]);
-        this.processBuffer(bufferRef, boundary, metadataArr, fileStreamRef);
-      });
+    if (!contentType) throw new Error('Missing content-type header');
 
-      req.on('end', () => {
-        fileStreamRef.current?.end();
-        resolve({
-          message: 'Files uploaded successfully',
-          metadata: metadataArr,
-        });
-      });
+    if (contentType.startsWith('multipart/form-data')) {
+      const boundary = extractBoundary(contentType);
 
-      req.on('error', (err) => {
-        fileStreamRef.current?.end();
-        reject(err);
-      });
-    });
+      if (!boundary) throw new Error('Invalid multipart/form-data content-type header! boundary missing.');
+
+      return this.handleMultipartUpload(req, boundary);
+    }
+
+    return this.handleBinaryUpload(req, contentType);
   }
 
   /**
@@ -66,28 +56,67 @@ export class FileUploadService {
   }
 
   /**
-   * Determines upload type and routes to appropriate handler
+   * Handles multipart form data file upload
+   *
+   * HOW IT WORKS:
+   * Multipart form data arrives as a stream of chunks over the network. Each chunk contains
+   * binary data that may include parts of file headers, file content, or boundary markers.
+   * Since chunks can arrive at arbitrary positions (e.g., a boundary marker could be split
+   * across multiple chunks), we need to accumulate data in a buffer until we have enough
+   * to parse complete parts.
+   *
+   * WHY USE A BUFFER:
+   * - Network data arrives in unpredictable chunk sizes
+   * - A single chunk might contain partial boundary markers or incomplete headers
+   * - We need to accumulate data until we can identify complete multipart parts
+   * - The buffer stores unprocessed data between chunks
+   *
+   * WHAT HAPPENS:
+   * 1. Each 'data' event adds new chunk to buffer (concatenation)
+   * 2. We scan buffer for boundary markers (--{boundary})
+   * 3. When found, we extract headers (Content-Disposition, Content-Type) between
+   *    the boundary and \r\n\r\n marker
+   * 4. We create a write stream for the file and store its metadata
+   * 5. We extract file content between current boundary and next boundary
+   * 6. We write content to file stream and remove processed data from buffer
+   * 7. Repeat until no more complete parts can be extracted
+   * 8. Any remaining partial data stays in buffer for next chunk
+   * 9. On 'end' event, close all streams and return metadata
+   *
+   * @param req - Express request object (readable stream)
+   * @param boundary - The boundary string extracted from Content-Type header
+   * @returns Promise resolving to upload result with file metadata
    */
-  async uploadFile(req: Request): Promise<UploadResult> {
-    const contentType = req.headers['content-type'];
+  async handleMultipartUpload(req: Request, boundary: string): Promise<UploadResult> {
+    return new Promise((resolve, reject) => {
+      const bufferRef: { current: Buffer } = { current: Buffer.alloc(0) };
+      const metadataArr: Array<FileMetadata> = [];
+      const fileStreamRef: { current: WriteStream | null } = { current: null };
 
-    if (!contentType) throw new Error('Missing content-type header');
+      req.on('data', (chunk) => {
+        bufferRef.current = Buffer.concat([bufferRef.current, chunk]);
+        this.processMultipartBuffer(bufferRef, boundary, metadataArr, fileStreamRef);
+      });
 
-    if (contentType.startsWith('multipart/form-data')) {
-      const boundary = extractBoundary(contentType);
+      req.on('end', () => {
+        fileStreamRef.current?.end();
+        resolve({
+          message: 'Files uploaded successfully',
+          metadata: metadataArr,
+        });
+      });
 
-      if (!boundary) throw new Error('Invalid multipart/form-data content-type header! boundary missing.');
-
-      return this.handleMultipartUpload(req, boundary);
-    }
-
-    return this.handleBinaryUpload(req, contentType);
+      req.on('error', (err) => {
+        fileStreamRef.current?.end();
+        reject(err);
+      });
+    });
   }
 
   /**
    * Processes the buffer to extract multipart data
    */
-  private processBuffer(
+  private processMultipartBuffer(
     bufferRef: { current: Buffer },
     boundary: string,
     metadataArr: Array<FileMetadata>,
