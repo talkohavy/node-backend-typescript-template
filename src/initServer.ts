@@ -1,4 +1,5 @@
 import express from 'express';
+import { optimizedModules } from './common/constants';
 // import { TransactionsModule } from '../modules/transactions';
 import { ConfigKeys } from './configurations';
 import { initGlobalServices, initConnections } from './core';
@@ -35,7 +36,7 @@ export async function startServer() {
     cookieParserPlugin,
   ]);
 
-  appModule.registerModules([HealthCheckModule, UsersModule, SwaggerModule, BackendModule]); // BooksModule, BackendModule, TransactionsModule
+  appModule.registerModules([HealthCheckModule, UsersModule, SwaggerModule, BackendModule], optimizedModules); // BooksModule, BackendModule, TransactionsModule
 
   appModule.registerErrorHandler(errorHandlerPlugin);
 

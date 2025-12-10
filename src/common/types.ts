@@ -1,6 +1,6 @@
 import type { Application } from 'express';
 
-export type ServerApp = Application & {
+export type OptimizedModules = {
   modules: {
     HealthCheckModule: any;
     UsersModule: {
@@ -16,3 +16,5 @@ export type ServerApp = Application & {
     };
   };
 };
+
+export type ServerApp = Application & OptimizedModules;

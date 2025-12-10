@@ -1,4 +1,5 @@
 import type { HttpException } from '../lib/Errors/HttpException';
+import type { OptimizedModules } from './types';
 import { BadRequestError, ForbiddenError, InternalServerError, NotFoundError, UnauthorizedError } from '../lib/Errors';
 
 export const StatusCodes = {
@@ -87,3 +88,16 @@ export const API_URLS = {
  * Paths that should be excluded from certain middlewares
  */
 export const EXCLUDED_PATHS = [API_URLS.healthCheck];
+
+export const optimizedModules: OptimizedModules = {
+  modules: {
+    AuthenticationModule: {
+      getAuthenticationService: null as any,
+    },
+    UsersModule: {
+      usersCrudService: null as any,
+      userUtilitiesService: null as any,
+    },
+    HealthCheckModule: null as any,
+  },
+};

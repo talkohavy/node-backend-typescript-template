@@ -6,8 +6,9 @@ export class AppFactory {
 
   constructor(public readonly app: any) {}
 
-  registerModules(modules: ModuleConstructor[]): void {
-    this.app.modules = {};
+  registerModules(modules: ModuleConstructor[], optimizedModules = {}): void {
+    this.app.modules = optimizedModules;
+
     modules.forEach((Module) => {
       const moduleInstance = new Module(this.app);
       this.registeredModules.push(moduleInstance);
