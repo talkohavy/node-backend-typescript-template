@@ -82,7 +82,7 @@ export const API_URLS = {
   uploadTransactionFile: '/api/transactions/upload-file',
   // backend
   backendMiddleware: '/api/backend',
-};
+} satisfies Record<string, `/${string}`>;
 
 /**
  * Paths that should be excluded from certain middlewares
