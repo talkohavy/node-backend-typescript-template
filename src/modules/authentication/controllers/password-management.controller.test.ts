@@ -3,6 +3,7 @@ import request from 'supertest';
 import type { PasswordManagementService } from '../services/password-management.service';
 import { API_URLS, StatusCodes } from '../../../common/constants';
 import { logger } from '../../../core';
+import { errorHandlerPlugin } from '../../../plugins/errorHandler.plugin';
 import { PasswordManagementController } from './password-management.controller';
 
 jest.mock('../../../core', () => ({
@@ -33,11 +34,7 @@ describe('PasswordManagementController', () => {
 
     const controller = new PasswordManagementController(app, mockPasswordManagementService);
     controller.attachRoutes();
-
-    // Add error handler middleware
-    app.use((err: any, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
-      res.status(err.statusCode || StatusCodes.INTERNAL_ERROR).json({ message: err.message });
-    });
+    errorHandlerPlugin(app);
   });
 
   afterEach(() => {

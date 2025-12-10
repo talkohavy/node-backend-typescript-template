@@ -1,0 +1,73 @@
+import cookieParser from 'cookie-parser';
+import express from 'express';
+import request from 'supertest';
+import type { TokenVerificationService } from '../services/token-verification.service';
+import { API_URLS, StatusCodes } from '../../../common/constants';
+import { configService, logger } from '../../../core';
+import { errorHandlerPlugin } from '../../../plugins/errorHandler.plugin';
+import { TokenVerificationController } from './token-verification.controller';
+
+jest.mock('../../../core', () => ({
+  logger: {
+    info: jest.fn(),
+    error: jest.fn(),
+  },
+  configService: {
+    get: jest.fn(),
+  },
+}));
+
+const mockLogger = logger as jest.Mocked<typeof logger>;
+const mockConfigService = configService as jest.Mocked<typeof configService>;
+
+describe('TokenVerificationController', () => {
+  let app: express.Application;
+  let mockTokenVerificationService: jest.Mocked<TokenVerificationService>;
+
+  beforeEach(() => {
+    app = express();
+    app.use(express.json());
+    app.use(cookieParser());
+
+    mockConfigService.get.mockReturnValue({
+      accessCookie: { name: 'accessToken' },
+      refreshCookie: { name: 'refreshToken' },
+    });
+
+    mockTokenVerificationService = {
+      verifyToken: jest.fn(),
+    } as any;
+
+    const controller = new TokenVerificationController(app, mockTokenVerificationService);
+    controller.attachRoutes();
+    errorHandlerPlugin(app);
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  describe('GET /api/auth/verify-token', () => {
+    it('should verify and return decoded token when valid token in cookies', async () => {
+      const mockDecodedToken = { id: 'user-123', iat: 1234567890 };
+
+      mockTokenVerificationService.verifyToken.mockResolvedValue(mockDecodedToken);
+
+      const response = await request(app).get(API_URLS.verifyToken).set('Cookie', ['accessToken=valid-token']);
+
+      expect(response.status).toBe(StatusCodes.OK);
+      expect(response.body).toEqual(mockDecodedToken);
+      expect(mockTokenVerificationService.verifyToken).toHaveBeenCalledWith('valid-token');
+      expect(mockLogger.info).toHaveBeenCalledWith(`GET ${API_URLS.verifyToken} - verify tokens`);
+    });
+
+    it('should throw UnauthorizedError when no token in cookies', async () => {
+      const response = await request(app).get(API_URLS.verifyToken);
+
+      expect(response.status).toBe(StatusCodes.UNAUTHORIZED);
+      expect(response.body).toMatchObject({ message: 'No token provided' });
+      expect(mockLogger.error).toHaveBeenCalledWith('No token found in cookies');
+      expect(mockTokenVerificationService.verifyToken).not.toHaveBeenCalled();
+    });
+  });
+});
