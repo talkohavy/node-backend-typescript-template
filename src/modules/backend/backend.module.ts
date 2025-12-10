@@ -1,5 +1,4 @@
 import type { ServerApp } from '../../common/types';
-import { AuthenticationModule } from '../authentication';
 import { AuthenticationController } from './controllers/authentication/authentication.controller';
 import { BackendController } from './controllers/backend.controller';
 import { UserUtilitiesController } from './controllers/users/user-utilities.controller';
@@ -29,11 +28,8 @@ export class BackendModule {
 
   private initializeModule(): void {
     const { userUtilitiesService, usersCrudService } = this.app.modules.UsersModule;
-
-    const authenticationModule = new AuthenticationModule(this.app);
-    this.app.modules.AuthenticationModule = authenticationModule;
     const { passwordManagementService, tokenGenerationService, tokenVerificationService } =
-      authenticationModule.getAuthenticationService();
+      this.app.modules.AuthenticationModule.getAuthenticationService();
 
     // Init AuthenticationNetworkService
     this.passwordManagementNetworkService = new PasswordManagementNetworkService(passwordManagementService);

@@ -3,6 +3,7 @@ import { optimizedModules } from './common/constants';
 import { ConfigKeys } from './configurations';
 import { initGlobalServices, initConnections } from './core';
 import { AppFactory } from './lib/lucky-server/app-factory';
+import { AuthenticationModule } from './modules/authentication';
 import { BackendModule } from './modules/backend';
 import { BooksModule } from './modules/books';
 import { FileUploadModule } from './modules/file-upload';
@@ -37,7 +38,7 @@ export async function startServer() {
   ]);
 
   appModule.registerModules(
-    [HealthCheckModule, UsersModule, BooksModule, FileUploadModule, BackendModule, SwaggerModule],
+    [HealthCheckModule, AuthenticationModule, UsersModule, BooksModule, FileUploadModule, BackendModule, SwaggerModule],
     optimizedModules,
   );
 
