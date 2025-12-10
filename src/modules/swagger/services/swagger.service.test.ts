@@ -50,12 +50,6 @@ describe('SwaggerService', () => {
       expect(result.swaggerOptions).toHaveProperty('docExpansion', 'list');
       expect(result.swaggerOptions).toHaveProperty('displayRequestDuration', true);
       expect(result.swaggerOptions).toHaveProperty('tryItOutEnabled', true);
-      expect(result.swaggerOptions).toHaveProperty('urls');
-    });
-
-    it('should include dropdown options in urls', () => {
-      const result = swaggerService.createTopLevelSwaggerConfig();
-
       expect(result.swaggerOptions?.urls).toEqual([{ name: 'Users', url: 'http://localhost:8000/Users.swagger.json' }]);
     });
 
