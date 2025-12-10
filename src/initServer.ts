@@ -5,7 +5,7 @@ import { ConfigKeys } from './configurations';
 import { initGlobalServices, initConnections } from './core';
 import { AppFactory } from './lib/lucky-server/app-factory';
 import { BackendModule } from './modules/backend';
-// import { BooksModule } from './modules/books';
+import { BooksModule } from './modules/books';
 import { HealthCheckModule } from './modules/health-check';
 import { SwaggerModule } from './modules/swagger';
 import { UsersModule } from './modules/users';
@@ -36,7 +36,10 @@ export async function startServer() {
     cookieParserPlugin,
   ]);
 
-  appModule.registerModules([HealthCheckModule, UsersModule, SwaggerModule, BackendModule], optimizedModules); // BooksModule, BackendModule, TransactionsModule
+  appModule.registerModules(
+    [HealthCheckModule, UsersModule, BooksModule, SwaggerModule, BackendModule],
+    optimizedModules,
+  ); // BooksModule, BackendModule, TransactionsModule
 
   appModule.registerErrorHandler(errorHandlerPlugin);
 
