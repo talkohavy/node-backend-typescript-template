@@ -65,6 +65,73 @@ export class FileUploadService {
    * 8. Any remaining partial data stays in buffer for next chunk
    * 9. On 'end' event, close all streams and return metadata
    *
+   * @example
+   *
+   * Here is an example of a multipart/form-data request with two files:
+   *
+   * ```
+   * POST /upload HTTP/1.1
+   * Host: example.com
+   * Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+   * Content-Length: 12345
+   *
+   * ------WebKitFormBoundary7MA4YWxkTrZu0gW
+   * Content-Disposition: form-data; name="title"
+   *
+   * My Document Title
+   * ------WebKitFormBoundary7MA4YWxkTrZu0gW
+   * Content-Disposition: form-data; name="file"; filename="document.pdf"
+   * Content-Type: application/pdf
+   *
+   * %PDF-1.4
+   * %����
+   * 1 0 obj
+   * << /Type /Catalog /Pages 2 0 R >>
+   * endobj
+   * [... binary PDF data continues ...]
+   * ------WebKitFormBoundary7MA4YWxkTrZu0gW
+   * Content-Disposition: form-data; name="image"; filename="photo.jpg"
+   * Content-Type: image/jpeg
+   *
+   * ����JFIF��C��
+   * [... binary JPEG data ...]
+   * ------WebKitFormBoundary7MA4YWxkTrZu0gW--
+   * ```
+   *
+   * -------------------------------
+   * Let's break down the structure:
+   * -------------------------------
+   *
+   * 1. Main Headers
+   *    `Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW`
+   *    • Tells you it's multipart data
+   *    • The `boundary` string separates each part
+   *
+   * 2. Each Part Structure
+   *
+   * ```
+   * ------WebKitFormBoundary7MA4YWxkTrZu0gW          ← Boundary marker (starts with --)
+   * Content-Disposition: form-data; name="file"; filename="document.pdf"
+   * Content-Type: application/pdf
+   *                                                  ← Empty line (\r\n\r\n)
+   * [Binary file content here]                       ← Actual file bytes
+   * ```
+   *
+   * 3. Text Field Example
+   *
+   * ```
+   * ------WebKitFormBoundary7MA4YWxkTrZu0gW
+   * Content-Disposition: form-data; name="title"
+   *
+   * My Document Title
+   * ```
+   *
+   * 4. Final Boundary
+   *
+   * ```
+   * ------WebKitFormBoundary7MA4YWxkTrZu0gW--        ← Ends with extra --
+   * ```
+   *
    * @param req - Express request object (readable stream)
    * @returns Promise resolving to upload result with file metadata
    */
@@ -114,13 +181,17 @@ export class FileUploadService {
     let remainingBuffer = bufferRef.current;
 
     while (true) {
+      // 1. Looking for boundary marker
       const boundaryIndex = remainingBuffer.indexOf(`--${boundary}`);
       if (boundaryIndex === -1) break;
 
+      // 2. Finding where headers end (double CRLF)
       const partEndIndex = remainingBuffer.indexOf('\r\n\r\n', boundaryIndex);
       if (partEndIndex === -1) break;
 
+      // 3. Extracting headers
       const headers = remainingBuffer.subarray(boundaryIndex, partEndIndex).toString();
+      // 4. Parsing filename and content-type from headers
       const parsedHeaders = parseMultipartHeaders(headers);
 
       if (parsedHeaders.filename) {
@@ -142,7 +213,9 @@ export class FileUploadService {
       const nextBoundaryIndex = remainingBuffer.indexOf(`--${boundary}`, contentStartIndex);
 
       if (nextBoundaryIndex !== -1) {
+        // 5. Extracting file content between boundaries
         const fileContent = remainingBuffer.subarray(contentStartIndex, nextBoundaryIndex - 2);
+        // 6. Writing to file stream
         fileStreamRef.current?.write(fileContent);
         remainingBuffer = remainingBuffer.subarray(nextBoundaryIndex);
       } else {
