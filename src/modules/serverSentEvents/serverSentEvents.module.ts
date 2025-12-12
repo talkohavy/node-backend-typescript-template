@@ -18,6 +18,6 @@ export class ServerSentEventModule {
   private attachController(app: Application): void {
     const controller = new ServerSentEventsController(app, this.serverSentEventsService);
 
-    controller.attachRoutes();
+    controller.registerRoutes();
   }
 }

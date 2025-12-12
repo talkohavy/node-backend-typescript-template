@@ -42,7 +42,7 @@ export class UsersModule {
 
     usersMiddleware.use();
 
-    usersController.attachRoutes();
+    usersController.registerRoutes();
   }
 
   getUserUtilitiesService(): UserUtilitiesService {

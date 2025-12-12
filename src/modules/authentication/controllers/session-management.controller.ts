@@ -16,7 +16,7 @@ export class SessionManagementController implements ControllerFactory {
     });
   }
 
-  attachRoutes() {
+  registerRoutes() {
     this.logout();
   }
 }

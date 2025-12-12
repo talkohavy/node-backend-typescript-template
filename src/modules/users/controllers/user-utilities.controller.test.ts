@@ -33,7 +33,7 @@ describe('UserUtilitiesController', () => {
     } as any;
 
     const controller = new UserUtilitiesController(app, mockUserUtilitiesService);
-    controller.attachRoutes();
+    controller.registerRoutes();
     errorHandlerPlugin(app);
   });
 

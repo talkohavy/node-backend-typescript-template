@@ -1,3 +1,3 @@
 export interface ControllerFactory {
-  attachRoutes(): void;
+  registerRoutes(): void;
 }

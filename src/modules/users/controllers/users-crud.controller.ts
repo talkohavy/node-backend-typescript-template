@@ -74,7 +74,7 @@ export class UsersCrudController implements ControllerFactory {
     });
   }
 
-  attachRoutes() {
+  registerRoutes() {
     this.createUser();
     this.getUsers();
     this.getUserById();

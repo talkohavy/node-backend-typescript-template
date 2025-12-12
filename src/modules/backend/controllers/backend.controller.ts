@@ -8,8 +8,8 @@ export class BackendController implements ControllerFactory {
     private readonly usersController: UsersController,
   ) {}
 
-  attachRoutes() {
-    this.authenticationController.attachRoutes();
-    this.usersController.attachRoutes();
+  registerRoutes() {
+    this.authenticationController.registerRoutes();
+    this.usersController.registerRoutes();
   }
 }

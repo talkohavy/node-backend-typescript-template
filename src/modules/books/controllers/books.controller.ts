@@ -87,7 +87,7 @@ export class BooksController implements ControllerFactory {
     });
   }
 
-  attachRoutes() {
+  registerRoutes() {
     this.getBooks();
     this.getBookById();
     this.createBook();

@@ -79,6 +79,6 @@ export class BackendModule {
 
     backendMiddleware.use();
 
-    backendController.attachRoutes();
+    backendController.registerRoutes();
   }
 }

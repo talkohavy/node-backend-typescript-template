@@ -12,10 +12,10 @@ export class AuthenticationController implements ControllerFactory {
     private readonly sessionManagementController: SessionManagementController,
   ) {}
 
-  attachRoutes() {
-    this.passwordManagementController.attachRoutes();
-    this.tokenGenerationController.attachRoutes();
-    this.tokenVerificationController.attachRoutes();
-    this.sessionManagementController.attachRoutes();
+  registerRoutes() {
+    this.passwordManagementController.registerRoutes();
+    this.tokenGenerationController.registerRoutes();
+    this.tokenVerificationController.registerRoutes();
+    this.sessionManagementController.registerRoutes();
   }
 }

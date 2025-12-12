@@ -36,7 +36,7 @@ export class TokenVerificationController implements ControllerFactory {
     return token;
   }
 
-  attachRoutes() {
+  registerRoutes() {
     this.verifyToken();
   }
 }

@@ -68,7 +68,7 @@ describe('AuthenticationController', () => {
     } as any;
 
     const controller = new AuthenticationController(app, authenticationNetworkService, userUtilitiesNetworkService);
-    controller.attachRoutes();
+    controller.registerRoutes();
     errorHandlerPlugin(app);
   });
 

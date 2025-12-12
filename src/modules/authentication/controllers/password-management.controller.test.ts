@@ -33,7 +33,7 @@ describe('PasswordManagementController', () => {
     } as any;
 
     const controller = new PasswordManagementController(app, mockPasswordManagementService);
-    controller.attachRoutes();
+    controller.registerRoutes();
     errorHandlerPlugin(app);
   });
 

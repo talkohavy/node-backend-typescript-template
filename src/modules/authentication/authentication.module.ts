@@ -57,7 +57,7 @@ export class AuthenticationModule {
 
     authenticationMiddleware.use();
 
-    authenticationController.attachRoutes();
+    authenticationController.registerRoutes();
   }
 
   getAuthenticationService(): AuthenticationService {

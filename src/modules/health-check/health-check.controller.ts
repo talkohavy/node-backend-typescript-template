@@ -14,7 +14,7 @@ export class HealthCheckController implements ControllerFactory {
     });
   }
 
-  attachRoutes() {
+  registerRoutes() {
     this.healthCheck();
   }
 }

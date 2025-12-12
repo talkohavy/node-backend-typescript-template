@@ -32,7 +32,7 @@ describe('TokenGenerationController', () => {
     } as any;
 
     const controller = new TokenGenerationController(app, mockTokenGenerationService);
-    controller.attachRoutes();
+    controller.registerRoutes();
   });
 
   afterEach(() => {

@@ -24,7 +24,7 @@ export class TokenGenerationController implements ControllerFactory {
     });
   }
 
-  attachRoutes() {
+  registerRoutes() {
     this.createTokens();
   }
 }

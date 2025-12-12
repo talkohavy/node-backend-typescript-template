@@ -36,7 +36,7 @@ describe('UsersCrudController', () => {
     } as any;
 
     const controller = new UsersCrudController(app, mockUsersService);
-    controller.attachRoutes();
+    controller.registerRoutes();
     errorHandlerPlugin(app);
   });
 

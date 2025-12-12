@@ -39,7 +39,7 @@ export class UserUtilitiesController implements ControllerFactory {
     );
   }
 
-  attachRoutes() {
+  registerRoutes() {
     this.getUserByEmail();
   }
 }

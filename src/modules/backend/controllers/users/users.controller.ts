@@ -8,8 +8,8 @@ export class UsersController implements ControllerFactory {
     private readonly usersCrudController: UsersCrudController,
   ) {}
 
-  attachRoutes() {
-    this.userUtilitiesController.attachRoutes();
-    this.usersCrudController.attachRoutes();
+  registerRoutes() {
+    this.userUtilitiesController.registerRoutes();
+    this.usersCrudController.registerRoutes();
   }
 }

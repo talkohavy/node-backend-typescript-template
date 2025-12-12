@@ -31,7 +31,7 @@ export class ServerSentEventsController implements ControllerFactory {
     this.serverSentEventsService.runSimulation();
   }
 
-  attachRoutes() {
+  registerRoutes() {
     this.connectToChannel();
   }
 }

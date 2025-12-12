@@ -35,7 +35,7 @@ export class PasswordManagementController implements ControllerFactory {
     );
   }
 
-  attachRoutes() {
+  registerRoutes() {
     this.getIsPasswordValid();
   }
 }

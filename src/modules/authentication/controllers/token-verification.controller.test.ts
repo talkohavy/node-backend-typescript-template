@@ -39,7 +39,7 @@ describe('TokenVerificationController', () => {
     } as any;
 
     const controller = new TokenVerificationController(app, mockTokenVerificationService);
-    controller.attachRoutes();
+    controller.registerRoutes();
     errorHandlerPlugin(app);
   });
 

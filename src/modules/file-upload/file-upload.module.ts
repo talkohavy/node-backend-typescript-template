@@ -18,6 +18,6 @@ export class FileUploadModule {
   private attachController(app: Application): void {
     const controller = new FileUploadController(app, this.fileUploadService);
 
-    controller.attachRoutes();
+    controller.registerRoutes();
   }
 }

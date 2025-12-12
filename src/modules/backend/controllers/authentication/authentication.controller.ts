@@ -85,7 +85,7 @@ export class AuthenticationController implements ControllerFactory {
     });
   }
 
-  attachRoutes() {
+  registerRoutes() {
     this.login();
     this.logout();
   }

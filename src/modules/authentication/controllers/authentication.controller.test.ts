@@ -13,19 +13,19 @@ describe('AuthenticationController', () => {
 
   beforeEach(() => {
     mockPasswordManagementController = {
-      attachRoutes: jest.fn(),
+      registerRoutes: jest.fn(),
     } as any;
 
     mockTokenGenerationController = {
-      attachRoutes: jest.fn(),
+      registerRoutes: jest.fn(),
     } as any;
 
     mockTokenVerificationController = {
-      attachRoutes: jest.fn(),
+      registerRoutes: jest.fn(),
     } as any;
 
     mockSessionManagementController = {
-      attachRoutes: jest.fn(),
+      registerRoutes: jest.fn(),
     } as any;
 
     controller = new AuthenticationController(
@@ -40,12 +40,12 @@ describe('AuthenticationController', () => {
     jest.clearAllMocks();
   });
 
-  it('should call attachRoutes on all sub-controllers', () => {
-    controller.attachRoutes();
+  it('should call registerRoutes on all sub-controllers', () => {
+    controller.registerRoutes();
 
-    expect(mockPasswordManagementController.attachRoutes).toHaveBeenCalledTimes(1);
-    expect(mockTokenGenerationController.attachRoutes).toHaveBeenCalledTimes(1);
-    expect(mockTokenVerificationController.attachRoutes).toHaveBeenCalledTimes(1);
-    expect(mockSessionManagementController.attachRoutes).toHaveBeenCalledTimes(1);
+    expect(mockPasswordManagementController.registerRoutes).toHaveBeenCalledTimes(1);
+    expect(mockTokenGenerationController.registerRoutes).toHaveBeenCalledTimes(1);
+    expect(mockTokenVerificationController.registerRoutes).toHaveBeenCalledTimes(1);
+    expect(mockSessionManagementController.registerRoutes).toHaveBeenCalledTimes(1);
   });
 });

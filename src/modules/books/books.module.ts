@@ -22,7 +22,7 @@ export class BooksModule {
 
     booksMiddleware.use();
 
-    booksController.attachRoutes();
+    booksController.registerRoutes();
   }
 
   getBooksService(): BooksService {

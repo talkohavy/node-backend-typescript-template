@@ -30,7 +30,7 @@ export class FileUploadController implements ControllerFactory {
     });
   }
 
-  attachRoutes() {
+  registerRoutes() {
     this.uploadFileMultipart();
     this.uploadFileBinary();
   }

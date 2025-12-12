@@ -35,7 +35,7 @@ describe('BooksController', () => {
     } as any;
 
     const controller = new BooksController(app, mockBooksService);
-    controller.attachRoutes();
+    controller.registerRoutes();
   });
 
   afterEach(() => {

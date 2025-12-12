@@ -18,7 +18,7 @@ describe('HealthCheckController', () => {
   beforeEach(() => {
     app = express();
     const controller = new HealthCheckController(app);
-    controller.attachRoutes();
+    controller.registerRoutes();
   });
 
   afterEach(() => {

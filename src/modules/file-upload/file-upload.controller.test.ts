@@ -26,7 +26,7 @@ describe('FileUploadController', () => {
     } as any;
 
     const controller = new FileUploadController(app, mockFileUploadService);
-    controller.attachRoutes();
+    controller.registerRoutes();
   });
 
   afterEach(() => {
