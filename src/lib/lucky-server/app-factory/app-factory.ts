@@ -2,7 +2,7 @@ import type { ModuleConstructor, PluginFn } from './types';
 
 export class AppFactory {
   private registeredModules: any[] = [];
-  private registeredMiddleware: PluginFn[] = [];
+  private registeredPlugins: PluginFn[] = [];
 
   constructor(public readonly app: any) {}
 
@@ -16,10 +16,10 @@ export class AppFactory {
     });
   }
 
-  registerPlugins(middlewares: PluginFn[]): void {
-    middlewares.forEach((middleware) => {
-      this.registeredMiddleware.push(middleware);
-      middleware(this.app);
+  registerPlugins(plugins: PluginFn[]): void {
+    plugins.forEach((plugin) => {
+      this.registeredPlugins.push(plugin);
+      plugin(this.app);
     });
   }
 
