@@ -1,4 +1,5 @@
-import type { Application } from 'express';
+import type { Application, Express as OriginalExpress } from 'express';
+import type { LoggerService } from '../lib/logger-service';
 
 export type OptimizedModules = {
   modules: {
@@ -21,3 +22,7 @@ export type OptimizedModules = {
 };
 
 export type ServerApp = Application & OptimizedModules;
+
+export type ConfiguredExpress = OriginalExpress & {
+  logger: LoggerService;
+};

@@ -2,7 +2,6 @@ import type { Application, Request, Response } from 'express';
 import type { ControllerFactory } from '../../../lib/lucky-server';
 import type { UserUtilitiesService } from '../services/user-utilities.service';
 import { API_URLS } from '../../../common/constants';
-import { logger } from '../../../core';
 import { NotFoundError } from '../../../lib/Errors';
 import { joiBodyMiddleware } from '../../../middlewares/joi-body.middleware';
 import { UserNotFoundError } from '../logic/users.errors';
@@ -22,7 +21,7 @@ export class UserUtilitiesController implements ControllerFactory {
         try {
           const { body } = req;
 
-          logger.info('POST /users/get-by-email - fetching user by email');
+          this.app.logger.info('POST /users/get-by-email - fetching user by email');
 
           const email = body.email!;
           const user = await this.userUtilitiesService.getUserByEmail(email);

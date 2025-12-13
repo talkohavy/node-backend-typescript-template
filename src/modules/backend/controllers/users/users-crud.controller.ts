@@ -3,7 +3,6 @@ import type { ControllerFactory } from '../../../../lib/lucky-server';
 import type { AuthenticationNetworkService } from '../../services/authentication/authentication.network.service';
 import type { UsersNetworkService } from '../../services/users/users.network.service';
 import { API_URLS, StatusCodes } from '../../../../common/constants';
-import { logger } from '../../../../core';
 import { ForbiddenError, UnauthorizedError } from '../../../../lib/Errors';
 import { joiBodyMiddleware } from '../../../../middlewares/joi-body.middleware';
 import { extractTokenFromCookies } from '../../logic/extractTokenFromCookies';
@@ -21,7 +20,7 @@ export class UsersCrudController implements ControllerFactory {
     this.app.post(API_URLS.users, joiBodyMiddleware(createUserSchema), async (req: Request, res: Response) => {
       const { body } = req;
 
-      logger.info(`POST ${API_URLS.users} - create new user`);
+      this.app.logger.info(`POST ${API_URLS.users} - create new user`);
 
       const user = await this.usersNetworkService.crudService.createUser(body);
 
@@ -33,7 +32,7 @@ export class UsersCrudController implements ControllerFactory {
     this.app.get(API_URLS.users, async (req: Request, res: Response) => {
       const { query } = req;
 
-      logger.info(`GET ${API_URLS.users} - get all users`);
+      this.app.logger.info(`GET ${API_URLS.users} - get all users`);
 
       const users = await this.usersNetworkService.crudService.getUsers(query);
 
@@ -45,7 +44,7 @@ export class UsersCrudController implements ControllerFactory {
     this.app.get(API_URLS.userById, async (req: Request, res: Response) => {
       const userId = req.params.userId! as string;
 
-      logger.info(`GET ${API_URLS.userById} - get user by id`);
+      this.app.logger.info(`GET ${API_URLS.userById} - get user by id`);
 
       const fetchedUser = await this.usersNetworkService.crudService.getUserById(userId);
 
@@ -55,7 +54,7 @@ export class UsersCrudController implements ControllerFactory {
 
   private updateUser() {
     this.app.patch(API_URLS.userById, joiBodyMiddleware(updateUserSchema), async (req: Request, res: Response) => {
-      logger.info(`PATCH ${API_URLS.userById} - updating user by ID`);
+      this.app.logger.info(`PATCH ${API_URLS.userById} - updating user by ID`);
 
       const token = extractTokenFromCookies(req.cookies);
 
@@ -78,7 +77,7 @@ export class UsersCrudController implements ControllerFactory {
     this.app.delete(API_URLS.userById, async (req: Request, res: Response) => {
       const id = req.params.userId!;
 
-      logger.info(`DELETE ${API_URLS.userById} - delete user`);
+      this.app.logger.info(`DELETE ${API_URLS.userById} - delete user`);
 
       const token = extractTokenFromCookies(req.cookies);
 

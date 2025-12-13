@@ -10,7 +10,7 @@ export class ServerSentEventModule {
   }
 
   private initializeModule(): void {
-    this.serverSentEventsService = new ServerSentEventsService();
+    this.serverSentEventsService = new ServerSentEventsService(this.app.logger);
 
     this.attachController(this.app);
   }

@@ -1,18 +1,15 @@
 import cookieParser from 'cookie-parser';
 import express from 'express';
 import request from 'supertest';
+import type { ConfiguredExpress } from '../../../../common/types';
 import type { AuthenticationNetworkService } from '../../services/authentication/authentication.network.service';
 import type { UsersNetworkService } from '../../services/users/users.network.service';
 import { API_URLS, StatusCodes } from '../../../../common/constants';
-import { configService, logger } from '../../../../core';
+import { configService } from '../../../../core';
 import { errorHandlerPlugin } from '../../../../plugins/errorHandler.plugin';
 import { UsersCrudController } from './users-crud.controller';
 
 jest.mock('../../../../core', () => ({
-  logger: {
-    info: jest.fn(),
-    error: jest.fn(),
-  },
   configService: {
     get: jest.fn(),
   },
@@ -22,18 +19,22 @@ jest.mock('../../../../middlewares/joi-body.middleware', () => ({
   joiBodyMiddleware: jest.fn(() => (_req: any, _res: any, next: any) => next()),
 }));
 
-const mockLogger = logger as jest.Mocked<typeof logger>;
 const mockConfigService = configService as jest.Mocked<typeof configService>;
 
 describe('UsersCrudController', () => {
-  let app: express.Application;
+  let app: ConfiguredExpress;
   let mockUsersNetworkService: jest.Mocked<UsersNetworkService>;
   let mockAuthenticationNetworkService: jest.Mocked<AuthenticationNetworkService>;
 
   beforeEach(() => {
-    app = express();
+    app = express() as ConfiguredExpress;
     app.use(express.json());
     app.use(cookieParser());
+
+    app.logger = {
+      info: jest.fn(),
+      error: jest.fn(),
+    } as any;
 
     mockConfigService.get.mockReturnValue({
       accessCookie: { name: 'accessToken' },
@@ -86,7 +87,7 @@ describe('UsersCrudController', () => {
       expect(response.status).toBe(StatusCodes.CREATED);
       expect(response.body).toEqual(createdUser);
       expect(mockUsersNetworkService.crudService.createUser).toHaveBeenCalledWith(newUser);
-      expect(mockLogger.info).toHaveBeenCalledWith(`POST ${API_URLS.users} - create new user`);
+      expect(app.logger.info).toHaveBeenCalledWith(`POST ${API_URLS.users} - create new user`);
     });
   });
 
@@ -104,7 +105,7 @@ describe('UsersCrudController', () => {
       expect(response.status).toBe(StatusCodes.OK);
       expect(response.body).toEqual(mockUsers);
       expect(mockUsersNetworkService.crudService.getUsers).toHaveBeenCalledWith({});
-      expect(mockLogger.info).toHaveBeenCalledWith(`GET ${API_URLS.users} - get all users`);
+      expect(app.logger.info).toHaveBeenCalledWith(`GET ${API_URLS.users} - get all users`);
     });
   });
 
@@ -119,7 +120,7 @@ describe('UsersCrudController', () => {
       expect(response.status).toBe(StatusCodes.OK);
       expect(response.body).toEqual(mockUser);
       expect(mockUsersNetworkService.crudService.getUserById).toHaveBeenCalledWith('user-123');
-      expect(mockLogger.info).toHaveBeenCalledWith(`GET ${API_URLS.userById} - get user by id`);
+      expect(app.logger.info).toHaveBeenCalledWith(`GET ${API_URLS.userById} - get user by id`);
     });
   });
 
@@ -144,7 +145,7 @@ describe('UsersCrudController', () => {
       expect(response.body).toEqual(updatedUser);
       expect(mockAuthenticationNetworkService.tokenVerificationService.verifyToken).toHaveBeenCalledWith('valid-token');
       expect(mockUsersNetworkService.crudService.updateUserById).toHaveBeenCalledWith(userId, updateData);
-      expect(mockLogger.info).toHaveBeenCalledWith(`PATCH ${API_URLS.userById} - updating user by ID`);
+      expect(app.logger.info).toHaveBeenCalledWith(`PATCH ${API_URLS.userById} - updating user by ID`);
     });
 
     it('should throw UnauthorizedError when token is invalid', async () => {
@@ -193,7 +194,7 @@ describe('UsersCrudController', () => {
       expect(response.body).toEqual(deleteResult);
       expect(mockAuthenticationNetworkService.tokenVerificationService.verifyToken).toHaveBeenCalledWith('valid-token');
       expect(mockUsersNetworkService.crudService.deleteUserById).toHaveBeenCalledWith(userId);
-      expect(mockLogger.info).toHaveBeenCalledWith(`DELETE ${API_URLS.userById} - delete user`);
+      expect(app.logger.info).toHaveBeenCalledWith(`DELETE ${API_URLS.userById} - delete user`);
     });
 
     it('should throw UnauthorizedError when token is invalid', async () => {

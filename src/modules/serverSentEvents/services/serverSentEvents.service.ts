@@ -1,5 +1,6 @@
 import type { RedisClientType } from 'redis';
-import { logger, redisPubConnection, redisSubConnection } from '../../../core';
+import type { LoggerService } from '../../../lib/logger-service';
+import { redisPubConnection, redisSubConnection } from '../../../core';
 import { createEventMessage } from '../utils/createEventMessage';
 
 export class ServerSentEventsService {
@@ -7,7 +8,7 @@ export class ServerSentEventsService {
   private readonly redisSubClient: RedisClientType;
   private readonly clients: Array<any> = [];
 
-  constructor() {
+  constructor(private readonly logger: LoggerService) {
     redisPubConnection.ensureConnected();
     redisSubConnection.ensureConnected();
 
@@ -15,7 +16,7 @@ export class ServerSentEventsService {
     this.redisSubClient = redisSubConnection.getClient()!;
 
     this.redisSubClient.subscribe('sse-events', (content) => {
-      logger.log('Received event:', content);
+      this.logger.log('Received event:', content);
 
       this.clients.forEach((client) => {
         const message = createEventMessage({ content, eventName: 'luckylove-data' });
@@ -26,12 +27,12 @@ export class ServerSentEventsService {
   }
 
   addClient(client: any) {
-    logger.log('socket joined!');
+    this.logger.log('socket joined!');
     this.clients.push(client);
   }
 
   removeClient(res: any) {
-    logger.log('socket left.');
+    this.logger.log('socket left.');
     this.clients.splice(this.clients.indexOf(res), 1);
   }
 

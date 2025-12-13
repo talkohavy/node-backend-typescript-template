@@ -1,29 +1,25 @@
 import express from 'express';
 import request from 'supertest';
+import type { ConfiguredExpress } from '../../../common/types';
 import type { TokenGenerationService } from '../services/token-generation.service';
 import { API_URLS, StatusCodes } from '../../../common/constants';
-import { logger } from '../../../core';
 import { TokenGenerationController } from './token-generation.controller';
-
-jest.mock('../../../core', () => ({
-  logger: {
-    info: jest.fn(),
-  },
-}));
 
 jest.mock('../../../middlewares/joi-body.middleware', () => ({
   joiBodyMiddleware: jest.fn(() => (_req: any, _res: any, next: any) => next()),
 }));
 
-const mockLogger = logger as jest.Mocked<typeof logger>;
-
 describe('TokenGenerationController', () => {
-  let app: express.Application;
+  let app: ConfiguredExpress;
   let mockTokenGenerationService: jest.Mocked<TokenGenerationService>;
 
   beforeEach(() => {
-    app = express();
+    app = express() as ConfiguredExpress;
     app.use(express.json());
+
+    app.logger = {
+      info: jest.fn(),
+    } as any;
 
     mockTokenGenerationService = {
       createTokens: jest.fn(),
@@ -33,10 +29,6 @@ describe('TokenGenerationController', () => {
 
     const controller = new TokenGenerationController(app, mockTokenGenerationService);
     controller.registerRoutes();
-  });
-
-  afterEach(() => {
-    jest.clearAllMocks();
   });
 
   describe('POST /api/auth/tokens', () => {
@@ -54,7 +46,7 @@ describe('TokenGenerationController', () => {
       expect(response.status).toBe(StatusCodes.OK);
       expect(response.body).toEqual(mockTokens);
       expect(mockTokenGenerationService.createTokens).toHaveBeenCalledWith('user-123');
-      expect(mockLogger.info).toHaveBeenCalledWith(`POST ${API_URLS.createTokens} - create tokens`);
+      expect(app.logger.info).toHaveBeenCalledWith(`POST ${API_URLS.createTokens} - create tokens`);
     });
   });
 });

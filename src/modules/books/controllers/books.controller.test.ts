@@ -1,30 +1,26 @@
 import express from 'express';
 import request from 'supertest';
+import type { ConfiguredExpress } from '../../../common/types';
 import type { BooksService } from '../services/books.service';
 import { API_URLS, StatusCodes } from '../../../common/constants';
-import { logger } from '../../../core';
 import { BooksController } from './books.controller';
-
-jest.mock('../../../core', () => ({
-  logger: {
-    info: jest.fn(),
-    error: jest.fn(),
-  },
-}));
 
 jest.mock('../../../middlewares/joi-body.middleware', () => ({
   joiBodyMiddleware: jest.fn(() => (_req: any, _res: any, next: any) => next()),
 }));
 
-const mockLogger = logger as jest.Mocked<typeof logger>;
-
 describe('BooksController', () => {
-  let app: express.Application;
+  let app: ConfiguredExpress;
   let mockBooksService: jest.Mocked<BooksService>;
 
   beforeEach(() => {
-    app = express();
+    app = express() as ConfiguredExpress;
     app.use(express.json());
+
+    app.logger = {
+      info: jest.fn(),
+      error: jest.fn(),
+    } as any;
 
     mockBooksService = {
       getBooks: jest.fn(),
@@ -36,10 +32,6 @@ describe('BooksController', () => {
 
     const controller = new BooksController(app, mockBooksService);
     controller.registerRoutes();
-  });
-
-  afterEach(() => {
-    jest.clearAllMocks();
   });
 
   describe('GET /api/books', () => {
@@ -56,7 +48,7 @@ describe('BooksController', () => {
       expect(response.status).toBe(StatusCodes.OK);
       expect(response.body).toEqual(mockBooks);
       expect(mockBooksService.getBooks).toHaveBeenCalled();
-      expect(mockLogger.info).toHaveBeenCalledWith(`GET ${API_URLS.books} - fetching books`);
+      expect(app.logger.info).toHaveBeenCalledWith(`GET ${API_URLS.books} - fetching books`);
     });
   });
 
@@ -80,7 +72,7 @@ describe('BooksController', () => {
 
       expect(response.status).toBe(StatusCodes.NOT_FOUND);
       expect(response.body).toEqual({ message: 'Book not found' });
-      expect(mockLogger.error).toHaveBeenCalledWith('Book not found', '999');
+      expect(app.logger.error).toHaveBeenCalledWith('Book not found', '999');
     });
   });
 
@@ -120,7 +112,7 @@ describe('BooksController', () => {
 
       expect(response.status).toBe(StatusCodes.NOT_FOUND);
       expect(response.body).toEqual({ message: 'Book not found' });
-      expect(mockLogger.error).toHaveBeenCalledWith('Book not found', '999');
+      expect(app.logger.error).toHaveBeenCalledWith('Book not found', '999');
     });
   });
 
@@ -142,7 +134,7 @@ describe('BooksController', () => {
 
       expect(response.status).toBe(StatusCodes.NOT_FOUND);
       expect(response.body).toEqual({ message: 'Book not found' });
-      expect(mockLogger.error).toHaveBeenCalledWith('Book not found', '999');
+      expect(app.logger.error).toHaveBeenCalledWith('Book not found', '999');
     });
   });
 });

@@ -1,33 +1,34 @@
 import cookieParser from 'cookie-parser';
 import express from 'express';
 import request from 'supertest';
+import type { ConfiguredExpress } from '../../../common/types';
 import type { TokenVerificationService } from '../services/token-verification.service';
 import { API_URLS, StatusCodes } from '../../../common/constants';
-import { configService, logger } from '../../../core';
+import { configService } from '../../../core';
 import { errorHandlerPlugin } from '../../../plugins/errorHandler.plugin';
 import { TokenVerificationController } from './token-verification.controller';
 
 jest.mock('../../../core', () => ({
-  logger: {
-    info: jest.fn(),
-    error: jest.fn(),
-  },
   configService: {
     get: jest.fn(),
   },
 }));
 
-const mockLogger = logger as jest.Mocked<typeof logger>;
 const mockConfigService = configService as jest.Mocked<typeof configService>;
 
 describe('TokenVerificationController', () => {
-  let app: express.Application;
+  let app: ConfiguredExpress;
   let mockTokenVerificationService: jest.Mocked<TokenVerificationService>;
 
   beforeEach(() => {
-    app = express();
+    app = express() as ConfiguredExpress;
     app.use(express.json());
     app.use(cookieParser());
+
+    app.logger = {
+      info: jest.fn(),
+      error: jest.fn(),
+    } as any;
 
     mockConfigService.get.mockReturnValue({
       accessCookie: { name: 'accessToken' },
@@ -58,7 +59,7 @@ describe('TokenVerificationController', () => {
       expect(response.status).toBe(StatusCodes.OK);
       expect(response.body).toEqual(mockDecodedToken);
       expect(mockTokenVerificationService.verifyToken).toHaveBeenCalledWith('valid-token');
-      expect(mockLogger.info).toHaveBeenCalledWith(`GET ${API_URLS.verifyToken} - verify tokens`);
+      expect(app.logger.info).toHaveBeenCalledWith(`GET ${API_URLS.verifyToken} - verify tokens`);
     });
 
     it('should throw UnauthorizedError when no token in cookies', async () => {
@@ -66,7 +67,7 @@ describe('TokenVerificationController', () => {
 
       expect(response.status).toBe(StatusCodes.UNAUTHORIZED);
       expect(response.body).toMatchObject({ message: 'No token provided' });
-      expect(mockLogger.error).toHaveBeenCalledWith('No token found in cookies');
+      expect(app.logger.error).toHaveBeenCalledWith('No token found in cookies');
       expect(mockTokenVerificationService.verifyToken).not.toHaveBeenCalled();
     });
   });
