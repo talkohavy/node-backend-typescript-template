@@ -1,4 +1,4 @@
-import { Types } from 'mongoose';
+import { type ApplyBasicCreateCasting, type QueryFilter, Types } from 'mongoose';
 import type { DatabaseUser } from '../types';
 import type { IUsersRepository } from './interfaces/users.repository.base';
 import type {
@@ -21,17 +21,21 @@ export class UsersMongoRepository implements IUsersRepository {
   async getUserByEmail(email: string, options: GetUserByEmailOptions = {}): Promise<DatabaseUser | null> {
     const { options: optionsRaw = {} } = options; // , fields
 
-    const queryStatement = { email };
+    const queryStatement: QueryFilter<any> = { email };
     const fieldProjection = undefined; // getProjection(fields);
     const queryOptions = { lean: true, ...optionsRaw };
 
-    const userResult = (await UserModel.findOne(queryStatement, fieldProjection, queryOptions)) as DatabaseUser;
+    const userResult = (await UserModel.findOne(
+      queryStatement,
+      fieldProjection,
+      queryOptions,
+    )) as unknown as DatabaseUser;
 
     return userResult;
   }
 
   async createUser(body: CreateUserDto): Promise<DatabaseUser> {
-    const userData = { _id: new ObjectId(), ...body };
+    const userData: ApplyBasicCreateCasting<any> = { _id: new ObjectId(), ...body };
 
     const userResult = (await UserModel.create(userData)) as unknown as DatabaseUser;
 
@@ -74,14 +78,15 @@ export class UsersMongoRepository implements IUsersRepository {
   }
 
   async updateUserById(userId: string, body: UpdateUserDto): Promise<DatabaseUser> {
-    const queryStatement = { _id: userId };
+    const queryStatement: QueryFilter<any> = { _id: userId };
     const updateStatement = [{ $addFields: body }];
     const updateOptions = { new: true, lean: true }; // As an alternative to the `new` option, you can also use the `returnOriginal` option. returnOriginal: false is equivalent to new: true. The returnOriginal option exists for consistency with the the MongoDB Node driver's findOneAndUpdate(), which has the same option.
+
     const updatedUser = (await UserModel.findOneAndUpdate(
       queryStatement,
       updateStatement,
       updateOptions,
-    )) as DatabaseUser;
+    )) as unknown as DatabaseUser;
 
     return updatedUser;
   }
