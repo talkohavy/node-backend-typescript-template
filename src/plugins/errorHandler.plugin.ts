@@ -2,17 +2,6 @@ import type { Application, Request, Response } from 'express';
 import { StatusCodes } from '../common/constants';
 
 export function errorHandlerPlugin(app: Application) {
-  process.on('unhandledRejection', (err) => {
-    console.error('unhandledRejection', { err });
-    console.error('Should not get here!  You are missing a try/catch somewhere.');
-  });
-
-  process.on('uncaughtException', (err) => {
-    console.error('uncaughtException', { err });
-    console.error('Should not get here! You are missing a try/catch somewhere.');
-  });
-
-  app.use(pathNotFoundMiddleware);
   app.use(globalErrorMiddleware);
 }
 
