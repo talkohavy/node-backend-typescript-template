@@ -17,7 +17,11 @@
     "tsc": "tsc -p tsconfig.json",
     "test": "jest",
     "benchmark": "node --env-file=.env --import tsx benchmark/benchmark.ts",
-    "benchmark:quick": "concurrently -k -s first \"node --env-file=.env --import tsx src/initServer.ts\" \"npx autocannon -c 100 -d 5 -p 10 http://localhost:8000/api/health-check\""
+    "benchmark:quick": "concurrently -k -s first \"node --env-file=.env --import tsx src/initServer.ts\" \"npx autocannon -c 100 -d 5 -p 10 http://localhost:8000/api/health-check\"",
+    "k6:smoke": "k6 run benchmark/k6/smoke-test.js",
+    "k6:load": "k6 run benchmark/k6/load-test.js",
+    "k6:stress": "k6 run benchmark/k6/stress-test.js",
+    "k6:health": "k6 run benchmark/k6/health-check.js"
   },
   "keywords": [],
   "author": "",
@@ -47,6 +51,7 @@
     "@types/express": "^5.0.6",
     "@types/jest": "^30.0.0",
     "@types/jsonwebtoken": "^9.0.10",
+    "@types/k6": "^1.4.0",
     "@types/node": "^24.10.1",
     "@types/pg": "^8.15.6",
     "@types/supertest": "^6.0.3",

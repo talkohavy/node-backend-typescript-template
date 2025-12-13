@@ -75,6 +75,9 @@ importers:
       '@types/jsonwebtoken':
         specifier: ^9.0.10
         version: 9.0.10
+      '@types/k6':
+        specifier: ^1.4.0
+        version: 1.4.0
       '@types/node':
         specifier: ^24.10.1
         version: 24.10.1
@@ -1859,6 +1862,9 @@ packages:
 
   '@types/jsonwebtoken@9.0.10':
     resolution: {integrity: sha512-asx5hIG9Qmf/1oStypjanR7iKTv0gXQ1Ov/jfrX6kS/EO0OFni8orbmGCn0672NHR3kXHwpAwR+B368ZGN/2rA==}
+
+  '@types/k6@1.4.0':
+    resolution: {integrity: sha512-2tgKVnzNXZTZT1TDAGLY/3cuvHPZLyOF751N7M8T2dBgWzInzUVZYjGn9zVW01S1yNLqAr1az9gctyJHTW6GRQ==}
 
   '@types/methods@1.1.4':
     resolution: {integrity: sha512-ymXWVrDiCxTBE3+RIrrP533E70eA+9qu7zdWoHuOmGujkYtzf4HQF96b8nwHLqhuf4ykX61IGRIB38CC6/sImQ==}
@@ -6846,6 +6852,8 @@ snapshots:
     dependencies:
       '@types/ms': 2.1.0
       '@types/node': 24.10.1
+
+  '@types/k6@1.4.0': {}
 
   '@types/methods@1.1.4': {}
 
