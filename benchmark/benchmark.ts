@@ -63,7 +63,7 @@ async function main() {
   // Start the server
   const app = await buildMockApp();
 
-  const server = app.listen(PORT, () => {
+  app.listen(PORT, () => {
     console.log(`Server started on port ${PORT}`);
   });
 
@@ -90,7 +90,7 @@ async function main() {
 
     console.log('\n✅ Benchmark complete!');
   } finally {
-    server.close();
+    process.exit(0);
   }
 }
 
