@@ -52,6 +52,7 @@
     "@types/supertest": "^6.0.3",
     "@types/swagger-ui-express": "^4.1.8",
     "autocannon": "^8.0.0",
+    "concurrently": "^9.2.1",
     "esbuild": "^0.27.1",
     "eslint": "^9.39.1",
     "eslint-plugin-perfectionist": "^4.15.1",
