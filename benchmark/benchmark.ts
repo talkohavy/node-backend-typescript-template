@@ -1,7 +1,7 @@
 import autocannon, { type Result } from 'autocannon';
-import { startServer } from '../src/initServer';
+import { buildMockApp } from '../src/mockApp';
 
-const PORT = 3333;
+const PORT = 8000;
 
 interface BenchmarkConfig {
   title: string;
@@ -61,10 +61,11 @@ async function main() {
   console.log('🚀 Starting Fastify Benchmark Suite\n');
 
   // Start the server
-  await startServer();
+  const app = await buildMockApp();
 
-  // await app.listen({ port: PORT });
-  console.log(`Server started on port ${PORT}`);
+  const server = app.listen(PORT, () => {
+    console.log(`Server started on port ${PORT}`);
+  });
 
   const results: Array<{ title: string; result: Result }> = [];
 
@@ -89,7 +90,7 @@ async function main() {
 
     console.log('\n✅ Benchmark complete!');
   } finally {
-    // await app.close();
+    server.close();
   }
 }
 
