@@ -4,7 +4,7 @@ import type { AuthenticationNetworkService } from '../../services/authentication
 import type { UserUtilitiesNetworkService } from '../../services/users/user-utilities.network.service';
 import { API_URLS, StatusCodes } from '../../../../common/constants';
 import { ConfigKeys, type CookiesConfig, type Config } from '../../../../configurations';
-import { logger, configService } from '../../../../core';
+import { configService } from '../../../../core';
 import { BadRequestError } from '../../../../lib/Errors';
 import { joiBodyMiddleware } from '../../../../middlewares/joi-body.middleware';
 import { UserNotFoundError } from '../../../users/logic/users.errors';
@@ -20,7 +20,7 @@ export class AuthenticationController implements ControllerFactory {
   private login() {
     this.app.post(API_URLS.authLogin, joiBodyMiddleware(loginSchema), async (req: Request, res: Response) => {
       try {
-        logger.info(`POST ${API_URLS.authLogin} - user login endpoint`);
+        this.app.logger.info(`POST ${API_URLS.authLogin} - user login endpoint`);
 
         const { email, password } = req.body;
 
@@ -63,7 +63,7 @@ export class AuthenticationController implements ControllerFactory {
         res.json(user);
       } catch (error) {
         if (error instanceof UserNotFoundError) {
-          logger.error('User not found:', error);
+          this.app.logger.error('User not found:', error);
           throw new BadRequestError('invalid credentials');
         }
 
@@ -74,7 +74,7 @@ export class AuthenticationController implements ControllerFactory {
 
   private logout() {
     this.app.get(API_URLS.authLogout, async (_req, res) => {
-      logger.info(`GET ${API_URLS.authLogout} - user logout`);
+      this.app.logger.info(`GET ${API_URLS.authLogout} - user logout`);
 
       const { accessCookie, refreshCookie } = configService.get<CookiesConfig>(ConfigKeys.Cookies);
 

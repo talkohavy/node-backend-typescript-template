@@ -2,7 +2,6 @@ import type { Application, Request, Response } from 'express';
 import type { ControllerFactory } from '../../../lib/lucky-server';
 import type { PasswordManagementService } from '../services/password-management.service';
 import { API_URLS } from '../../../common/constants';
-import { logger } from '../../../core';
 import { UnauthorizedError } from '../../../lib/Errors';
 import { joiBodyMiddleware } from '../../../middlewares/joi-body.middleware';
 import { getIsPasswordValidSchema } from './dto/get-is-password-valid.dto';
@@ -19,7 +18,7 @@ export class PasswordManagementController implements ControllerFactory {
       joiBodyMiddleware(getIsPasswordValidSchema),
       async (req: Request, res: Response) => {
         try {
-          logger.info(`POST ${API_URLS.isPasswordValid} - check if password is valid`);
+          this.app.logger.info(`POST ${API_URLS.isPasswordValid} - check if password is valid`);
 
           const { hashedPassword: saltAndHashedPassword, password } = req.body;
 
@@ -27,7 +26,7 @@ export class PasswordManagementController implements ControllerFactory {
 
           res.json({ isValid });
         } catch (error) {
-          logger.error('Check password validity failed...', { error });
+          this.app.logger.error('Check password validity failed...', { error });
 
           throw new UnauthorizedError('Invalid credentials');
         }

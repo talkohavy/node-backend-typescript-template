@@ -1,6 +1,5 @@
 import type { NextFunction, Request, Response } from 'express';
 import type Joi from 'joi';
-import { logger } from '../core';
 import { BadRequestError } from '../lib/Errors';
 
 export function joiQueryMiddleware(validationSchema: Joi.ObjectSchema<any>): any {
@@ -10,7 +9,7 @@ export function joiQueryMiddleware(validationSchema: Joi.ObjectSchema<any>): any
     const { error } = validationSchema.validate(query);
 
     if (error) {
-      logger.log('Validation error', error);
+      console.log('Validation error', error);
       throw new BadRequestError(error.message);
     }
 

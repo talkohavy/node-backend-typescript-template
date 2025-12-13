@@ -3,7 +3,7 @@ import type { ControllerFactory } from '../../../lib/lucky-server';
 import type { TokenVerificationService } from '../services/token-verification.service';
 import { API_URLS } from '../../../common/constants';
 import { ConfigKeys, type CookiesConfig } from '../../../configurations';
-import { logger, configService } from '../../../core';
+import { configService } from '../../../core';
 import { UnauthorizedError } from '../../../lib/Errors';
 
 export class TokenVerificationController implements ControllerFactory {
@@ -14,12 +14,12 @@ export class TokenVerificationController implements ControllerFactory {
 
   private verifyToken() {
     this.app.get(API_URLS.verifyToken, async (req: Request, res: Response) => {
-      logger.info(`GET ${API_URLS.verifyToken} - verify tokens`);
+      this.app.logger.info(`GET ${API_URLS.verifyToken} - verify tokens`);
 
       const encodedToken = this.extractTokenFromCookies(req.cookies);
 
       if (!encodedToken) {
-        logger.error('No token found in cookies');
+        this.app.logger.error('No token found in cookies');
         throw new UnauthorizedError('No token provided');
       }
 

@@ -4,8 +4,6 @@ import { ConfigKeys } from '../../configurations';
 import { Logger, LogLevel, type LoggerSettings } from '../../lib/logger';
 import { LoggerService } from '../../lib/logger-service';
 
-export let logger: LoggerService;
-
 export function initLoggerService(configService: ConfigService, callContextService: CallContextService): LoggerService {
   const logSettings = configService.get(ConfigKeys.LogSettings);
 
@@ -21,7 +19,7 @@ export function initLoggerService(configService: ConfigService, callContextServi
 
   const loggerInstance = new Logger({ settings, fixedKeys });
 
-  logger = new LoggerService(loggerInstance, callContextService);
+  const logger = new LoggerService(loggerInstance, callContextService);
 
   return logger;
 }

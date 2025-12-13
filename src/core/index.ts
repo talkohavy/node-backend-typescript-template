@@ -6,7 +6,6 @@ export { initConnections } from './initConnections';
 
 // initialized global singleton services
 export { callContextService } from './initGlobalServices/initCallContextService';
-export { logger } from './initGlobalServices/initLoggerService';
 export { configService } from './initGlobalServices/initConfigService';
 
 // initialized global connections
