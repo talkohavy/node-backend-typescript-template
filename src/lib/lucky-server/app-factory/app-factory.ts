@@ -1,8 +1,8 @@
-import type { ErrorHandlerFn, MiddlewareFactory, ModuleConstructor } from './types';
+import type { ModuleConstructor, PluginFn } from './types';
 
 export class AppFactory {
   private registeredModules: any[] = [];
-  private registeredMiddleware: MiddlewareFactory[] = [];
+  private registeredMiddleware: PluginFn[] = [];
 
   constructor(public readonly app: any) {}
 
@@ -16,14 +16,18 @@ export class AppFactory {
     });
   }
 
-  registerPlugins(middlewares: MiddlewareFactory[]): void {
+  registerPlugins(middlewares: PluginFn[]): void {
     middlewares.forEach((middleware) => {
       this.registeredMiddleware.push(middleware);
       middleware(this.app);
     });
   }
 
-  registerErrorHandler(errorHandler: ErrorHandlerFn): void {
+  registerErrorHandler(errorHandler: PluginFn): void {
     errorHandler(this.app);
+  }
+
+  registerPathNotFoundHandler(pathNotFoundHandler: PluginFn): void {
+    pathNotFoundHandler(this.app);
   }
 }
