@@ -1,31 +1,27 @@
 import express from 'express';
 import request from 'supertest';
+import type { ConfiguredExpress } from '../../../common/types';
 import type { PasswordManagementService } from '../services/password-management.service';
 import { API_URLS, StatusCodes } from '../../../common/constants';
-import { logger } from '../../../core';
 import { errorHandlerPlugin } from '../../../plugins/errorHandler.plugin';
 import { PasswordManagementController } from './password-management.controller';
-
-jest.mock('../../../core', () => ({
-  logger: {
-    info: jest.fn(),
-    error: jest.fn(),
-  },
-}));
 
 jest.mock('../../../middlewares/joi-body.middleware', () => ({
   joiBodyMiddleware: jest.fn(() => (_req: any, _res: any, next: any) => next()),
 }));
 
-const mockLogger = logger as jest.Mocked<typeof logger>;
-
 describe('PasswordManagementController', () => {
-  let app: express.Application;
+  let app: ConfiguredExpress;
   let mockPasswordManagementService: jest.Mocked<PasswordManagementService>;
 
   beforeEach(() => {
-    app = express();
+    app = express() as ConfiguredExpress;
     app.use(express.json());
+
+    app.logger = {
+      info: jest.fn(),
+      error: jest.fn(),
+    } as any;
 
     mockPasswordManagementService = {
       getIsPasswordValid: jest.fn(),
@@ -58,7 +54,7 @@ describe('PasswordManagementController', () => {
         'salt:hashedPassword',
         'correctPassword',
       );
-      expect(mockLogger.info).toHaveBeenCalledWith(`POST ${API_URLS.isPasswordValid} - check if password is valid`);
+      expect(app.logger.info).toHaveBeenCalledWith(`POST ${API_URLS.isPasswordValid} - check if password is valid`);
     });
 
     it('should return false when password is invalid', async () => {
@@ -91,7 +87,7 @@ describe('PasswordManagementController', () => {
 
       expect(response.status).toBe(StatusCodes.UNAUTHORIZED);
       expect(response.body).toMatchObject({ message: 'Invalid credentials' });
-      expect(mockLogger.error).toHaveBeenCalledWith('Check password validity failed...', expect.any(Object));
+      expect(app.logger.error).toHaveBeenCalledWith('Check password validity failed...', expect.any(Object));
     });
   });
 });

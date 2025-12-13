@@ -15,6 +15,12 @@ describe('HealthCheckController', () => {
 
   beforeEach(() => {
     app = express() as ConfiguredExpress;
+
+    app.logger = {
+      info: jest.fn(),
+      error: jest.fn(),
+    } as any;
+
     const controller = new HealthCheckController(app);
     controller.registerRoutes();
   });
@@ -28,5 +34,6 @@ describe('HealthCheckController', () => {
 
     expect(response.status).toBe(StatusCodes.OK);
     expect(response.body).toEqual({ status: 'OK' });
+    expect(app.logger.info).toHaveBeenCalledWith(`GET ${API_URLS.healthCheck} - performing health check`);
   });
 });

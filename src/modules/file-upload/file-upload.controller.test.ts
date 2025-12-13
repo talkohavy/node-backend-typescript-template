@@ -1,24 +1,20 @@
 import express from 'express';
 import request from 'supertest';
+import type { ConfiguredExpress } from '../../common/types';
 import type { FileUploadService } from './services/file-upload.service';
 import { API_URLS, StatusCodes } from '../../common/constants';
-import { logger } from '../../core';
 import { FileUploadController } from './file-upload.controller';
 
-jest.mock('../../core', () => ({
-  logger: {
-    info: jest.fn(),
-  },
-}));
-
-const mockLogger = logger as jest.Mocked<typeof logger>;
-
 describe('FileUploadController', () => {
-  let app: express.Application;
+  let app: ConfiguredExpress;
   let mockFileUploadService: jest.Mocked<FileUploadService>;
 
   beforeEach(() => {
-    app = express();
+    app = express() as ConfiguredExpress;
+
+    app.logger = {
+      info: jest.fn(),
+    } as any;
 
     mockFileUploadService = {
       handleMultipartUpload: jest.fn(),
@@ -51,7 +47,7 @@ describe('FileUploadController', () => {
       expect(response.status).toBe(StatusCodes.OK);
       expect(response.body).toEqual(mockResult);
       expect(mockFileUploadService.handleMultipartUpload).toHaveBeenCalledWith(expect.any(Object));
-      expect(mockLogger.info).toHaveBeenCalledWith(`POST ${API_URLS.uploadFileMultipart} - uploading file`);
+      expect(app.logger.info).toHaveBeenCalledWith(`POST ${API_URLS.uploadFileMultipart} - uploading file`);
     });
   });
 
@@ -77,7 +73,7 @@ describe('FileUploadController', () => {
       expect(response.status).toBe(StatusCodes.OK);
       expect(response.body).toEqual(mockResult);
       expect(mockFileUploadService.handleBinaryUpload).toHaveBeenCalledWith(expect.any(Object));
-      expect(mockLogger.info).toHaveBeenCalledWith(`POST ${API_URLS.uploadFileBinary} - uploading file`);
+      expect(app.logger.info).toHaveBeenCalledWith(`POST ${API_URLS.uploadFileBinary} - uploading file`);
     });
   });
 });

@@ -1,31 +1,27 @@
 import express from 'express';
 import request from 'supertest';
+import type { ConfiguredExpress } from '../../../common/types';
 import type { UsersCrudService } from '../services/users-crud.service';
 import { API_URLS, StatusCodes } from '../../../common/constants';
-import { logger } from '../../../core';
 import { errorHandlerPlugin } from '../../../plugins/errorHandler.plugin';
 import { UsersCrudController } from './users-crud.controller';
-
-jest.mock('../../../core', () => ({
-  logger: {
-    info: jest.fn(),
-    error: jest.fn(),
-  },
-}));
 
 jest.mock('../../../middlewares/joi-body.middleware', () => ({
   joiBodyMiddleware: jest.fn(() => (_req: any, _res: any, next: any) => next()),
 }));
 
-const mockLogger = logger as jest.Mocked<typeof logger>;
-
 describe('UsersCrudController', () => {
-  let app: express.Application;
+  let app: ConfiguredExpress;
   let mockUsersService: jest.Mocked<UsersCrudService>;
 
   beforeEach(() => {
-    app = express();
+    app = express() as ConfiguredExpress;
     app.use(express.json());
+
+    app.logger = {
+      info: jest.fn(),
+      error: jest.fn(),
+    } as any;
 
     mockUsersService = {
       createUser: jest.fn(),
@@ -56,7 +52,7 @@ describe('UsersCrudController', () => {
       expect(response.status).toBe(StatusCodes.CREATED);
       expect(response.body).toEqual(createdUser);
       expect(mockUsersService.createUser).toHaveBeenCalledWith(newUser);
-      expect(mockLogger.info).toHaveBeenCalledWith(`POST ${API_URLS.users} - create new user`);
+      expect(app.logger.info).toHaveBeenCalledWith(`POST ${API_URLS.users} - create new user`);
     });
   });
 
@@ -74,7 +70,7 @@ describe('UsersCrudController', () => {
       expect(response.status).toBe(StatusCodes.OK);
       expect(response.body).toEqual(mockUsers);
       expect(mockUsersService.getUsers).toHaveBeenCalledWith({});
-      expect(mockLogger.info).toHaveBeenCalledWith(`GET ${API_URLS.users} - get all users`);
+      expect(app.logger.info).toHaveBeenCalledWith(`GET ${API_URLS.users} - get all users`);
     });
   });
 
@@ -89,7 +85,7 @@ describe('UsersCrudController', () => {
       expect(response.status).toBe(StatusCodes.OK);
       expect(response.body).toEqual(mockUser);
       expect(mockUsersService.getUserById).toHaveBeenCalledWith('user-123');
-      expect(mockLogger.info).toHaveBeenCalledWith(`GET ${API_URLS.userById} - get user by id`);
+      expect(app.logger.info).toHaveBeenCalledWith(`GET ${API_URLS.userById} - get user by id`);
     });
   });
 
@@ -106,7 +102,7 @@ describe('UsersCrudController', () => {
       expect(response.status).toBe(StatusCodes.OK);
       expect(response.body).toEqual(updatedUser);
       expect(mockUsersService.updateUserById).toHaveBeenCalledWith(userId, updateData);
-      expect(mockLogger.info).toHaveBeenCalledWith(`PATCH ${API_URLS.userById} - updating user by ID`);
+      expect(app.logger.info).toHaveBeenCalledWith(`PATCH ${API_URLS.userById} - updating user by ID`);
     });
   });
 
@@ -122,7 +118,7 @@ describe('UsersCrudController', () => {
       expect(response.status).toBe(StatusCodes.OK);
       expect(response.body).toEqual(deleteResult);
       expect(mockUsersService.deleteUserById).toHaveBeenCalledWith(userId);
-      expect(mockLogger.info).toHaveBeenCalledWith(`DELETE ${API_URLS.userById} - delete user`);
+      expect(app.logger.info).toHaveBeenCalledWith(`DELETE ${API_URLS.userById} - delete user`);
     });
   });
 });

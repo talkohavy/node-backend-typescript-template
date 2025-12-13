@@ -1,32 +1,28 @@
 import express from 'express';
 import request from 'supertest';
+import type { ConfiguredExpress } from '../../../common/types';
 import type { UserUtilitiesService } from '../services/user-utilities.service';
 import { API_URLS, StatusCodes } from '../../../common/constants';
-import { logger } from '../../../core';
 import { errorHandlerPlugin } from '../../../plugins/errorHandler.plugin';
 import { UserNotFoundError } from '../logic/users.errors';
 import { UserUtilitiesController } from './user-utilities.controller';
-
-jest.mock('../../../core', () => ({
-  logger: {
-    info: jest.fn(),
-    error: jest.fn(),
-  },
-}));
 
 jest.mock('../../../middlewares/joi-body.middleware', () => ({
   joiBodyMiddleware: jest.fn(() => (_req: any, _res: any, next: any) => next()),
 }));
 
-const mockLogger = logger as jest.Mocked<typeof logger>;
-
 describe('UserUtilitiesController', () => {
-  let app: express.Application;
+  let app: ConfiguredExpress;
   let mockUserUtilitiesService: jest.Mocked<UserUtilitiesService>;
 
   beforeEach(() => {
-    app = express();
+    app = express() as ConfiguredExpress;
     app.use(express.json());
+
+    app.logger = {
+      info: jest.fn(),
+      error: jest.fn(),
+    } as any;
 
     mockUserUtilitiesService = {
       getUserByEmail: jest.fn(),
@@ -52,7 +48,7 @@ describe('UserUtilitiesController', () => {
       expect(response.status).toBe(StatusCodes.OK);
       expect(response.body).toEqual(mockUser);
       expect(mockUserUtilitiesService.getUserByEmail).toHaveBeenCalledWith('test@example.com');
-      expect(mockLogger.info).toHaveBeenCalledWith('POST /users/get-by-email - fetching user by email');
+      expect(app.logger.info).toHaveBeenCalledWith('POST /users/get-by-email - fetching user by email');
     });
 
     it('should throw NotFoundError when user not found', async () => {

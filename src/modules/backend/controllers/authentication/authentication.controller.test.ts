@@ -1,17 +1,14 @@
 import express from 'express';
 import request from 'supertest';
+import type { ConfiguredExpress } from '../../../../common/types';
 import type { AuthenticationNetworkService as AuthenticationNetworkServiceToMock } from '../../services/authentication/authentication.network.service';
 import type { UserUtilitiesNetworkService as UserUtilitiesNetworkServiceToMock } from '../../services/users/user-utilities.network.service';
 import { API_URLS, StatusCodes } from '../../../../common/constants';
-import { configService as configServiceToMock, logger as loggerToMock } from '../../../../core';
+import { configService as configServiceToMock } from '../../../../core';
 import { errorHandlerPlugin } from '../../../../plugins/errorHandler.plugin';
 import { AuthenticationController } from './authentication.controller';
 
 jest.mock('../../../../core', () => ({
-  logger: {
-    info: jest.fn(),
-    error: jest.fn(),
-  },
   configService: {
     get: jest.fn(),
   },
@@ -21,17 +18,21 @@ jest.mock('../../../../middlewares/joi-body.middleware', () => ({
   joiBodyMiddleware: jest.fn(() => (_req: any, _res: any, next: any) => next()),
 }));
 
-const logger = loggerToMock as jest.Mocked<typeof loggerToMock>;
 const configService = configServiceToMock as jest.Mocked<typeof configServiceToMock>;
 
 describe('AuthenticationController', () => {
-  let app: express.Application;
+  let app: ConfiguredExpress;
   let authenticationNetworkService: jest.Mocked<AuthenticationNetworkServiceToMock>;
   let userUtilitiesNetworkService: jest.Mocked<UserUtilitiesNetworkServiceToMock>;
 
   beforeEach(() => {
-    app = express();
+    app = express() as ConfiguredExpress;
     app.use(express.json());
+
+    app.logger = {
+      info: jest.fn(),
+      error: jest.fn(),
+    } as any;
 
     configService.get.mockImplementation((key: any) => {
       if (key === '') {
@@ -98,7 +99,7 @@ describe('AuthenticationController', () => {
       );
       expect(authenticationNetworkService.tokenGenerationService.createTokens).toHaveBeenCalledWith('123');
       expect(response.headers['set-cookie']).toBeDefined();
-      expect(logger.info).toHaveBeenCalledWith(`POST ${API_URLS.authLogin} - user login endpoint`);
+      expect(app.logger.info).toHaveBeenCalledWith(`POST ${API_URLS.authLogin} - user login endpoint`);
     });
 
     it('should return 404 when user not found', async () => {
@@ -136,7 +137,7 @@ describe('AuthenticationController', () => {
       expect(response.status).toBe(StatusCodes.OK);
       expect(response.body).toEqual({});
       expect(response.headers['set-cookie']).toBeDefined();
-      expect(logger.info).toHaveBeenCalledWith(`GET ${API_URLS.authLogout} - user logout`);
+      expect(app.logger.info).toHaveBeenCalledWith(`GET ${API_URLS.authLogout} - user logout`);
     });
   });
 });

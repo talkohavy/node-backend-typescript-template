@@ -1,35 +1,36 @@
 import cookieParser from 'cookie-parser';
 import express from 'express';
 import request from 'supertest';
+import type { ConfiguredExpress } from '../../../../common/types';
 import type { AuthenticationNetworkService } from '../../services/authentication/authentication.network.service';
 import type { UsersNetworkService } from '../../services/users/users.network.service';
 import { API_URLS, StatusCodes } from '../../../../common/constants';
-import { configService, logger } from '../../../../core';
+import { configService } from '../../../../core';
 import { errorHandlerPlugin } from '../../../../plugins/errorHandler.plugin';
 import { UserUtilitiesController } from './user-utilities.controller';
 
 jest.mock('../../../../core', () => ({
-  logger: {
-    info: jest.fn(),
-    error: jest.fn(),
-  },
   configService: {
     get: jest.fn(),
   },
 }));
 
-const mockLogger = logger as jest.Mocked<typeof logger>;
 const mockConfigService = configService as jest.Mocked<typeof configService>;
 
 describe('UserUtilitiesController', () => {
-  let app: express.Application;
+  let app: ConfiguredExpress;
   let mockUsersNetworkService: jest.Mocked<UsersNetworkService>;
   let mockAuthenticationNetworkService: jest.Mocked<AuthenticationNetworkService>;
 
   beforeEach(() => {
-    app = express();
+    app = express() as ConfiguredExpress;
     app.use(express.json());
     app.use(cookieParser());
+
+    app.logger = {
+      info: jest.fn(),
+      error: jest.fn(),
+    } as any;
 
     mockConfigService.get.mockReturnValue({
       accessCookie: { name: 'accessToken' },
@@ -86,7 +87,7 @@ describe('UserUtilitiesController', () => {
       expect(response.body).toEqual(mockUser);
       expect(mockAuthenticationNetworkService.tokenVerificationService.verifyToken).toHaveBeenCalledWith('valid-token');
       expect(mockUsersNetworkService.crudService.getUserById).toHaveBeenCalledWith('user-123');
-      expect(mockLogger.info).toHaveBeenCalledWith(`GET ${API_URLS.getProfile} - get user profile`);
+      expect(app.logger.info).toHaveBeenCalledWith(`GET ${API_URLS.getProfile} - get user profile`);
     });
 
     it('should return 204 when token verification returns null', async () => {
