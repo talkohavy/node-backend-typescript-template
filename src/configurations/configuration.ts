@@ -1,6 +1,6 @@
 import type { Config } from './constants';
 import { Environment } from '../common/constants';
-import { LogLevel } from '../lib/logger';
+import { LogLevel, type LogLevelValues } from '../lib/logger';
 
 export function configuration(): Config {
   return {
@@ -31,7 +31,7 @@ export function configuration(): Config {
     },
     logSettings: {
       serviceName: 'my-nest-like-server',
-      logLevel: LogLevel.Debug,
+      logLevel: (process.env.LOG_LEVEL || LogLevel.Debug) as LogLevelValues,
       logEnvironment: Environment.Dev,
       useColoredOutput: process.env.NODE_ENV !== 'production',
     },
