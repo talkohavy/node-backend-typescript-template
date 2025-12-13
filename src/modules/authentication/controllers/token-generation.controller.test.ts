@@ -31,10 +31,6 @@ describe('TokenGenerationController', () => {
     controller.registerRoutes();
   });
 
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
-
   describe('POST /api/auth/tokens', () => {
     it('should create and return access and refresh tokens', async () => {
       const requestBody = { userId: 'user-123' };

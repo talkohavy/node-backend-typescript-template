@@ -36,10 +36,6 @@ describe('UsersCrudController', () => {
     errorHandlerPlugin(app);
   });
 
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
-
   describe('POST /api/users', () => {
     it('should create a new user', async () => {
       const newUser = { email: 'test@example.com', name: 'Test User', password: 'password123' };

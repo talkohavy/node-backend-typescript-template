@@ -34,10 +34,6 @@ describe('BooksController', () => {
     controller.registerRoutes();
   });
 
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
-
   describe('GET /api/books', () => {
     it('should return all books', async () => {
       const mockBooks = [

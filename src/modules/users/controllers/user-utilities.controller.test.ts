@@ -33,10 +33,6 @@ describe('UserUtilitiesController', () => {
     errorHandlerPlugin(app);
   });
 
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
-
   describe('POST /api/users/get-by-email', () => {
     it('should return user when found by email', async () => {
       const mockUser = { id: '123', email: 'test@example.com', name: 'Test User' };

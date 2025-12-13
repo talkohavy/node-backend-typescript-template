@@ -25,10 +25,6 @@ describe('FileUploadController', () => {
     controller.registerRoutes();
   });
 
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
-
   describe('uploadFileMultipart', () => {
     it('should upload file using multipart and return success', async () => {
       const mockResult = {

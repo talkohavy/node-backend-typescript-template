@@ -33,10 +33,6 @@ describe('PasswordManagementController', () => {
     errorHandlerPlugin(app);
   });
 
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
-
   describe('POST /api/auth/is-password-valid', () => {
     it('should return true when password is valid', async () => {
       const requestBody = {
