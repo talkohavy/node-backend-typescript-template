@@ -87,7 +87,7 @@ export const API_URLS = {
 /**
  * Paths that should be excluded from certain middlewares
  */
-export const EXCLUDED_PATHS = [API_URLS.healthCheck];
+export const EXCLUDED_PATHS = [API_URLS.healthCheck] as string[];
 
 export const optimizedModules: OptimizedModules = {
   modules: {
