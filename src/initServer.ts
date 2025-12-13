@@ -8,7 +8,7 @@ import { AuthenticationModule } from './modules/authentication';
 import { BooksModule } from './modules/books';
 import { FileUploadModule } from './modules/file-upload';
 import { HealthCheckModule } from './modules/health-check';
-import { ServerSentEventModule } from './modules/serverSentEvents';
+// import { ServerSentEventModule } from './modules/serverSentEvents';
 import { SwaggerModule } from './modules/swagger';
 import { UsersModule } from './modules/users';
 import { bodyLimitPlugin } from './plugins/bodyLimit.plugin';
@@ -46,7 +46,7 @@ export async function startServer() {
       BooksModule,
       FileUploadModule,
       //  BackendModule, // <--- MUST come after UsersModule and AuthenticationModule
-      ServerSentEventModule,
+      // ServerSentEventModule,
       SwaggerModule,
     ],
     optimizedModules,
