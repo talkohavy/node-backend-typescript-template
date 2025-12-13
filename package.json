@@ -15,7 +15,9 @@
     "format:biome": "biome format ./src",
     "format:biome:fix": "biome format --verbose ./src --write",
     "tsc": "tsc -p tsconfig.json",
-    "test": "jest"
+    "test": "jest",
+    "benchmark": "node --env-file=.env --import tsx benchmark/benchmark.ts",
+    "benchmark:quick": "concurrently -k -s first \"node --env-file=.env --import tsx src/initServer.ts\" \"npx autocannon -c 100 -d 5 -p 10 http://localhost:8000/api/health-check\""
   },
   "keywords": [],
   "author": "",
@@ -38,6 +40,7 @@
   "devDependencies": {
     "@biomejs/biome": "^2.3.8",
     "@eslint/js": "^9.39.1",
+    "@types/autocannon": "^7.12.7",
     "@types/compression": "^1.8.1",
     "@types/cookie-parser": "^1.4.10",
     "@types/cors": "^2.8.19",
@@ -48,6 +51,7 @@
     "@types/pg": "^8.15.6",
     "@types/supertest": "^6.0.3",
     "@types/swagger-ui-express": "^4.1.8",
+    "autocannon": "^8.0.0",
     "esbuild": "^0.27.1",
     "eslint": "^9.39.1",
     "eslint-plugin-perfectionist": "^4.15.1",
