@@ -15,6 +15,7 @@ import { cookieParserPlugin } from './plugins/cookieParser.plugin';
 import { corsPlugin } from './plugins/cors/cors.plugin';
 import { errorHandlerPlugin } from './plugins/errorHandler.plugin';
 import { helmetPlugin } from './plugins/helmet.plugin';
+import { pathNotFoundPlugin } from './plugins/pathNotFound.plugin copy';
 import { requestIdPlugin } from './plugins/request-id.plugin';
 import { urlEncodedPlugin } from './plugins/urlEncoded.plugin';
 
@@ -57,6 +58,7 @@ export async function buildApp(props: BuildAppProps) {
   );
 
   appModule.registerErrorHandler(errorHandlerPlugin);
+  appModule.registerPathNotFoundHandler(pathNotFoundPlugin);
 
   return app;
 }
