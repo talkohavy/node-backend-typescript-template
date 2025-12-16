@@ -12,6 +12,7 @@ export const ConfigKeys = {
   LogSettings: 'logSettings',
   Database: 'database',
   Redis: 'redis',
+  Services: 'services',
 } as const;
 
 type TypeOfConfigKeys = typeof ConfigKeys;
@@ -63,3 +64,14 @@ export type LoggerServiceSettings = LoggerSettings & {
 export type DatabaseConfig = {
   connectionString: string;
 };
+
+export const ServiceNames = {
+  Users: 'users',
+  Chats: 'chats',
+  Auth: 'auth',
+} as const;
+
+export type ServiceNameKeys = keyof typeof ServiceNames;
+export type ServiceNameValues = (typeof ServiceNames)[ServiceNameKeys];
+
+export type ServicesConfig = Record<ServiceNameValues, { baseUrl: string }>;

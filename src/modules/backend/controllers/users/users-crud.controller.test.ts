@@ -2,8 +2,8 @@ import cookieParser from 'cookie-parser';
 import express from 'express';
 import request from 'supertest';
 import type { ConfiguredExpress } from '../../../../common/types';
-import type { AuthenticationNetworkService } from '../../services/authentication/authentication.network.service';
-import type { UsersNetworkService } from '../../services/users/users.network.service';
+import type { IAuthAdapter } from '../../adapters/interfaces/auth.adapter.interface';
+import type { IUsersAdapter } from '../../adapters/interfaces/users.adapter.interface';
 import { API_URLS, StatusCodes } from '../../../../common/constants';
 import { configService } from '../../../../core';
 import { errorHandlerPlugin } from '../../../../plugins/errorHandler.plugin';
@@ -23,8 +23,8 @@ const mockConfigService = configService as jest.Mocked<typeof configService>;
 
 describe('UsersCrudController', () => {
   let app: ConfiguredExpress;
-  let mockUsersNetworkService: jest.Mocked<UsersNetworkService>;
-  let mockAuthenticationNetworkService: jest.Mocked<AuthenticationNetworkService>;
+  let mockUsersAdapter: jest.Mocked<IUsersAdapter>;
+  let mockAuthAdapter: jest.Mocked<IAuthAdapter>;
 
   beforeEach(() => {
     app = express() as ConfiguredExpress;
@@ -41,32 +41,23 @@ describe('UsersCrudController', () => {
       refreshCookie: { name: 'refreshToken' },
     });
 
-    mockUsersNetworkService = {
-      crudService: {
-        getUserById: jest.fn(),
-        getUsers: jest.fn(),
-        createUser: jest.fn(),
-        updateUserById: jest.fn(),
-        deleteUserById: jest.fn(),
-      },
-    } as any;
+    mockUsersAdapter = {
+      getUserById: jest.fn(),
+      getUsers: jest.fn(),
+      createUser: jest.fn(),
+      getUserByEmail: jest.fn(),
+      updateUserById: jest.fn(),
+      deleteUserById: jest.fn(),
+    } as jest.Mocked<IUsersAdapter>;
 
-    mockAuthenticationNetworkService = {
-      tokenVerificationService: {
-        verifyToken: jest.fn(),
-      },
-      passwordManagementService: {
-        getIsPasswordValid: jest.fn(),
-        generateHashedPassword: jest.fn(),
-      },
-      tokenGenerationService: {
-        createTokens: jest.fn(),
-        createAccessToken: jest.fn(),
-        createRefreshToken: jest.fn(),
-      },
-    } as any;
+    mockAuthAdapter = {
+      verifyToken: jest.fn(),
+      getIsPasswordValid: jest.fn(),
+      generateHashedPassword: jest.fn(),
+      createTokens: jest.fn(),
+    } as jest.Mocked<IAuthAdapter>;
 
-    const controller = new UsersCrudController(app, mockUsersNetworkService, mockAuthenticationNetworkService);
+    const controller = new UsersCrudController(app, mockUsersAdapter, mockAuthAdapter);
     controller.registerRoutes();
     errorHandlerPlugin(app);
   });
@@ -80,13 +71,13 @@ describe('UsersCrudController', () => {
       const newUser = { email: 'test@example.com', name: 'Test User', password: 'password123' };
       const createdUser = { id: '123', ...newUser };
 
-      (mockUsersNetworkService.crudService.createUser as jest.Mock).mockResolvedValue(createdUser);
+      mockUsersAdapter.createUser.mockResolvedValue(createdUser as any);
 
       const response = await request(app).post(API_URLS.users).send(newUser);
 
       expect(response.status).toBe(StatusCodes.CREATED);
       expect(response.body).toEqual(createdUser);
-      expect(mockUsersNetworkService.crudService.createUser).toHaveBeenCalledWith(newUser);
+      expect(mockUsersAdapter.createUser).toHaveBeenCalledWith(newUser);
       expect(app.logger.info).toHaveBeenCalledWith(`POST ${API_URLS.users} - create new user`);
     });
   });
@@ -98,13 +89,13 @@ describe('UsersCrudController', () => {
         { id: '2', email: 'user2@example.com', name: 'User 2' },
       ];
 
-      (mockUsersNetworkService.crudService.getUsers as jest.Mock).mockResolvedValue(mockUsers);
+      mockUsersAdapter.getUsers.mockResolvedValue(mockUsers as any);
 
       const response = await request(app).get(API_URLS.users);
 
       expect(response.status).toBe(StatusCodes.OK);
       expect(response.body).toEqual(mockUsers);
-      expect(mockUsersNetworkService.crudService.getUsers).toHaveBeenCalledWith({});
+      expect(mockUsersAdapter.getUsers).toHaveBeenCalledWith({});
       expect(app.logger.info).toHaveBeenCalledWith(`GET ${API_URLS.users} - get all users`);
     });
   });
@@ -113,13 +104,13 @@ describe('UsersCrudController', () => {
     it('should return user by id', async () => {
       const mockUser = { id: 'user-123', email: 'test@example.com', name: 'Test User' };
 
-      (mockUsersNetworkService.crudService.getUserById as jest.Mock).mockResolvedValue(mockUser);
+      mockUsersAdapter.getUserById.mockResolvedValue(mockUser as any);
 
       const response = await request(app).get('/api/users/user-123');
 
       expect(response.status).toBe(StatusCodes.OK);
       expect(response.body).toEqual(mockUser);
-      expect(mockUsersNetworkService.crudService.getUserById).toHaveBeenCalledWith('user-123');
+      expect(mockUsersAdapter.getUserById).toHaveBeenCalledWith('user-123');
       expect(app.logger.info).toHaveBeenCalledWith(`GET ${API_URLS.userById} - get user by id`);
     });
   });
@@ -131,10 +122,8 @@ describe('UsersCrudController', () => {
       const updateData = { name: 'Updated Name' };
       const updatedUser = { id: userId, email: 'test@example.com', name: 'Updated Name' };
 
-      (mockAuthenticationNetworkService.tokenVerificationService.verifyToken as jest.Mock).mockResolvedValue(
-        mockDecodedToken,
-      );
-      (mockUsersNetworkService.crudService.updateUserById as jest.Mock).mockResolvedValue(updatedUser);
+      mockAuthAdapter.verifyToken.mockResolvedValue(mockDecodedToken as any);
+      mockUsersAdapter.updateUserById.mockResolvedValue(updatedUser as any);
 
       const response = await request(app)
         .patch(`/api/users/${userId}`)
@@ -143,13 +132,13 @@ describe('UsersCrudController', () => {
 
       expect(response.status).toBe(StatusCodes.OK);
       expect(response.body).toEqual(updatedUser);
-      expect(mockAuthenticationNetworkService.tokenVerificationService.verifyToken).toHaveBeenCalledWith('valid-token');
-      expect(mockUsersNetworkService.crudService.updateUserById).toHaveBeenCalledWith(userId, updateData);
+      expect(mockAuthAdapter.verifyToken).toHaveBeenCalledWith('valid-token');
+      expect(mockUsersAdapter.updateUserById).toHaveBeenCalledWith(userId, updateData);
       expect(app.logger.info).toHaveBeenCalledWith(`PATCH ${API_URLS.userById} - updating user by ID`);
     });
 
     it('should throw UnauthorizedError when token is invalid', async () => {
-      (mockAuthenticationNetworkService.tokenVerificationService.verifyToken as jest.Mock).mockResolvedValue(null);
+      mockAuthAdapter.verifyToken.mockResolvedValue(null as any);
 
       const response = await request(app)
         .patch('/api/users/user-123')
@@ -157,15 +146,13 @@ describe('UsersCrudController', () => {
         .send({ name: 'Updated Name' });
 
       expect(response.status).toBe(StatusCodes.UNAUTHORIZED);
-      expect(mockUsersNetworkService.crudService.updateUserById).not.toHaveBeenCalled();
+      expect(mockUsersAdapter.updateUserById).not.toHaveBeenCalled();
     });
 
     it('should throw ForbiddenError when user tries to update another user', async () => {
       const mockDecodedToken = { id: 'user-123' };
 
-      (mockAuthenticationNetworkService.tokenVerificationService.verifyToken as jest.Mock).mockResolvedValue(
-        mockDecodedToken,
-      );
+      mockAuthAdapter.verifyToken.mockResolvedValue(mockDecodedToken as any);
 
       const response = await request(app)
         .patch('/api/users/user-456')
@@ -173,7 +160,7 @@ describe('UsersCrudController', () => {
         .send({ name: 'Updated Name' });
 
       expect(response.status).toBe(StatusCodes.FORBIDDEN);
-      expect(mockUsersNetworkService.crudService.updateUserById).not.toHaveBeenCalled();
+      expect(mockUsersAdapter.updateUserById).not.toHaveBeenCalled();
     });
   });
 
@@ -183,40 +170,36 @@ describe('UsersCrudController', () => {
       const mockDecodedToken = { id: userId };
       const deleteResult = { success: true };
 
-      (mockAuthenticationNetworkService.tokenVerificationService.verifyToken as jest.Mock).mockResolvedValue(
-        mockDecodedToken,
-      );
-      (mockUsersNetworkService.crudService.deleteUserById as jest.Mock).mockResolvedValue(deleteResult);
+      mockAuthAdapter.verifyToken.mockResolvedValue(mockDecodedToken as any);
+      mockUsersAdapter.deleteUserById.mockResolvedValue(deleteResult);
 
       const response = await request(app).delete(`/api/users/${userId}`).set('Cookie', ['accessToken=valid-token']);
 
       expect(response.status).toBe(StatusCodes.OK);
       expect(response.body).toEqual(deleteResult);
-      expect(mockAuthenticationNetworkService.tokenVerificationService.verifyToken).toHaveBeenCalledWith('valid-token');
-      expect(mockUsersNetworkService.crudService.deleteUserById).toHaveBeenCalledWith(userId);
+      expect(mockAuthAdapter.verifyToken).toHaveBeenCalledWith('valid-token');
+      expect(mockUsersAdapter.deleteUserById).toHaveBeenCalledWith(userId);
       expect(app.logger.info).toHaveBeenCalledWith(`DELETE ${API_URLS.userById} - delete user`);
     });
 
     it('should throw UnauthorizedError when token is invalid', async () => {
-      (mockAuthenticationNetworkService.tokenVerificationService.verifyToken as jest.Mock).mockResolvedValue(null);
+      mockAuthAdapter.verifyToken.mockResolvedValue(null as any);
 
       const response = await request(app).delete('/api/users/user-123').set('Cookie', ['accessToken=invalid-token']);
 
       expect(response.status).toBe(StatusCodes.UNAUTHORIZED);
-      expect(mockUsersNetworkService.crudService.deleteUserById).not.toHaveBeenCalled();
+      expect(mockUsersAdapter.deleteUserById).not.toHaveBeenCalled();
     });
 
     it('should throw ForbiddenError when user tries to delete another user', async () => {
       const mockDecodedToken = { id: 'user-123' };
 
-      (mockAuthenticationNetworkService.tokenVerificationService.verifyToken as jest.Mock).mockResolvedValue(
-        mockDecodedToken,
-      );
+      mockAuthAdapter.verifyToken.mockResolvedValue(mockDecodedToken as any);
 
       const response = await request(app).delete('/api/users/user-456').set('Cookie', ['accessToken=valid-token']);
 
       expect(response.status).toBe(StatusCodes.FORBIDDEN);
-      expect(mockUsersNetworkService.crudService.deleteUserById).not.toHaveBeenCalled();
+      expect(mockUsersAdapter.deleteUserById).not.toHaveBeenCalled();
     });
   });
 });

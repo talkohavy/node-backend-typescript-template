@@ -1,8 +1,8 @@
 import express from 'express';
 import request from 'supertest';
 import type { ConfiguredExpress } from '../../../../common/types';
-import type { AuthenticationNetworkService as AuthenticationNetworkServiceToMock } from '../../services/authentication/authentication.network.service';
-import type { UserUtilitiesNetworkService as UserUtilitiesNetworkServiceToMock } from '../../services/users/user-utilities.network.service';
+import type { IAuthAdapter } from '../../adapters/interfaces/auth.adapter.interface';
+import type { IUsersAdapter } from '../../adapters/interfaces/users.adapter.interface';
 import { API_URLS, StatusCodes } from '../../../../common/constants';
 import { configService as configServiceToMock } from '../../../../core';
 import { errorHandlerPlugin } from '../../../../plugins/errorHandler.plugin';
@@ -22,8 +22,8 @@ const configService = configServiceToMock as jest.Mocked<typeof configServiceToM
 
 describe('AuthenticationController', () => {
   let app: ConfiguredExpress;
-  let authenticationNetworkService: jest.Mocked<AuthenticationNetworkServiceToMock>;
-  let userUtilitiesNetworkService: jest.Mocked<UserUtilitiesNetworkServiceToMock>;
+  let mockAuthAdapter: jest.Mocked<IAuthAdapter>;
+  let mockUsersAdapter: jest.Mocked<IUsersAdapter>;
 
   beforeEach(() => {
     app = express() as ConfiguredExpress;
@@ -50,25 +50,23 @@ describe('AuthenticationController', () => {
       };
     });
 
-    authenticationNetworkService = {
-      passwordManagementService: {
-        getIsPasswordValid: jest.fn(),
-        generateHashedPassword: jest.fn(),
-      },
-      tokenGenerationService: {
-        createTokens: jest.fn(),
-        createAccessToken: jest.fn(),
-        createRefreshToken: jest.fn(),
-      },
-      tokenVerificationService: {
-        verifyToken: jest.fn(),
-      },
-    } as any;
-    userUtilitiesNetworkService = {
-      getUserByEmail: jest.fn(),
-    } as any;
+    mockAuthAdapter = {
+      getIsPasswordValid: jest.fn(),
+      generateHashedPassword: jest.fn(),
+      createTokens: jest.fn(),
+      verifyToken: jest.fn(),
+    } as jest.Mocked<IAuthAdapter>;
 
-    const controller = new AuthenticationController(app, authenticationNetworkService, userUtilitiesNetworkService);
+    mockUsersAdapter = {
+      getUserByEmail: jest.fn(),
+      getUserById: jest.fn(),
+      getUsers: jest.fn(),
+      createUser: jest.fn(),
+      updateUserById: jest.fn(),
+      deleteUserById: jest.fn(),
+    } as jest.Mocked<IUsersAdapter>;
+
+    const controller = new AuthenticationController(app, mockAuthAdapter, mockUsersAdapter);
     controller.registerRoutes();
     errorHandlerPlugin(app);
   });
@@ -82,9 +80,9 @@ describe('AuthenticationController', () => {
       const mockUser = { id: 123, email: 'test@example.com', hashed_password: 'salt:hash' };
       const mockTokens = { accessToken: 'access-token', refreshToken: 'refresh-token' };
 
-      userUtilitiesNetworkService.getUserByEmail.mockResolvedValue(mockUser as any);
-      (authenticationNetworkService.passwordManagementService.getIsPasswordValid as jest.Mock).mockResolvedValue(true);
-      (authenticationNetworkService.tokenGenerationService.createTokens as jest.Mock).mockResolvedValue(mockTokens);
+      mockUsersAdapter.getUserByEmail.mockResolvedValue(mockUser as any);
+      mockAuthAdapter.getIsPasswordValid.mockResolvedValue(true);
+      mockAuthAdapter.createTokens.mockResolvedValue(mockTokens);
 
       const response = await request(app)
         .post(API_URLS.authLogin)
@@ -92,18 +90,15 @@ describe('AuthenticationController', () => {
 
       expect(response.status).toBe(StatusCodes.OK);
       expect(response.body).toEqual(mockUser);
-      expect(userUtilitiesNetworkService.getUserByEmail).toHaveBeenCalledWith('test@example.com');
-      expect(authenticationNetworkService.passwordManagementService.getIsPasswordValid).toHaveBeenCalledWith(
-        'salt:hash',
-        'password123',
-      );
-      expect(authenticationNetworkService.tokenGenerationService.createTokens).toHaveBeenCalledWith('123');
+      expect(mockUsersAdapter.getUserByEmail).toHaveBeenCalledWith('test@example.com');
+      expect(mockAuthAdapter.getIsPasswordValid).toHaveBeenCalledWith('salt:hash', 'password123');
+      expect(mockAuthAdapter.createTokens).toHaveBeenCalledWith('123');
       expect(response.headers['set-cookie']).toBeDefined();
       expect(app.logger.info).toHaveBeenCalledWith(`POST ${API_URLS.authLogin} - user login endpoint`);
     });
 
     it('should return 404 when user not found', async () => {
-      userUtilitiesNetworkService.getUserByEmail.mockResolvedValue(null);
+      mockUsersAdapter.getUserByEmail.mockResolvedValue(null);
 
       const response = await request(app)
         .post(API_URLS.authLogin)
@@ -111,14 +106,14 @@ describe('AuthenticationController', () => {
 
       expect(response.status).toBe(StatusCodes.NOT_FOUND);
       expect(response.body).toEqual({ message: 'User not found' });
-      expect(authenticationNetworkService.passwordManagementService.getIsPasswordValid).not.toHaveBeenCalled();
+      expect(mockAuthAdapter.getIsPasswordValid).not.toHaveBeenCalled();
     });
 
     it('should return 401 when password is invalid', async () => {
       const mockUser = { id: 123, email: 'test@example.com', hashed_password: 'salt:hash' };
 
-      userUtilitiesNetworkService.getUserByEmail.mockResolvedValue(mockUser as any);
-      (authenticationNetworkService.passwordManagementService.getIsPasswordValid as jest.Mock).mockResolvedValue(false);
+      mockUsersAdapter.getUserByEmail.mockResolvedValue(mockUser as any);
+      mockAuthAdapter.getIsPasswordValid.mockResolvedValue(false);
 
       const response = await request(app)
         .post(API_URLS.authLogin)
@@ -126,7 +121,7 @@ describe('AuthenticationController', () => {
 
       expect(response.status).toBe(StatusCodes.UNAUTHORIZED);
       expect(response.body).toEqual({ message: 'Invalid credentials' });
-      expect(authenticationNetworkService.tokenGenerationService.createTokens).not.toHaveBeenCalled();
+      expect(mockAuthAdapter.createTokens).not.toHaveBeenCalled();
     });
   });
 

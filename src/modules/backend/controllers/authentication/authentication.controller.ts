@@ -1,7 +1,7 @@
 import type { Application, CookieOptions, Request, Response } from 'express';
 import type { ControllerFactory } from '../../../../lib/lucky-server';
-import type { AuthenticationNetworkService } from '../../services/authentication/authentication.network.service';
-import type { UserUtilitiesNetworkService } from '../../services/users/user-utilities.network.service';
+import type { IAuthAdapter } from '../../adapters/interfaces/auth.adapter.interface';
+import type { IUsersAdapter } from '../../adapters/interfaces/users.adapter.interface';
 import { API_URLS, StatusCodes } from '../../../../common/constants';
 import { ConfigKeys, type CookiesConfig, type Config } from '../../../../configurations';
 import { configService } from '../../../../core';
@@ -13,8 +13,8 @@ import { loginSchema } from './dto/loginSchema.dto';
 export class AuthenticationController implements ControllerFactory {
   constructor(
     private readonly app: Application,
-    private readonly authenticationNetworkService: AuthenticationNetworkService,
-    private readonly userUtilitiesNetworkService: UserUtilitiesNetworkService,
+    private readonly authAdapter: IAuthAdapter,
+    private readonly usersAdapter: IUsersAdapter,
   ) {}
 
   private login() {
@@ -25,23 +25,20 @@ export class AuthenticationController implements ControllerFactory {
         const { email, password } = req.body;
 
         // Step 1: Get user by email
-        const user = await this.userUtilitiesNetworkService.getUserByEmail(email);
+        const user = await this.usersAdapter.getUserByEmail(email);
         if (!user) {
           return void res.status(StatusCodes.NOT_FOUND).json({ message: 'User not found' });
         }
 
         // Step 2: Validate password
-        const isValid = await this.authenticationNetworkService.passwordManagementService.getIsPasswordValid(
-          user.hashed_password,
-          password,
-        );
+        const isValid = await this.authAdapter.getIsPasswordValid(user.hashed_password, password);
 
         if (!isValid) {
           return void res.status(StatusCodes.UNAUTHORIZED).json({ message: 'Invalid credentials' });
         }
 
         // Step 3: Generate tokens
-        const tokens = await this.authenticationNetworkService.tokenGenerationService.createTokens(user.id.toString());
+        const tokens = await this.authAdapter.createTokens(user.id.toString());
 
         // Step 4: Set cookies
         const { cookies, isDev } = configService.get<Config>('');

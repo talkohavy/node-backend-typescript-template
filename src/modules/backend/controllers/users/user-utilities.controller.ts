@@ -1,15 +1,15 @@
 import type { Application, Request, Response } from 'express';
 import type { ControllerFactory } from '../../../../lib/lucky-server';
-import type { AuthenticationNetworkService } from '../../services/authentication/authentication.network.service';
-import type { UsersNetworkService } from '../../services/users/users.network.service';
+import type { IAuthAdapter } from '../../adapters/interfaces/auth.adapter.interface';
+import type { IUsersAdapter } from '../../adapters/interfaces/users.adapter.interface';
 import { API_URLS, StatusCodes } from '../../../../common/constants';
 import { extractTokenFromCookies } from '../../logic/extractTokenFromCookies';
 
 export class UserUtilitiesController implements ControllerFactory {
   constructor(
     private readonly app: Application,
-    private readonly usersNetworkService: UsersNetworkService,
-    private readonly authenticationNetworkService: AuthenticationNetworkService,
+    private readonly usersAdapter: IUsersAdapter,
+    private readonly authAdapter: IAuthAdapter,
   ) {}
 
   private getProfile() {
@@ -18,13 +18,13 @@ export class UserUtilitiesController implements ControllerFactory {
 
       const token = extractTokenFromCookies(req.cookies);
 
-      const decodedToken = await this.authenticationNetworkService.tokenVerificationService.verifyToken(token);
+      const decodedToken = await this.authAdapter.verifyToken(token);
 
       if (!decodedToken) return void res.status(StatusCodes.NO_CONTENT).json({}); // <--- silently fail
 
       const userId = decodedToken?.id;
 
-      const fetchedUser = await this.usersNetworkService.crudService.getUserById(userId);
+      const fetchedUser = await this.usersAdapter.getUserById(userId);
 
       res.json(fetchedUser);
     });

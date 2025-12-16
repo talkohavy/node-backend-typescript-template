@@ -3,7 +3,7 @@ import type { LoggerService } from './lib/logger-service';
 import { optimizedApp } from './common/constants';
 import { AppFactory } from './lib/lucky-server/app-factory';
 import { AuthenticationModule } from './modules/authentication';
-// import { BackendModule } from './modules/backend';
+import { BackendModule } from './modules/backend';
 import { BooksModule } from './modules/books';
 import { FileUploadModule } from './modules/file-upload';
 import { HealthCheckModule } from './modules/health-check';
@@ -45,12 +45,15 @@ export async function buildApp(props: BuildAppProps) {
 
   appModule.registerModules(
     [
+      // Domain modules (service providers) - initialize first
       HealthCheckModule,
       AuthenticationModule,
       UsersModule,
       BooksModule,
       FileUploadModule,
-      //  BackendModule, // <--- MUST come after UsersModule and AuthenticationModule
+      // BFF module (route provider) - initialize last, requires domain modules to be ready
+      BackendModule,
+      // Utility modules
       // ServerSentEventModule,
       SwaggerModule,
     ],

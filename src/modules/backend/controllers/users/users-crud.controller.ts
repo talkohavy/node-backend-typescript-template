@@ -1,7 +1,7 @@
 import type { Application, Request, Response } from 'express';
 import type { ControllerFactory } from '../../../../lib/lucky-server';
-import type { AuthenticationNetworkService } from '../../services/authentication/authentication.network.service';
-import type { UsersNetworkService } from '../../services/users/users.network.service';
+import type { IAuthAdapter } from '../../adapters/interfaces/auth.adapter.interface';
+import type { IUsersAdapter } from '../../adapters/interfaces/users.adapter.interface';
 import { API_URLS, StatusCodes } from '../../../../common/constants';
 import { ForbiddenError, UnauthorizedError } from '../../../../lib/Errors';
 import { joiBodyMiddleware } from '../../../../middlewares/joi-body.middleware';
@@ -12,8 +12,8 @@ import { updateUserSchema } from './dto/updateUserSchema.dto';
 export class UsersCrudController implements ControllerFactory {
   constructor(
     private readonly app: Application,
-    private readonly usersNetworkService: UsersNetworkService,
-    private readonly authenticationNetworkService: AuthenticationNetworkService,
+    private readonly usersAdapter: IUsersAdapter,
+    private readonly authAdapter: IAuthAdapter,
   ) {}
 
   private createUser() {
@@ -22,7 +22,7 @@ export class UsersCrudController implements ControllerFactory {
 
       this.app.logger.info(`POST ${API_URLS.users} - create new user`);
 
-      const user = await this.usersNetworkService.crudService.createUser(body);
+      const user = await this.usersAdapter.createUser(body);
 
       res.status(StatusCodes.CREATED).json(user);
     });
@@ -34,7 +34,7 @@ export class UsersCrudController implements ControllerFactory {
 
       this.app.logger.info(`GET ${API_URLS.users} - get all users`);
 
-      const users = await this.usersNetworkService.crudService.getUsers(query);
+      const users = await this.usersAdapter.getUsers(query);
 
       res.json(users);
     });
@@ -46,7 +46,7 @@ export class UsersCrudController implements ControllerFactory {
 
       this.app.logger.info(`GET ${API_URLS.userById} - get user by id`);
 
-      const fetchedUser = await this.usersNetworkService.crudService.getUserById(userId);
+      const fetchedUser = await this.usersAdapter.getUserById(userId);
 
       res.json(fetchedUser);
     });
@@ -58,7 +58,7 @@ export class UsersCrudController implements ControllerFactory {
 
       const token = extractTokenFromCookies(req.cookies);
 
-      const decodedToken = await this.authenticationNetworkService.tokenVerificationService.verifyToken(token);
+      const decodedToken = await this.authAdapter.verifyToken(token);
 
       if (!decodedToken) throw new UnauthorizedError();
 
@@ -67,7 +67,7 @@ export class UsersCrudController implements ControllerFactory {
       if (decodedToken.id !== userId) throw new ForbiddenError();
 
       const userData = req.body;
-      const updatedUser = await this.usersNetworkService.crudService.updateUserById(userId, userData);
+      const updatedUser = await this.usersAdapter.updateUserById(userId, userData);
 
       res.json(updatedUser);
     });
@@ -81,13 +81,13 @@ export class UsersCrudController implements ControllerFactory {
 
       const token = extractTokenFromCookies(req.cookies);
 
-      const decodedToken = await this.authenticationNetworkService.tokenVerificationService.verifyToken(token);
+      const decodedToken = await this.authAdapter.verifyToken(token);
 
       if (!decodedToken) throw new UnauthorizedError();
 
       if (decodedToken.id !== id) throw new ForbiddenError();
 
-      const result = await this.usersNetworkService.crudService.deleteUserById(id);
+      const result = await this.usersAdapter.deleteUserById(id);
 
       res.json(result);
     });
