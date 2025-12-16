@@ -16,7 +16,7 @@ export class TokenVerificationController implements ControllerFactory {
     this.app.get(API_URLS.verifyToken, async (req: Request, res: Response) => {
       this.app.logger.info(`GET ${API_URLS.verifyToken} - verify tokens`);
 
-      const encodedToken = this.extractTokenFromCookies(req.cookies);
+      const encodedToken = this.extractAccessTokenFromCookies(req.cookies);
 
       if (!encodedToken) {
         this.app.logger.error('No token found in cookies');
@@ -29,7 +29,7 @@ export class TokenVerificationController implements ControllerFactory {
     });
   }
 
-  private extractTokenFromCookies(cookies: any): string {
+  private extractAccessTokenFromCookies(cookies: any): string {
     const { accessCookie } = configService.get<CookiesConfig>(ConfigKeys.Cookies);
     const token = cookies[accessCookie.name] as string;
 

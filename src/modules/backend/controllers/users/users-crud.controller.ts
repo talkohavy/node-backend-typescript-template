@@ -5,7 +5,7 @@ import type { IUsersAdapter } from '../../adapters/interfaces/users.adapter.inte
 import { API_URLS, StatusCodes } from '../../../../common/constants';
 import { ForbiddenError, UnauthorizedError } from '../../../../lib/Errors';
 import { joiBodyMiddleware } from '../../../../middlewares/joi-body.middleware';
-import { extractTokenFromCookies } from '../../logic/extractTokenFromCookies';
+import { extractAccessTokenFromCookies } from '../../logic/extractAccessTokenFromCookies';
 import { createUserSchema } from './dto/createUserSchema.dto';
 import { updateUserSchema } from './dto/updateUserSchema.dto';
 
@@ -56,7 +56,7 @@ export class UsersCrudController implements ControllerFactory {
     this.app.patch(API_URLS.userById, joiBodyMiddleware(updateUserSchema), async (req: Request, res: Response) => {
       this.app.logger.info(`PATCH ${API_URLS.userById} - updating user by ID`);
 
-      const token = extractTokenFromCookies(req.cookies);
+      const token = extractAccessTokenFromCookies(req.cookies);
 
       const decodedToken = await this.authAdapter.verifyToken(token);
 
@@ -79,7 +79,7 @@ export class UsersCrudController implements ControllerFactory {
 
       this.app.logger.info(`DELETE ${API_URLS.userById} - delete user`);
 
-      const token = extractTokenFromCookies(req.cookies);
+      const token = extractAccessTokenFromCookies(req.cookies);
 
       const decodedToken = await this.authAdapter.verifyToken(token);
 
