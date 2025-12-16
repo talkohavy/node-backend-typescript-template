@@ -1,4 +1,5 @@
 import type { Application } from 'express';
+import { IS_MICRO_SERVICES } from '../../common/constants';
 import { HealthCheckController } from './health-check.controller';
 
 export class HealthCheckModule {
@@ -6,11 +7,14 @@ export class HealthCheckModule {
     this.initializeModule();
   }
 
-  private async initializeModule(): Promise<void> {
-    this.attachController(this.app);
+  private initializeModule(): void {
+    // Only attach routes if running as a standalone micro-service
+    if (IS_MICRO_SERVICES) {
+      this.attachRoutes(this.app);
+    }
   }
 
-  private attachController(app: Application): void {
+  private attachRoutes(app: Application): void {
     const controller = new HealthCheckController(app);
 
     controller.registerRoutes();

@@ -1,4 +1,5 @@
 import type { ServerApp } from '../../common/types';
+import { IS_MICRO_SERVICES } from '../../common/constants';
 import { BooksController } from './controllers/books.controller';
 import { BooksMiddleware } from './middleware/books.middleware';
 import { BooksService } from './services/books.service';
@@ -13,10 +14,13 @@ export class BooksModule {
   private initializeModule(): void {
     this.booksService = new BooksService();
 
-    this.attachController(this.app);
+    // Only attach routes if running as a standalone micro-service
+    if (IS_MICRO_SERVICES) {
+      this.attachRoutes(this.app);
+    }
   }
 
-  private attachController(app: ServerApp): void {
+  private attachRoutes(app: ServerApp): void {
     const booksController = new BooksController(app, this.booksService);
     const booksMiddleware = new BooksMiddleware(app);
 

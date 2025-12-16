@@ -1,4 +1,5 @@
 import type { Application } from 'express';
+import { IS_MICRO_SERVICES } from '../../common/constants';
 import { BooksSwaggerConfig } from './configs/books/books.swagger.config';
 import { UsersSwaggerConfig } from './configs/users/users.swagger.config';
 import { SwaggerMiddleware } from './middlewares';
@@ -14,10 +15,13 @@ export class SwaggerModule {
   private initializeModule(): void {
     this.swaggerService = new SwaggerService([UsersSwaggerConfig, BooksSwaggerConfig]);
 
-    this.attachController(this.app);
+    // Only attach routes if running as a standalone micro-service
+    if (IS_MICRO_SERVICES) {
+      this.attachRoutes(this.app);
+    }
   }
 
-  private attachController(app: Application): void {
+  private attachRoutes(app: Application): void {
     const swaggerMiddleware = new SwaggerMiddleware(app, this.swaggerService);
 
     swaggerMiddleware.use();

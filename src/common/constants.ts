@@ -93,3 +93,12 @@ export const optimizedApp: OptimizedApp = {
   },
   configService: null as any,
 };
+
+/**
+ * Toggle between monolith and micro-services architecture.
+ * - `false`: Monolith mode - BackendModule (BFF) attaches all public routes,
+ *            domain modules only provide services.
+ * - `true`:  Micro-services mode - Each module runs as a standalone service
+ *            and attaches its own routes.
+ */
+export const IS_MICRO_SERVICES = false;

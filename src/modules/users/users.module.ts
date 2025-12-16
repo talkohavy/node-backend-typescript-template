@@ -1,4 +1,5 @@
 import type { IUsersRepository } from './repositories/interfaces/users.repository.base';
+import { IS_MICRO_SERVICES } from '../../common/constants';
 import { UserUtilitiesController } from './controllers/user-utilities.controller';
 import { UsersCrudController } from './controllers/users-crud.controller';
 import { UsersController } from './controllers/users.controller';
@@ -18,7 +19,7 @@ export class UsersModule {
     this.initializeModule();
   }
 
-  private async initializeModule(): Promise<void> {
+  private initializeModule(): void {
     // Initialize repositories
     // this.usersRepository = new UsersMongoRepository();
     this.usersRepository = new UsersPostgresRepository();
@@ -30,10 +31,13 @@ export class UsersModule {
     this.userUtilitiesService = new UserUtilitiesService(this.usersRepository, fieldScreeningService);
     this.usersCrudService = new UsersCrudService(this.usersRepository);
 
-    this.attachController();
+    // Only attach routes if running as a standalone micro-service
+    if (IS_MICRO_SERVICES) {
+      this.attachRoutes();
+    }
   }
 
-  private attachController(): void {
+  private attachRoutes(): void {
     const userUtilitiesController = new UserUtilitiesController(this.app, this.userUtilitiesService);
     const usersCrudController = new UsersCrudController(this.app, this.usersCrudService);
 
