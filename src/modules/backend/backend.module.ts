@@ -3,6 +3,12 @@ import { IS_MICRO_SERVICES } from '../../common/constants';
 import { HealthCheckController } from '../health-check/health-check.controller';
 import { AuthDirectAdapter, AuthHttpAdapter, AuthenticationController, type IAuthAdapter } from './authentication';
 import { BooksDirectAdapter, BooksHttpAdapter, BooksController, type IBooksAdapter } from './books';
+import {
+  FileUploadDirectAdapter,
+  FileUploadHttpAdapter,
+  FileUploadController,
+  type IFileUploadAdapter,
+} from './file-upload';
 import { HttpClient } from './logic/http-client';
 import {
   UsersDirectAdapter,
@@ -23,6 +29,7 @@ export class BackendModule {
   private usersAdapter!: IUsersAdapter;
   private authAdapter!: IAuthAdapter;
   private booksAdapter!: IBooksAdapter;
+  private fileUploadAdapter!: IFileUploadAdapter;
 
   constructor(private readonly app: ServerApp) {
     this.initializeAdapters();
@@ -36,12 +43,14 @@ export class BackendModule {
       this.usersAdapter = new UsersHttpAdapter(httpClient);
       this.authAdapter = new AuthHttpAdapter(httpClient);
       this.booksAdapter = new BooksHttpAdapter(httpClient);
+      this.fileUploadAdapter = new FileUploadHttpAdapter(httpClient);
     } else {
       // Direct adapters wrapping module services (monolith mode)
       const { usersCrudService, userUtilitiesService } = this.app.modules.UsersModule.services;
       const { passwordManagementService, tokenGenerationService, tokenVerificationService } =
         this.app.modules.AuthenticationModule.services;
       const { booksService } = this.app.modules.BooksModule.services;
+      const { fileUploadService } = this.app.modules.FileUploadModule.services;
 
       this.usersAdapter = new UsersDirectAdapter(usersCrudService, userUtilitiesService);
       this.authAdapter = new AuthDirectAdapter(
@@ -50,6 +59,7 @@ export class BackendModule {
         tokenVerificationService,
       );
       this.booksAdapter = new BooksDirectAdapter(booksService);
+      this.fileUploadAdapter = new FileUploadDirectAdapter(fileUploadService);
     }
   }
 
@@ -60,11 +70,13 @@ export class BackendModule {
     const usersCrudController = new UsersCrudController(this.app, this.usersAdapter, this.authAdapter);
     const userUtilitiesController = new UserUtilitiesController(this.app, this.usersAdapter, this.authAdapter);
     const booksController = new BooksController(this.app, this.booksAdapter);
+    const fileUploadController = new FileUploadController(this.app, this.fileUploadAdapter);
 
     healthCheckController.registerRoutes();
     authController.registerRoutes();
     usersCrudController.registerRoutes();
     userUtilitiesController.registerRoutes();
     booksController.registerRoutes();
+    fileUploadController.registerRoutes();
   }
 }

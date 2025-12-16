@@ -69,6 +69,7 @@ export const ServiceNames = {
   Users: 'users',
   Books: 'books',
   Auth: 'auth',
+  FileUpload: 'file-upload',
 } as const;
 
 export type ServiceNameKeys = keyof typeof ServiceNames;
