@@ -1,7 +1,7 @@
 import type { Application, CookieOptions, Request, Response } from 'express';
 import type { ControllerFactory } from '../../../../lib/lucky-server';
-import type { IAuthAdapter } from '../../adapters/interfaces/auth.adapter.interface';
-import type { IUsersAdapter } from '../../adapters/interfaces/users.adapter.interface';
+import type { IUsersAdapter } from '../../users/adapters/users.adapter.interface';
+import type { IAuthAdapter } from '../adapters/auth.adapter.interface';
 import { API_URLS, StatusCodes } from '../../../../common/constants';
 import { ConfigKeys, type CookiesConfig, type Config } from '../../../../configurations';
 import { configService } from '../../../../core';

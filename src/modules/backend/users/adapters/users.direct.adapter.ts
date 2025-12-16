@@ -1,8 +1,8 @@
-import type { CreateUserDto, UpdateUserDto } from '../../users/services/interfaces/users.service.interface';
-import type { UserUtilitiesService } from '../../users/services/user-utilities.service';
-import type { UsersCrudService } from '../../users/services/users-crud.service';
-import type { DatabaseUser } from '../../users/types';
-import type { IUsersAdapter } from './interfaces/users.adapter.interface';
+import type { CreateUserDto, UpdateUserDto } from '../../../users/services/interfaces/users.service.interface';
+import type { UserUtilitiesService } from '../../../users/services/user-utilities.service';
+import type { UsersCrudService } from '../../../users/services/users-crud.service';
+import type { DatabaseUser } from '../../../users/types';
+import type { IUsersAdapter } from './users.adapter.interface';
 
 export class UsersDirectAdapter implements IUsersAdapter {
   constructor(

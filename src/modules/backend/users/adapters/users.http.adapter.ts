@@ -1,9 +1,9 @@
-import type { CreateUserDto, UpdateUserDto } from '../../users/services/interfaces/users.service.interface';
-import type { DatabaseUser } from '../../users/types';
-import type { HttpClient } from './http-client';
-import type { IUsersAdapter } from './interfaces/users.adapter.interface';
-import { API_URLS } from '../../../common/constants';
-import { ServiceNames } from '../../../configurations';
+import type { CreateUserDto, UpdateUserDto } from '../../../users/services/interfaces/users.service.interface';
+import type { DatabaseUser } from '../../../users/types';
+import type { HttpClient } from '../../logic/http-client';
+import type { IUsersAdapter } from './users.adapter.interface';
+import { API_URLS } from '../../../../common/constants';
+import { ServiceNames } from '../../../../configurations';
 
 export class UsersHttpAdapter implements IUsersAdapter {
   constructor(private readonly httpClient: HttpClient) {}
