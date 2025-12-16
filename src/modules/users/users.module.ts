@@ -49,11 +49,10 @@ export class UsersModule {
     usersController.registerRoutes();
   }
 
-  getUserUtilitiesService(): UserUtilitiesService {
-    return this.userUtilitiesService;
-  }
-
-  getUsersCrudService(): UsersCrudService {
-    return this.usersCrudService;
+  get services() {
+    return {
+      usersCrudService: this.usersCrudService,
+      userUtilitiesService: this.userUtilitiesService,
+    };
   }
 }

@@ -24,4 +24,10 @@ export class FileUploadModule {
 
     controller.registerRoutes();
   }
+
+  get services() {
+    return {
+      fileUploadService: this.fileUploadService,
+    };
+  }
 }

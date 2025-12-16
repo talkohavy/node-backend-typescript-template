@@ -29,7 +29,9 @@ export class BooksModule {
     booksController.registerRoutes();
   }
 
-  getBooksService(): BooksService {
-    return this.booksService;
+  get services() {
+    return {
+      booksService: this.booksService,
+    };
   }
 }

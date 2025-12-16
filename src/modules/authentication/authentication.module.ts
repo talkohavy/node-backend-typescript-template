@@ -50,7 +50,11 @@ export class AuthenticationModule {
     authenticationController.registerRoutes();
   }
 
-  getAuthenticationService(): AuthenticationService {
-    return this.authenticationService;
+  get services() {
+    return {
+      passwordManagementService: this.passwordManagementService,
+      tokenGenerationService: this.tokenGenerationService,
+      tokenVerificationService: this.tokenVerificationService,
+    };
   }
 }
