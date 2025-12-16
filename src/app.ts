@@ -34,7 +34,7 @@ export async function buildApp(props: BuildAppProps) {
 
   const appModule = new AppFactory(app);
 
-  appModule.registerPlugins([
+  await appModule.registerPlugins([
     corsPlugin,
     helmetPlugin,
     requestIdPlugin,
