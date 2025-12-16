@@ -36,16 +36,6 @@ export const HttpMethod = {
 
 export type HttpMethodValues = (typeof HttpMethod)[keyof typeof HttpMethod];
 
-export const ServiceNames = {
-  Users: 'users',
-  Chats: 'chats',
-  Auth: 'auth',
-} as const;
-
-type ServiceNamesType = typeof ServiceNames;
-export type ServiceNameKeys = keyof ServiceNamesType;
-export type ServiceNameValues = ServiceNamesType[ServiceNameKeys];
-
 export const Environment = {
   Prod: 'prod',
   Dev: 'dev',
