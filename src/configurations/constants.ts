@@ -67,7 +67,7 @@ export type DatabaseConfig = {
 
 export const ServiceNames = {
   Users: 'users',
-  Chats: 'chats',
+  Books: 'books',
   Auth: 'auth',
 } as const;
 

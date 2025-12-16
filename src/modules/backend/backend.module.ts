@@ -2,6 +2,7 @@ import type { ServerApp } from '../../common/types';
 import { IS_MICRO_SERVICES } from '../../common/constants';
 import { HealthCheckController } from '../health-check/health-check.controller';
 import { AuthDirectAdapter, AuthHttpAdapter, AuthenticationController, type IAuthAdapter } from './authentication';
+import { BooksDirectAdapter, BooksHttpAdapter, BooksController, type IBooksAdapter } from './books';
 import { HttpClient } from './logic/http-client';
 import {
   UsersDirectAdapter,
@@ -21,6 +22,7 @@ import {
 export class BackendModule {
   private usersAdapter!: IUsersAdapter;
   private authAdapter!: IAuthAdapter;
+  private booksAdapter!: IBooksAdapter;
 
   constructor(private readonly app: ServerApp) {
     this.initializeAdapters();
@@ -33,11 +35,13 @@ export class BackendModule {
       const httpClient = new HttpClient(this.app.configService);
       this.usersAdapter = new UsersHttpAdapter(httpClient);
       this.authAdapter = new AuthHttpAdapter(httpClient);
+      this.booksAdapter = new BooksHttpAdapter(httpClient);
     } else {
       // Direct adapters wrapping module services (monolith mode)
       const { usersCrudService, userUtilitiesService } = this.app.modules.UsersModule.services;
       const { passwordManagementService, tokenGenerationService, tokenVerificationService } =
         this.app.modules.AuthenticationModule.services;
+      const { booksService } = this.app.modules.BooksModule.services;
 
       this.usersAdapter = new UsersDirectAdapter(usersCrudService, userUtilitiesService);
       this.authAdapter = new AuthDirectAdapter(
@@ -45,6 +49,7 @@ export class BackendModule {
         tokenGenerationService,
         tokenVerificationService,
       );
+      this.booksAdapter = new BooksDirectAdapter(booksService);
     }
   }
 
@@ -54,10 +59,12 @@ export class BackendModule {
     const authController = new AuthenticationController(this.app, this.authAdapter, this.usersAdapter);
     const usersCrudController = new UsersCrudController(this.app, this.usersAdapter, this.authAdapter);
     const userUtilitiesController = new UserUtilitiesController(this.app, this.usersAdapter, this.authAdapter);
+    const booksController = new BooksController(this.app, this.booksAdapter);
 
     healthCheckController.registerRoutes();
     authController.registerRoutes();
     usersCrudController.registerRoutes();
     userUtilitiesController.registerRoutes();
+    booksController.registerRoutes();
   }
 }
