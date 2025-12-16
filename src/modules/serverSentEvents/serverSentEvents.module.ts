@@ -1,5 +1,4 @@
 import type { Application } from 'express';
-import { IS_MICRO_SERVICES } from '../../common/constants';
 import { ServerSentEventsController } from './controllers/serverSentEvents.controller';
 import { ServerSentEventsService } from './services/serverSentEvents.service';
 
@@ -13,9 +12,9 @@ export class ServerSentEventModule {
   private initializeModule(): void {
     this.serverSentEventsService = new ServerSentEventsService(this.app.logger);
 
-    if (IS_MICRO_SERVICES) {
-      this.attachRoutes(this.app);
-    }
+    // SSE always attaches routes directly - clients connect to this endpoint
+    // without going through the BFF (persistent connections don't proxy well)
+    this.attachRoutes(this.app);
   }
 
   private attachRoutes(app: Application): void {
