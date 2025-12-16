@@ -1,5 +1,5 @@
 import type { HttpException } from '../lib/Errors/HttpException';
-import type { OptimizedModules } from './types';
+import type { OptimizedApp } from './types';
 import { BadRequestError, ForbiddenError, InternalServerError, NotFoundError, UnauthorizedError } from '../lib/Errors';
 
 export const StatusCodes = {
@@ -79,18 +79,17 @@ export const API_URLS = {
  */
 export const EXCLUDED_PATHS = [API_URLS.healthCheck] as string[];
 
-export const optimizedModules: OptimizedModules = {
+/**
+ * Pre-defined object structure for V8 shape optimization.
+ * Modules are stored directly - each module exposes its services via a `services` getter.
+ */
+export const optimizedApp: OptimizedApp = {
   modules: {
-    AuthenticationModule: {
-      getAuthenticationService: null as any,
-    },
-    UsersModule: {
-      usersCrudService: null as any,
-      userUtilitiesService: null as any,
-    },
+    AuthenticationModule: null as any,
+    UsersModule: null as any,
     HealthCheckModule: null as any,
-    FileUploadModule: {
-      fileUploadService: null as any,
-    },
+    BooksModule: null as any,
+    FileUploadModule: null as any,
   },
+  configService: null as any,
 };

@@ -1,6 +1,6 @@
 import express, { type Application } from 'express';
 import type { LoggerService } from './lib/logger-service';
-import { optimizedModules } from './common/constants';
+import { optimizedApp } from './common/constants';
 import { AppFactory } from './lib/lucky-server/app-factory';
 import { AuthenticationModule } from './modules/authentication';
 // import { BackendModule } from './modules/backend';
@@ -54,7 +54,7 @@ export async function buildApp(props: BuildAppProps) {
       // ServerSentEventModule,
       SwaggerModule,
     ],
-    optimizedModules,
+    optimizedApp,
   );
 
   appModule.registerErrorHandler(errorHandlerPlugin);
