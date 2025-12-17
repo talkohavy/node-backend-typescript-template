@@ -69,8 +69,8 @@ export class AuthenticationController implements ControllerFactory {
   }
 
   private logout() {
-    this.app.get(API_URLS.authLogout, async (_req, res) => {
-      this.app.logger.info(`GET ${API_URLS.authLogout} - user logout`);
+    this.app.post(API_URLS.authLogout, async (_req, res) => {
+      this.app.logger.info(`POST ${API_URLS.authLogout} - user logout`);
 
       const { accessCookie, refreshCookie } = this.app.configService.get<CookiesConfig>(ConfigKeys.Cookies);
 
