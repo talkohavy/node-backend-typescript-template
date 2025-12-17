@@ -1,17 +1,12 @@
 import { buildApp } from './app';
 import { ConfigKeys } from './configurations';
-import { initConnections, initGlobalServices } from './core';
 
 export async function startServer() {
-  const { configService, loggerService: logger } = await initGlobalServices();
+  const app = await buildApp();
 
-  await initConnections(configService);
+  const PORT = app.configService.get<number>(ConfigKeys.Port);
 
-  const app = await buildApp({ logger });
-
-  const PORT = configService.get<number>(ConfigKeys.Port);
-
-  app.listen(PORT, () => logger.log(`server started on port ${PORT}`));
+  app.listen(PORT, () => app.logger.log(`server started on port ${PORT}`));
 }
 
 process.on('unhandledRejection', (err) => {

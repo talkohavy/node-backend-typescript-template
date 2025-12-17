@@ -1,4 +1,4 @@
-// Add module augmentations here
+import type { Client as PgClient } from 'pg';
 
 declare module 'express' {
   export interface Request {
@@ -7,7 +7,12 @@ declare module 'express' {
 
   export interface Application {
     logger: LoggerService;
+    configService: ConfigService;
+    callContextService: CallContextService;
+    redis: {
+      pub: RedisClientType;
+      sub: RedisClientType;
+    };
+    pg: PgClient;
   }
 }
-
-export {};

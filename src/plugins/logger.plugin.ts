@@ -1,12 +1,25 @@
+import type { Application } from 'express';
 import type { CallContextService } from '../../lib/call-context';
-import type { ConfigService } from '../../lib/config-service';
-import { ConfigKeys } from '../../configurations';
+import { ConfigKeys, type LoggerServiceSettings } from '../../configurations';
 import { Logger, LogLevel, type LoggerSettings } from '../../lib/logger';
 import { LoggerService } from '../../lib/logger-service';
 
-export function initLoggerService(configService: ConfigService, callContextService: CallContextService): LoggerService {
+/**
+ * @dependencies
+ * - config-service plugin
+ * - call-context plugin
+ */
+export function loggerPlugin(app: Application) {
+  const { configService, callContextService } = app;
+
   const logSettings = configService.get(ConfigKeys.LogSettings);
 
+  const loggerService = initLoggerService(logSettings, callContextService);
+
+  app.logger = loggerService;
+}
+
+function initLoggerService(logSettings: LoggerServiceSettings, callContextService: CallContextService): LoggerService {
   const settings: LoggerSettings = {
     logLevel: logSettings.logLevel || LogLevel.Debug,
     useColoredOutput: logSettings.useColoredOutput ?? true,
