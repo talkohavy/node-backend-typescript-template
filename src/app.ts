@@ -44,22 +44,19 @@ export async function buildApp() {
     cookieParserPlugin,
   ]);
 
-  appModule.registerModules(
-    [
-      // Domain modules (service providers) - initialize first
-      HealthCheckModule,
-      AuthenticationModule,
-      UsersModule,
-      BooksModule,
-      FileUploadModule,
-      // BFF module (route provider) - initialize last, requires domain modules to be ready
-      BackendModule,
-      // Utility modules
-      // ServerSentEventModule,
-      SwaggerModule,
-    ],
-    optimizedApp,
-  );
+  appModule.registerModules([
+    // Domain modules (service providers) - initialize first
+    HealthCheckModule,
+    AuthenticationModule,
+    UsersModule,
+    BooksModule,
+    FileUploadModule,
+    // BFF module (route provider) - initialize last, requires domain modules to be ready
+    BackendModule,
+    // Utility modules
+    // ServerSentEventModule,
+    SwaggerModule,
+  ]);
 
   appModule.registerErrorHandler(errorHandlerPlugin);
   appModule.registerPathNotFoundHandler(pathNotFoundPlugin);

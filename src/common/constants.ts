@@ -81,7 +81,6 @@ export const EXCLUDED_PATHS = [API_URLS.healthCheck] as string[];
 
 /**
  * Pre-defined object structure for V8 shape optimization.
- * Modules are stored directly - each module exposes its services via a `services` getter.
  */
 export const optimizedApp: OptimizedApp = {
   modules: {

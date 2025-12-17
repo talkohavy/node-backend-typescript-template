@@ -4,11 +4,14 @@ export class AppFactory {
   private registeredModules: any[] = [];
   private registeredPlugins: PluginFn[] = [];
 
-  constructor(public readonly app: any) {}
-
-  registerModules(modules: ModuleConstructor[], optimizedApp = {}): void {
+  constructor(
+    public readonly app: any,
+    optimizedApp = {},
+  ) {
     Object.assign(this.app, optimizedApp);
+  }
 
+  registerModules(modules: ModuleConstructor[]): void {
     modules.forEach((Module) => {
       const moduleInstance = new Module(this.app);
       this.registeredModules.push(moduleInstance);
