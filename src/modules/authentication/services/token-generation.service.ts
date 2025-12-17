@@ -7,15 +7,13 @@ export class TokenGenerationService {
 
   async createTokens(userId: string): Promise<{ accessToken: string; refreshToken: string }> {
     const payload = { id: userId };
-    const accessToken = await this.createAccessToken({ payload });
-    const refreshToken = await this.createRefreshToken({ payload });
+    const accessToken = await this.createAccessToken(payload);
+    const refreshToken = await this.createRefreshToken(payload);
 
     return { accessToken, refreshToken };
   }
 
-  async createAccessToken(props: CreateAccessTokenProps): Promise<string> {
-    const { payload } = props;
-
+  async createAccessToken(payload: CreateAccessTokenProps): Promise<string> {
     const { accessSecret, accessExpireTime, issuer } = this.jwtConfig;
 
     const options: SignOptions = {
@@ -34,9 +32,7 @@ export class TokenGenerationService {
     });
   }
 
-  async createRefreshToken(props: CreateRefreshTokenProps): Promise<string> {
-    const { payload } = props;
-
+  async createRefreshToken(payload: CreateRefreshTokenProps): Promise<string> {
     const { refreshSecret, refreshExpireTime, issuer } = this.jwtConfig;
 
     const options: SignOptions = {

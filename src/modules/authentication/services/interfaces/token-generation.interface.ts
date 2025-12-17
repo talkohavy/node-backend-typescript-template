@@ -1,7 +1,7 @@
 export type CreateAccessTokenProps = {
-  payload: { id: string };
+  id: string;
 };
 
 export type CreateRefreshTokenProps = {
-  payload: { id: string };
+  id: string;
 };
