@@ -1,6 +1,5 @@
-import express from 'express';
+import express, { type Application } from 'express';
 import request from 'supertest';
-import type { ConfiguredExpress } from '../../../common/types';
 import type { BooksService } from '../services/books.service';
 import { API_URLS, StatusCodes } from '../../../common/constants';
 import { BooksController } from './books.controller';
@@ -10,11 +9,11 @@ jest.mock('../../../middlewares/joi-body.middleware', () => ({
 }));
 
 describe('BooksController', () => {
-  let app: ConfiguredExpress;
+  let app: Application;
   let mockBooksService: jest.Mocked<BooksService>;
 
   beforeEach(() => {
-    app = express() as ConfiguredExpress;
+    app = express() as unknown as Application;
     app.use(express.json());
 
     app.logger = {

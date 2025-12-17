@@ -1,4 +1,4 @@
-import type { ServerApp } from '../../common/types';
+import type { Application } from 'express';
 import { IS_MICRO_SERVICES } from '../../common/constants';
 import { BooksController } from './controllers/books.controller';
 import { BooksMiddleware } from './middleware/books.middleware';
@@ -20,7 +20,7 @@ export class BooksModule {
     }
   }
 
-  private attachRoutes(app: ServerApp): void {
+  private attachRoutes(app: Application): void {
     const booksController = new BooksController(app, this.booksService);
     const booksMiddleware = new BooksMiddleware(app);
 

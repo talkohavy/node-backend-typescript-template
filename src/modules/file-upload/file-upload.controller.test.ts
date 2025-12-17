@@ -1,16 +1,15 @@
-import express from 'express';
+import express, { type Application } from 'express';
 import request from 'supertest';
-import type { ConfiguredExpress } from '../../common/types';
 import type { FileUploadService } from './services/file-upload.service';
 import { API_URLS, StatusCodes } from '../../common/constants';
 import { FileUploadController } from './file-upload.controller';
 
 describe('FileUploadController', () => {
-  let app: ConfiguredExpress;
+  let app: Application;
   let mockFileUploadService: jest.Mocked<FileUploadService>;
 
   beforeEach(() => {
-    app = express() as ConfiguredExpress;
+    app = express() as unknown as Application;
 
     app.logger = {
       info: jest.fn(),

@@ -1,6 +1,5 @@
-import express from 'express';
+import express, { type Application } from 'express';
 import request from 'supertest';
-import type { ConfiguredExpress } from '../../../common/types';
 import type { UsersCrudService } from '../services/users-crud.service';
 import { API_URLS, StatusCodes } from '../../../common/constants';
 import { errorHandlerPlugin } from '../../../plugins/errorHandler.plugin';
@@ -11,11 +10,11 @@ jest.mock('../../../middlewares/joi-body.middleware', () => ({
 }));
 
 describe('UsersCrudController', () => {
-  let app: ConfiguredExpress;
+  let app: Application;
   let mockUsersService: jest.Mocked<UsersCrudService>;
 
   beforeEach(() => {
-    app = express() as ConfiguredExpress;
+    app = express() as unknown as Application;
     app.use(express.json());
 
     app.logger = {

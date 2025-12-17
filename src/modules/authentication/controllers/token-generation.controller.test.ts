@@ -1,6 +1,5 @@
-import express from 'express';
+import express, { type Application } from 'express';
 import request from 'supertest';
-import type { ConfiguredExpress } from '../../../common/types';
 import type { TokenGenerationService } from '../services/token-generation.service';
 import { API_URLS, StatusCodes } from '../../../common/constants';
 import { TokenGenerationController } from './token-generation.controller';
@@ -10,11 +9,11 @@ jest.mock('../../../middlewares/joi-body.middleware', () => ({
 }));
 
 describe('TokenGenerationController', () => {
-  let app: ConfiguredExpress;
+  let app: Application;
   let mockTokenGenerationService: jest.Mocked<TokenGenerationService>;
 
   beforeEach(() => {
-    app = express() as ConfiguredExpress;
+    app = express() as unknown as Application;
     app.use(express.json());
 
     app.logger = {

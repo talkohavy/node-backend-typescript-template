@@ -1,6 +1,5 @@
-import express from 'express';
+import express, { type Application } from 'express';
 import request from 'supertest';
-import type { ConfiguredExpress } from '../../../common/types';
 import type { PasswordManagementService } from '../services/password-management.service';
 import { API_URLS, StatusCodes } from '../../../common/constants';
 import { errorHandlerPlugin } from '../../../plugins/errorHandler.plugin';
@@ -11,11 +10,11 @@ jest.mock('../../../middlewares/joi-body.middleware', () => ({
 }));
 
 describe('PasswordManagementController', () => {
-  let app: ConfiguredExpress;
+  let app: Application;
   let mockPasswordManagementService: jest.Mocked<PasswordManagementService>;
 
   beforeEach(() => {
-    app = express() as ConfiguredExpress;
+    const app = express() as unknown as Application;
     app.use(express.json());
 
     app.logger = {

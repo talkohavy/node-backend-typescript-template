@@ -92,6 +92,13 @@ export const optimizedApp: OptimizedApp = {
     FileUploadModule: null as any,
   },
   configService: null as any,
+  redis: {
+    pub: null as any,
+    sub: null as any,
+  },
+  pg: null as any,
+  logger: null as any,
+  callContextService: null as any,
 };
 
 /**

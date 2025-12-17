@@ -1,4 +1,6 @@
-import type { Application, Express as OriginalExpress } from 'express';
+import type { Client as PgClient } from 'pg';
+import type { RedisClientType } from 'redis';
+import type { CallContextService } from '../lib/call-context';
 import type { ConfigService } from '../lib/config-service';
 import type { LoggerService } from '../lib/logger-service';
 import type { AuthenticationModule } from '../modules/authentication';
@@ -7,7 +9,7 @@ import type { FileUploadModule } from '../modules/file-upload';
 import type { HealthCheckModule } from '../modules/health-check';
 import type { UsersModule } from '../modules/users';
 
-export type OptimizedApp = {
+export interface OptimizedApp {
   modules: {
     HealthCheckModule: HealthCheckModule;
     UsersModule: UsersModule;
@@ -16,10 +18,11 @@ export type OptimizedApp = {
     FileUploadModule: FileUploadModule;
   };
   configService: ConfigService;
-};
-
-export type ServerApp = Application & OptimizedApp;
-
-export type ConfiguredExpress = OriginalExpress & {
+  callContextService: CallContextService;
+  redis: {
+    pub: RedisClientType;
+    sub: RedisClientType;
+  };
+  pg: PgClient;
   logger: LoggerService;
-};
+}
