@@ -4,7 +4,6 @@ import type { IUsersAdapter } from '../../users/adapters/users.adapter.interface
 import type { IAuthAdapter } from '../adapters/auth.adapter.interface';
 import { API_URLS, StatusCodes } from '../../../../common/constants';
 import { ConfigKeys, type CookiesConfig, type Config } from '../../../../configurations';
-import { configService } from '../../../../core';
 import { BadRequestError } from '../../../../lib/Errors';
 import { joiBodyMiddleware } from '../../../../middlewares/joi-body.middleware';
 import { UserNotFoundError } from '../../../users/logic/users.errors';
@@ -41,7 +40,7 @@ export class AuthenticationController implements ControllerFactory {
         const tokens = await this.authAdapter.createTokens(user.id.toString());
 
         // Step 4: Set cookies
-        const { cookies, isDev } = configService.get<Config>('');
+        const { cookies, isDev } = this.app.configService.get<Config>('');
         const { name: accessTokenCookieName, maxAge } = cookies.accessCookie;
         const { name: refreshTokenCookieName } = cookies.refreshCookie;
 
@@ -73,7 +72,7 @@ export class AuthenticationController implements ControllerFactory {
     this.app.get(API_URLS.authLogout, async (_req, res) => {
       this.app.logger.info(`GET ${API_URLS.authLogout} - user logout`);
 
-      const { accessCookie, refreshCookie } = configService.get<CookiesConfig>(ConfigKeys.Cookies);
+      const { accessCookie, refreshCookie } = this.app.configService.get<CookiesConfig>(ConfigKeys.Cookies);
 
       res.clearCookie(accessCookie.name);
       res.clearCookie(refreshCookie.name);

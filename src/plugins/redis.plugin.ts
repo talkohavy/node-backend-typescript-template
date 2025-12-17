@@ -7,7 +7,7 @@ import { RedisConnection } from '../lib/database/redis';
  * - config-service plugin
  */
 export async function redisPlugin(app: Application) {
-  const { connectionString } = app.configService.get<DatabaseConfig>(ConfigKeys.Database);
+  const { connectionString } = app.configService.get<DatabaseConfig>(ConfigKeys.Redis);
 
   const pubConnection = new RedisConnection({ connectionString, connectionName: 'pub' });
   const subConnection = new RedisConnection({ connectionString, connectionName: 'sub' });
@@ -17,6 +17,6 @@ export async function redisPlugin(app: Application) {
 
   await Promise.all([pubConnection.connect(), subConnection.connect()]); // const [pubClient, subClient] =
 
-  app.redis.pub = redisPubConnection.getClient();
-  app.redis.sub = redisSubConnection.getClient();
+  app.redis.pub = redisPubConnection.getClient()!;
+  app.redis.sub = redisSubConnection.getClient()!;
 }

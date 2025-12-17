@@ -1,8 +1,8 @@
 import type { Application } from 'express';
-import type { CallContextService } from '../../lib/call-context';
-import { ConfigKeys, type LoggerServiceSettings } from '../../configurations';
-import { Logger, LogLevel, type LoggerSettings } from '../../lib/logger';
-import { LoggerService } from '../../lib/logger-service';
+import type { CallContextService } from '../lib/call-context';
+import { ConfigKeys, type LoggerServiceSettings } from '../configurations';
+import { Logger, LogLevel, type LoggerSettings } from '../lib/logger';
+import { LoggerService } from '../lib/logger-service';
 
 /**
  * @dependencies

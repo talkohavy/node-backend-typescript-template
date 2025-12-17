@@ -1,20 +1,15 @@
 import type { RedisClientType } from 'redis';
 import type { LoggerService } from '../../../lib/logger-service';
-import { redisPubConnection, redisSubConnection } from '../../../core';
 import { createEventMessage } from '../utils/createEventMessage';
 
 export class ServerSentEventsService {
-  private readonly redisPubClient: RedisClientType;
-  private readonly redisSubClient: RedisClientType;
   private readonly clients: Array<any> = [];
 
-  constructor(private readonly logger: LoggerService) {
-    redisPubConnection.ensureConnected();
-    redisSubConnection.ensureConnected();
-
-    this.redisPubClient = redisPubConnection.getClient()!;
-    this.redisSubClient = redisSubConnection.getClient()!;
-
+  constructor(
+    private readonly logger: LoggerService,
+    private readonly redisPubClient: RedisClientType,
+    private readonly redisSubClient: RedisClientType,
+  ) {
     this.redisSubClient.subscribe('sse-events', (content) => {
       this.logger.log('Received event:', content);
 

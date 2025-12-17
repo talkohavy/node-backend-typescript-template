@@ -2,6 +2,11 @@ import type { Application } from 'express';
 import { ServerSentEventsController } from './controllers/serverSentEvents.controller';
 import { ServerSentEventsService } from './services/serverSentEvents.service';
 
+/**
+ * @dependencies
+ * - redis plugin
+ * - logger plugin
+ */
 export class ServerSentEventModule {
   private serverSentEventsService!: ServerSentEventsService;
 
@@ -10,7 +15,9 @@ export class ServerSentEventModule {
   }
 
   private initializeModule(): void {
-    this.serverSentEventsService = new ServerSentEventsService(this.app.logger);
+    const { redisPubClient, redisSubClient } = this.app.redis;
+
+    this.serverSentEventsService = new ServerSentEventsService(this.app.logger, redisPubClient, redisSubClient);
 
     // SSE always attaches routes directly - clients connect to this endpoint
     // without going through the BFF (persistent connections don't proxy well)

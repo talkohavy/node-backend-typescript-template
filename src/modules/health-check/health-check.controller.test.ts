@@ -3,12 +3,6 @@ import request from 'supertest';
 import { API_URLS, StatusCodes } from '../../common/constants';
 import { HealthCheckController } from './health-check.controller';
 
-jest.mock('../../core', () => ({
-  logger: {
-    info: jest.fn(),
-  },
-}));
-
 describe('HealthCheckController', () => {
   let app: Application;
 

@@ -1,14 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { configService as configServiceToMock } from '../../../core';
 import { TokenVerificationService } from './token-verification.service';
-
-jest.mock('../../../core', () => ({
-  configService: {
-    get: jest.fn(),
-  },
-}));
-
-const configService = configServiceToMock as jest.Mocked<typeof configServiceToMock>;
 
 describe('TokenVerificationService', () => {
   let service: TokenVerificationService;
@@ -16,15 +7,15 @@ describe('TokenVerificationService', () => {
   const mockIssuer = 'test-issuer';
 
   beforeEach(() => {
-    configService.get.mockReturnValue({
+    const jwtConfig = {
       accessSecret: mockAccessSecret,
       refreshSecret: 'test-refresh-secret',
       accessExpireTime: '15m',
       refreshExpireTime: '7d',
       issuer: mockIssuer,
-    });
+    };
 
-    service = new TokenVerificationService();
+    service = new TokenVerificationService(jwtConfig);
   });
 
   afterEach(() => {
@@ -43,7 +34,6 @@ describe('TokenVerificationService', () => {
 
       expect(result).toMatchObject({ id: 'user-123' });
       expect(result.iat).toBeDefined();
-      expect(configService.get).toHaveBeenCalled();
     });
 
     it('should reject an invalid token', async () => {

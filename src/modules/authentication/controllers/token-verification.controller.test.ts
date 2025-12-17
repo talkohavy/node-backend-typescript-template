@@ -6,12 +6,6 @@ import { API_URLS, StatusCodes } from '../../../common/constants';
 import { errorHandlerPlugin } from '../../../plugins/errorHandler.plugin';
 import { TokenVerificationController } from './token-verification.controller';
 
-jest.mock('../../../core', () => ({
-  configService: {
-    get: jest.fn(),
-  },
-}));
-
 describe('TokenVerificationController', () => {
   let app: Application;
   let mockTokenVerificationService: jest.Mocked<TokenVerificationService>;

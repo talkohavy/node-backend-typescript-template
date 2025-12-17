@@ -28,7 +28,7 @@ export async function buildApp() {
 
   app.disable('x-powered-by');
 
-  const appModule = new AppFactory(app);
+  const appModule = new AppFactory(app, optimizedApp);
 
   await appModule.registerPlugins([
     configServicePlugin,

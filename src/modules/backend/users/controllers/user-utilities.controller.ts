@@ -3,7 +3,7 @@ import type { ControllerFactory } from '../../../../lib/lucky-server';
 import type { IAuthAdapter } from '../../authentication/adapters/auth.adapter.interface';
 import type { IUsersAdapter } from '../adapters/users.adapter.interface';
 import { API_URLS, StatusCodes } from '../../../../common/constants';
-import { extractAccessTokenFromCookies } from '../../logic/extractAccessTokenFromCookies';
+import { ConfigKeys, type CookiesConfig } from '../../../../configurations';
 
 export class UserUtilitiesController implements ControllerFactory {
   constructor(
@@ -14,9 +14,11 @@ export class UserUtilitiesController implements ControllerFactory {
 
   private getProfile() {
     this.app.get(API_URLS.getProfile, async (req: Request, res: Response) => {
+      const { cookies } = req;
+
       this.app.logger.info(`GET ${API_URLS.getProfile} - get user profile`);
 
-      const token = extractAccessTokenFromCookies(req.cookies);
+      const token = this.extractAccessTokenFromCookies(cookies);
 
       const decodedToken = await this.authAdapter.verifyToken(token);
 
@@ -28,6 +30,11 @@ export class UserUtilitiesController implements ControllerFactory {
 
       res.json(fetchedUser);
     });
+  }
+
+  private extractAccessTokenFromCookies(cookies: any) {
+    const { accessCookie } = this.app.configService.get<CookiesConfig>(ConfigKeys.Cookies);
+    return cookies[accessCookie.name];
   }
 
   registerRoutes() {
