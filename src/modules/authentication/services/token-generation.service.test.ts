@@ -1,29 +1,19 @@
-import { configService as configServiceToMock } from '../../../core';
+import type { JwtConfig } from '../../../configurations';
 import { TokenGenerationService } from '../services/token-generation.service';
-
-jest.mock('../../../core', () => ({
-  configService: {
-    get: jest.fn(),
-  },
-}));
-
-// Type assertion for better TypeScript support
-const configService = configServiceToMock as jest.Mocked<typeof configServiceToMock>;
 
 describe('TokenGenerationService', () => {
   let service: TokenGenerationService;
 
   beforeEach(() => {
-    // Setup mock return values for JWT config
-    configService.get.mockReturnValue({
+    const jwtConfig: JwtConfig = {
       accessSecret: 'test-access-secret',
       refreshSecret: 'test-refresh-secret',
       accessExpireTime: '15m',
       refreshExpireTime: '7d',
       issuer: 'test-issuer',
-    });
+    };
 
-    service = new TokenGenerationService();
+    service = new TokenGenerationService(jwtConfig);
   });
 
   afterEach(() => {
@@ -53,7 +43,6 @@ describe('TokenGenerationService', () => {
 
       expect(typeof token).toBe('string');
       expect(token.length).toBeGreaterThan(0);
-      expect(configService.get).toHaveBeenCalled();
     });
   });
 
@@ -65,7 +54,6 @@ describe('TokenGenerationService', () => {
 
       expect(typeof token).toBe('string');
       expect(token.length).toBeGreaterThan(0);
-      expect(configService.get).toHaveBeenCalled();
     });
   });
 });

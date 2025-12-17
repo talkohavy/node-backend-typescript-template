@@ -1,5 +1,6 @@
 import type { Application } from 'express';
 import { IS_MICRO_SERVICES } from '../../common/constants';
+import { ConfigKeys, type JwtConfig } from '../../configurations';
 import { AuthenticationController } from './controllers';
 import { PasswordManagementController } from './controllers/password-management.controller';
 import { SessionManagementController } from './controllers/session-management.controller';
@@ -15,14 +16,20 @@ export class AuthenticationModule {
   private tokenGenerationService!: TokenGenerationService;
   private tokenVerificationService!: TokenVerificationService;
 
-  constructor(private readonly app: any) {
+  constructor(private readonly app: Application) {
     this.initializeModule();
   }
 
   private initializeModule(): void {
+    const jwtConfig = this.app.configService.get<JwtConfig>(ConfigKeys.Jwt);
+
+    if (!jwtConfig) {
+      throw new Error('JWT configuration not found');
+    }
+
     // Initialize services
     this.passwordManagementService = new PasswordManagementService();
-    this.tokenGenerationService = new TokenGenerationService();
+    this.tokenGenerationService = new TokenGenerationService(jwtConfig);
     this.tokenVerificationService = new TokenVerificationService();
 
     // Only attach routes if running as a standalone micro-service

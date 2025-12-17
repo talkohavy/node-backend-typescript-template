@@ -3,7 +3,6 @@ import type { ControllerFactory } from '../../../lib/lucky-server';
 import type { TokenVerificationService } from '../services/token-verification.service';
 import { API_URLS } from '../../../common/constants';
 import { ConfigKeys, type CookiesConfig } from '../../../configurations';
-import { configService } from '../../../core';
 import { UnauthorizedError } from '../../../lib/Errors';
 
 export class TokenVerificationController implements ControllerFactory {
@@ -30,7 +29,7 @@ export class TokenVerificationController implements ControllerFactory {
   }
 
   private extractAccessTokenFromCookies(cookies: any): string {
-    const { accessCookie } = configService.get<CookiesConfig>(ConfigKeys.Cookies);
+    const { accessCookie } = this.app.configService.get<CookiesConfig>(ConfigKeys.Cookies);
     const token = cookies[accessCookie.name] as string;
 
     return token;
