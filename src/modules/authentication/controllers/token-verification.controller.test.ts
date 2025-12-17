@@ -12,8 +12,6 @@ jest.mock('../../../core', () => ({
   },
 }));
 
-const mockConfigService = configService as jest.Mocked<typeof configService>;
-
 describe('TokenVerificationController', () => {
   let app: Application;
   let mockTokenVerificationService: jest.Mocked<TokenVerificationService>;
@@ -27,11 +25,6 @@ describe('TokenVerificationController', () => {
       info: jest.fn(),
       error: jest.fn(),
     } as any;
-
-    mockConfigService.get.mockReturnValue({
-      accessCookie: { name: 'accessToken' },
-      refreshCookie: { name: 'refreshToken' },
-    });
 
     mockTokenVerificationService = {
       verifyToken: jest.fn(),

@@ -1,4 +1,4 @@
-import type { ServerApp } from '../../common/types';
+import type { Application } from 'express';
 import { IS_MICRO_SERVICES } from '../../common/constants';
 import { HealthCheckController } from '../health-check/health-check.controller';
 import { AuthDirectAdapter, AuthHttpAdapter, AuthenticationController, type IAuthAdapter } from './authentication';
@@ -31,7 +31,7 @@ export class BackendModule {
   private booksAdapter!: IBooksAdapter;
   private fileUploadAdapter!: IFileUploadAdapter;
 
-  constructor(private readonly app: ServerApp) {
+  constructor(private readonly app: Application) {
     this.initializeAdapters();
     this.attachRoutes();
   }

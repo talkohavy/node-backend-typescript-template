@@ -30,7 +30,7 @@ export class AuthenticationModule {
     // Initialize services
     this.passwordManagementService = new PasswordManagementService();
     this.tokenGenerationService = new TokenGenerationService(jwtConfig);
-    this.tokenVerificationService = new TokenVerificationService();
+    this.tokenVerificationService = new TokenVerificationService(jwtConfig);
 
     // Only attach routes if running as a standalone micro-service
     if (IS_MICRO_SERVICES) {
