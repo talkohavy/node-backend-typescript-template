@@ -5,6 +5,7 @@ import type { ConfigService } from '../lib/config-service';
 import type { LoggerService } from '../lib/logger-service';
 import type { AuthenticationModule } from '../modules/authentication';
 import type { BooksModule } from '../modules/books';
+import type { DragonsModule } from '../modules/dragons';
 import type { FileUploadModule } from '../modules/file-upload';
 import type { HealthCheckModule } from '../modules/health-check';
 import type { UsersModule } from '../modules/users';
@@ -15,6 +16,7 @@ export interface OptimizedApp {
     UsersModule: UsersModule;
     AuthenticationModule: AuthenticationModule;
     BooksModule: BooksModule;
+    DragonsModule: DragonsModule;
     FileUploadModule: FileUploadModule;
   };
   configService: ConfigService;

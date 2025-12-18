@@ -1,0 +1,61 @@
+import type { RedisClientType } from 'redis';
+import type { Dragon } from '../types';
+import type { CreateDragonDto, UpdateDragonDto } from './interfaces/dragons.service.interface';
+
+const DRAGONS_KEY = 'dragons';
+const DRAGON_ID_COUNTER_KEY = 'dragons:id_counter';
+
+export class DragonsService {
+  constructor(private readonly redis: RedisClientType) {}
+
+  async getDragons(): Promise<Array<Dragon>> {
+    const dragonsJson = await this.redis.hGetAll(DRAGONS_KEY);
+    const dragons = Object.values(dragonsJson).map((json) => JSON.parse(json) as Dragon);
+    return dragons;
+  }
+
+  async getDragonById(dragonId: string): Promise<Dragon | null> {
+    const dragonJson = await this.redis.hGet(DRAGONS_KEY, dragonId);
+
+    if (!dragonJson) return null;
+
+    return JSON.parse(dragonJson) as Dragon;
+  }
+
+  async createDragon(dragon: CreateDragonDto): Promise<Dragon> {
+    // Increment and get new ID atomically
+    const newId = await this.redis.incr(DRAGON_ID_COUNTER_KEY);
+
+    const newDragon: Dragon = {
+      id: newId,
+      name: dragon.name,
+      author: dragon.author,
+      publishedYear: dragon.publishedYear,
+    };
+
+    await this.redis.hSet(DRAGONS_KEY, String(newId), JSON.stringify(newDragon));
+
+    return newDragon;
+  }
+
+  async updateDragon(dragonId: string, updates: UpdateDragonDto): Promise<Dragon | null> {
+    const existingDragonJson = await this.redis.hGet(DRAGONS_KEY, dragonId);
+
+    if (!existingDragonJson) return null;
+
+    const existingDragon = JSON.parse(existingDragonJson) as Dragon;
+    const updatedDragon: Dragon = { ...existingDragon, ...updates };
+
+    await this.redis.hSet(DRAGONS_KEY, dragonId, JSON.stringify(updatedDragon));
+
+    return updatedDragon;
+  }
+
+  async deleteDragon(dragonId: string): Promise<{ message: string } | null> {
+    const deleted = await this.redis.hDel(DRAGONS_KEY, dragonId);
+
+    if (deleted === 0) return null;
+
+    return { message: 'Dragon deleted successfully' };
+  }
+}

@@ -1,0 +1,109 @@
+import type { Application } from 'express';
+import type { ControllerFactory } from '../../../lib/lucky-server';
+import type { DragonsService } from '../services/dragons.service';
+import type { UpdateDragonDto } from '../services/interfaces/dragons.service.interface';
+import { API_URLS, StatusCodes } from '../../../common/constants';
+
+export class DragonsController implements ControllerFactory {
+  constructor(
+    private readonly app: Application,
+    private readonly dragonService: DragonsService,
+  ) {}
+
+  private getDragons() {
+    this.app.get(API_URLS.dragons, async (_req, res) => {
+      this.app.logger.info(`GET ${API_URLS.dragons} - fetching dragons`);
+
+      const dragons = await this.dragonService.getDragons();
+
+      res.json(dragons);
+    });
+  }
+
+  private getDragonById() {
+    this.app.get(API_URLS.dragonById, async (req, res) => {
+      const { params } = req;
+
+      this.app.logger.info(`GET ${API_URLS.dragonById} - fetching dragon by ID`);
+
+      const dragonId = params.dragonId as string;
+
+      const dragon = await this.dragonService.getDragonById(dragonId);
+
+      if (!dragon) {
+        this.app.logger.error(`Dragon not found - id: ${dragonId}`);
+
+        res.status(StatusCodes.NOT_FOUND).json({ message: 'Dragon not found' });
+      }
+
+      res.json(dragon);
+    });
+  }
+
+  private createDragon() {
+    this.app.post(
+      API_URLS.dragons,
+      // joiBodyMiddleware(createDragonSchema),
+      async (req, res) => {
+        const { body } = req;
+
+        this.app.logger.info(`POST ${API_URLS.dragons} - creating new dragon`);
+
+        const newDragon = await this.dragonService.createDragon(body);
+
+        res.status(StatusCodes.CREATED).json(newDragon);
+      },
+    );
+  }
+
+  private updateDragon() {
+    this.app.patch(API_URLS.dragonById, async (req, res) => {
+      const { params, body } = req as any;
+
+      this.app.logger.info(`PUT ${API_URLS.dragonById} - updating dragon by ID`);
+
+      const dragonId = params.dragonId as string;
+      const dragon = body as UpdateDragonDto;
+
+      const updatedDragon = await this.dragonService.updateDragon(dragonId, dragon);
+
+      if (!updatedDragon) {
+        this.app.logger.error(`Dragon not found - id: ${dragonId}`);
+
+        res.status(StatusCodes.NOT_FOUND).json({ message: 'Dragon not found' });
+        return;
+      }
+
+      res.json(updatedDragon);
+    });
+  }
+
+  private deleteDragon() {
+    this.app.delete(API_URLS.dragonById, async (req, res) => {
+      const { params } = req as any;
+
+      this.app.logger.info(`DELETE ${API_URLS.dragonById} - deleting dragon by ID`);
+
+      const dragonId = params.dragonId as string;
+
+      const deletedDragon = await this.dragonService.deleteDragon(dragonId);
+
+      if (!deletedDragon) {
+        this.app.logger.error(`Dragon not found - id: ${dragonId}`);
+
+        res.status(StatusCodes.NOT_FOUND).json({ message: 'Dragon not found' });
+        return;
+      }
+
+      res.json({ message: 'Dragon deleted successfully' });
+    });
+  }
+
+  registerRoutes() {
+    this.getDragons.bind(this);
+    this.getDragonById.bind(this);
+    this.createDragon.bind(this);
+    this.updateDragon.bind(this);
+    this.deleteDragon.bind(this);
+  }
+}

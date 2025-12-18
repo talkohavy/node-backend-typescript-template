@@ -67,6 +67,9 @@ export const API_URLS = {
   // books
   books: '/api/books',
   bookById: '/api/books/:bookId',
+  // dragons
+  dragons: '/api/dragons',
+  dragonById: '/api/dragons/:dragonId',
   // upload file
   uploadFileMultipart: '/api/upload-file/multipart',
   uploadFileBinary: '/api/upload-file/binary',
@@ -88,6 +91,7 @@ export const optimizedApp: OptimizedApp = {
     UsersModule: null as any,
     HealthCheckModule: null as any,
     BooksModule: null as any,
+    DragonsModule: null as any,
     FileUploadModule: null as any,
   },
   configService: null as any,

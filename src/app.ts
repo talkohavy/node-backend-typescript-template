@@ -4,6 +4,7 @@ import { AppFactory } from './lib/lucky-server/app-factory';
 import { AuthenticationModule } from './modules/authentication';
 import { BackendModule } from './modules/backend';
 import { BooksModule } from './modules/books';
+import { DragonsModule } from './modules/dragons';
 import { FileUploadModule } from './modules/file-upload';
 import { HealthCheckModule } from './modules/health-check';
 // import { ServerSentEventModule } from './modules/serverSentEvents';
@@ -50,6 +51,7 @@ export async function buildApp() {
     AuthenticationModule,
     UsersModule,
     BooksModule,
+    DragonsModule,
     FileUploadModule,
     // BFF module (route provider) - initialize last, requires domain modules to be ready
     BackendModule,
