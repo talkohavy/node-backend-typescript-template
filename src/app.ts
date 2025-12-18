@@ -46,14 +46,14 @@ export async function buildApp() {
   ]);
 
   appModule.registerModules([
-    // Domain modules (service providers) - initialize first
+    // Main modules (service providers)
     HealthCheckModule,
     AuthenticationModule,
     UsersModule,
     BooksModule,
     DragonsModule,
     FileUploadModule,
-    // BFF module (route provider) - initialize last, requires domain modules to be ready
+    // BFF module (route provider) - requires Main modules to be ready
     BackendModule,
     // Utility modules
     // ServerSentEventModule,
