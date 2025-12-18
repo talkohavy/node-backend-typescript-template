@@ -4,12 +4,25 @@ import type { IDragonsAdapter } from '../adapters/dragons.adapter.interface';
 import { API_URLS, StatusCodes } from '../../../../common/constants';
 import { joiBodyMiddleware } from '../../../../middlewares/joi-body.middleware';
 import { createDragonSchema } from './dto/createDragonSchema.dto';
+import { updateDragonSchema } from './dto/updateDragonSchema.dto';
 
 export class DragonsController implements ControllerFactory {
   constructor(
     private readonly app: Application,
     private readonly dragonsAdapter: IDragonsAdapter,
   ) {}
+
+  private createDragon() {
+    this.app.post(API_URLS.dragons, joiBodyMiddleware(createDragonSchema), async (req: Request, res: Response) => {
+      this.app.logger.info(`POST ${API_URLS.dragons} - creating new dragon`);
+
+      const { body } = req;
+
+      const newDragon = await this.dragonsAdapter.createDragon(body);
+
+      res.status(StatusCodes.CREATED).json(newDragon);
+    });
+  }
 
   private getDragons() {
     this.app.get(API_URLS.dragons, async (_req, res) => {
@@ -39,20 +52,8 @@ export class DragonsController implements ControllerFactory {
     });
   }
 
-  private createDragon() {
-    this.app.post(API_URLS.dragons, joiBodyMiddleware(createDragonSchema), async (req: Request, res: Response) => {
-      this.app.logger.info(`POST ${API_URLS.dragons} - creating new dragon`);
-
-      const { body } = req;
-
-      const newDragon = await this.dragonsAdapter.createDragon(body);
-
-      res.status(StatusCodes.CREATED).json(newDragon);
-    });
-  }
-
   private updateDragon() {
-    this.app.put(API_URLS.dragonById, async (req: Request, res: Response) => {
+    this.app.put(API_URLS.dragonById, joiBodyMiddleware(updateDragonSchema), async (req: Request, res: Response) => {
       this.app.logger.info(`PUT ${API_URLS.dragonById} - updating dragon by ID`);
 
       const dragonId = req.params.dragonId!;
@@ -87,9 +88,9 @@ export class DragonsController implements ControllerFactory {
   }
 
   registerRoutes() {
+    this.createDragon();
     this.getDragons();
     this.getDragonById();
-    this.createDragon();
     this.updateDragon();
     this.deleteDragon();
   }
