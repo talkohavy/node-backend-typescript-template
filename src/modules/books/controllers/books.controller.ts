@@ -14,9 +14,9 @@ export class BooksController implements ControllerFactory {
 
   private createBook() {
     this.app.post(API_URLS.books, joiBodyMiddleware(createBookSchema), async (req: Request, res: Response) => {
-      this.app.logger.info(`POST ${API_URLS.books} - creating new book`);
-
       const { body } = req;
+
+      this.app.logger.info(`POST ${API_URLS.books} - creating new book`);
 
       const newBook = await this.booksService.createBook(body);
 
@@ -75,9 +75,11 @@ export class BooksController implements ControllerFactory {
 
   private deleteBook() {
     this.app.delete(API_URLS.bookById, async (req: Request, res: Response) => {
+      const { params } = req;
+
       this.app.logger.info(`DELETE ${API_URLS.bookById} - deleting book by ID`);
 
-      const bookId = req.params.bookId!;
+      const bookId = params.bookId!;
       const deletedBook = await this.booksService.deleteBook(bookId);
 
       if (!deletedBook) {
