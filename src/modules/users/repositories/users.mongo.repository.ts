@@ -1,4 +1,4 @@
-import { type ApplyBasicCreateCasting, type QueryFilter, Types } from 'mongoose';
+import { type ApplyBasicCreateCasting, type QueryFilter, type Mongoose, Types } from 'mongoose';
 import type { DatabaseUser } from '../types';
 import type { IUsersRepository } from './interfaces/users.repository.base';
 import type {
@@ -9,14 +9,11 @@ import type {
   GetUserByEmailOptions,
 } from './interfaces/users.repository.interface';
 import { UserModel } from '../../../database/mongo/models/user/user.model';
-import { MongodbConnection } from '../../../lib/database/mongo.connection';
 
 const { ObjectId } = Types;
 
 export class UsersMongoRepository implements IUsersRepository {
-  constructor() {
-    MongodbConnection.getInstance().ensureConnected();
-  }
+  constructor(_mongoClient: Mongoose) {}
 
   async getUserByEmail(email: string, options: GetUserByEmailOptions = {}): Promise<DatabaseUser | null> {
     const { options: optionsRaw = {} } = options; // , fields
