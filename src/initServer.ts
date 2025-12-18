@@ -1,3 +1,4 @@
+import { COLORS } from 'color-my-json';
 import { buildApp } from './app';
 import { ConfigKeys } from './configurations';
 
@@ -7,6 +8,7 @@ export async function startServer() {
   const PORT = app.configService.get<number>(ConfigKeys.Port);
 
   app.listen(PORT, () => app.logger.log(`server started on port ${PORT}`));
+  console.log(`${COLORS.green}Open in browser: ${COLORS.blue}http://localhost:${PORT}${COLORS.stop}`);
 }
 
 process.on('unhandledRejection', (err) => {
