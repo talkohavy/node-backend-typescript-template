@@ -21,10 +21,10 @@ export class ServerSentEventModule {
 
     // SSE always attaches routes directly - clients connect to this endpoint
     // without going through the BFF (persistent connections don't proxy well)
-    this.attachRoutes(this.app);
+    this.attachControllers(this.app);
   }
 
-  private attachRoutes(app: Application): void {
+  private attachControllers(app: Application): void {
     const controller = new ServerSentEventsController(app, this.serverSentEventsService);
 
     controller.registerRoutes();

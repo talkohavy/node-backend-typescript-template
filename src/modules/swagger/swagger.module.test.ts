@@ -9,7 +9,6 @@ jest.mock('./middlewares', () => ({
   SwaggerMiddleware: jest.fn().mockImplementation(() => mockSwaggerMiddleware),
 }));
 
-// Mock express app to pass to attachController method
 const mockApp = {
   use: jest.fn(),
   get: jest.fn(),

@@ -33,7 +33,7 @@ export class BackendModule {
 
   constructor(private readonly app: Application) {
     this.initializeAdapters();
-    this.attachRoutes();
+    this.attachControllers();
   }
 
   private initializeAdapters(): void {
@@ -63,7 +63,7 @@ export class BackendModule {
     }
   }
 
-  private attachRoutes(): void {
+  private attachControllers(): void {
     // BackendModule ALWAYS attaches public routes (it's the BFF)
     const healthCheckController = new HealthCheckController(this.app);
     const authController = new AuthenticationController(this.app, this.authAdapter, this.usersAdapter);

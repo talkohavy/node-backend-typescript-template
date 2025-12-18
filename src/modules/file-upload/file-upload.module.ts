@@ -15,11 +15,11 @@ export class FileUploadModule {
 
     // Only attach routes if running as a standalone micro-service
     if (IS_STANDALONE_MICRO_SERVICES) {
-      this.attachRoutes(this.app);
+      this.attachControllers(this.app);
     }
   }
 
-  private attachRoutes(app: Application): void {
+  private attachControllers(app: Application): void {
     const controller = new FileUploadController(app, this.fileUploadService);
 
     controller.registerRoutes();

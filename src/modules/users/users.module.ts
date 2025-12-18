@@ -33,11 +33,11 @@ export class UsersModule {
 
     // Only attach routes if running as a standalone micro-service
     if (IS_STANDALONE_MICRO_SERVICES) {
-      this.attachRoutes();
+      this.attachControllers();
     }
   }
 
-  private attachRoutes(): void {
+  private attachControllers(): void {
     const userUtilitiesController = new UserUtilitiesController(this.app, this.userUtilitiesService);
     const usersCrudController = new UsersCrudController(this.app, this.usersCrudService);
 
