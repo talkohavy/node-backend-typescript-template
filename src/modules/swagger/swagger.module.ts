@@ -21,9 +21,9 @@ export class SwaggerModule {
   }
 
   private attachControllers(app: Application): void {
-    const swaggerMiddleware = new SwaggerController(app, this.swaggerService);
+    const swaggerController = new SwaggerController(app, this.swaggerService);
 
-    swaggerMiddleware.registerRoutes();
+    swaggerController.registerRoutes();
   }
 
   get services() {

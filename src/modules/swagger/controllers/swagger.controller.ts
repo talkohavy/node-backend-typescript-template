@@ -20,7 +20,8 @@ export class SwaggerController {
     const topLevelSwaggerConfig = this.swaggerService.createTopLevelSwaggerConfig();
     const swaggerSetup = swaggerUi.setup(null, topLevelSwaggerConfig); // <--- or, swaggerUi.setup(swaggerDocs, swaggerExtraOptions)
 
-    this.app.get(API_URLS.swagger, swaggerServe, swaggerSetup);
+    // MUST be "use"! Not "get", not "all" - just "use"!
+    this.app.use(API_URLS.apiDocs, swaggerServe, swaggerSetup);
   }
 
   private serveSwaggerConfigs() {
