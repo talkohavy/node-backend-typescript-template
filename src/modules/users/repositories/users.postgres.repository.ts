@@ -1,3 +1,4 @@
+import type { Client } from 'pg';
 import type { DatabaseUser } from '../types';
 import type { IUsersRepository } from './interfaces/users.repository.base';
 import type {
@@ -7,14 +8,9 @@ import type {
   UpdateUserDto,
   GetUserByEmailOptions,
 } from './interfaces/users.repository.interface';
-import { PostgresConnection } from '../../../lib/database/postgres.connection';
 
 export class UsersPostgresRepository implements IUsersRepository {
-  private readonly dbClient: PostgresConnection;
-
-  constructor() {
-    this.dbClient = PostgresConnection.getInstance();
-    this.dbClient.ensureConnected();
+  constructor(private readonly pgClient: Client) {
     this.initializeTable();
   }
 
@@ -34,7 +30,7 @@ export class UsersPostgresRepository implements IUsersRepository {
         );
       `;
 
-      await this.dbClient.query(createTableQuery);
+      await this.pgClient.query(createTableQuery);
       console.log('✅ Users table initialized successfully');
     } catch (error) {
       console.error('❌ Error initializing users table:', error);
@@ -45,7 +41,7 @@ export class UsersPostgresRepository implements IUsersRepository {
   async getUserByEmail(email: string, options: GetUserByEmailOptions = {}): Promise<DatabaseUser | null> {
     const fields = options.fields || ['*'];
     const query = `SELECT ${fields.join(', ')} FROM users WHERE email = $1`;
-    const result = await this.dbClient.query(query, [email]);
+    const result = await this.pgClient.query(query, [email]);
 
     if (result.rows.length === 0) {
       result.rows.push({
@@ -68,7 +64,7 @@ export class UsersPostgresRepository implements IUsersRepository {
     `;
     const values = [body.email, body.hashed_password, body.nickname, body.date_of_birth];
 
-    const result = await this.dbClient.query(query, values);
+    const result = await this.pgClient.query(query, values);
     return result.rows[0] as DatabaseUser;
   }
 
@@ -101,13 +97,13 @@ export class UsersPostgresRepository implements IUsersRepository {
       query += ` OFFSET ${props.options.skip}`;
     }
 
-    const result = await this.dbClient.query(query, values);
+    const result = await this.pgClient.query(query, values);
     return result.rows as DatabaseUser[];
   }
 
   async getUserById(userId: string, _options: GetUserByIdOptions = {}): Promise<DatabaseUser | null> {
     const query = 'SELECT * FROM users WHERE id = $1';
-    const result = await this.dbClient.query(query, [userId]);
+    const result = await this.pgClient.query(query, [userId]);
 
     return result.rows[0] || null;
   }
@@ -126,13 +122,13 @@ export class UsersPostgresRepository implements IUsersRepository {
       RETURNING *
     `;
 
-    const result = await this.dbClient.query(query, values);
+    const result = await this.pgClient.query(query, values);
     return result.rows[0] as DatabaseUser;
   }
 
   async deleteUserById(userId: string): Promise<boolean> {
     const query = 'DELETE FROM users WHERE id = $1';
-    const result = await this.dbClient.query(query, [userId]);
+    const result = await this.pgClient.query(query, [userId]);
 
     return (result.rowCount ?? 0) > 0;
   }

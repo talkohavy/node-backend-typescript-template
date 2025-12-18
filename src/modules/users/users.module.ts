@@ -21,8 +21,8 @@ export class UsersModule {
 
   private initializeModule(): void {
     // Initialize repositories
-    // this.usersRepository = new UsersMongoRepository();
-    this.usersRepository = new UsersPostgresRepository();
+    // this.usersRepository = new UsersMongoRepository(this.app.mongo);
+    this.usersRepository = new UsersPostgresRepository(this.app.pg);
 
     // Initialize helper services
     const fieldScreeningService = new FieldScreeningService(['hashed_password'], ['nickname']);
