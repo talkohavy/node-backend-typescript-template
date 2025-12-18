@@ -18,7 +18,7 @@ import { corsPlugin } from './plugins/cors/cors.plugin';
 import { errorHandlerPlugin } from './plugins/errorHandler.plugin';
 import { helmetPlugin } from './plugins/helmet.plugin';
 import { loggerPlugin } from './plugins/logger.plugin';
-import { pathNotFoundPlugin } from './plugins/pathNotFound.plugin copy';
+import { pathNotFoundPlugin } from './plugins/pathNotFound.plugin';
 import { postgresPlugin } from './plugins/postgres.plugin';
 import { redisPlugin } from './plugins/redis.plugin';
 import { requestIdPlugin } from './plugins/request-id.plugin';
