@@ -53,7 +53,7 @@ export class DragonsController implements ControllerFactory {
   }
 
   private updateDragon() {
-    this.app.put(API_URLS.dragonById, joiBodyMiddleware(updateDragonSchema), async (req: Request, res: Response) => {
+    this.app.patch(API_URLS.dragonById, joiBodyMiddleware(updateDragonSchema), async (req: Request, res: Response) => {
       this.app.logger.info(`PUT ${API_URLS.dragonById} - updating dragon by ID`);
 
       const dragonId = req.params.dragonId!;

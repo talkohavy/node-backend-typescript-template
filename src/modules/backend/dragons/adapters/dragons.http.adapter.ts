@@ -33,7 +33,7 @@ export class DragonsHttpAdapter implements IDragonsAdapter {
 
   async updateDragon(dragonId: string, data: UpdateDragonDto): Promise<Dragon | null> {
     const route = `${API_URLS.dragons}/${dragonId}`;
-    return this.httpClient.put<Dragon | null>({
+    return this.httpClient.patch<Dragon | null>({
       serviceName: ServiceNames.Dragons,
       route,
       body: data,

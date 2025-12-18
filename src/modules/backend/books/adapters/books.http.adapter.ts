@@ -33,7 +33,7 @@ export class BooksHttpAdapter implements IBooksAdapter {
 
   async updateBook(bookId: string, data: UpdateBookDto): Promise<Book | null> {
     const route = `${API_URLS.books}/${bookId}`;
-    return this.httpClient.put<Book | null>({
+    return this.httpClient.patch<Book | null>({
       serviceName: ServiceNames.Books,
       route,
       body: data,

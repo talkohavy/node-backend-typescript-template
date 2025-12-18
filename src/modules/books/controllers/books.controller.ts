@@ -53,7 +53,7 @@ export class BooksController implements ControllerFactory {
   }
 
   private updateBook() {
-    this.app.put(API_URLS.bookById, joiBodyMiddleware(updateBookSchema), async (req: Request, res: Response) => {
+    this.app.patch(API_URLS.bookById, joiBodyMiddleware(updateBookSchema), async (req: Request, res: Response) => {
       this.app.logger.info(`PUT ${API_URLS.bookById} - updating book by ID`);
 
       const bookId = req.params.bookId!;
