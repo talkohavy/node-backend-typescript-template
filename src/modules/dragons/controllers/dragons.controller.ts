@@ -3,6 +3,8 @@ import type { ControllerFactory } from '../../../lib/lucky-server';
 import type { DragonsService } from '../services/dragons.service';
 import type { UpdateDragonDto } from '../services/interfaces/dragons.service.interface';
 import { API_URLS, StatusCodes } from '../../../common/constants';
+import { joiBodyMiddleware } from '../../../middlewares/joi-body.middleware';
+import { createDragonSchema, updateDragonSchema } from './dto/dragons.dto';
 
 export class DragonsController implements ControllerFactory {
   constructor(
@@ -41,23 +43,19 @@ export class DragonsController implements ControllerFactory {
   }
 
   private createDragon() {
-    this.app.post(
-      API_URLS.dragons,
-      // joiBodyMiddleware(createDragonSchema),
-      async (req, res) => {
-        const { body } = req;
+    this.app.post(API_URLS.dragons, joiBodyMiddleware(createDragonSchema), async (req, res) => {
+      const { body } = req;
 
-        this.app.logger.info(`POST ${API_URLS.dragons} - creating new dragon`);
+      this.app.logger.info(`POST ${API_URLS.dragons} - creating new dragon`);
 
-        const newDragon = await this.dragonService.createDragon(body);
+      const newDragon = await this.dragonService.createDragon(body);
 
-        res.status(StatusCodes.CREATED).json(newDragon);
-      },
-    );
+      res.status(StatusCodes.CREATED).json(newDragon);
+    });
   }
 
   private updateDragon() {
-    this.app.patch(API_URLS.dragonById, async (req, res) => {
+    this.app.patch(API_URLS.dragonById, joiBodyMiddleware(updateDragonSchema), async (req, res) => {
       const { params, body } = req as any;
 
       this.app.logger.info(`PUT ${API_URLS.dragonById} - updating dragon by ID`);
