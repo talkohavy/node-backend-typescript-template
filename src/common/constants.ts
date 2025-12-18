@@ -111,4 +111,4 @@ export const optimizedApp: OptimizedApp = {
  * - `true`:  Micro-services mode - Each module runs as a standalone service
  *            and attaches its own routes.
  */
-export const IS_MICRO_SERVICES = false;
+export const IS_STANDALONE_MICRO_SERVICES = false;

@@ -1,5 +1,5 @@
 import type { Application } from 'express';
-import { IS_MICRO_SERVICES } from '../../common/constants';
+import { IS_STANDALONE_MICRO_SERVICES } from '../../common/constants';
 import { BooksSwaggerConfig } from './configs/books/books.swagger.config';
 import { UsersSwaggerConfig } from './configs/users/users.swagger.config';
 import { SwaggerMiddleware } from './middlewares';
@@ -16,7 +16,7 @@ export class SwaggerModule {
     this.swaggerService = new SwaggerService([UsersSwaggerConfig, BooksSwaggerConfig]);
 
     // Only attach routes if running as a standalone micro-service
-    if (IS_MICRO_SERVICES) {
+    if (IS_STANDALONE_MICRO_SERVICES) {
       this.attachRoutes(this.app);
     }
   }

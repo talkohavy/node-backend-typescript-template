@@ -1,5 +1,5 @@
 import type { IUsersRepository } from './repositories/interfaces/users.repository.base';
-import { IS_MICRO_SERVICES } from '../../common/constants';
+import { IS_STANDALONE_MICRO_SERVICES } from '../../common/constants';
 import { UserUtilitiesController } from './controllers/user-utilities.controller';
 import { UsersCrudController } from './controllers/users-crud.controller';
 import { UsersController } from './controllers/users.controller';
@@ -32,7 +32,7 @@ export class UsersModule {
     this.usersCrudService = new UsersCrudService(this.usersRepository);
 
     // Only attach routes if running as a standalone micro-service
-    if (IS_MICRO_SERVICES) {
+    if (IS_STANDALONE_MICRO_SERVICES) {
       this.attachRoutes();
     }
   }

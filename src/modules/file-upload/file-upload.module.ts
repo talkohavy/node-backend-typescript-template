@@ -1,5 +1,5 @@
 import type { Application } from 'express';
-import { IS_MICRO_SERVICES } from '../../common/constants';
+import { IS_STANDALONE_MICRO_SERVICES } from '../../common/constants';
 import { FileUploadController } from './file-upload.controller';
 import { FileUploadService } from './services/file-upload.service';
 
@@ -14,7 +14,7 @@ export class FileUploadModule {
     this.fileUploadService = new FileUploadService();
 
     // Only attach routes if running as a standalone micro-service
-    if (IS_MICRO_SERVICES) {
+    if (IS_STANDALONE_MICRO_SERVICES) {
       this.attachRoutes(this.app);
     }
   }
