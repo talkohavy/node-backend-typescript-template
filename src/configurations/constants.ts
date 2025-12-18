@@ -66,9 +66,10 @@ export type DatabaseConfig = {
 };
 
 export const ServiceNames = {
+  Auth: 'auth',
   Users: 'users',
   Books: 'books',
-  Auth: 'auth',
+  Dragons: 'dragons',
   FileUpload: 'file-upload',
 } as const;
 

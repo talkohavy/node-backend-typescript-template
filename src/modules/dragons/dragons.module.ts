@@ -28,4 +28,10 @@ export class DragonsModule {
   getDragonsService(): DragonsService {
     return this.dragonsService;
   }
+
+  get services() {
+    return {
+      dragonsService: this.dragonsService,
+    };
+  }
 }
