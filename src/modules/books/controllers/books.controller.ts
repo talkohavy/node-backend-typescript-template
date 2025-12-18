@@ -3,13 +3,26 @@ import type { ControllerFactory } from '../../../lib/lucky-server';
 import type { BooksService } from '../services/books.service';
 import { API_URLS, StatusCodes } from '../../../common/constants';
 import { joiBodyMiddleware } from '../../../middlewares/joi-body.middleware';
-import { createBookSchema } from './dto/books.dto';
+import { createBookSchema } from './dto/createBook.dto';
+import { updateBookSchema } from './dto/updatedBook.dto';
 
 export class BooksController implements ControllerFactory {
   constructor(
     private readonly app: Application,
     private readonly booksService: BooksService,
   ) {}
+
+  private createBook() {
+    this.app.post(API_URLS.books, joiBodyMiddleware(createBookSchema), async (req: Request, res: Response) => {
+      this.app.logger.info(`POST ${API_URLS.books} - creating new book`);
+
+      const { body } = req;
+
+      const newBook = await this.booksService.createBook(body);
+
+      res.status(StatusCodes.CREATED).json(newBook);
+    });
+  }
 
   private getBooks() {
     this.app.get(API_URLS.books, async (_req, res) => {
@@ -39,20 +52,8 @@ export class BooksController implements ControllerFactory {
     });
   }
 
-  private createBook() {
-    this.app.post(API_URLS.books, joiBodyMiddleware(createBookSchema), async (req: Request, res: Response) => {
-      this.app.logger.info(`POST ${API_URLS.books} - creating new book`);
-
-      const { body } = req;
-
-      const newBook = await this.booksService.createBook(body);
-
-      res.status(StatusCodes.CREATED).json(newBook);
-    });
-  }
-
   private updateBook() {
-    this.app.put(API_URLS.bookById, async (req: Request, res: Response) => {
+    this.app.put(API_URLS.bookById, joiBodyMiddleware(updateBookSchema), async (req: Request, res: Response) => {
       this.app.logger.info(`PUT ${API_URLS.bookById} - updating book by ID`);
 
       const bookId = req.params.bookId!;
