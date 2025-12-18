@@ -13,9 +13,9 @@ import type { UsersModule } from '../modules/users';
 
 export interface OptimizedApp {
   modules: {
+    AuthenticationModule: AuthenticationModule;
     HealthCheckModule: HealthCheckModule;
     UsersModule: UsersModule;
-    AuthenticationModule: AuthenticationModule;
     BooksModule: BooksModule;
     DragonsModule: DragonsModule;
     FileUploadModule: FileUploadModule;

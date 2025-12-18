@@ -88,8 +88,8 @@ export const EXCLUDED_PATHS = [API_URLS.healthCheck] as string[];
 export const optimizedApp: OptimizedApp = {
   modules: {
     AuthenticationModule: null as any,
-    UsersModule: null as any,
     HealthCheckModule: null as any,
+    UsersModule: null as any,
     BooksModule: null as any,
     DragonsModule: null as any,
     FileUploadModule: null as any,
