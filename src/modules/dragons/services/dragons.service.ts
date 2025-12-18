@@ -22,16 +22,13 @@ export class DragonsService {
     return JSON.parse(dragonJson) as Dragon;
   }
 
-  async createDragon(dragon: CreateDragonDto): Promise<Dragon> {
+  async createDragon(payload: CreateDragonDto): Promise<Dragon> {
+    const { name, element, wingSpan, age } = payload;
+
     // Increment and get new ID atomically
     const newId = await this.redis.incr(DRAGON_ID_COUNTER_KEY);
 
-    const newDragon: Dragon = {
-      id: newId,
-      name: dragon.name,
-      author: dragon.author,
-      publishedYear: dragon.publishedYear,
-    };
+    const newDragon: Dragon = { id: newId, name, element, wingSpan, age };
 
     await this.redis.hSet(DRAGONS_KEY, String(newId), JSON.stringify(newDragon));
 
