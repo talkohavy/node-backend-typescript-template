@@ -1,29 +1,34 @@
 import type { Application } from 'express';
-import { IS_STANDALONE_MICRO_SERVICES } from '../../common/constants';
 import { BooksSwaggerConfig } from './configs/books/books.swagger.config';
 import { UsersSwaggerConfig } from './configs/users/users.swagger.config';
-import { SwaggerMiddleware } from './middlewares';
+import { SwaggerController } from './controllers';
 import { SwaggerService } from './services/swagger.service';
 
+/**
+ * Docs can be found under the `/api/docs` route.
+ */
 export class SwaggerModule {
   private swaggerService!: SwaggerService;
 
-  constructor(private readonly app: any) {
+  constructor(private readonly app: Application) {
     this.initializeModule();
   }
 
   private initializeModule(): void {
     this.swaggerService = new SwaggerService([UsersSwaggerConfig, BooksSwaggerConfig]);
 
-    // Only attach routes if running as a standalone micro-service
-    if (IS_STANDALONE_MICRO_SERVICES) {
-      this.attachControllers(this.app);
-    }
+    this.attachControllers(this.app);
   }
 
   private attachControllers(app: Application): void {
-    const swaggerMiddleware = new SwaggerMiddleware(app, this.swaggerService);
+    const swaggerMiddleware = new SwaggerController(app, this.swaggerService);
 
-    swaggerMiddleware.use();
+    swaggerMiddleware.registerRoutes();
+  }
+
+  get services() {
+    return {
+      swaggerService: this.swaggerService,
+    };
   }
 }

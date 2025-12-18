@@ -8,6 +8,7 @@ import type { BooksModule } from '../modules/books';
 import type { DragonsModule } from '../modules/dragons';
 import type { FileUploadModule } from '../modules/file-upload';
 import type { HealthCheckModule } from '../modules/health-check';
+import type { SwaggerModule } from '../modules/swagger';
 import type { UsersModule } from '../modules/users';
 
 export interface OptimizedApp {
@@ -18,6 +19,7 @@ export interface OptimizedApp {
     BooksModule: BooksModule;
     DragonsModule: DragonsModule;
     FileUploadModule: FileUploadModule;
+    SwaggerModule: SwaggerModule;
   };
   configService: ConfigService;
   callContextService: CallContextService;

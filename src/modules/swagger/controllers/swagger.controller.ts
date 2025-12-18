@@ -4,7 +4,7 @@ import swaggerUi from 'swagger-ui-express';
 import type { SwaggerService } from '../services/swagger.service';
 import { API_URLS } from '../../../common/constants';
 
-export class SwaggerMiddleware {
+export class SwaggerController {
   private pathToSwaggerServeDir = '';
 
   constructor(
@@ -15,15 +15,20 @@ export class SwaggerMiddleware {
     this.swaggerService.generateSwaggerDocsFromConfigs(this.pathToSwaggerServeDir);
   }
 
-  use() {
-    // Step 1: serve the swagger website
+  private getDocsWebsite() {
     const swaggerServe = swaggerUi.serve;
     const topLevelSwaggerConfig = this.swaggerService.createTopLevelSwaggerConfig();
     const swaggerSetup = swaggerUi.setup(null, topLevelSwaggerConfig); // <--- or, swaggerUi.setup(swaggerDocs, swaggerExtraOptions)
 
-    this.app.use(API_URLS.swagger, swaggerServe, swaggerSetup);
+    this.app.get(API_URLS.swagger, swaggerServe, swaggerSetup);
+  }
 
-    // Step 2: serve all documentations
+  private serveSwaggerConfigs() {
     this.app.use(express.static(this.pathToSwaggerServeDir));
+  }
+
+  registerRoutes() {
+    this.getDocsWebsite();
+    this.serveSwaggerConfigs();
   }
 }

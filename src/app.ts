@@ -46,16 +46,16 @@ export async function buildApp() {
   ]);
 
   appModule.registerModules([
-    // Main modules (service providers)
+    // - Main modules (service providers)
     HealthCheckModule,
     AuthenticationModule,
     UsersModule,
     BooksModule,
     DragonsModule,
     FileUploadModule,
-    // BFF module (route provider) - requires Main modules to be ready
+    // - BFF module (route provider) - requires Main modules to be ready
     BackendModule,
-    // Utility modules
+    // - Utility modules
     // ServerSentEventModule,
     SwaggerModule,
   ]);
