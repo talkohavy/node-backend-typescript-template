@@ -1,12 +1,12 @@
 import type { Application } from 'express';
 import { SwaggerModule } from './swagger.module';
 
-const mockSwaggerMiddleware = {
-  use: jest.fn(),
+const mockSwaggerController = {
+  registerRoutes: jest.fn(),
 };
 
-jest.mock('./middlewares', () => ({
-  SwaggerMiddleware: jest.fn().mockImplementation(() => mockSwaggerMiddleware),
+jest.mock('./controllers', () => ({
+  SwaggerController: jest.fn().mockImplementation(() => mockSwaggerController),
 }));
 
 const mockApp = {
@@ -17,11 +17,9 @@ const mockApp = {
 
 describe('SwaggerModule', () => {
   it('should create instance and initialize swagger middleware', () => {
-    // Act
     const instance = new SwaggerModule(mockApp);
 
-    // Assert
     expect(instance).toBeInstanceOf(SwaggerModule);
-    expect(mockSwaggerMiddleware.use).toHaveBeenCalled();
+    expect(mockSwaggerController.registerRoutes).toHaveBeenCalled();
   });
 });

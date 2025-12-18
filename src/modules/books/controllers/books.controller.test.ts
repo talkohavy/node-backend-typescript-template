@@ -97,7 +97,7 @@ describe('BooksController', () => {
 
       mockBooksService.updateBook.mockResolvedValue(mockUpdatedBook);
 
-      const response = await request(app).put(`${API_URLS.books}/1`).send(updateData);
+      const response = await request(app).patch(`${API_URLS.books}/1`).send(updateData);
 
       expect(response.status).toBe(StatusCodes.OK);
       expect(response.body).toEqual(mockUpdatedBook);
@@ -107,7 +107,7 @@ describe('BooksController', () => {
     it('should return 404 when book not found', async () => {
       mockBooksService.updateBook.mockResolvedValue(null);
 
-      const response = await request(app).put(`${API_URLS.books}/999`).send({ name: 'Updated' });
+      const response = await request(app).patch(`${API_URLS.books}/999`).send({ name: 'Updated' });
 
       expect(response.status).toBe(StatusCodes.NOT_FOUND);
       expect(response.body).toEqual({ message: 'Book not found' });

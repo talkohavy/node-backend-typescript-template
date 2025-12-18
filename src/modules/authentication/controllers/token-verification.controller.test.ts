@@ -20,6 +20,16 @@ describe('TokenVerificationController', () => {
       error: jest.fn(),
     } as any;
 
+    app.configService = {
+      get: jest.fn().mockReturnValue({
+        accessCookie: {
+          name: 'accessToken',
+          domain: 'localhost',
+          maxAge: 60 * 60 * 1000,
+        },
+      }),
+    } as any;
+
     mockTokenVerificationService = {
       verifyToken: jest.fn(),
     } as any;

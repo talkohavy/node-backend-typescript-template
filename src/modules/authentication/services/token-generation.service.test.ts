@@ -39,7 +39,7 @@ describe('TokenGenerationService', () => {
     it('should create a valid access token', async () => {
       const payload = { id: 'user-123' };
 
-      const token = await service.createAccessToken({ payload });
+      const token = await service.createAccessToken(payload);
 
       expect(typeof token).toBe('string');
       expect(token.length).toBeGreaterThan(0);
@@ -50,7 +50,7 @@ describe('TokenGenerationService', () => {
     it('should create a valid refresh token', async () => {
       const payload = { id: 'user-123' };
 
-      const token = await service.createRefreshToken({ payload });
+      const token = await service.createRefreshToken(payload);
 
       expect(typeof token).toBe('string');
       expect(token.length).toBeGreaterThan(0);

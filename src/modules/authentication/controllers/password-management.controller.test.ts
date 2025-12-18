@@ -14,7 +14,7 @@ describe('PasswordManagementController', () => {
   let mockPasswordManagementService: jest.Mocked<PasswordManagementService>;
 
   beforeEach(() => {
-    const app = express() as unknown as Application;
+    app = express() as unknown as Application;
     app.use(express.json());
 
     app.logger = {
