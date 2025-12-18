@@ -36,9 +36,11 @@ export class BooksController implements ControllerFactory {
 
   private getBookById() {
     this.app.get(API_URLS.bookById, async (req: Request, res: Response) => {
+      const { params } = req;
+
       this.app.logger.info(`GET ${API_URLS.bookById} - fetching book by ID`);
 
-      const bookId = req.params.bookId!;
+      const bookId = params.bookId!;
 
       const book = await this.booksService.getBookById(bookId);
 
@@ -54,11 +56,12 @@ export class BooksController implements ControllerFactory {
 
   private updateBook() {
     this.app.patch(API_URLS.bookById, joiBodyMiddleware(updateBookSchema), async (req: Request, res: Response) => {
+      const { body, params } = req;
+
       this.app.logger.info(`PUT ${API_URLS.bookById} - updating book by ID`);
 
-      const bookId = req.params.bookId!;
-      const book = req.body;
-      const updatedBook = await this.booksService.updateBook(bookId, book);
+      const bookId = params.bookId!;
+      const updatedBook = await this.booksService.updateBook(bookId, body);
 
       if (!updatedBook) {
         this.app.logger.error('Book not found', bookId);

@@ -18,10 +18,12 @@ export class AuthenticationController implements ControllerFactory {
 
   private login() {
     this.app.post(API_URLS.authLogin, joiBodyMiddleware(loginSchema), async (req: Request, res: Response) => {
+      const { body } = req;
+
       try {
         this.app.logger.info(`POST ${API_URLS.authLogin} - user login endpoint`);
 
-        const { email, password } = req.body;
+        const { email, password } = body;
 
         // Step 1: Get user by email
         const user = await this.usersAdapter.getUserByEmail(email);

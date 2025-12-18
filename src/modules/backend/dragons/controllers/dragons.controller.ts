@@ -14,9 +14,9 @@ export class DragonsController implements ControllerFactory {
 
   private createDragon() {
     this.app.post(API_URLS.dragons, joiBodyMiddleware(createDragonSchema), async (req: Request, res: Response) => {
-      this.app.logger.info(`POST ${API_URLS.dragons} - creating new dragon`);
-
       const { body } = req;
+
+      this.app.logger.info(`POST ${API_URLS.dragons} - creating new dragon`);
 
       const newDragon = await this.dragonsAdapter.createDragon(body);
 
@@ -36,9 +36,11 @@ export class DragonsController implements ControllerFactory {
 
   private getDragonById() {
     this.app.get(API_URLS.dragonById, async (req: Request, res: Response) => {
+      const { params } = req;
+
       this.app.logger.info(`GET ${API_URLS.dragonById} - fetching dragon by ID`);
 
-      const dragonId = req.params.dragonId!;
+      const dragonId = params.dragonId!;
 
       const dragon = await this.dragonsAdapter.getDragonById(dragonId);
 
@@ -54,11 +56,12 @@ export class DragonsController implements ControllerFactory {
 
   private updateDragon() {
     this.app.patch(API_URLS.dragonById, joiBodyMiddleware(updateDragonSchema), async (req: Request, res: Response) => {
+      const { body, params } = req;
+
       this.app.logger.info(`PUT ${API_URLS.dragonById} - updating dragon by ID`);
 
-      const dragonId = req.params.dragonId!;
-      const dragon = req.body;
-      const updatedDragon = await this.dragonsAdapter.updateDragon(dragonId, dragon);
+      const dragonId = params.dragonId!;
+      const updatedDragon = await this.dragonsAdapter.updateDragon(dragonId, body);
 
       if (!updatedDragon) {
         this.app.logger.error('Dragon not found', dragonId);

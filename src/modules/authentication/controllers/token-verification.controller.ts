@@ -13,9 +13,11 @@ export class TokenVerificationController implements ControllerFactory {
 
   private verifyToken() {
     this.app.get(API_URLS.verifyToken, async (req: Request, res: Response) => {
+      const { cookies } = req;
+
       this.app.logger.info(`GET ${API_URLS.verifyToken} - verify tokens`);
 
-      const encodedToken = this.extractAccessTokenFromCookies(req.cookies);
+      const encodedToken = this.extractAccessTokenFromCookies(cookies);
 
       if (!encodedToken) {
         this.app.logger.error('No token found in cookies');

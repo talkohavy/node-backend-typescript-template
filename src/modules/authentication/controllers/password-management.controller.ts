@@ -18,9 +18,11 @@ export class PasswordManagementController implements ControllerFactory {
       joiBodyMiddleware(getIsPasswordValidSchema),
       async (req: Request, res: Response) => {
         try {
+          const { body } = req;
+
           this.app.logger.info(`POST ${API_URLS.isPasswordValid} - check if password is valid`);
 
-          const { hashedPassword: saltAndHashedPassword, password } = req.body;
+          const { hashedPassword: saltAndHashedPassword, password } = body;
 
           const isValid = await this.passwordManagementService.getIsPasswordValid(saltAndHashedPassword, password);
 

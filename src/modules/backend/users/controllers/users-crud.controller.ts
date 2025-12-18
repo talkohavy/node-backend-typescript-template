@@ -42,7 +42,9 @@ export class UsersCrudController implements ControllerFactory {
 
   private getUserById() {
     this.app.get(API_URLS.userById, async (req: Request, res: Response) => {
-      const userId = req.params.userId! as string;
+      const { params } = req;
+
+      const userId = params.userId! as string;
 
       this.app.logger.info(`GET ${API_URLS.userById} - get user by id`);
 
@@ -54,6 +56,8 @@ export class UsersCrudController implements ControllerFactory {
 
   private updateUser() {
     this.app.patch(API_URLS.userById, joiBodyMiddleware(updateUserSchema), async (req: Request, res: Response) => {
+      const { body, params } = req;
+
       this.app.logger.info(`PATCH ${API_URLS.userById} - updating user by ID`);
 
       const token = this.extractAccessTokenFromCookies(req.cookies);
@@ -62,12 +66,11 @@ export class UsersCrudController implements ControllerFactory {
 
       if (!decodedToken) throw new UnauthorizedError();
 
-      const userId = req.params.userId!;
+      const userId = params.userId!;
 
       if (decodedToken.id !== userId) throw new ForbiddenError();
 
-      const userData = req.body;
-      const updatedUser = await this.usersAdapter.updateUserById(userId, userData);
+      const updatedUser = await this.usersAdapter.updateUserById(userId, body);
 
       res.json(updatedUser);
     });

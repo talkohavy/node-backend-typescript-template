@@ -14,9 +14,9 @@ export class BooksController implements ControllerFactory {
 
   private createBook() {
     this.app.post(API_URLS.books, joiBodyMiddleware(createBookSchema), async (req: Request, res: Response) => {
-      this.app.logger.info(`POST ${API_URLS.books} - creating new book`);
-
       const { body } = req;
+
+      this.app.logger.info(`POST ${API_URLS.books} - creating new book`);
 
       const newBook = await this.booksAdapter.createBook(body);
 
@@ -36,9 +36,11 @@ export class BooksController implements ControllerFactory {
 
   private getBookById() {
     this.app.get(API_URLS.bookById, async (req: Request, res: Response) => {
+      const { params } = req;
+
       this.app.logger.info(`GET ${API_URLS.bookById} - fetching book by ID`);
 
-      const bookId = req.params.bookId!;
+      const bookId = params.bookId!;
 
       const book = await this.booksAdapter.getBookById(bookId);
 
@@ -54,11 +56,12 @@ export class BooksController implements ControllerFactory {
 
   private updateBook() {
     this.app.patch(API_URLS.bookById, joiBodyMiddleware(updateBookSchema), async (req: Request, res: Response) => {
+      const { body, params } = req;
+
       this.app.logger.info(`PUT ${API_URLS.bookById} - updating book by ID`);
 
-      const bookId = req.params.bookId!;
-      const book = req.body;
-      const updatedBook = await this.booksAdapter.updateBook(bookId, book);
+      const bookId = params.bookId!;
+      const updatedBook = await this.booksAdapter.updateBook(bookId, body);
 
       if (!updatedBook) {
         this.app.logger.error('Book not found', bookId);
