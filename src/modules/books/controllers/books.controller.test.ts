@@ -90,7 +90,7 @@ describe('BooksController', () => {
     });
   });
 
-  describe('PUT /api/books/:bookId', () => {
+  describe('PATCH /api/books/:bookId', () => {
     it('should update an existing book', async () => {
       const updateData = { name: 'Updated Name' };
       const mockUpdatedBook = { id: 1, name: 'Updated Name', author: 'Author', publishedYear: 2020 };

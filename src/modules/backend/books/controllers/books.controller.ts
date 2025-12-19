@@ -58,7 +58,7 @@ export class BooksController implements ControllerFactory {
     this.app.patch(API_URLS.bookById, joiBodyMiddleware(updateBookSchema), async (req: Request, res: Response) => {
       const { body, params } = req;
 
-      this.app.logger.info(`PUT ${API_URLS.bookById} - updating book by ID`);
+      this.app.logger.info(`PATCH ${API_URLS.bookById} - updating book by ID`);
 
       const bookId = params.bookId!;
       const updatedBook = await this.booksAdapter.updateBook(bookId, body);
