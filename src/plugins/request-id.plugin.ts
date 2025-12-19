@@ -1,11 +1,11 @@
-import type { NextFunction, Request, Response } from 'express';
+import type { Application, NextFunction, Request, Response } from 'express';
 import { HEADERS } from '../common/constants';
 
-export function requestIdPlugin(app: any): void {
-  app.use(requestIdMiddleware);
+export function addIdToRequestPlugin(app: Application): void {
+  app.use(addIdToRequestMiddleware);
 }
 
-function requestIdMiddleware(req: Request, _res: Response, next: NextFunction): void {
+function addIdToRequestMiddleware(req: Request, _res: Response, next: NextFunction): void {
   req.headers[HEADERS.RequestId] ??= crypto.randomUUID();
 
   next();
