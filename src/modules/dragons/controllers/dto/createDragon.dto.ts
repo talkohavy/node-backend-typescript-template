@@ -11,10 +11,3 @@ export const createDragonSchema = Joi.object({
   wingSpan: Joi.number().positive().required(),
   age: Joi.number().integer().min(0).required(),
 });
-
-export const updateDragonSchema = Joi.object({
-  name: Joi.string().min(1).max(100),
-  element: Joi.string().valid(...validElementValues),
-  wingSpan: Joi.number().positive(),
-  age: Joi.number().integer().min(0),
-});

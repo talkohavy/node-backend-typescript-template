@@ -1,1 +1,1 @@
-export { createDragonSchema } from '../../../../dragons/controllers/dto/dragons.dto';
+export { createDragonSchema } from '../../../../dragons/controllers/dto/createDragon.dto';
