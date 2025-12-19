@@ -1,13 +1,13 @@
 import type { Application } from 'express';
-import { ConfigKeys, type DatabaseConfig } from '../configurations';
-import { RedisConnection } from '../lib/database/redis';
+import { ConfigKeys } from '../configurations';
+import { type RedisConfig, RedisConnection } from '../lib/database/redis';
 
 /**
  * @dependencies
  * - config-service plugin
  */
 export async function redisPlugin(app: Application) {
-  const { connectionString } = app.configService.get<DatabaseConfig>(ConfigKeys.Redis);
+  const { connectionString } = app.configService.get<RedisConfig>(ConfigKeys.Redis);
 
   const pubConnection = new RedisConnection({ connectionString, connectionName: 'pub' });
   const subConnection = new RedisConnection({ connectionString, connectionName: 'sub' });
