@@ -75,9 +75,11 @@ export class DragonsController implements ControllerFactory {
 
   private deleteDragon() {
     this.app.delete(API_URLS.dragonById, async (req: Request, res: Response) => {
+      const { params } = req;
+
       this.app.logger.info(`DELETE ${API_URLS.dragonById} - deleting dragon by ID`);
 
-      const dragonId = req.params.dragonId!;
+      const dragonId = params.dragonId!;
       const deletedDragon = await this.dragonsAdapter.deleteDragon(dragonId);
 
       if (!deletedDragon) {

@@ -78,11 +78,13 @@ export class UsersCrudController implements ControllerFactory {
 
   private deleteUser() {
     this.app.delete(API_URLS.userById, async (req: Request, res: Response) => {
-      const id = req.params.userId!;
+      const { params, cookies } = req;
+
+      const id = params.userId!;
 
       this.app.logger.info(`DELETE ${API_URLS.userById} - delete user`);
 
-      const token = this.extractAccessTokenFromCookies(req.cookies);
+      const token = this.extractAccessTokenFromCookies(cookies);
 
       const decodedToken = await this.authAdapter.verifyToken(token);
 

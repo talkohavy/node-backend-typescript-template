@@ -66,7 +66,9 @@ export class UsersCrudController implements ControllerFactory {
 
   private deleteUserById() {
     this.app.delete(API_URLS.userById, async (req: Request, res: Response) => {
-      const userId = req.params.userId!;
+      const { params } = req;
+
+      const userId = params.userId!;
 
       this.app.logger.info(`DELETE ${API_URLS.userById} - delete user`);
 
