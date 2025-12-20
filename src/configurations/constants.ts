@@ -10,7 +10,7 @@ export const ConfigKeys = {
   Cookies: 'cookies',
   Jwt: 'jwt',
   LogSettings: 'logSettings',
-  Database: 'database',
+  Postgres: 'postgres',
   Redis: 'redis',
   Services: 'services',
 } as const;
@@ -26,7 +26,7 @@ export type Config = {
   [ConfigKeys.Cookies]: CookiesConfig;
   [ConfigKeys.Jwt]: JwtConfig;
   [ConfigKeys.LogSettings]: LoggerServiceSettings;
-  [ConfigKeys.Database]: DatabaseConfig;
+  [ConfigKeys.Postgres]: PostgresConfig;
   [ConfigKeys.Redis]: Partial<RedisConfig>;
 };
 
@@ -61,7 +61,7 @@ export type LoggerServiceSettings = LoggerSettings & {
   logEnvironment?: EnvironmentValues;
 };
 
-export type DatabaseConfig = {
+export type PostgresConfig = {
   connectionString: string;
 };
 

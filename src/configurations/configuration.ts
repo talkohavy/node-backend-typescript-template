@@ -35,8 +35,8 @@ export function configuration(): Config {
       logEnvironment: Environment.Dev,
       useColoredOutput: process.env.NODE_ENV !== 'production',
     },
-    database: {
-      connectionString: process.env.DB_CONNECTION_STRING || 'postgres://user:password@localhost:5432/mydb',
+    postgres: {
+      connectionString: process.env.POSTGRES_CONNECTION_STRING || 'postgres://user:password@localhost:5432/mydb',
     },
     redis: {
       connectionString: process.env.REDIS_CONNECTION_STRING || 'redis://localhost:6379',

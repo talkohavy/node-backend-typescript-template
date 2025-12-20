@@ -1,5 +1,5 @@
 import type { Application } from 'express';
-import { ConfigKeys, type DatabaseConfig } from '../configurations';
+import { ConfigKeys, type PostgresConfig } from '../configurations';
 import { PostgresConnection } from '../lib/database/postgres.connection';
 
 /**
@@ -7,11 +7,13 @@ import { PostgresConnection } from '../lib/database/postgres.connection';
  * - config-service plugin
  */
 export async function postgresPlugin(app: Application) {
-  const { connectionString } = app.configService.get<DatabaseConfig>(ConfigKeys.Database);
+  const { connectionString } = app.configService.get<PostgresConfig>(ConfigKeys.Postgres);
 
   const dbClient = PostgresConnection.getInstance(connectionString);
 
   await dbClient.connect();
 
-  app.pg = dbClient.getClient();
+  const pgClient = dbClient.getClient();
+
+  app.pg = pgClient;
 }
