@@ -1,5 +1,7 @@
 import type { Application } from 'express';
 import { ConfigKeys, type PostgresConfig } from '../configurations';
+import { runAllMigrations } from '../database/postgres/migrations';
+import { runAllSeeds } from '../database/postgres/seeds';
 import { PostgresConnection } from '../lib/database/postgres.connection';
 
 /**
@@ -16,4 +18,10 @@ export async function postgresPlugin(app: Application) {
   const pgClient = dbClient.getClient();
 
   app.pg = pgClient;
+
+  // Run migrations and seeds
+  if (process.env.POSTGRES_SHOULD_MIGRATE) {
+    await runAllMigrations(pgClient);
+    await runAllSeeds(pgClient, { users: { skipIfExists: false, clearBeforeSeeding: true } });
+  }
 }
