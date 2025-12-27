@@ -6,7 +6,7 @@
   "types": "index.d.ts",
   "scripts": {
     "clean": "rm -rf node_modules",
-    "dev": "tsx watch --clear-screen=false --env-file=.env src/initServer.ts",
+    "dev": "node --import tsx --watch --env-file=.env src/initServer.ts",
     "build": "node build.config.mjs",
     "start": "node --env-file=.env dist/index.js",
     "lint": "eslint",
