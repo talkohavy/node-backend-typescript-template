@@ -1,6 +1,6 @@
 import { COLORS } from 'color-my-json';
+import { ConfigKeys } from '../../configurations';
 import { buildApp } from './app';
-import { ConfigKeys } from './configurations';
 
 export async function startServer() {
   const app = await buildApp();
