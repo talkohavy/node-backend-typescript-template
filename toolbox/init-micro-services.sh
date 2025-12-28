@@ -54,7 +54,7 @@ tell application "iTerm"
         split vertically with default profile
     end tell
     tell fifth session of current tab of current window
-        write text "cd '$PROJECT_DIR' && pnpm dev:micro users"
+        write text "cd '$PROJECT_DIR' && pnpm dev:users"
     end tell
 end tell
 EOF

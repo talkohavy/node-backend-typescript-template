@@ -1,21 +1,32 @@
 import express, { type Application } from 'express';
-import { optimizedApp } from '../../../common/constants';
+import { Environment, optimizedApp } from '../../../common/constants';
+import { LogLevel, type LogLevelValues } from '../../../lib/logger';
 import { AppFactory } from '../../../lib/lucky-server/app-factory';
 import { BooksModule } from '../../../modules/books';
 import { HealthCheckModule } from '../../../modules/health-check';
 import { bodyLimitPlugin } from '../../../plugins/bodyLimit.plugin';
 import { callContextPlugin } from '../../../plugins/call-context.plugin';
-import { configServicePlugin } from '../../../plugins/config-service.plugin';
 import { cookieParserPlugin } from '../../../plugins/cookieParser.plugin';
 import { corsPlugin } from '../../../plugins/cors/cors.plugin';
 import { errorHandlerPlugin } from '../../../plugins/errorHandler.plugin';
 import { helmetPlugin } from '../../../plugins/helmet.plugin';
 import { loggerPlugin } from '../../../plugins/logger.plugin';
 import { pathNotFoundPlugin } from '../../../plugins/pathNotFound.plugin';
-import { postgresPlugin } from '../../../plugins/postgres.plugin';
-import { redisPlugin } from '../../../plugins/redis.plugin';
 import { addIdToRequestPlugin } from '../../../plugins/request-id.plugin';
 import { urlEncodedPlugin } from '../../../plugins/urlEncoded.plugin';
+import { configServicePluggable } from '../shared/plugins/configService.plugin';
+
+const configSettings = {
+  port: 8002,
+  isDev: !!process.env.IS_DEV,
+  isCI: !!process.env.IS_CI,
+  logSettings: {
+    serviceName: 'books-service',
+    logLevel: (process.env.LOG_LEVEL || LogLevel.Debug) as LogLevelValues,
+    logEnvironment: Environment.Dev,
+    useColoredOutput: process.env.NODE_ENV !== 'production',
+  },
+};
 
 export async function buildApp() {
   const app = express() as unknown as Application;
@@ -25,12 +36,10 @@ export async function buildApp() {
   const appModule = new AppFactory(app, optimizedApp);
 
   await appModule.registerPlugins([
-    configServicePlugin,
+    configServicePluggable(configSettings),
     callContextPlugin,
     addIdToRequestPlugin,
     loggerPlugin, // <--- dependencies: config-service plugin, call-context plugin
-    postgresPlugin, // <--- dependencies: config-service plugin
-    redisPlugin, // <--- dependencies: config-service plugin
     corsPlugin,
     helmetPlugin,
     bodyLimitPlugin,

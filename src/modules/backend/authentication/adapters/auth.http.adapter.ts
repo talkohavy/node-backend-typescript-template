@@ -7,34 +7,42 @@ export class AuthHttpAdapter implements IAuthAdapter {
   constructor(private readonly httpClient: HttpClient) {}
 
   async generateHashedPassword(rawPassword: string, salt: string): Promise<string> {
-    return this.httpClient.post<string>({
+    const response = await this.httpClient.post<string>({
       serviceName: ServiceNames.Auth,
       route: API_URLS.auth,
       body: { rawPassword, salt },
     });
+
+    return response;
   }
 
-  async getIsPasswordValid(saltAndHashedPassword: string, rawPassword: string): Promise<boolean> {
-    return this.httpClient.post<boolean>({
+  async getIsPasswordValid(hashedPassword: string, password: string): Promise<boolean> {
+    const response = await this.httpClient.post<boolean>({
       serviceName: ServiceNames.Auth,
       route: API_URLS.isPasswordValid,
-      body: { saltAndHashedPassword, rawPassword },
+      body: { hashedPassword, password },
     });
+
+    return response;
   }
 
   async createTokens(userId: string): Promise<Tokens> {
-    return this.httpClient.post<Tokens>({
+    const response = await this.httpClient.post<Tokens>({
       serviceName: ServiceNames.Auth,
       route: API_URLS.createTokens,
       body: { userId },
     });
+
+    return response;
   }
 
   async verifyToken(token: string): Promise<DecodedToken> {
-    return this.httpClient.post<DecodedToken>({
+    const response = await this.httpClient.post<DecodedToken>({
       serviceName: ServiceNames.Auth,
       route: API_URLS.verifyToken,
       body: { token },
     });
+
+    return response;
   }
 }

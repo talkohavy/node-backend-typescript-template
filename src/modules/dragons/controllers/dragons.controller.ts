@@ -99,10 +99,10 @@ export class DragonsController implements ControllerFactory {
   }
 
   registerRoutes() {
-    this.getDragons.bind(this);
-    this.getDragonById.bind(this);
-    this.createDragon.bind(this);
-    this.updateDragon.bind(this);
-    this.deleteDragon.bind(this);
+    this.getDragons();
+    this.getDragonById();
+    this.createDragon();
+    this.updateDragon();
+    this.deleteDragon();
   }
 }
