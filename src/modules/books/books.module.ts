@@ -1,5 +1,4 @@
 import type { Application } from 'express';
-import { IS_STANDALONE_MICRO_SERVICES } from '../../common/constants';
 import { BooksController } from './controllers/books.controller';
 import { BooksMiddleware } from './middleware/books.middleware';
 import { BooksService } from './services/books.service';
@@ -15,7 +14,7 @@ export class BooksModule {
     this.booksService = new BooksService();
 
     // Only attach routes if running as a standalone micro-service
-    if (IS_STANDALONE_MICRO_SERVICES) {
+    if (process.env.IS_STANDALONE_MICRO_SERVICES) {
       this.attachControllers(this.app);
     }
   }

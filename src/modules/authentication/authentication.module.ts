@@ -1,5 +1,4 @@
 import type { Application } from 'express';
-import { IS_STANDALONE_MICRO_SERVICES } from '../../common/constants';
 import { ConfigKeys, type JwtConfig } from '../../configurations';
 import { AuthenticationController } from './controllers';
 import { PasswordManagementController } from './controllers/password-management.controller';
@@ -33,7 +32,7 @@ export class AuthenticationModule {
     this.tokenVerificationService = new TokenVerificationService(jwtConfig);
 
     // Only attach routes if running as a standalone micro-service
-    if (IS_STANDALONE_MICRO_SERVICES) {
+    if (process.env.IS_STANDALONE_MICRO_SERVICES) {
       this.attachControllers(this.app);
     }
   }

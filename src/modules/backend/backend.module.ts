@@ -1,5 +1,4 @@
 import type { Application } from 'express';
-import { IS_STANDALONE_MICRO_SERVICES } from '../../common/constants';
 import { HealthCheckController } from '../health-check/health-check.controller';
 import { AuthDirectAdapter, AuthHttpAdapter, AuthenticationController, type IAuthAdapter } from './authentication';
 import { BooksDirectAdapter, BooksHttpAdapter, BooksController, type IBooksAdapter } from './books';
@@ -40,7 +39,7 @@ export class BackendModule {
   }
 
   private initializeAdapters(): void {
-    if (IS_STANDALONE_MICRO_SERVICES) {
+    if (process.env.IS_STANDALONE_MICRO_SERVICES) {
       // HTTP adapters for micro-services communication
       const httpClient = new HttpClient(this.app.configService);
       this.usersAdapter = new UsersHttpAdapter(httpClient);

@@ -1,5 +1,4 @@
 import type { Application } from 'express';
-import { IS_STANDALONE_MICRO_SERVICES } from '../../common/constants';
 import { DragonsController } from './controllers/dragons.controller';
 import { DragonsService } from './services/dragons.service';
 
@@ -14,7 +13,7 @@ export class DragonsModule {
     this.dragonsService = new DragonsService(this.app.redis.pub);
 
     // Only attach routes if running as a standalone micro-service
-    if (IS_STANDALONE_MICRO_SERVICES) {
+    if (process.env.IS_STANDALONE_MICRO_SERVICES) {
       this.attachControllers(this.app);
     }
   }
