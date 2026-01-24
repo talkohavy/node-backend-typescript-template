@@ -1,6 +1,6 @@
 import pluginJs from '@eslint/js';
+import importPlugin from 'eslint-plugin-import';
 import perfectionist from 'eslint-plugin-perfectionist';
-import pluginCompiler from 'eslint-plugin-react-compiler';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
@@ -15,11 +15,11 @@ export default [
   {
     name: 'react-compiler/recommended',
     plugins: {
-      'react-compiler': pluginCompiler,
       perfectionist,
+      import: importPlugin,
     },
     rules: {
-      'react-compiler/react-compiler': 'error',
+      'import/no-duplicates': ['error', { 'prefer-inline': false }],
     },
   },
   {
@@ -45,28 +45,35 @@ export default [
         {
           type: 'alphabetical',
           order: 'asc',
+          sortBy: 'path', // <--- defaults to 'path'. Options are: 'path' | 'specifier'
           ignoreCase: true,
           specialCharacters: 'keep',
-          internalPattern: ['^~/.+'],
+          internalPattern: ['^@src/.+', '^~/.+'], // <--- defaults to default: ['^~/.+', '^@/.+']. Specifies a pattern for identifying internal imports. This is useful for distinguishing your own modules from external dependencies.
           partitionByComment: false,
-          partitionByNewLine: false,
-          newlinesBetween: 'never', // <--- 'always' | 'never' | 'ignore'
+          newlinesBetween: 0, // <--- number | 'ignore' (0 = no newlines, 1 = one newline, etc.)
           maxLineLength: undefined,
           groups: [
             'react',
-            'type',
-            ['builtin', 'external'],
-            'internal-type',
-            'internal',
-            ['parent-type', 'sibling-type', 'index-type'],
+            'builtin', // <--- import fs from 'fs';
+            'external', // <--- import express from 'express';
+            'internal', // <--- import myUtil from '@src/myUtil';
             ['parent', 'sibling', 'index'],
-            'object',
+            'type-internal',
+            'type',
+            ['type-parent', 'type-sibling', 'type-index'],
             'unknown',
           ],
-          customGroups: {
-            value: { react: ['^react$', '^react-.+'] },
-            type: { react: ['^react$', '^react-.+'] },
-          },
+          customGroups: [
+            {
+              groupName: 'react',
+              selector: 'type',
+              elementNamePattern: ['^react$', '^react-.+'],
+            },
+            {
+              groupName: 'react',
+              elementNamePattern: ['^react$', '^react-.+'],
+            },
+          ],
           environment: 'node', // <--- Possible Options: 'node' | 'bun'
         },
       ],
