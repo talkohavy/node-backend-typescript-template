@@ -1,13 +1,13 @@
-import type { Application, Request, Response } from 'express';
-import type { ControllerFactory } from '../../../../lib/lucky-server';
-import type { IAuthAdapter } from '../../authentication/adapters/auth.adapter.interface';
-import type { IUsersAdapter } from '../adapters/users.adapter.interface';
 import { API_URLS, StatusCodes } from '../../../../common/constants';
 import { ConfigKeys, type CookiesConfig } from '../../../../configurations';
 import { ForbiddenError, UnauthorizedError } from '../../../../lib/Errors';
 import { joiBodyMiddleware } from '../../../../middlewares/joi-body.middleware';
 import { createUserSchema } from './dto/createUserSchema.dto';
 import { updateUserSchema } from './dto/updateUserSchema.dto';
+import type { ControllerFactory } from '../../../../lib/lucky-server';
+import type { IAuthAdapter } from '../../authentication/adapters/auth.adapter.interface';
+import type { IUsersAdapter } from '../adapters/users.adapter.interface';
+import type { Application, Request, Response } from 'express';
 
 export class UsersCrudController implements ControllerFactory {
   constructor(

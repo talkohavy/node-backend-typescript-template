@@ -1,6 +1,6 @@
+import { BadRequestError, ForbiddenError, InternalServerError, NotFoundError, UnauthorizedError } from '../lib/Errors';
 import type { HttpException } from '../lib/Errors/HttpException';
 import type { OptimizedApp } from './types';
-import { BadRequestError, ForbiddenError, InternalServerError, NotFoundError, UnauthorizedError } from '../lib/Errors';
 
 export const StatusCodes = {
   OK: 200,

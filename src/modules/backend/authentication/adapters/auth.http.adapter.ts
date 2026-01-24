@@ -1,7 +1,7 @@
-import type { HttpClient } from '../../logic/http-client';
-import type { IAuthAdapter, Tokens, DecodedToken } from './auth.adapter.interface';
 import { API_URLS } from '../../../../common/constants';
 import { ServiceNames } from '../../../../configurations';
+import type { HttpClient } from '../../logic/http-client';
+import type { IAuthAdapter, Tokens, DecodedToken } from './auth.adapter.interface';
 
 export class AuthHttpAdapter implements IAuthAdapter {
   constructor(private readonly httpClient: HttpClient) {}

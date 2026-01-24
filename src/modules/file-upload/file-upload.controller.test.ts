@@ -1,8 +1,8 @@
 import express, { type Application } from 'express';
 import request from 'supertest';
-import type { FileUploadService } from './services/file-upload.service';
 import { API_URLS, StatusCodes } from '../../common/constants';
 import { FileUploadController } from './file-upload.controller';
+import type { FileUploadService } from './services/file-upload.service';
 
 describe('FileUploadController', () => {
   let app: Application;

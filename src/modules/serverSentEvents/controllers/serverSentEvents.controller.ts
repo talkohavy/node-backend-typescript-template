@@ -1,7 +1,7 @@
-import type { Application } from 'express';
+import { createEventMessage } from '../utils/createEventMessage';
 import type { ControllerFactory } from '../../../lib/lucky-server';
 import type { ServerSentEventsService } from '../services/serverSentEvents.service';
-import { createEventMessage } from '../utils/createEventMessage';
+import type { Application } from 'express';
 
 export class ServerSentEventsController implements ControllerFactory {
   constructor(

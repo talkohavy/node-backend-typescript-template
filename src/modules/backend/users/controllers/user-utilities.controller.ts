@@ -1,9 +1,9 @@
-import type { Application, Request, Response } from 'express';
+import { API_URLS, StatusCodes } from '../../../../common/constants';
+import { ConfigKeys, type CookiesConfig } from '../../../../configurations';
 import type { ControllerFactory } from '../../../../lib/lucky-server';
 import type { IAuthAdapter } from '../../authentication/adapters/auth.adapter.interface';
 import type { IUsersAdapter } from '../adapters/users.adapter.interface';
-import { API_URLS, StatusCodes } from '../../../../common/constants';
-import { ConfigKeys, type CookiesConfig } from '../../../../configurations';
+import type { Application, Request, Response } from 'express';
 
 export class UserUtilitiesController implements ControllerFactory {
   constructor(

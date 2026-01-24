@@ -1,7 +1,6 @@
 import fs from 'fs';
 import { parse } from 'jsonc-parser';
-import { createDefaultPreset } from 'ts-jest';
-import { pathsToModuleNameMapper } from 'ts-jest';
+import { createDefaultPreset , pathsToModuleNameMapper } from 'ts-jest';
 
 /** @type {any} */
 const errors = [];

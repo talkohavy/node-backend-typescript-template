@@ -1,10 +1,10 @@
-import type { Application, Request, Response } from 'express';
-import type { ControllerFactory } from '../../../../lib/lucky-server';
-import type { IDragonsAdapter } from '../adapters/dragons.adapter.interface';
 import { API_URLS, StatusCodes } from '../../../../common/constants';
 import { joiBodyMiddleware } from '../../../../middlewares/joi-body.middleware';
 import { createDragonSchema } from './dto/createDragonSchema.dto';
 import { updateDragonSchema } from './dto/updateDragonSchema.dto';
+import type { ControllerFactory } from '../../../../lib/lucky-server';
+import type { IDragonsAdapter } from '../adapters/dragons.adapter.interface';
+import type { Application, Request, Response } from 'express';
 
 export class DragonsController implements ControllerFactory {
   constructor(

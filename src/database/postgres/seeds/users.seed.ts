@@ -1,5 +1,5 @@
-import type { Client } from 'pg';
 import { USERS_TABLE_NAME } from '../migrations';
+import type { Client } from 'pg';
 
 const DUMMY_USERS = [
   { email: 'john.doe@example.com', nickname: 'johnd', dateOfBirth: 631152000000 },

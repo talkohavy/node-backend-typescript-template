@@ -1,5 +1,5 @@
-import type { Application, NextFunction, Request, Response } from 'express';
 import { API_URLS } from '../../../common/constants';
+import type { Application, NextFunction, Request, Response } from 'express';
 
 export class AuthenticationMiddleware {
   public constructor(private readonly app: Application) {}

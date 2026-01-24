@@ -1,9 +1,9 @@
 import express, { type Application } from 'express';
 import request from 'supertest';
-import type { UsersCrudService } from '../services/users-crud.service';
 import { API_URLS, StatusCodes } from '../../../common/constants';
 import { errorHandlerPlugin } from '../../../plugins/errorHandler.plugin';
 import { UsersCrudController } from './users-crud.controller';
+import type { UsersCrudService } from '../services/users-crud.service';
 
 jest.mock('../../../middlewares/joi-body.middleware', () => ({
   joiBodyMiddleware: jest.fn(() => (_req: any, _res: any, next: any) => next()),

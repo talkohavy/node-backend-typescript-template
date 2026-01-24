@@ -1,10 +1,10 @@
-import type { Application, Request, Response } from 'express';
-import type { ControllerFactory } from '../../../lib/lucky-server';
-import type { UsersCrudService } from '../services/users-crud.service';
 import { API_URLS, StatusCodes } from '../../../common/constants';
 import { joiBodyMiddleware } from '../../../middlewares/joi-body.middleware';
 import { createUserSchema } from './dto/createUserSchema.dto';
 import { updateUserSchema } from './dto/updateUserSchema.dto';
+import type { ControllerFactory } from '../../../lib/lucky-server';
+import type { UsersCrudService } from '../services/users-crud.service';
+import type { Application, Request, Response } from 'express';
 
 export class UsersCrudController implements ControllerFactory {
   constructor(

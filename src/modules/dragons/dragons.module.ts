@@ -1,6 +1,6 @@
-import type { Application } from 'express';
 import { DragonsController } from './controllers/dragons.controller';
 import { DragonsService } from './services/dragons.service';
+import type { Application } from 'express';
 
 export class DragonsModule {
   private dragonsService!: DragonsService;

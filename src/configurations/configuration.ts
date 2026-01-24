@@ -1,6 +1,6 @@
-import type { Config } from './constants';
 import { Environment } from '../common/constants';
 import { LogLevel, type LogLevelValues } from '../lib/logger';
+import type { Config } from './constants';
 
 export function configuration(): Config {
   return {

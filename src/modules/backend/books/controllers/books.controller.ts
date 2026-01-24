@@ -1,10 +1,10 @@
-import type { Application, Request, Response } from 'express';
-import type { ControllerFactory } from '../../../../lib/lucky-server';
-import type { IBooksAdapter } from '../adapters/books.adapter.interface';
 import { API_URLS, StatusCodes } from '../../../../common/constants';
 import { joiBodyMiddleware } from '../../../../middlewares/joi-body.middleware';
 import { createBookSchema } from './dto/createBookSchema.dto';
 import { updateBookSchema } from './dto/updateBookSchema.dto';
+import type { ControllerFactory } from '../../../../lib/lucky-server';
+import type { IBooksAdapter } from '../adapters/books.adapter.interface';
+import type { Application, Request, Response } from 'express';
 
 export class BooksController implements ControllerFactory {
   constructor(

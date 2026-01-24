@@ -1,4 +1,3 @@
-import type { Application } from 'express';
 import { ConfigKeys, type JwtConfig } from '../../configurations';
 import { AuthenticationController } from './controllers';
 import { PasswordManagementController } from './controllers/password-management.controller';
@@ -9,6 +8,7 @@ import { AuthenticationMiddleware } from './middleware/authentication.middleware
 import { PasswordManagementService } from './services/password-management.service';
 import { TokenGenerationService } from './services/token-generation.service';
 import { TokenVerificationService } from './services/token-verification.service';
+import type { Application } from 'express';
 
 export class AuthenticationModule {
   private passwordManagementService!: PasswordManagementService;

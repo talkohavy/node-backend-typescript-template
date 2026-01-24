@@ -1,4 +1,3 @@
-import type { Application } from 'express';
 import {
   contentSecurityPolicy,
   crossOriginEmbedderPolicy,
@@ -14,6 +13,7 @@ import {
   xPermittedCrossDomainPolicies,
   xXssProtection,
 } from 'helmet';
+import type { Application } from 'express';
 
 export function helmetPlugin(app: Application) {
   app.use(contentSecurityPolicy());

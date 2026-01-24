@@ -1,6 +1,6 @@
-import type { Application, NextFunction, Request, Response } from 'express';
-import type { CallContextService } from './call-context.service';
 import { RequestContext } from './logic/constants';
+import type { CallContextService } from './call-context.service';
+import type { Application, NextFunction, Request, Response } from 'express';
 
 export class CallContextMiddleware {
   public constructor(private readonly callContextService: CallContextService<string, string>) {}

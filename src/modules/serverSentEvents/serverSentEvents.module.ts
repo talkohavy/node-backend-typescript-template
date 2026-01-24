@@ -1,6 +1,6 @@
-import type { Application } from 'express';
 import { ServerSentEventsController } from './controllers/serverSentEvents.controller';
 import { ServerSentEventsService } from './services/serverSentEvents.service';
+import type { Application } from 'express';
 
 /**
  * @dependencies

@@ -1,6 +1,6 @@
-import type { Application } from 'express';
-import type { ControllerFactory } from '../../lib/lucky-server';
 import { API_URLS } from '../../common/constants';
+import type { ControllerFactory } from '../../lib/lucky-server';
+import type { Application } from 'express';
 
 export class HealthCheckController implements ControllerFactory {
   constructor(private readonly app: Application) {}

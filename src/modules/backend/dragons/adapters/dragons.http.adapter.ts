@@ -1,9 +1,9 @@
+import { API_URLS } from '../../../../common/constants';
+import { ServiceNames } from '../../../../configurations';
 import type { CreateDragonDto, UpdateDragonDto } from '../../../dragons/services/interfaces/dragons.service.interface';
 import type { Dragon } from '../../../dragons/types';
 import type { HttpClient } from '../../logic/http-client';
 import type { IDragonsAdapter } from './dragons.adapter.interface';
-import { API_URLS } from '../../../../common/constants';
-import { ServiceNames } from '../../../../configurations';
 
 export class DragonsHttpAdapter implements IDragonsAdapter {
   constructor(private readonly httpClient: HttpClient) {}

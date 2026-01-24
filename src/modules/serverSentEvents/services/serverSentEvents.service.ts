@@ -1,6 +1,6 @@
-import type { RedisClientType } from 'redis';
-import type { LoggerService } from '../../../lib/logger-service';
 import { createEventMessage } from '../utils/createEventMessage';
+import type { LoggerService } from '../../../lib/logger-service';
+import type { RedisClientType } from 'redis';
 
 export class ServerSentEventsService {
   private readonly clients: Array<any> = [];

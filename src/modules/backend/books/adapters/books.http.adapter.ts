@@ -1,9 +1,9 @@
+import { API_URLS } from '../../../../common/constants';
+import { ServiceNames } from '../../../../configurations';
 import type { CreateBookDto, UpdateBookDto } from '../../../books/services/interfaces/books.service.interface';
 import type { Book } from '../../../books/types';
 import type { HttpClient } from '../../logic/http-client';
 import type { IBooksAdapter } from './books.adapter.interface';
-import { API_URLS } from '../../../../common/constants';
-import { ServiceNames } from '../../../../configurations';
 
 export class BooksHttpAdapter implements IBooksAdapter {
   constructor(private readonly httpClient: HttpClient) {}

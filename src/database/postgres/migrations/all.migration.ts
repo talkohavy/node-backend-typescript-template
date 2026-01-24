@@ -1,5 +1,5 @@
-import type { Client } from 'pg';
 import { createUsersTable } from './users.migration';
+import type { Client } from 'pg';
 
 /**
  * Runs all database migrations to ensure tables exist.

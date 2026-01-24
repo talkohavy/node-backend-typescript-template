@@ -1,8 +1,8 @@
 import express, { type Application } from 'express';
 import request from 'supertest';
-import type { BooksService } from '../services/books.service';
 import { API_URLS, StatusCodes } from '../../../common/constants';
 import { BooksController } from './books.controller';
+import type { BooksService } from '../services/books.service';
 
 jest.mock('../../../middlewares/joi-body.middleware', () => ({
   joiBodyMiddleware: jest.fn(() => (_req: any, _res: any, next: any) => next()),

@@ -1,5 +1,5 @@
-import type { Application, NextFunction, Request, Response } from 'express';
 import { HEADERS } from '../common/constants';
+import type { Application, NextFunction, Request, Response } from 'express';
 
 export function addIdToRequestPlugin(app: Application): void {
   app.use(addIdToRequestMiddleware);

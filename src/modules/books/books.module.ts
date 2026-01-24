@@ -1,7 +1,7 @@
-import type { Application } from 'express';
 import { BooksController } from './controllers/books.controller';
 import { BooksMiddleware } from './middleware/books.middleware';
 import { BooksService } from './services/books.service';
+import type { Application } from 'express';
 
 export class BooksModule {
   private booksService!: BooksService;

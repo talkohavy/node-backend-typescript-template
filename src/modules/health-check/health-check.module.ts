@@ -1,5 +1,5 @@
-import type { Application } from 'express';
 import { HealthCheckController } from './health-check.controller';
+import type { Application } from 'express';
 
 export class HealthCheckModule {
   constructor(private readonly app: any) {

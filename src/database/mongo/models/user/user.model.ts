@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
-import type { SchemaTemplate } from '../../types';
 import { userSchemaTemplate } from './user.schema.template';
+import type { SchemaTemplate } from '../../types';
 
 const { Schema, model } = mongoose;
 

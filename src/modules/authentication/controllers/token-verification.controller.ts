@@ -1,9 +1,9 @@
-import type { Application, Request, Response } from 'express';
-import type { ControllerFactory } from '../../../lib/lucky-server';
-import type { TokenVerificationService } from '../services/token-verification.service';
 import { API_URLS } from '../../../common/constants';
 import { ConfigKeys, type CookiesConfig } from '../../../configurations';
 import { UnauthorizedError } from '../../../lib/Errors';
+import type { ControllerFactory } from '../../../lib/lucky-server';
+import type { TokenVerificationService } from '../services/token-verification.service';
+import type { Application, Request, Response } from 'express';
 
 export class TokenVerificationController implements ControllerFactory {
   constructor(

@@ -1,4 +1,3 @@
-import type { IUsersRepository } from './repositories/interfaces/users.repository.base';
 import { UserUtilitiesController } from './controllers/user-utilities.controller';
 import { UsersCrudController } from './controllers/users-crud.controller';
 import { UsersController } from './controllers/users.controller';
@@ -7,6 +6,7 @@ import { UsersPostgresRepository } from './repositories/users.postgres.repositor
 import { FieldScreeningService } from './services/field-screening.service';
 import { UserUtilitiesService } from './services/user-utilities.service';
 import { UsersCrudService } from './services/users-crud.service';
+import type { IUsersRepository } from './repositories/interfaces/users.repository.base';
 // import { UsersMongoRepository } from './repositories/users.mongo.repository';
 
 export class UsersModule {

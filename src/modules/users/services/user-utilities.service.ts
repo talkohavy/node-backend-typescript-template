@@ -1,7 +1,7 @@
+import { UserNotFoundError } from '../logic/users.errors';
 import type { IUsersRepository } from '../repositories/interfaces/users.repository.base';
 import type { FieldScreeningService } from '../services/field-screening.service';
 import type { DatabaseUser } from '../types';
-import { UserNotFoundError } from '../logic/users.errors';
 
 export class UserUtilitiesService {
   constructor(

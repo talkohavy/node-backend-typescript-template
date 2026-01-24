@@ -1,4 +1,3 @@
-import type { Application } from 'express';
 import { HealthCheckController } from '../health-check/health-check.controller';
 import { AuthDirectAdapter, AuthHttpAdapter, AuthenticationController, type IAuthAdapter } from './authentication';
 import { BooksDirectAdapter, BooksHttpAdapter, BooksController, type IBooksAdapter } from './books';
@@ -18,6 +17,7 @@ import {
   UserUtilitiesController,
   type IUsersAdapter,
 } from './users';
+import type { Application } from 'express';
 
 /**
  * BackendModule serves as the BFF (Backend-For-Frontend).

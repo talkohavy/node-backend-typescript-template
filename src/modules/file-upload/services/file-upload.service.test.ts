@@ -1,4 +1,3 @@
-import type { Request } from 'express';
 import { createWriteStream } from 'fs';
 import { Readable, Writable } from 'stream';
 import {
@@ -6,6 +5,7 @@ import {
   parseMultipartHeaders as parseMultipartHeadersToMock,
 } from '../utils';
 import { FileUploadService } from './file-upload.service';
+import type { Request } from 'express';
 
 jest.mock('fs', () => ({
   createWriteStream: jest.fn(),

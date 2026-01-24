@@ -1,6 +1,6 @@
 import { execSync } from 'child_process';
-import * as esbuild from 'esbuild';
 import os from 'os';
+import * as esbuild from 'esbuild';
 
 const COLORS = {
   green: '\x1b[32m',

@@ -1,8 +1,8 @@
-import type { ConfigService } from '../../../../lib/config-service';
-import type { GetRequestProps, RequestProps, RequestWithBodyProps } from './http-client.interface';
 import { StatusCodeToError, type StatusCodeValues, HttpMethod } from '../../../../common/constants';
 import { type Config, ConfigKeys, type ServicesConfig } from '../../../../configurations';
 import { InternalServerError } from '../../../../lib/Errors';
+import type { ConfigService } from '../../../../lib/config-service';
+import type { GetRequestProps, RequestProps, RequestWithBodyProps } from './http-client.interface';
 
 export class HttpClient {
   constructor(private readonly configService: ConfigService) {}

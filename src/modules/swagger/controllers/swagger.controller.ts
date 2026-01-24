@@ -1,8 +1,8 @@
-import express, { type Application } from 'express';
 import path from 'path';
+import express, { type Application } from 'express';
 import swaggerUi from 'swagger-ui-express';
-import type { SwaggerService } from '../services/swagger.service';
 import { API_URLS } from '../../../common/constants';
+import type { SwaggerService } from '../services/swagger.service';
 
 export class SwaggerController {
   private pathToSwaggerServeDir = '';

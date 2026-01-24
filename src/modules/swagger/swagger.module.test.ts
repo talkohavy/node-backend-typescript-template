@@ -1,5 +1,5 @@
-import type { Application } from 'express';
 import { SwaggerModule } from './swagger.module';
+import type { Application } from 'express';
 
 const mockSwaggerController = {
   registerRoutes: jest.fn(),

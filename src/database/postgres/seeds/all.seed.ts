@@ -1,5 +1,5 @@
-import type { Client } from 'pg';
 import { seedUsers, type SeedUsersOptions } from './users.seed';
+import type { Client } from 'pg';
 
 export type RunAllSeedsOptions = {
   users?: SeedUsersOptions;

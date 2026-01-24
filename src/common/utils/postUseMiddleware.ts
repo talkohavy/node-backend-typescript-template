@@ -1,7 +1,7 @@
-import type { Request, Response, NextFunction } from 'express';
-import type { CallContextService } from '../../lib/call-context';
 import { Context } from '../../lib/logger-service';
 import { HEADERS } from '../constants';
+import type { CallContextService } from '../../lib/call-context';
+import type { Request, Response, NextFunction } from 'express';
 
 export function postUseMiddleware(
   callContextService: CallContextService,

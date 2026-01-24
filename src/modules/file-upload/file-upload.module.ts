@@ -1,6 +1,6 @@
-import type { Application } from 'express';
 import { FileUploadController } from './file-upload.controller';
 import { FileUploadService } from './services/file-upload.service';
+import type { Application } from 'express';
 
 export class FileUploadModule {
   private fileUploadService!: FileUploadService;

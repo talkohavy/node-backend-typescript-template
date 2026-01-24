@@ -1,4 +1,3 @@
-import type { Client } from 'pg';
 import type { DatabaseUser } from '../types';
 import type { IUsersRepository } from './interfaces/users.repository.base';
 import type {
@@ -8,6 +7,7 @@ import type {
   UpdateUserDto,
   GetUserByEmailOptions,
 } from './interfaces/users.repository.interface';
+import type { Client } from 'pg';
 
 export class UsersPostgresRepository implements IUsersRepository {
   constructor(private readonly pgClient: Client) {

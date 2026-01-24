@@ -1,5 +1,5 @@
-import type { Application, Request, Response } from 'express';
 import { StatusCodes } from '../common/constants';
+import type { Application, Request, Response } from 'express';
 
 export function errorHandlerPlugin(app: Application) {
   app.use(globalErrorMiddleware);

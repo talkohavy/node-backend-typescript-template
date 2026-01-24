@@ -1,6 +1,6 @@
+import { Context } from './logic/constants';
 import type { CallContextService } from '../call-context/call-context.service';
 import type { ILogger } from '../logger';
-import { Context } from './logic/constants';
 
 export class LoggerService {
   public constructor(

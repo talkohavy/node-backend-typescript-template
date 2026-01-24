@@ -1,10 +1,10 @@
 import cookieParser from 'cookie-parser';
 import express, { type Application } from 'express';
 import request from 'supertest';
-import type { TokenVerificationService } from '../services/token-verification.service';
 import { API_URLS, StatusCodes } from '../../../common/constants';
 import { errorHandlerPlugin } from '../../../plugins/errorHandler.plugin';
 import { TokenVerificationController } from './token-verification.controller';
+import type { TokenVerificationService } from '../services/token-verification.service';
 
 describe('TokenVerificationController', () => {
   let app: Application;

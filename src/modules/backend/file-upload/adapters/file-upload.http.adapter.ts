@@ -1,9 +1,9 @@
-import type { Request } from 'express';
+import { API_URLS } from '../../../../common/constants';
+import { ServiceNames } from '../../../../configurations';
 import type { UploadResult } from '../../../file-upload/types';
 import type { HttpClient } from '../../logic/http-client';
 import type { IFileUploadAdapter } from './file-upload.adapter.interface';
-import { API_URLS } from '../../../../common/constants';
-import { ServiceNames } from '../../../../configurations';
+import type { Request } from 'express';
 
 export class FileUploadHttpAdapter implements IFileUploadAdapter {
   constructor(private readonly httpClient: HttpClient) {}
