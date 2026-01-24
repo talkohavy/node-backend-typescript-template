@@ -10,7 +10,7 @@ export class ServerSentEventsController implements ControllerFactory {
   ) {}
 
   private connectToChannel() {
-    this.app.get('/sse', (req, res) => {
+    this.app.get('/api/sse', (req, res) => {
       res.setHeader('Content-Type', 'text/event-stream');
       res.setHeader('Cache-Control', 'no-cache');
 

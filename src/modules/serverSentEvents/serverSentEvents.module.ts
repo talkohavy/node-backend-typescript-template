@@ -15,7 +15,7 @@ export class ServerSentEventModule {
   }
 
   private initializeModule(): void {
-    const { redisPubClient, redisSubClient } = this.app.redis;
+    const { pub: redisPubClient, sub: redisSubClient } = this.app.redis;
 
     this.serverSentEventsService = new ServerSentEventsService(this.app.logger, redisPubClient, redisSubClient);
 
