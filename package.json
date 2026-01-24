@@ -6,7 +6,7 @@
   "types": "index.d.ts",
   "scripts": {
     "clean": "rm -rf node_modules",
-    "dev": "node --import tsx --watch --env-file=.env src/initServer.ts",
+    "dev": "node --import tsx --watch --env-file=.env src/initServer/monolith/initServer.ts",
     "dev:auth": "node --import tsx --watch --env-file=.env.micro-services src/initServer/micro-services/authentication/authentication.init-server.ts",
     "dev:backend": "node --import tsx --watch --env-file=.env.micro-services src/initServer/micro-services/backend/backend.init-server.ts",
     "dev:books": "node --import tsx --watch --env-file=.env.micro-services src/initServer/micro-services/books/books.init-server.ts",
