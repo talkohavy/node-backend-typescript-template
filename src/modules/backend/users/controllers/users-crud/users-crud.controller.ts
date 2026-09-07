@@ -6,8 +6,8 @@ import { requirePermissionMiddleware } from '@src/middlewares/require-permission
 import { requireUserAuthMiddleware } from '@src/middlewares/require-user-auth.middleware';
 import { UserAlreadyExistsError } from '../../../../users/logic/errors/user-already-exists.error';
 import { UserNotFoundError } from '../../../../users/logic/errors/user-not-found.error';
-import { createUserSchema } from './dto/createUserSchema.dto';
-import { updateUserSchema } from './dto/updateUserSchema.dto';
+import { createUserSchema } from './dto/create-user.dto';
+import { updateUserSchema } from './dto/update-user.dto';
 import type { Application, Request, Response } from 'express';
 import type { ControllerFactory } from '@src/lib/lucky-server';
 import type { IUsersAdapter } from '../../adapters/users.adapter.interface';

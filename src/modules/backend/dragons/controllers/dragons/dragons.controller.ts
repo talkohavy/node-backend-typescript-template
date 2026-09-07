@@ -1,7 +1,7 @@
 import { API_PATHS, StatusCodes } from '@src/common/constants';
 import { joiBodyMiddleware } from '@src/middlewares/joi-body.middleware';
-import { createDragonSchema } from './dto/createDragonSchema.dto';
-import { updateDragonSchema } from './dto/updateDragonSchema.dto';
+import { createDragonSchema } from './dto/create-dragon.dto';
+import { updateDragonSchema } from './dto/update-dragon.dto';
 import type { Application, Request, Response } from 'express';
 import type { ControllerFactory } from '@src/lib/lucky-server';
 import type { IDragonsAdapter } from '../../adapters/dragons.adapter.interface';

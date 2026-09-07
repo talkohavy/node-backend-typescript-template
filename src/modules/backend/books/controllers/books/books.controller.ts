@@ -1,9 +1,9 @@
 import { API_PATHS, StatusCodes } from '@src/common/constants';
 import { joiBodyMiddleware } from '@src/middlewares/joi-body.middleware';
 import { joiQueryMiddleware } from '@src/middlewares/joi-query.middleware';
-import { createBookSchema } from './dto/createBookSchema.dto';
-import { getBooksQuerySchema } from './dto/getBooksSchema.dto';
-import { updateBookSchema } from './dto/updateBookSchema.dto';
+import { createBookSchema } from './dto/create-book.dto';
+import { getBooksQuerySchema } from './dto/get-books-query.dto';
+import { updateBookSchema } from './dto/update-book.dto';
 import type { Application, Request, Response } from 'express';
 import type { ControllerFactory } from '@src/lib/lucky-server';
 import type { IBooksAdapter } from '../../adapters/books.adapter.interface';

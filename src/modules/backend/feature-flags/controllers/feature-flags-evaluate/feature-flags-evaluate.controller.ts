@@ -2,7 +2,7 @@ import { API_PATHS, StatusCodes } from '@src/common/constants';
 import { NotFoundError } from '@src/core/errors';
 import { joiBodyMiddleware } from '@src/middlewares/joi-body.middleware';
 import { FeatureFlagNotFoundError } from '@src/modules/feature-flags';
-import { evaluateFeatureFlagsSchema } from './dto/evaluateFeatureFlagsSchema.dto';
+import { evaluateFeatureFlagsSchema } from './dto/evaluate-feature-flags.dto';
 import type { Application, Request, Response } from 'express';
 import type { ControllerFactory } from '@src/lib/lucky-server';
 import type { IFeatureFlagsAdapter } from '../../adapters/feature-flags.adapter.interface';

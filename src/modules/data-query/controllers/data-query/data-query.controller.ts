@@ -1,7 +1,7 @@
 import { API_PATHS, StatusCodes } from '@src/common/constants';
 import { joiBodyMiddleware } from '@src/middlewares/joi-body.middleware';
 import { resolveRole } from '../../logic/utils/resolveRole';
-import { executeDataQueriesSchema } from './dto/executeQueries.dto';
+import { executeDataQueriesSchema } from './dto/execute-data-queries.dto';
 import type { Application, Request, Response } from 'express';
 import type { ControllerFactory } from '@src/lib/lucky-server';
 import type { DatasetRegistryService } from '../../services/dataset-registry';

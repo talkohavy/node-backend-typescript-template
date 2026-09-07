@@ -11,3 +11,7 @@ alwaysApply: false
 - a controller class should implement the `ControllerFactory` interface.
 - a controller class always accepts `private readonly app: Application` as its first argument.
 - a controller can only be instantiated by its domain module main class, under which it lives.
+- request validation DTOs live in a `dto/` folder next to the controller.
+- a dto file must be named: `[verb]-[resource].dto.ts` (kebab-case). do not put `Schema` in the filename.
+- a dto file exports a camelCase Joi object named `[verb][Resource]Schema` (e.g. `create-user.dto.ts` → `createUserSchema`).
+- default is the request body. include the source in the name only when it is not body (e.g. `get-books-query.dto.ts` → `getBooksQuerySchema`).
