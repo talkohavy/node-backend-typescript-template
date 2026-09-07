@@ -4,7 +4,8 @@ import { isRoleAllowed } from '../../logic/utils/roleHierarchy';
 import { DEFAULT_LIMIT } from './logic/constants';
 import type { Kysely } from 'kysely';
 import type { RoleTypeValues } from '@src/common/constants';
-import type { Database, DatasetDefinition, FilterInput, WidgetQuery } from '../../types';
+import type { Database } from '@src/databases/postgres';
+import type { DatasetDefinition, FilterInput, WidgetQuery } from '../../types';
 import type { DatasetRegistryService } from '../dataset-registry';
 import type { CompiledDataQuery } from './types';
 

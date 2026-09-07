@@ -1,3 +1,4 @@
+import { seedFeatureFlags, type SeedFeatureFlagsOptions } from './feature-flags.seed';
 import { clearOrders, seedOrders, type SeedOrdersOptions } from './orders.seed';
 import { seedProducts, type SeedProductsOptions } from './products.seed';
 import { seedUsers, type SeedUsersOptions } from './users.seed';
@@ -7,6 +8,7 @@ export type RunAllSeedsOptions = {
   users?: SeedUsersOptions;
   products?: SeedProductsOptions;
   orders?: SeedOrdersOptions;
+  featureFlags?: SeedFeatureFlagsOptions;
 };
 
 /**
@@ -32,6 +34,7 @@ export async function runAllSeeds(pgClient: Client, options: RunAllSeedsOptions 
   await seedUsers(pgClient, options.users);
   await seedProducts(pgClient, options.products);
   await seedOrders(pgClient, { ...options.orders, clearBeforeSeeding: false });
+  await seedFeatureFlags(pgClient, options.featureFlags);
 
   console.log('✅ Database seeding complete');
 }

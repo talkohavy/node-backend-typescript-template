@@ -1,3 +1,5 @@
+import type { Generated } from 'kysely';
+
 export type UsersTable = {
   id: number;
   email: string;
@@ -25,8 +27,18 @@ export type OrdersTable = {
   created_at: Date;
 };
 
+export type FeatureFlagsTable = {
+  id: Generated<number>;
+  key: string;
+  is_enabled: boolean;
+  description: string | null;
+  created_at: Generated<Date>;
+  updated_at: Generated<Date>;
+};
+
 export type Database = {
   users: UsersTable;
   products: ProductsTable;
   orders: OrdersTable;
+  feature_flags: FeatureFlagsTable;
 };

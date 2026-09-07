@@ -3,6 +3,13 @@ import { ConfigKeys, type ServicesConfig } from '@src/plugins/config-service';
 import { BooksDirectAdapter, BooksGrpcAdapter, BooksHttpAdapter, BooksController, type IBooksAdapter } from './books';
 import { DragonsController, DragonsDirectAdapter, DragonsHttpAdapter, type IDragonsAdapter } from './dragons';
 import {
+  FeatureFlagsController,
+  FeatureFlagsDirectAdapter,
+  FeatureFlagsEvaluateController,
+  FeatureFlagsHttpAdapter,
+  type IFeatureFlagsAdapter,
+} from './feature-flags';
+import {
   FileUploadDirectAdapter,
   FileUploadHttpAdapter,
   FileUploadController,
@@ -33,6 +40,7 @@ export class BackendModule implements ModuleFactory {
   private authAdapter!: IAuthAdapter;
   private booksAdapter!: IBooksAdapter;
   private dragonsAdapter!: IDragonsAdapter;
+  private featureFlagsAdapter!: IFeatureFlagsAdapter;
   private fileUploadAdapter!: IFileUploadAdapter;
 
   constructor(private readonly app: Application) {}
@@ -67,6 +75,8 @@ export class BackendModule implements ModuleFactory {
     const userUtilitiesController = new UserUtilitiesController(this.app, this.usersAdapter, this.authAdapter);
     const booksController = new BooksController(this.app, this.booksAdapter);
     const dragonsController = new DragonsController(this.app, this.dragonsAdapter);
+    const featureFlagsEvaluateController = new FeatureFlagsEvaluateController(this.app, this.featureFlagsAdapter);
+    const featureFlagsController = new FeatureFlagsController(this.app, this.featureFlagsAdapter);
     const fileUploadController = new FileUploadController(this.app, this.fileUploadAdapter);
 
     loginController.registerRoutes();
@@ -74,6 +84,8 @@ export class BackendModule implements ModuleFactory {
     userUtilitiesController.registerRoutes();
     booksController.registerRoutes();
     dragonsController.registerRoutes();
+    featureFlagsEvaluateController.registerRoutes();
+    featureFlagsController.registerRoutes();
     fileUploadController.registerRoutes();
   }
 
@@ -84,6 +96,7 @@ export class BackendModule implements ModuleFactory {
       this.app.modules.AuthenticationModule.services;
     const { booksService } = this.app.modules.BooksModule.services;
     const { dragonsService } = this.app.modules.DragonsModule.services;
+    const { featureFlagsService } = this.app.modules.FeatureFlagsModule.services;
     const { fileUploadService } = this.app.modules.FileUploadModule.services;
 
     this.usersAdapter = new UsersDirectAdapter(usersCrudService, userUtilitiesService);
@@ -94,6 +107,7 @@ export class BackendModule implements ModuleFactory {
     );
     this.booksAdapter = new BooksDirectAdapter(booksService);
     this.dragonsAdapter = new DragonsDirectAdapter(dragonsService);
+    this.featureFlagsAdapter = new FeatureFlagsDirectAdapter(featureFlagsService);
     this.fileUploadAdapter = new FileUploadDirectAdapter(fileUploadService);
   }
 
@@ -105,6 +119,7 @@ export class BackendModule implements ModuleFactory {
     this.authAdapter = new AuthHttpAdapter(httpClient);
     this.booksAdapter = new BooksHttpAdapter(httpClient);
     this.dragonsAdapter = new DragonsHttpAdapter(httpClient);
+    this.featureFlagsAdapter = new FeatureFlagsHttpAdapter(httpClient);
     this.fileUploadAdapter = new FileUploadHttpAdapter(httpClient);
   }
 

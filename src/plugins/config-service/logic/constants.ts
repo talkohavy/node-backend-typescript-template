@@ -34,6 +34,7 @@ export const ServiceNames = {
   Books: 'books',
   Dragons: 'dragons',
   FileUpload: 'file-upload',
+  FeatureFlags: 'feature-flags',
 } as const;
 
 export type ServiceNameValues = (typeof ServiceNames)[keyof typeof ServiceNames];

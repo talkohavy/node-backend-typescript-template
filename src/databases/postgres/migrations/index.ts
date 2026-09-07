@@ -1,4 +1,5 @@
-export { createUsersTable, USERS_TABLE_NAME, usersTableSchema } from './users.migration';
-export { createProductsTable, PRODUCTS_TABLE_NAME, productsTableSchema } from './products.migration';
-export { createOrdersTable, ORDERS_TABLE_NAME, ORDER_STATUSES, ordersTableSchema } from './orders.migration';
+export { USERS_TABLE_NAME } from './users.migration';
+export { PRODUCTS_TABLE_NAME } from './products.migration';
+export { ORDERS_TABLE_NAME, ORDER_STATUSES } from './orders.migration';
+export { FEATURE_FLAGS_TABLE_NAME } from './feature-flags.migration';
 export { runAllMigrations } from './all.migration';

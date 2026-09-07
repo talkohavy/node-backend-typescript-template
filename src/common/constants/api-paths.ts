@@ -27,6 +27,11 @@ export const API_PATHS = {
   // data query
   dataQuery: '/api/data',
   dataQuerySchema: '/api/data/schema',
+  // feature flags
+  featureFlags: '/api/feature-flags',
+  featureFlagByKey: '/api/feature-flags/:key',
+  evaluateFeatureFlags: '/api/feature-flags/evaluate',
+  isFeatureFlagEnabled: '/api/feature-flags/:key/enabled',
   // backend
   backendMiddleware: '/api/backend',
   internalWsState: '/api/internal/ws-state',

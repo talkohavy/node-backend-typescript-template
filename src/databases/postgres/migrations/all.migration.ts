@@ -1,3 +1,4 @@
+import { createFeatureFlagsTable } from './feature-flags.migration';
 import { createOrdersTable } from './orders.migration';
 import { createProductsTable } from './products.migration';
 import { createUsersTable } from './users.migration';
@@ -20,6 +21,9 @@ export async function runAllMigrations(pgClient: Client): Promise<void> {
 
   await createOrdersTable(pgClient);
   console.log('  ✅ Orders table ready');
+
+  await createFeatureFlagsTable(pgClient);
+  console.log('  ✅ Feature flags table ready');
 
   console.log('✅ All migrations complete');
 }

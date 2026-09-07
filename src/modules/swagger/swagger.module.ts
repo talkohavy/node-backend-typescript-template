@@ -1,5 +1,6 @@
 import { BooksSwaggerConfig } from './configs/books/books.swagger.config';
 import { DataQuerySwaggerConfig } from './configs/data-query/data-query.swagger.config';
+import { FeatureFlagsSwaggerConfig } from './configs/feature-flags/feature-flags.swagger.config';
 import { UsersSwaggerConfig } from './configs/users/users.swagger.config';
 import { SwaggerController } from './controllers';
 import { SwaggerService } from './services/swagger.service';
@@ -15,7 +16,12 @@ export class SwaggerModule implements ModuleFactory {
   constructor(private readonly app: Application) {}
 
   async init(): Promise<void> {
-    this.swaggerService = new SwaggerService([UsersSwaggerConfig, BooksSwaggerConfig, DataQuerySwaggerConfig]);
+    this.swaggerService = new SwaggerService([
+      UsersSwaggerConfig,
+      BooksSwaggerConfig,
+      DataQuerySwaggerConfig,
+      FeatureFlagsSwaggerConfig,
+    ]);
 
     this.attachControllers();
   }

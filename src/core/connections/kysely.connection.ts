@@ -1,6 +1,6 @@
 import { Kysely, PostgresDialect } from 'kysely';
 import { Pool } from 'pg';
-import type { Database } from '@src/modules/data-query/types';
+import type { Database } from '@src/databases/postgres/types';
 
 /**
  * How long a single compiled query is allowed to run before Postgres kills it.

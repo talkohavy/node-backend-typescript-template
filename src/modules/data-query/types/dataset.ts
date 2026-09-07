@@ -1,6 +1,6 @@
 import type { RoleTypeValues } from '@src/common/constants';
+import type { Database } from '@src/databases/postgres';
 import type { DimensionValueTypeValues, MeasureAggregationValues } from '../logic/constants';
-import type { Database } from './database';
 
 export type DimensionDefinition = {
   label: string;

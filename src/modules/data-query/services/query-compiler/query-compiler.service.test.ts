@@ -5,7 +5,8 @@ import { DataQueryError } from '../../logic/errors/DataQueryError';
 import { DatasetRegistryService } from '../dataset-registry';
 import { QueryCompilerService } from './query-compiler.service';
 import type { Kysely } from 'kysely';
-import type { Database, DataQueryErrorCode, WidgetQuery } from '../../types';
+import type { Database } from '@src/databases/postgres';
+import type { DataQueryErrorCode, WidgetQuery } from '../../types';
 
 function expectDataQueryErrorCode(fn: () => unknown, code: DataQueryErrorCode): void {
   expect.assertions(2);
